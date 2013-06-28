@@ -26,7 +26,7 @@ use Catalyst qw/
 
   +CatalystX::Plugin::Logx
 
-/;
+  /;
 
 extends 'Catalyst';
 

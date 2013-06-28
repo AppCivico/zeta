@@ -31,8 +31,7 @@ The root page (/)
 sub index : Path : Args(0) {
     my ( $self, $c ) = @_;
 
-
-    $c->response->body( 'Perl is awesome!' );
+    $c->response->body('Perl is awesome!');
 }
 
 sub root : Chained('/') PathPart('') CaptureArgs(0) {
