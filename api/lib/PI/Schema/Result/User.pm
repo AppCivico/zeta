@@ -147,6 +147,36 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 customers
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::Customer>
+
+=cut
+
+__PACKAGE__->has_many(
+  "customers",
+  "PI::Schema::Result::Customer",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 driver
+
+Type: might_have
+
+Related object: L<PI::Schema::Result::Driver>
+
+=cut
+
+__PACKAGE__->might_have(
+  "driver",
+  "PI::Schema::Result::Driver",
+  { "foreign.id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 user_roles
 
 Type: has_many
@@ -177,9 +207,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 vehicles
 
-# Created by DBIx::Class::Schema::Loader v0.07033 @ 2013-06-26 19:30:17
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TAKpu0l232TeiU6x0DeRGA
+Type: has_many
+
+Related object: L<PI::Schema::Result::Vehicle>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicles",
+  "PI::Schema::Result::Vehicle",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/HUKtdtmGKCqVTvdpeSn9Q
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 
