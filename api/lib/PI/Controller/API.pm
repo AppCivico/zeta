@@ -5,6 +5,12 @@ use Moose;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller::REST'; }
+__PACKAGE__->config(
+    default      => 'application/json',
+);
+
+use Digest::SHA1 qw(sha1_hex);
+use Time::HiRes qw(time);
 
 sub api_key_check : Private {
     my ( $self, $c ) = @_;
@@ -42,6 +48,52 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
     $c->response->headers->header( 'charset' => 'utf-8' );
 }
+
+
+sub login : Chained('root') : PathPart('login') : Args(0) : ActionClass('REST') {
+}
+
+sub login_POST {
+    my ( $self, $c ) = @_;
+
+    $c->model('DB::User')->execute($c, for => 'login', with => $c->req->params);
+
+    if ( $c->authenticate( $c->req->params ) ) {
+        my $item = $c->user->sessions->create(
+            {
+                api_key      => sha1_hex( rand(time) ),
+                valid_for_ip => $c->req->address
+            }
+        );
+
+        $c->user->discard_changes;
+
+        my %attrs = $c->user->get_inflated_columns;
+        $attrs{api_key} = $item->api_key;
+
+        $attrs{roles} = [ map { $_->name } $c->model('DB::User')->search( { id => $c->user->id } )->next->roles ];
+
+        delete $attrs{password};
+        $attrs{created_at} = $attrs{created_at}->datetime;
+
+        $self->status_ok( $c, entity => \%attrs );
+    }
+    else {
+        $c->logx( "Falha na tentativa do login de " . $c->req->param('email') . "." );
+        $self->status_bad_request( $c, message => 'Login invalid(2)' );
+    }
+
+}
+
+sub logout : Chained('base') : PathPart('logout') : Args(0) : ActionClass('REST') {
+}
+
+sub logout_GET {
+    my ( $self, $c ) = @_;
+    $c->logout;
+    $self->status_ok( $c, entity => { logout => 'ok' } );
+}
+
 
 sub logged_in : Chained('root') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;

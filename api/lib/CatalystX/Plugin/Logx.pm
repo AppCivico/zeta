@@ -52,8 +52,6 @@ sub logx {
             $create->{user_id} = $u->id;
         }
 
-        $create->{indicator_id} = $conf{indicator_id} if exists $conf{indicator_id};
-
         $resultset->create($create);
     };
     print $@ if $@;
@@ -64,5 +62,5 @@ __PACKAGE__;
 
 __END__
 
-# use $c->logx('your message', ? {indicator_id => 123}) anywhere you want.
+# use $c->logx('your message', ? {}) anywhere you want.
 

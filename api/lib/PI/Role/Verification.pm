@@ -45,8 +45,8 @@ sub execute {
     my $dm = $self->check(%args);
     my $result = $dm->apply;
 
-    $c->controller('Catalyst::Controller::API')->status_bad_request( $c,
-        message => encode_json( $self->errors )
+    $c->controller('API')->status_bad_request( $c,
+        message => encode_json( $dm->errors )
     ), $c->detach
       unless $dm->success;
 
