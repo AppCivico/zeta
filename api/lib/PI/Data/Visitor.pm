@@ -2,7 +2,7 @@ package PI::Data::Visitor;
 
 use namespace::autoclean;
 use Moose;
-use Data::Printer;
+
 extends 'Data::Visitor';
 
 has current_path => (

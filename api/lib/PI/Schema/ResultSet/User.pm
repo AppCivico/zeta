@@ -11,14 +11,11 @@ with 'PI::Schema::Role::InflateAsHashRef';
 use Data::Verifier;
 use MooseX::Types::Email qw/EmailAddress/;
 
-sub _build_verifier_scope_name { 'user' }
-
-use Data::Printer;
-
 sub verifiers_specs {
     my $self = shift;
     return {
         create => Data::Verifier->new(
+            filters => [qw(trim)],
             profile => {
 
                 name => {
@@ -48,41 +45,9 @@ sub verifiers_specs {
 
             },
         ),
-        update => Data::Verifier->new(
-            profile => {
-                id => {
-                    required => 1,
-                    type     => 'Int',
-                },
-                name => {
-                    required => 0,
-                    type     => 'Str',
-                },
-
-                role => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                email => {
-                    required   => 0,
-                    type       => EmailAddress,
-                    post_check => sub {
-                        my $r = shift;
-                        if ( my $existing_user = $self->find( { email => $r->get_value('email') } ) ) {
-                            return $existing_user->id == $r->get_value('id');
-                        }
-                        return 1;
-                      }
-                },
-                password => {
-                    required => 0,
-                    type     => 'Str',
-                },
-
-            },
-        ),
 
         login => Data::Verifier->new(
+            filters => [qw(trim)],
             profile => {
                 email => {
                     required   => 1,
@@ -102,8 +67,6 @@ sub verifiers_specs {
     };
 }
 
-sub active { shift->search_rs( { active => 1 } ) }
-
 sub action_specs {
     my $self = shift;
     return {
@@ -121,23 +84,7 @@ sub action_specs {
             }
 
             return $user;
-        },
-        update => sub {
-            my %values = shift->valid_values;
-            not defined $values{$_} and delete $values{$_} for keys %values;
-            delete $values{password_confirm};
-
-            # nao altera a senha se ela nao veio.
-            delete $values{password} unless $values{password};
-            delete $values{cidr} unless defined $values{cidr};
-
-            my $new_role = delete $values{role};
-            my $user = $self->find( { id => delete $values{id} } );
-
-            $user = $user->update( \%values );
-            $user->set_roles( { name => $new_role } ) if $new_role;
-            return $user;
-        },
+          }
 
     };
 }

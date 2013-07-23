@@ -5,6 +5,7 @@ use Moose::Role;
 use PI::Data::Manager;
 use Data::Diver qw(Dive);
 
+use JSON qw(encode_json);
 has verifiers => (
     is         => 'ro',
     isa        => 'HashRef',
@@ -19,27 +20,37 @@ has actions => (
     builder    => 'action_specs'
 );
 
-has verifier_scope_name => ( is => 'ro', lazy_build => 1, isa => 'Str' );
-
 requires 'verifiers_specs';
 requires 'action_specs';
-requires '_build_verifier_scope_name';
-
-use Data::Printer;
 
 sub check {
     my ( $self, %args ) = @_;
 
-    my $path     = delete $args{for};
-    my $input    = delete $args{with};
+    my $path  = delete $args{for};
+    my $input = delete $args{with};
+
     my $verifier = Dive( $self->verifiers, split( /\./, $path ) );
-    my $action   = Dive( $self->actions, split( /\./, $path ) );
+    my $action   = Dive( $self->actions,   split( /\./, $path ) );
 
     return PI::Data::Manager->new(
         input     => $input,
         verifiers => { $path => $verifier },
         actions   => { $path => $action }
     );
+}
+
+sub execute {
+    my ( $self, $c, %args ) = @_;
+
+    my $dm = $self->check(%args);
+    my $result = $dm->apply;
+
+    $c->controller('Catalyst::Controller::API')->status_bad_request( $c,
+        message => encode_json( $self->errors )
+    ), $c->detach
+      unless $dm->success;
+
+    return wantarray ? ($dm, $result) : $result;
 }
 
 1;

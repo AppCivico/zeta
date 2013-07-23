@@ -4,7 +4,6 @@ use Moose;
 
 extends 'Data::Manager';
 
-use Data::Printer;
 use PI::Data::Visitor;
 
 has _input => ( is => 'ro', isa => 'HashRef', init_arg => 'input' );

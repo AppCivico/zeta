@@ -245,10 +245,79 @@ __PACKAGE__->add_column(
 
 __PACKAGE__->has_many(
     "sessions",
-    "Iota::Schema::Result::UserSession",
+    "PI::Schema::Result::UserSession",
     { "foreign.user_id" => "self.id" },
     { cascade_copy      => 0, cascade_delete => 0 },
 );
+
+
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
+
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+
+
+
+sub verifiers_specs {
+    my $self = shift;
+    return {
+
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                name => {
+                    required => 0,
+                    type     => 'Str',
+                },
+
+                role => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                email => {
+                    required   => 0,
+                    type       => EmailAddress,
+                    post_check => sub {
+                        my $r = shift;
+                        return 1 if $self->email eq $r->get_value('email');
+
+                        return 0 if $self->resultset_find( { email => $r->get_value('email') } );
+
+                        return 1;
+                      }
+                },
+                password => {
+                    required => 0,
+                    type     => 'Str',
+                },
+
+            },
+        ),
+
+
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $new_role = delete $values{role};
+
+            my $user = $self->update( \%values );
+            $user->set_roles( { name => $new_role } ) if $new_role;
+            return $user;
+        },
+
+    };
+}
+
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
