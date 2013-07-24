@@ -22,7 +22,9 @@ INSERT INTO "user"(id, name, email, password) VALUES (1, 'superadmin','superadmi
 -- role: superadmin                                     user:
 INSERT INTO "user_role" ( user_id, role_id) VALUES (1, 0); -- superadmin
 
-
+INSERT INTO "country" (name, name_url, created_by) VALUES ('Brazil', 'brazil', 1); -- default country
+INSERT INTO "state" (name, created_by, country_id, uf) VALUES ('Sao paulo',1, 1, 'SP'); -- default country
+INSERT INTO "city" (name, state_id, country_id) VALUES ('Sao paulo', 1, 1); -- default country
 
 
 

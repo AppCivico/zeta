@@ -53,19 +53,16 @@ __PACKAGE__->table("document");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 public_url
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 private_path
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 validated_at
 
@@ -101,23 +98,11 @@ __PACKAGE__->add_columns(
     sequence          => "document_id_seq",
   },
   "class_name",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "public_url",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "private_path",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "validated_at",
   { data_type => "timestamp", is_nullable => 1 },
   "validated_by",
@@ -163,8 +148,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:53T7x6v/DG7zrjkQ5JJVMQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/LBU4xer0E44LpHFCYXnvg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

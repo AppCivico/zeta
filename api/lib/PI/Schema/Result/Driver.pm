@@ -46,7 +46,6 @@ __PACKAGE__->table("driver");
 
   data_type: 'integer'
   is_auto_increment: 1
-  is_foreign_key: 1
   is_nullable: 0
   sequence: 'driver_id_seq'
 
@@ -54,13 +53,11 @@ __PACKAGE__->table("driver");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 last_name
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 birth_date
 
@@ -71,7 +68,6 @@ __PACKAGE__->table("driver");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 first_driver_license
 
@@ -82,7 +78,6 @@ __PACKAGE__->table("driver");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 cnh_validity
 
@@ -93,19 +88,16 @@ __PACKAGE__->table("driver");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 mobile_number
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 telephone_number
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 marital_state
 
@@ -117,31 +109,26 @@ __PACKAGE__->table("driver");
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 neighborhood
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 complement
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 number
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 postal_code
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 created_at
 
@@ -161,6 +148,12 @@ __PACKAGE__->table("driver");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 user_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -168,90 +161,41 @@ __PACKAGE__->add_columns(
   {
     data_type         => "integer",
     is_auto_increment => 1,
-    is_foreign_key    => 1,
     is_nullable       => 0,
     sequence          => "driver_id_seq",
   },
   "name",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "last_name",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "birth_date",
   { data_type => "date", is_nullable => 0 },
   "cpf",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "first_driver_license",
   { data_type => "date", is_nullable => 0 },
   "cnh_code",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "cnh_validity",
   { data_type => "date", is_nullable => 0 },
   "mobile_provider",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "mobile_number",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "telephone_number",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "marital_state",
   { data_type => "char", is_nullable => 0, size => 1 },
   "address",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "neighborhood",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "complement",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "number",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "postal_code",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -262,6 +206,8 @@ __PACKAGE__->add_columns(
   "created_by",
   { data_type => "integer", is_nullable => 0 },
   "city_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
@@ -309,7 +255,7 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 id
+=head2 user
 
 Type: belongs_to
 
@@ -318,16 +264,118 @@ Related object: L<PI::Schema::Result::User>
 =cut
 
 __PACKAGE__->belongs_to(
-  "id",
+  "user",
   "PI::Schema::Result::User",
-  { id => "id" },
+  { id => "user_id" },
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sxpRUHXGCkGVxAnMOaGpNA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OIXaeObUb6Soq55EVjkm3g
 
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
+
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+    return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                name => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                last_name => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                birth_date => {
+                    required => 1,
+                    type     => DataStr,
+                },
+                cpf => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                cnh_code => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                cnh_validity => {
+                    required => 1,
+                    type     => DataStr,
+                },
+                first_driver_license => {
+                    required => 1,
+                    type     => DataStr,
+                },
+                mobile_provider => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                mobile_number => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                telephone_number => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                marital_state   => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                address => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                neighborhood => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                complement => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                number  => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                postal_code => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                city_id => {
+                    required => 1,
+                    type     => 'Int',
+                }
+            },
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $driver = $self->update( \%values );
+
+            return $driver;
+        },
+
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

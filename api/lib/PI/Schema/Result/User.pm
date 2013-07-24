@@ -162,18 +162,18 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 driver
+=head2 drivers
 
-Type: might_have
+Type: has_many
 
 Related object: L<PI::Schema::Result::Driver>
 
 =cut
 
-__PACKAGE__->might_have(
-  "driver",
+__PACKAGE__->has_many(
+  "drivers",
   "PI::Schema::Result::Driver",
-  { "foreign.id" => "self.id" },
+  { "foreign.user_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
@@ -223,8 +223,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/HUKtdtmGKCqVTvdpeSn9Q
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4DpSPleS0VvInRjAfFKNbg
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 

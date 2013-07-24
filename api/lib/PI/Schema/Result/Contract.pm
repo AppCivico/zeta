@@ -53,7 +53,6 @@ __PACKAGE__->table("contract");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 status
 
@@ -122,11 +121,7 @@ __PACKAGE__->add_columns(
     sequence          => "contract_id_seq",
   },
   "code",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "status",
   { data_type => "smallint", is_nullable => 0 },
   "total_amout",
@@ -244,8 +239,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:mWmGZ5nmc3Tf246H9xJV2w
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B864IdKJtwcC9CcC289JFw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

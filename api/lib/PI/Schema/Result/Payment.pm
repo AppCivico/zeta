@@ -53,7 +53,6 @@ __PACKAGE__->table("payment");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 payment_date
 
@@ -94,11 +93,7 @@ __PACKAGE__->add_columns(
     sequence          => "payment_id_seq",
   },
   "code",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "payment_date",
   { data_type => "timestamp", is_nullable => 1 },
   "created_at",
@@ -146,8 +141,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:XlbXQyOR7Yg1flguZMlCQw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dEXMPRnDpICArTU+HP6b0A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
