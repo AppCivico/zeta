@@ -12,5 +12,10 @@ sub resultset_search {
     $res->result_source->schema->resultset($res->result_source->source_name)->search( @find );
 }
 
+sub resultset {
+    my ($res, @a) = @_;
+    $res->result_source->schema->resultset(@a);
+}
+
 1;
 

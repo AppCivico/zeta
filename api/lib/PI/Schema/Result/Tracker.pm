@@ -53,7 +53,6 @@ __PACKAGE__->table("tracker");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 vehicle_id
 
@@ -78,11 +77,7 @@ __PACKAGE__->add_columns(
     sequence          => "tracker_id_seq",
   },
   "code",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "vehicle_id",
   { data_type => "integer", is_nullable => 1 },
   "created_at",
@@ -124,8 +119,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Xi6yqS3eZWTDWgt3VxtAMw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cl2NUGT8gUZIMpsPzKq6DA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

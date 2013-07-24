@@ -53,7 +53,6 @@ __PACKAGE__->table("region");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 city_id
 
@@ -72,11 +71,7 @@ __PACKAGE__->add_columns(
     sequence          => "region_id_seq",
   },
   "name",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "city_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
@@ -111,8 +106,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:jRBsGdhPg15aolEM/6oGcw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ggYn4akQ1XqiFwfHI4/WDg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

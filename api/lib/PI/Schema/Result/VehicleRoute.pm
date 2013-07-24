@@ -53,7 +53,6 @@ __PACKAGE__->table("vehicle_route");
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 start_time_gone
 
@@ -69,7 +68,6 @@ __PACKAGE__->table("vehicle_route");
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 origin_lat_lng
 
@@ -80,7 +78,6 @@ __PACKAGE__->table("vehicle_route");
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 destination_lat_lng
 
@@ -104,29 +101,17 @@ __PACKAGE__->add_columns(
     sequence          => "vehicle_route_id_seq",
   },
   "name",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "start_time_gone",
   { data_type => "time", is_nullable => 1 },
   "start_time_back",
   { data_type => "time", is_nullable => 1 },
   "origin",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "origin_lat_lng",
   { data_type => "point", is_nullable => 1 },
   "destination",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "destination_lat_lng",
   { data_type => "point", is_nullable => 1 },
   "vehicle_id",
@@ -163,8 +148,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7OKtX9lHjs31Hby9GtdPlw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GaBuP0AEv5PyE903CEKXIA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
