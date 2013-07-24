@@ -59,6 +59,25 @@ db_transaction {
 
     rest_reload 'user', 404;
 
+    # ao inves de
+    # my $list = rest_get '/users';
+    # use DDP; p $list;
+
+    # utilizar
+
+    rest_reload_list 'user';
+
+    stash_test 'user.list', sub {
+        my ($me) = @_;
+
+        ok($me = delete $me->{users}, 'users list exists');
+
+        is(@$me, 1, '1 users');
+
+        is($me->[0]{email}, 'superadmin@email.com', 'listing ok');
+    };
+
+
 
 };
 

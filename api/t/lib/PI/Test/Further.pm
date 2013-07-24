@@ -22,7 +22,10 @@ no strict 'refs';
 use strict 'refs';
 
 my $auth_user = 0;
+
 our $stash   = {};
+
+our $list_urls = {};
 
 sub api_auth_as {
     my (%conf) = @_;
@@ -136,6 +139,8 @@ sub rest_post {
         fail($@) if $@;
 
         $stash->{$stashkey.'.list'} = $obj3;
+
+        $list_urls->{$stashkey} = $url;
     }
 
     return $obj;
@@ -174,6 +179,30 @@ sub rest_reload {
         die "not supported $exp_code code!";
     }
 
+    return $res;
+}
+
+
+sub rest_get {
+    my ($url, $exp_code) = @_;
+
+    $exp_code ||= 200;
+
+    my ( $res, $c ) = ctx_request( GET $url );
+
+    if ($exp_code == 200){
+        ok( $res->is_success, 'GET ' . $url . ' is_success' );
+        is( $res->code, 200, 'GET ' . $url . ' status code is 200' );
+
+        my $obj = eval { decode_json( $res->content ) };
+        fail($@) if $@;
+
+        return $obj;
+    }else{
+        is( $res->code, $exp_code, 'GET ' . $url . ' status code is ' . $exp_code);
+    }
+
+    return $res;
 }
 
 sub stash_test($&){
@@ -185,6 +214,14 @@ sub stash_test($&){
 sub stash ($){
     my ($key) = @_;
     return $stash->{$key};
+}
+
+sub rest_reload_list {
+    my ($key) = @_;
+    my $list = rest_get $list_urls->{$key};
+
+    $stash->{$key.'.list'} = $list;
+    return $list;
 }
 
 1;
