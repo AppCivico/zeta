@@ -5,11 +5,11 @@ use Moose;
 BEGIN { extends 'Catalyst::Controller::REST' }
 
 __PACKAGE__->config(
-    default      => 'application/json',
+    default => 'application/json',
 
-    result       => 'DB::User',
-    result_where => { active => 1 },
-    object_key   => 'user',
+    result      => 'DB::User',
+    result_cond => { active => 1 },
+    object_key  => 'user',
 
     update_roles => [qw/superadmin/],
     create_roles => [qw/superadmin/],
@@ -18,11 +18,11 @@ __PACKAGE__->config(
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
 
-sub base : Chained('/api/base') : PathPart('users') : CaptureArgs(0) {}
+sub base : Chained('/api/base') : PathPart('users') : CaptureArgs(0) { }
 
-sub object : Chained('base') : PathPart('') : CaptureArgs(1) {}
+sub object : Chained('base') : PathPart('') : CaptureArgs(1) { }
 
-sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') {}
+sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { }
 
 sub result_GET {
     my ( $self, $c ) = @_;
@@ -79,7 +79,7 @@ sub list_GET {
                 map {
                     my $r = $_;
                     +{
-                        (map { $_ => $r->{$_} } qw/id name email/),
+                        ( map { $_ => $r->{$_} } qw/id name email/ ),
 
                         roles => [ map { $r->{role}{name} } @{ $r->{user_roles} } ],
 
@@ -101,7 +101,7 @@ sub list_POST {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $user->id ] )->as_string,
         entity => {
-            id    => $user->id
+            id => $user->id
         }
     );
 

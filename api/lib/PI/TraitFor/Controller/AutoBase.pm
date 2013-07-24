@@ -12,8 +12,19 @@ around base => sub {
     my $config = $self->config;
 
     $c->stash->{collection} = $c->model( $self->config->{result} );
-    if (exists $config->{result_where}){
-        $c->stash->{collection} = $c->stash->{collection}->search($config->{result_where});
+
+    if ( exists $config->{result_cond} && exists $config->{result_attr} ) {
+
+        $c->stash->{collection} = $c->stash->{collection}->search( $config->{result_cond}, $config->{result_attr} );
+
+    }
+    else {
+        if ( exists $config->{result_cond} ) {
+            $c->stash->{collection} = $c->stash->{collection}->search( $config->{result_cond} );
+        }
+        elsif ( exists $config->{result_attr} ) {
+            $c->stash->{collection} = $c->stash->{collection}->search( undef, $config->{result_attr} );
+        }
     }
 
     $self->$orig(@_);

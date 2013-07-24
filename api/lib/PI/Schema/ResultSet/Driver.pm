@@ -59,7 +59,7 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Str',
                 },
-                marital_state   => {
+                marital_state => {
                     required => 1,
                     type     => 'Str',
                 },
@@ -75,7 +75,7 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Str',
                 },
-                number  => {
+                number => {
                     required => 0,
                     type     => 'Str',
                 },
@@ -92,9 +92,9 @@ sub verifiers_specs {
                     type       => EmailAddress,
                     post_check => sub {
                         my $r = shift;
-                        return 0 if ( $self->resultset('User')->find({ email => $r->get_value('email') } ) );
+                        return 0 if ( $self->resultset('User')->find( { email => $r->get_value('email') } ) );
                         return 1;
-                        }
+                      }
                 }
             },
         ),
@@ -105,15 +105,17 @@ sub action_specs {
     my $self = shift;
     return {
         create => sub {
-            my %values = shift->valid_values;
+            my %values  = shift->valid_values;
             my $user_rs = $self->resultset('User');
-            my $user = $user_rs->create({
-                email       => delete $values{email},
-                name        => "$values{name} $values{last_name}",
-                password    => '12345'
-            });
+            my $user    = $user_rs->create(
+                {
+                    email    => delete $values{email},
+                    name     => "$values{name} $values{last_name}",
+                    password => '12345'
+                }
+            );
             $user->set_roles( { name => 'user' } );
-            $values{user_id} = $user->id;
+            $values{user_id}    = $user->id;
             $values{created_by} = 1;
             my $driver = $self->create( \%values );
 

@@ -289,47 +289,47 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 name => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 last_name => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 birth_date => {
-                    required => 1,
+                    required => 0,
                     type     => DataStr,
                 },
                 cpf => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 cnh_code => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 cnh_validity => {
-                    required => 1,
+                    required => 0,
                     type     => DataStr,
                 },
                 first_driver_license => {
-                    required => 1,
+                    required => 0,
                     type     => DataStr,
                 },
                 mobile_provider => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 mobile_number => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 telephone_number => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 marital_state   => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 address => {
@@ -353,9 +353,22 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 city_id => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
-                }
+                },
+                email => {
+                    required   => 0,
+                    type       => EmailAddress,
+                    post_check => sub {
+                        my $r = shift;
+                        return 0 if $self->resultset('User')->search( {
+                            email => $r->get_value('email'),
+                            id => { '!=' => $self->user_id }
+                        } )->count;
+
+                        return 1;
+                      }
+                },
             },
         ),
     };
@@ -368,6 +381,8 @@ sub action_specs {
             my %values = shift->valid_values;
 
             not defined $values{$_} and delete $values{$_} for keys %values;
+
+            $self->user->update({ email => delete $values{email} } ) if (exists $values{email});
 
             my $driver = $self->update( \%values );
 

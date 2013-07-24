@@ -5,9 +5,7 @@ use Moose;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller::REST'; }
-__PACKAGE__->config(
-    default      => 'application/json',
-);
+__PACKAGE__->config( default => 'application/json', );
 
 use Digest::SHA1 qw(sha1_hex);
 use Time::HiRes qw(time);
@@ -49,14 +47,13 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     $c->response->headers->header( 'charset' => 'utf-8' );
 }
 
-
 sub login : Chained('root') : PathPart('login') : Args(0) : ActionClass('REST') {
 }
 
 sub login_POST {
     my ( $self, $c ) = @_;
 
-    $c->model('DB::User')->execute($c, for => 'login', with => $c->req->params);
+    $c->model('DB::User')->execute( $c, for => 'login', with => $c->req->params );
 
     if ( $c->authenticate( $c->req->params ) ) {
         my $item = $c->user->sessions->create(
@@ -93,7 +90,6 @@ sub logout_GET {
     $c->logout;
     $self->status_ok( $c, entity => { logout => 'ok' } );
 }
-
 
 sub logged_in : Chained('root') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;

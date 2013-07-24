@@ -9,50 +9,50 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 db_transaction {
 
     rest_post '/users',
-        name  => 'criar usuario',
-        list  => 1,
-        stash => 'user',
-        [
-            name      => 'Foo Bar',
-            email     => 'foo1@email.com',
-            password  => 'foobarquux1',
-            role      => 'user'
-        ];
+      name  => 'criar usuario',
+      list  => 1,
+      stash => 'user',
+      [
+        name     => 'Foo Bar',
+        email    => 'foo1@email.com',
+        password => 'foobarquux1',
+        role     => 'user'
+      ];
 
     stash_test 'user.get', sub {
         my ($me) = @_;
 
-        is($me->{id}, stash 'user.id', 'get has the same id!');
-        is($me->{email}, 'foo1@email.com', 'email ok!');
+        is( $me->{id},    stash 'user.id',  'get has the same id!' );
+        is( $me->{email}, 'foo1@email.com', 'email ok!' );
     };
 
     stash_test 'user.list', sub {
         my ($me) = @_;
 
-        ok($me = delete $me->{users}, 'users list exists');
+        ok( $me = delete $me->{users}, 'users list exists' );
 
-        is(@$me, 2, '2 users');
+        is( @$me, 2, '2 users' );
 
-        $me = [sort {$a->{id} cmp $b->{id}} @$me];
+        $me = [ sort { $a->{id} cmp $b->{id} } @$me ];
 
-        is($me->[1]{email}, 'foo1@email.com', 'listing ok');
+        is( $me->[1]{email}, 'foo1@email.com', 'listing ok' );
     };
 
     rest_put stash 'user.url',
-        name => 'atualizar usuario',
-        [
-            name     => 'AAAAAAAAA',
-            email    => 'foo2@email.com',
-            password => 'foobarquux1',
-            role     => 'user'
-        ];
+      name => 'atualizar usuario',
+      [
+        name     => 'AAAAAAAAA',
+        email    => 'foo2@email.com',
+        password => 'foobarquux1',
+        role     => 'user'
+      ];
 
     rest_reload 'user';
 
     stash_test 'user.get', sub {
         my ($me) = @_;
 
-        is($me->{email}, 'foo2@email.com', 'email updated!');
+        is( $me->{email}, 'foo2@email.com', 'email updated!' );
     };
 
     rest_delete stash 'user.url';
@@ -70,14 +70,12 @@ db_transaction {
     stash_test 'user.list', sub {
         my ($me) = @_;
 
-        ok($me = delete $me->{users}, 'users list exists');
+        ok( $me = delete $me->{users}, 'users list exists' );
 
-        is(@$me, 1, '1 users');
+        is( @$me, 1, '1 users' );
 
-        is($me->[0]{email}, 'superadmin@email.com', 'listing ok');
+        is( $me->[0]{email}, 'superadmin@email.com', 'listing ok' );
     };
-
-
 
 };
 

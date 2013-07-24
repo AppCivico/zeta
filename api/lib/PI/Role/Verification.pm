@@ -42,15 +42,13 @@ sub check {
 sub execute {
     my ( $self, $c, %args ) = @_;
 
-    my $dm = $self->check(%args);
+    my $dm     = $self->check(%args);
     my $result = $dm->apply;
 
-    $c->controller('API')->status_bad_request( $c,
-        message => encode_json( $dm->errors )
-    ), $c->detach
+    $c->controller('API')->status_bad_request( $c, message => encode_json( $dm->errors ) ), $c->detach
       unless $dm->success;
 
-    return wantarray ? ($dm, $result) : $result;
+    return wantarray ? ( $dm, $result ) : $result;
 }
 
 1;

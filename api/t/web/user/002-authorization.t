@@ -32,7 +32,6 @@ eval {
             ok( !$res->is_success, 'user ok' );
             is( $res->code, 400, 'status 400 OK' );
 
-
             ( $res, $c ) = ctx_request(
                 POST '/login',
                 [
@@ -42,7 +41,6 @@ eval {
             );
             ok( $res->is_success, 'user ok' );
             is( $res->code, 200, 'status 200 OK' );
-
 
             die 'rollback';
         }
