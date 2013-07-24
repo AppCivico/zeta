@@ -1,73 +1,64 @@
-use strict;
-use warnings;
 use utf8;
-
 use FindBin qw($Bin);
 use lib "$Bin/../../lib";
 
-use Test::More;
-use Test::Further;
+use PI::Test::Further;
 
 api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 
-    my ( $res, $c );
-    ( $res, $c ) = ctx_request(
-        POST '/users',
+    rest_post '/users',
+        name  => 'criar usuario',
+        list  => 1,
+        stash => 'user',
         [
-            'name'     => 'Foo Bar',
-            'email'    => 'foo1@email.com',
-            'password' => 'foobarquux1',
-            role       => 'user'
-        ]
-    );
-    ok( $res->is_success, 'user created' );
-    is( $res->code, 201, 'user created' );
-
-    my $user_url = $res->header('Location');
-    ( $res, $c ) = ctx_request(
-        GET $user_url,
-        [
-            'name'     => 'Foo Bar',
-            'email'    => 'foo1@email.com',
-            'password' => 'foobarquux1',
-            role       => 'user'
-        ]
-    );
-    ok( $res->is_success, 'get user success' );
-    is( $res->code, 200, 'get 200' );
-
-    ( $res, $c ) = ctx_request(
-        GET '/users'
-    );
-    ok( $res->is_success, 'get user success' );
-    is( $res->code, 200, 'get 200' );
-
-    my $req = POST $user_url,
-        [
-        'name'     => 'AAAAAAAAA',
-        'email'    => 'foo2@email.com',
-        'password' => 'foobarquux1',
-        role       => 'user'
+            name      => 'Foo Bar',
+            email     => 'foo1@email.com',
+            password  => 'foobarquux1',
+            role      => 'user'
         ];
-    $req->method('PUT');
-    ( $res, $c ) = ctx_request($req);
-    ok( $res->is_success, 'put user success' );
-    is( $res->code, 202, 'put 202' );
 
-    ( $res, $c ) = ctx_request(
-        GET $user_url,
+    stash_test 'user.get', sub {
+        my ($me) = @_;
+
+        is($me->{id}, stash 'user.id', 'get has the same id!');
+        is($me->{email}, 'foo1@email.com', 'email ok!');
+    };
+
+    stash_test 'user.list', sub {
+        my ($me) = @_;
+
+        ok($me = delete $me->{users}, 'users list exists');
+
+        is(@$me, 2, '2 users');
+
+        $me = [sort {$a->{id} cmp $b->{id}} @$me];
+
+        is($me->[1]{email}, 'foo1@email.com', 'listing ok');
+    };
+
+    rest_put stash 'user.url',
+        name => 'atualizar usuario',
         [
-            'name'     => 'Foo Bar',
-            'email'    => 'foo1@email.com',
-            'password' => 'foobarquux1',
-            role       => 'user'
-        ]
-    );
+            name     => 'AAAAAAAAA',
+            email    => 'foo2@email.com',
+            password => 'foobarquux1',
+            role     => 'user'
+        ];
 
-    ok( $res->is_success, 'get user success' );
-    is( $res->code, 200, 'get 200' );
+    rest_reload 'user';
+
+    stash_test 'user.get', sub {
+        my ($me) = @_;
+
+        is($me->{email}, 'foo2@email.com', 'email updated!');
+    };
+
+    rest_delete stash 'user.url';
+
+    rest_reload 'user', 404;
+
 
 };
 

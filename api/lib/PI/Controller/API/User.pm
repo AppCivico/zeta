@@ -77,13 +77,13 @@ sub list_GET {
         entity => {
             users => [
                 map {
+                    my $r = $_;
                     +{
-                        name  => $_->{name},
-                        email => $_->{email},
+                        (map { $_ => $r->{$_} } qw/id name email/),
 
-                        roles => [ map { $_->{role}{name} } @{ $_->{user_roles} } ],
+                        roles => [ map { $r->{role}{name} } @{ $r->{user_roles} } ],
 
-                        url => $c->uri_for_action( $self->action_for('result'), [ $_->{id} ] )->as_string
+                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
                   } $c->stash->{collection}->search( undef, { prefetch => [ { user_roles => 'role' } ] } )
                   ->as_hashref->all
@@ -101,9 +101,7 @@ sub list_POST {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $user->id ] )->as_string,
         entity => {
-            name  => $user->name,
-            id    => $user->id,
-            roles => [ map { $_->name } $user->roles ],
+            id    => $user->id
         }
     );
 
