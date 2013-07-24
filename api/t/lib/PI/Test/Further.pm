@@ -3,6 +3,7 @@ package PI::Test::Further;
 use strict;
 use warnings;
 use utf8;
+use URI;
 
 use JSON::XS;
 use Catalyst::Test q(PI);
@@ -71,7 +72,7 @@ sub rest_put {
     my $data = pop;
     my %conf = @_;
 
-    &rest_post( $url, code => (exists $conf{is_fail} ? 400 : 202), method => 'PUT', %conf, $data );
+    &rest_post( $url, code => ( exists $conf{is_fail} ? 400 : 202 ), method => 'PUT', %conf, $data );
 }
 
 sub rest_delete {
@@ -98,14 +99,14 @@ sub rest_post {
     my ( $res, $c ) = ctx_request($req);
 
     if ( exists $conf{is_fail} ) {
-        if (!ok( !$res->is_success, $name . ' is_fail' )){
-            eval ('use Data::Printer; p $res');
+        if ( !ok( !$res->is_success, $name . ' is_fail' ) ) {
+            eval('use Data::Printer; p $res');
         }
     }
     else {
 
-        if (!ok( $res->is_success, $name . ' is_success' )){
-            eval ('use Data::Printer; p $res');
+        if ( !ok( $res->is_success, $name . ' is_success' ) ) {
+            eval('use Data::Printer; p $res');
         }
     }
     is( $res->code, $conf{code}, $name . ' status code is ' . $conf{code} );
@@ -167,8 +168,8 @@ sub rest_reload {
     my ( $res, $c ) = ctx_request( GET $item_url );
 
     if ( $exp_code == 200 ) {
-        if (!ok( $res->is_success, 'GET ' . $item_url . ' is_success' )){
-            eval ('use Data::Printer; p $res');
+        if ( !ok( $res->is_success, 'GET ' . $item_url . ' is_success' ) ) {
+            eval('use Data::Printer; p $res');
         }
         is( $res->code, 200, 'GET ' . $item_url . ' status code is 200' );
 
@@ -196,8 +197,15 @@ sub rest_reload {
     return $res;
 }
 
+
 sub rest_get {
-    my ( $url, $exp_code ) = @_;
+    my ( $url, $exp_code, $params ) = @_;
+
+    $params ||= {};
+
+    my $uri = URI->new( $url );
+    $uri->query_form( %$params );
+    $url = $uri->as_string;
 
     $exp_code ||= 200;
 
@@ -206,17 +214,15 @@ sub rest_get {
     if ( $exp_code == 200 ) {
         ok( $res->is_success, 'GET ' . $url . ' is_success' );
         is( $res->code, 200, 'GET ' . $url . ' status code is 200' );
-
-        my $obj = eval { decode_json( $res->content ) };
-        fail($@) if $@;
-
-        return $obj;
     }
     else {
         is( $res->code, $exp_code, 'GET ' . $url . ' status code is ' . $exp_code );
     }
 
-    return $res;
+    my $obj = eval { decode_json( $res->content ) };
+    fail($@) if $@;
+
+    return $obj;
 }
 
 sub stash_test($&) {

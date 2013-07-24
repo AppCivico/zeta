@@ -1,52 +1,55 @@
 use strict;
 use warnings;
-
-use Test::More;
-use HTTP::Request::Common;
+use utf8;
 
 use FindBin qw($Bin);
 use lib "$Bin/../../lib";
 
-use Catalyst::Test qw(PI);
+use PI::Test::Further;
 
-my $schema = PI->model('DB');
+db_transaction {
 
-eval {
-    $schema->txn_do(
+    my $res = rest_get '/users', 403;
+    is($res->{error}, 'access denied','access denied');
 
-        sub {
+    rest_post '/login',
+      name  => 'teste o login',
+      is_fail => 1,
+      stash => 'login',
+      [
+        'email'    => 'superadmin@email.com',
+        'password' => '44444'
+      ];
 
-            my ( $res, $c );
-            ( $res, $c ) = ctx_request( GET '/users', );
+    stash_test 'login', sub {
+        my ($me) = @_;
 
-            ok( !$res->is_success, 'access denied' );
-            is( $res->code, 403, q{forbidden} );
+        is($me->{error}, "Login invalid(2)", 'Login invalid');
+    };
 
-            ( $res, $c ) = ctx_request(
-                POST '/login',
-                [
-                    'email'    => 'INVALDOO',
-                    'password' => '12345'
-                ],
-            );
-            ok( !$res->is_success, 'user ok' );
-            is( $res->code, 400, 'status 400 OK' );
+    rest_post '/login',
+      name  => 'teste o login',
+      code  => 200,
+      stash => 'login',
+      [
+        'email'    => 'superadmin@email.com',
+        'password' => '12345'
+      ];
 
-            ( $res, $c ) = ctx_request(
-                POST '/login',
-                [
-                    'email'    => 'superadmin@email.com',
-                    'password' => '12345'
-                ],
-            );
-            ok( $res->is_success, 'user ok' );
-            is( $res->code, 200, 'status 200 OK' );
+    stash_test 'login', sub {
+        my ($me) = @_;
 
-            die 'rollback';
-        }
-    );
+        ok($me->{api_key}, 'has api_key');
+        is($me->{email}, 'superadmin@email.com', 'email ok');
+
+        is_deeply($me->{roles}, ['superadmin'], 'roles looks good');
+
+        my $users = rest_get '/users', 200, {api_key => $me->{api_key}};
+
+        is (@{$users->{users}}, 1, 'have 1 users');
+
+    };
+
 };
-
-die $@ unless $@ =~ /rollback/;
 
 done_testing;
