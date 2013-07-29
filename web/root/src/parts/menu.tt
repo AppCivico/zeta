@@ -6,6 +6,7 @@
             <ul class="nav">
             <li [% IF "/${c_req_path}" == '/' %]class="active"[%END%]><a href="/">Home</a></li>
             <li [% IF "/${c_req_path}" == '/cadastro' %]class="active"[%END%]><a href="/cadastro">Cadastro</a></li>
+            <li [% IF "/${c_req_path}" == '/login' %]class="active"[%END%]><a href="/login">Login</a></li>
 
             <li><a href="#">Contact</a></li>
             </ul>

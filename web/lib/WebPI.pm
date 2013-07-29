@@ -22,6 +22,14 @@ use Catalyst qw/
     Static::Simple
 
     Assets
+
+    Authentication
+
+    Session
+    Session::Store::File
+    Session::State::Cookie
+    Session::PerUser
+
 /;
 
 extends 'Catalyst';
@@ -54,6 +62,18 @@ __PACKAGE__->config(
     },
 
 );
+
+
+after 'setup_components' => sub {
+  my $app = shift;
+  for (keys %{ $app->components }) {
+    if($app->components->{$_}->can('initialize_after_setup')){
+        $app->components->{$_}->initialize_after_setup($app);
+    }
+  }
+};
+
+
 
 # Start the application
 __PACKAGE__->setup();

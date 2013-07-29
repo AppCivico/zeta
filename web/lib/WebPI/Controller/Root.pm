@@ -31,12 +31,18 @@ The root page (/)
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
     $self->root_base($c);
+
 }
 
 sub root_base {
     my ( $self, $c ) = @_;
     $c->stash->{c_req_path} = $c->req->path;
 
+    my $api = $c->model('API');
+
+    $api->stash_result( $c, ['users'] );
+    my $z = $c->stash;
+    use DDP; p $z;
 }
 
 =head2 default
@@ -64,6 +70,17 @@ sub default :Path {
     }
 }
 
+
+sub rest_error :Private{
+    my ( $self, $c ) = @_;
+
+    $c->stash->{template} = 'rest_error.tt';
+    $c->stash->{without_wrapper} = 1;
+
+    # TODO enviar um email se não estiver com $c->debug ?
+    $c->res->status(500);
+
+}
 =head2 end
 
 Attempt to render a view, if needed.
