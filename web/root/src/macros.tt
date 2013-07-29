@@ -1,0 +1,18 @@
+[%~
+SET ID_COUNT=0;
+MACRO input_text(name, label, opt) BLOCK;
+SET ID_COUNT = ID_COUNT + 1;
+SET id = "${name}_$ID_COUNT";
+%]
+<div class="control-group [%IF form_error.$name == 'invalid'%]error[%ELSIF form_error.$name%]warning[%END%]">
+    <label class="control-label" for="[%id%]">[%label|none%]</label>
+    <div class="controls">
+        <div class="[%IF opt.pre%]input-prepend[%END%]">
+            [%IF opt.pre%]<span class="add-on">[%opt.pre|none%]</span>[%END%]
+            <input class="span3" [%IF body.$name%]value="[%body.$name%]"[%END%] id="[%id%]" name="[%name%]" type="[%IF opt.type%][%opt.type%][%ELSE%]text[%END%]" placeholder="[%label%]">
+        </div>
+        [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Inválido[%ELSE%]Requerido[%END%]</span>[%END%]
+    </div>
+</div>[%
+END;
+%]

@@ -15,6 +15,8 @@ __PACKAGE__->config(
     CLASS => 'Template::AutoFilter',
     ENCODING => 'UTF8',
 
+    PRE_PROCESS => 'macros.tt',
+
     INCLUDE_PATH => [ WebPI->path_to( 'root', 'src' ) ],
     TIMER        => 0,
     render_die   => 1,

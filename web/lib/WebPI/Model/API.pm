@@ -51,12 +51,12 @@ sub stash_result {
         ? $opts{api_url}        . $endpoint
         : $c->config->{api_url} . $endpoint;
 
-    $url .= $self->_generate_query_params(%opts);
-
+    $url .= $self->_generate_query_params($c, %opts);
     my @headers = $self->_generate_headers($c);
 
     if (exists $opts{body} && ref $opts{body} eq 'HASH'){
         while(my ($k, $v) = each %{$opts{body}}){
+            $v = '' unless defined $v;
             $opts{body}{$k} = encode('UTF-8', $v);
         }
     }
@@ -75,7 +75,8 @@ sub stash_result {
         $c->stash(error => "$method $endpoint", error_content => $@ );
         $c->detach('/rest_error');
     }
-    if ($res->code !~ /^(200|201|202|204|404|410)$/){
+
+    if (!exists $opts{exp_code} && $res->code !~ /^(200|201|202|204|404|410|400)$/){
         $c->stash(
             error => "ERROR WHILE $method $endpoint CODE ${\$res->code}",
             error_content => $res->content,
@@ -84,6 +85,7 @@ sub stash_result {
         );
         $c->detach('/rest_error');
     }
+
 
     if ($c->debug){
         # colocando todos os resultados na stash, porque eu acho que vai ficar
@@ -100,6 +102,7 @@ sub stash_result {
     # TODO talvez algum endpoint nao precisa de parser.
 
     my $obj  = eval{decode_json $res->content};
+
     if ($@){
         $c->stash(
             error => "Error while trying parse JSON.",
@@ -108,6 +111,25 @@ sub stash_result {
             error_url     => $url
         );
         $c->detach('/rest_error');
+    }
+
+    if (exists $opts{exp_code} && $res->code !~ $opts{exp_code}){
+        return undef if $opts{get_result};
+
+        $c->stash(
+            error => "ERROR WHILE $method $endpoint CODE ${\$res->code} ISN'T $opts{exp_code}",
+            error_content => $res->content,
+            error_code    => $res->code,
+            error_url     => $url
+        );
+        $c->detach('/rest_error');
+    }
+
+    # tratando caso espcial do retorno em json do bad-request
+    if ($res->code == 400 && $obj->{error} =~ /^{/ && $obj->{error} =~ /}$/){
+        my $missing = eval{decode_json $obj->{error}};
+        $obj->{form_error} = $missing;
+        $obj->{error} = 'Formulário inválido';
     }
 
     return $obj if $opts{get_result};

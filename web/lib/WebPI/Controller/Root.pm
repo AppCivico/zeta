@@ -30,19 +30,34 @@ The root page (/)
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
-    $self->root_base($c);
+    $self->root($c);
 
 }
 
-sub root_base {
+sub root: Chained('/') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
+
     $c->stash->{c_req_path} = $c->req->path;
 
+    $c->load_status_msgs;
+    my $status_msg = $c->stash->{status_msg};
+    my $error_msg  = $c->stash->{error_msg};
+use DDP; p $error_msg;
+    if (ref $status_msg eq 'HASH'){
+        @{$c->stash}{keys %$status_msg} = values %$status_msg;
+    }
+    if (ref $error_msg eq 'HASH'){
+        @{$c->stash}{keys %$error_msg} = values %$error_msg;
+    }
+
+
+=pod
     my $api = $c->model('API');
 
     $api->stash_result( $c, ['users'] );
     my $z = $c->stash;
     use DDP; p $z;
+=cut
 }
 
 =head2 default
@@ -54,7 +69,7 @@ Standard 404 error page
 sub default :Path {
     my ( $self, $c ) = @_;
 
-    $self->root_base($c);
+    $self->root($c);
     my $maybe_view = join '/', @{$c->req->arguments};
     my $output;
     eval {

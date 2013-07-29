@@ -22,6 +22,7 @@ use Catalyst qw/
     Static::Simple
 
     Assets
+    StatusMessage
 
     Authentication
 
