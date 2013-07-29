@@ -14,15 +14,10 @@ sub login : Chained('base') : PathPart('login') : Args(0) {
     my ( $self, $c ) = @_;
 
      if ( $c->authenticate( $c->req->params ) ) {
-
         $c->detach( '/form/redirect_ok', [ '/', 'Bem vindo, ' . $c->user->name ] );
     }else{
-
         $c->detach( '/form/redirect_error', [ ] );
-
     }
-
-
 }
 
 

@@ -15,4 +15,44 @@ SET id = "${name}_$ID_COUNT";
     </div>
 </div>[%
 END;
+
+MACRO checkbox(name, label, opt) BLOCK;
+    SET ID_COUNT = ID_COUNT + 1;
+    SET id = "${name}_$ID_COUNT";
+
+    IF !opt.defined('value');
+        opt.value = 1;
+    END;
+
+    IF results.${context.scope};
+        value_name = opt.name;
+        IF context.scope; value_name = value_name.replace("${context.scope}.", ""); END;
+        opt.checked = results.${context.scope}.get_original_value(value_name) == opt.value ? 1 : 0;
+    END;
+
+    IF !opt.defined('checked') && opt.defined('default_value');
+        opt.checked = opt.default_value;
+    END;
+
+    IF !opt.error && messages.for_scope(context.scope);
+        value_name = opt.name;
+        IF context.scope; value_name = value_name.replace("^${context.scope}.", ""); END;
+        IF message; opt.${message.level} = l(message.id); END;
+    END;
 %]
+<div class="control-group[% IF opt.error %] error[% ELSIF opt.warning %] warning[% ELSIF opt.success %] success[% END %]">
+ <label class="control-label" for="[%id%]">[%label|none%]</label>
+ <div class="[% opt.type || 'text' %] controls">
+  <input type="[% opt.type || 'checkbox' %]" id="[% id %]" name="[% name %]"
+   [% IF opt.pattern %] pattern="[% opt.pattern %]" [% END %]
+   value="[% opt.value | html %]"
+   [%~ IF opt.classes %] class="[% opt.classes.join(" ") %]"[% END ~%]
+   [%~ IF opt.disabled %] disabled="disabled"[% END ~%]
+   [%~ IF opt.checked %] checked="checked"[% END ~%]
+   [%~ IF opt.tabindex %] tabindex="[% opt.tabindex %]"[% END ~%]
+   [%~ IF opt.maxlength %] maxlength="[% opt.maxlength %]"[% END ~%]>
+   <span class="help-inline">[% le(opt.error); le(opt.warning); le(opt.success) %]</span>
+   [% IF opt.support %]<p>[% l(opt.support) %]</p>[% END %]
+ </div>
+</div>
+[% END ~%]
