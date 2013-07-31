@@ -10,9 +10,13 @@ __PACKAGE__->config(
     result       => 'DB::Vehicle',
     object_key   => 'vehicle',
 
-    update_roles => [qw/superadmin client/],
-    create_roles => [qw/superadmin client/],
-    delete_roles => [qw/superadmin client/],
+    update_roles => [qw/superadmin/],
+    create_roles => [qw/superadmin/],
+    delete_roles => [qw/superadmin/],
+
+    search_ok    => {
+        driver_id => 'Int',
+    }
 
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -91,6 +95,7 @@ sub list_GET {
                             chassi
                             crv
                             observations
+                            driver_id
                             created_at
                         /),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string

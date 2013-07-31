@@ -106,6 +106,20 @@ db_transaction {
         is( $me->[0]{model}, 'clio', 'listing ok' );
     };
 
+    do {
+        my $err = rest_get '/vehicles', 400, {driver_id => 'not a number'};
+        is ($err->{error}, 'invalid param driver_id', 'invalid number!');
+
+        $err = rest_get '/vehicles', 200, {driver_id => -5};
+        is_deeply($err->{vehicles}, [], 'no vehicles');
+
+        my $res = rest_get '/vehicles', 200, {driver_id => stash 'driver.id'};
+        is(@{$res->{vehicles}}, 1, '1 vehicle');
+        is($res->{vehicles}[0]{driver_id}, stash 'driver.id', 'same driver');
+
+    };
+
+
     rest_put stash 'vehicle.url',
       name => 'atualizar veiculo',
       [
@@ -149,6 +163,7 @@ db_transaction {
 
         is( @$me, 0, '0 vehicles' );
     };
+
 };
 
 done_testing;
