@@ -8,6 +8,58 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 
+#criar novo owner
+    rest_post '/vehicle_owners',
+        name  => 'criar dono de veículos',
+        list  => 1,
+        stash => 'vehicle_owner',
+      [
+        email   => 'car_owner@aware.com',
+        name    => 'new',
+        last_name   => 'owner',
+        birth_date=> '1990-09-19',
+        cpf=> '38979486804',
+        bank_code=> '034',
+        bank_ag=> '0147',
+        bank_cc=> '3254126',
+        telephone_number=> '551165522547',
+        mobile_provider=>   'claro',
+        mobile_number=> '5511999999999',
+        address=> 'Kingston',
+        city_id=> 1,
+        neighborhood=> 'DOWNTOWN',
+        complement=> 'teste',
+        number=> '13',
+        postal_code=> '012478520'
+     ];
+
+#criar novo driver
+    rest_post '/drivers',
+        name  => 'criar motorista',
+        list  => 1,
+        stash => 'driver',
+      [
+        'name'                 => 'Foo',
+        'last_name'            => 'Bar',
+        'birth_date'           => '1970-01-01',
+        'cpf'                  => '38979486804',
+        'first_driver_license' => '1990-01-01',
+        'cnh_code'             => 'xxxxx',
+        'cnh_validity'         => '2014-01-01',
+        'mobile_provider'      => 'test',
+        'mobile_number'        => '5511123456789',
+        'telephone_number'     => '551112345678',
+        'marital_state'        => 'S',
+        'address'              => 'foo st',
+        'neighborhood'         => 'foo bar',
+        'complement'           => 'second floor',
+        'number'               => '1',
+        'postal_code'          => '01310000',
+        'city_id'              => 1,
+        'email'                => 'sdasdas@asdas.com'
+      ];
+
+#criar novo veiculo
     rest_post '/vehicles',
       name  => 'criar veículos',
       list  => 1,
@@ -28,8 +80,8 @@ db_transaction {
         chassi => '21231dsfs3',
         crv => '231ss32',
         observations => 'teste',
-        driver_id   => 1,
-        vehicle_owner_id => 1
+        driver_id   => stash 'driver.id',
+        vehicle_owner_id => stash 'vehicle_owner.id'
       ];
 
     stash_test 'vehicle.get', sub {
@@ -43,50 +95,55 @@ db_transaction {
 
         ok( $me = delete $me->{vehicles}, 'vehicle list exists' );
 
-        is( @$me, 2, '2 users' );
+        is( @$me, 1, '1 vehicle' );
 
         $me = [ sort { $a->{id} cmp $b->{id} } @$me ];
 
-        is( $me->[1]{email}, 'foo1@email.com', 'listing ok' );
+        is( $me->[0]{model}, 'clio', 'listing ok' );
     };
 
-    rest_put stash 'user.url',
-      name => 'atualizar usuario',
+    rest_put stash 'vehicle.url',
+      name => 'atualizar veiculo',
       [
-        name     => 'AAAAAAAAA',
-        email    => 'foo2@email.com',
-        password => 'foobarquux1',
-        role     => 'user'
+        renavam => '1234567810',
+        cpf     => '02193635872',
+        car_plate   => 'BUA2609',
+        doors_number => '3',
+        manufacture_year => '1995',
+        model => 'gol',
+        model_year => '1995',
+        brand_name => 'VW',
+        car_type => 'Hatch',
+        km => 100000,
+        color => 'silver',
+        fuel_type => 'gasoline',
+        chassi => '21231dssa21fs3',
+        crv => '231s114s32',
+        observations => 'teste2',
+        driver_id   => stash 'driver.id',
+        vehicle_owner_id => stash 'vehicle_owner.id'
       ];
 
-    rest_reload 'user';
+    rest_reload 'vehicle';
 
-    stash_test 'user.get', sub {
+    stash_test 'vehicle.get', sub {
         my ($me) = @_;
 
-        is( $me->{email}, 'foo2@email.com', 'email updated!' );
+        is( $me->{model}, 'gol', 'car model updated!' );
     };
 
-    rest_delete stash 'user.url';
+    rest_delete stash 'vehicle.url';
 
-    rest_reload 'user', 404;
+    rest_reload 'vehicle', 404;
 
-    # ao inves de
-    # my $list = rest_get '/users';
-    # use DDP; p $list;
+    rest_reload_list 'vehicle';
 
-    # utilizar
-
-    rest_reload_list 'user';
-
-    stash_test 'user.list', sub {
+    stash_test 'vehicle.list', sub {
         my ($me) = @_;
 
-        ok( $me = delete $me->{users}, 'users list exists' );
+        ok( $me = delete $me->{vehicles}, 'vehicle list exists' );
 
-        is( @$me, 1, '1 users' );
-
-        is( $me->[0]{email}, 'superadmin@email.com', 'listing ok' );
+        is( @$me, 0, '0 vehicles' );
     };
 };
 

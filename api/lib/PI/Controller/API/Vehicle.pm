@@ -45,7 +45,7 @@ sub result_PUT {
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle->id ] )->as_string,
-        entity => { name => $vehicle->name, id => $vehicle->id }
+        entity => { model => $vehicle->model, id => $vehicle->id }
       ),
       $c->detach
       if $vehicle;
@@ -53,10 +53,10 @@ sub result_PUT {
 
 sub result_DELETE {
     my ( $self, $c ) = @_;
-    my $vehicle = $c->stash->{vehicle};
-    $self->status_gone( $c, message => 'deleted' ), $c->detach
-      unless $vehicle->id;
 
+    my $vehicle = $c->stash->{vehicle};
+
+    $vehicle->delete;
     $self->status_no_content($c);
 }
 
@@ -110,7 +110,7 @@ sub list_POST {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle->id ] )->as_string,
         entity => {
-            name  => $vehicle->name,
+            model => $vehicle->model,
             id    => $vehicle->id
         }
     );
