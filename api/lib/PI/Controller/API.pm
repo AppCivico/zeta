@@ -72,6 +72,17 @@ sub login_POST {
 
         $attrs{roles} = [ map { $_->name } $c->model('DB::User')->search( { id => $c->user->id } )->next->roles ];
 
+        if (grep {/^user$/} @{$attrs{roles}}){
+            my $driver = $c->model('DB::Driver')->search({user_id => $attrs{id}})->next;
+
+            $self->status_bad_request( $c, message => 'Login invalid: no driver found!' ),
+                $c->detach unless $driver;
+
+            $attrs{driver} = {
+                map {$_ => $driver->{$_}} qw/id name last_name/
+            }
+        }
+
         delete $attrs{password};
         $attrs{created_at} = $attrs{created_at}->datetime;
 
