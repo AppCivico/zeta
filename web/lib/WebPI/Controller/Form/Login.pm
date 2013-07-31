@@ -22,7 +22,7 @@ sub login : Chained('base') : PathPart('login') : Args(0) {
 
         my $url = \'/';
         if (grep {'user'} $c->user->roles){
-            $url = '/user/account/index';
+            $url = '/user/dashboard/index';
         }
 
         $c->detach( '/form/redirect_ok', [ $url, {}, 'Bem vindo, ' . $c->user->name ] );

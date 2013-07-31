@@ -24,6 +24,18 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
     );
 
     $c->stash->{template_wrapper} = 'user';
+
+    if (@{$c->stash->{vehicles}} == 0){
+        $c->stash->{cadastro_incompleto} = 1;
+    }
+    # ...
+
+    my $dashboard_uri = $c->uri_for_action('/user/dashboard/index');
+    if ($c->stash->{cadastro_incompleto} && $c->req->uri->as_string ne $dashboard_uri){
+        $c->res->redirect($dashboard_uri);
+        $c->detach;
+    }
+
 }
 
 __PACKAGE__->meta->make_immutable;

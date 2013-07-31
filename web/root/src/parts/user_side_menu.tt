@@ -1,8 +1,14 @@
 <div class="well sidebar-nav">
     <ul class="nav nav-list">
-        <li><a href="#">Dashboard</a></li>
+        [%href = c.uri_for_action('/user/dashboard/index')%]
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]">Dashboard</a></li>
+
+
+        [%IF !cadastro_incompleto%]
         <li class="nav-header">Sobre você</li>
-        <li class="active"><a href="#"><i class="icon-user"></i>Meus dados</a></li>
+        [%href = c.uri_for_action('/user/account/index')%]
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user"></i>Meus dados</a></li>
+
         <li><a href="#"><i class="icon-road"></i> Meu carro</a></li>
         <li><a href="#"><i class="icon-random"></i> Minhas rotas</a></li>
         <li><a href="#"><i class="icon-file"></i> Meus documentos</a></li>
@@ -12,6 +18,8 @@
         <li><a href="#"><i class="icon-plus"></i> Pagamentos</a></li>
         <li><a href="#"><i class="icon-folder-open"></i> Contratos</a></li>
         <li><a href="#"><i class="icon-exclamation-sign"></i> Alertas recebidos</a></li>
+
+        [%END%]
         <li class="nav-header">Outros</li>
         <li><a href="/contato">Contato</a></li>
         <li><a href="[%c.uri_for('/logout')%]">Sair</a></li>

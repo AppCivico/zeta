@@ -1,4 +1,4 @@
-package WebPI::Controller::User::Account;
+package WebPI::Controller::User::Dashboard;
 use Moose;
 use namespace::autoclean;
 
@@ -8,8 +8,14 @@ BEGIN { extends 'Catalyst::Controller' }
 sub base : Chained('/user/base') : PathPart('') : CaptureArgs(0) {
 }
 
-sub object : Chained('base') : PathPart('minha-conta') : CaptureArgs(0) {
+sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
     my ($self, $c) = @_;
+    if (@{$c->stash->{vehicles}} == 0){
+
+        $c->stash->{cadastro_incompleto} = 1;
+
+        $c->stash->{main_view} = 'parts/new_vehicle.tt'
+    }
 
 }
 
