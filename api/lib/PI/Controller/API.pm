@@ -59,7 +59,9 @@ sub login_POST {
         my $item = $c->user->sessions->create(
             {
                 api_key      => sha1_hex( rand(time) ),
-                valid_for_ip => $c->req->address
+                valid_for_ip => $c->req->address,
+
+                valid_until  => \"now() + '1 week'::interval"
             }
         );
 

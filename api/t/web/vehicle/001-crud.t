@@ -30,7 +30,9 @@ db_transaction {
         neighborhood=> 'DOWNTOWN',
         complement=> 'teste',
         number=> '13',
-        postal_code=> '012478520'
+        postal_code=> '012478520',
+
+
      ];
 
 #criar novo driver
@@ -55,6 +57,8 @@ db_transaction {
         'complement'           => 'second floor',
         'number'               => '1',
         'postal_code'          => '01310000',
+        password_confirm=> '012478520',
+        password=> '012478520',
         'city_id'              => 1,
         'email'                => 'sdasdas@asdas.com'
       ];
