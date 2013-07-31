@@ -8,7 +8,7 @@
     <div class="span9">
       <form class="form-horizontal" method="post" action="/form/driver">
         <fieldset>
-          <legend>Controls Bootstrap supports</legend>
+          <legend>Seus dados</legend>
 
           [%input_text('name','Primeiro nome')|none%]
           [%input_text('last_name','Último nome')|none%]
