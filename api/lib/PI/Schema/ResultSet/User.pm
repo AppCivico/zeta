@@ -38,7 +38,7 @@ sub verifiers_specs {
                     type       => EmailAddress,
                     post_check => sub {
                         my $r = shift;
-                        return 0 if ( $self->find( { email => $r->get_value('email') } ) );
+                        return 0 if ( $self->find( { email => lc $r->get_value('email') } ) );
                         return 1;
                       }
                 },
@@ -51,11 +51,7 @@ sub verifiers_specs {
             profile => {
                 email => {
                     required   => 1,
-                    type       => EmailAddress,
-                    post_check => sub {
-                        my $r = shift;
-                        return defined $self->find( { email => $r->get_value('email') } );
-                      }
+                    type       => EmailAddress
                 },
                 password => {
                     required => 1,
@@ -75,6 +71,7 @@ sub action_specs {
         create => sub {
             my %values = shift->valid_values;
             delete $values{password_confirm};
+            $values{email} = lc $values{email};
 
             my $role = delete $values{role};
 

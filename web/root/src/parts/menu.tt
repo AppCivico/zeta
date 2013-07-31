@@ -1,0 +1,18 @@
+<div class="masthead">
+<h3 class="muted">Project name</h3>
+    <div class="navbar">
+        <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav">
+            <li [% IF "/${c_req_path}" == '/' %]class="active"[%END%]><a href="/">Home</a></li>
+            <li [% IF "/${c_req_path}" == '/cadastro' %]class="active"[%END%]><a href="/cadastro">Cadastro</a></li>
+
+            [%IF !c.user%]<li [% IF "/${c_req_path}" == '/login' %]class="active"[%END%]><a href="/login">Login</a></li>[%END%]
+            [%IF c.user%]<li><a href="/logout">Sair</a></li>[%END%]
+
+            <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>

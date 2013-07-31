@@ -1,0 +1,67 @@
+<section id="forms">
+  <div class="page-header">
+    <h1>Faça o seu cadastro!</h1>
+  </div>
+
+  <div class="row">
+
+    <div class="span9">
+      <form class="form-horizontal" method="post" action="/form/driver">
+        <fieldset>
+          <legend>Controls Bootstrap supports</legend>
+
+          [%input_text('name','Primeiro nome')|none%]
+          [%input_text('last_name','Último nome')|none%]
+          [%input_text('email','E-mail')|none%]
+
+          [%input_text('cpf','CPF')|none%]
+          [%input_text('cnh_code','Código CNH')|none%]
+          [%input_text('first_driver_license','Data da habilitação')|none%]
+          [%input_text('cnh_validity','Validade da habilitação')|none%]
+
+          [%input_text('birth_date','Data de nascimento')|none%]
+
+          [%input_text('telephone_number','Telefone')|none%]
+
+          [%input_text('mobile_number','Celular',)|none%]
+
+
+          [%select_field('mobile_provider', 'Operadora',  array => [
+            ['tim','Tim'],
+            ['oi','Oi'],
+            ['vivo','Vivo'],
+            ['claro','Claro'],
+            ['nextel','Nextel'],
+            ['outra','Outra'],
+
+        ])|none%]
+
+          [%select_field('marital_state', 'Estado civil',  array => [
+            ['S','Solteiro (a)'],
+            ['C','Casado (a)'],
+            ['V','Viuvo(a)'],
+            ['D','Divorciado(a)'],
+        ])|none%]
+
+          [%input_text('postal_code','CEP')|none%]
+
+          [%select_field('city_id', 'Cidade',  array => select_cities)|none%]
+
+          [%input_text('address','Logradouro')|none%]
+          [%input_text('number','Número')|none%]
+          [%input_text('complement','Complemento')|none%]
+          [%input_text('neighborhood','Bairro')|none%]
+
+
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Continuar</button>
+            <button type="reset" class="btn">Limpar formulário</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+</section>
+

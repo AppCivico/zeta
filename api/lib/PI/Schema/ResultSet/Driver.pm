@@ -92,7 +92,7 @@ sub verifiers_specs {
                     type       => EmailAddress,
                     post_check => sub {
                         my $r = shift;
-                        return 0 if ( $self->resultset('User')->find( { email => $r->get_value('email') } ) );
+                        return 0 if ( $self->resultset('User')->find( { email => lc $r->get_value('email') } ) );
                         return 1;
                       }
                 }
@@ -109,7 +109,7 @@ sub action_specs {
             my $user_rs = $self->resultset('User');
             my $user    = $user_rs->create(
                 {
-                    email    => delete $values{email},
+                    email    => lc delete $values{email},
                     name     => "$values{name} $values{last_name}",
                     password => '12345'
                 }
