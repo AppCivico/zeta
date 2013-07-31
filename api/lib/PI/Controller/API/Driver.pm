@@ -13,7 +13,7 @@ __PACKAGE__->config(
     object_key  => 'driver',
 
     update_roles => [qw/superadmin/],
-    create_roles => [qw/superadmin/],
+    create_roles => [qw/superadmin webapi/],
     delete_roles => [qw/superadmin/],
 
 );

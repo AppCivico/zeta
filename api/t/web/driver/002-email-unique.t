@@ -7,7 +7,7 @@ use lib "$Bin/../../lib";
 
 use PI::Test::Further;
 
-api_auth_as driver1_id => 1, roles => ['superadmin'];
+api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 

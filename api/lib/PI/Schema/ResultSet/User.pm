@@ -51,11 +51,7 @@ sub verifiers_specs {
             profile => {
                 email => {
                     required   => 1,
-                    type       => EmailAddress,
-                    post_check => sub {
-                        my $r = shift;
-                        return defined $self->find( { email => $r->get_value('email') } );
-                      }
+                    type       => EmailAddress
                 },
                 password => {
                     required => 1,
