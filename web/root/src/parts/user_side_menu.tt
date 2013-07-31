@@ -1,0 +1,19 @@
+<div class="well sidebar-nav">
+    <ul class="nav nav-list">
+        <li><a href="#">Dashboard</a></li>
+        <li class="nav-header">Sobre você</li>
+        <li class="active"><a href="#"><i class="icon-user"></i>Meus dados</a></li>
+        <li><a href="#"><i class="icon-road"></i> Meu carro</a></li>
+        <li><a href="#"><i class="icon-random"></i> Minhas rotas</a></li>
+        <li><a href="#"><i class="icon-file"></i> Meus documentos</a></li>
+
+        <li class="nav-header">Sua conta</li>
+        <li><a href="#"><i class="icon-envelope"></i> Convites</a></li>
+        <li><a href="#"><i class="icon-plus"></i> Pagamentos</a></li>
+        <li><a href="#"><i class="icon-folder-open"></i> Contratos</a></li>
+        <li><a href="#"><i class="icon-exclamation-sign"></i> Alertas recebidos</a></li>
+        <li class="nav-header">Outros</li>
+        <li><a href="/contato">Contato</a></li>
+        <li><a href="[%c.uri_for('/logout')%]">Sair</a></li>
+    </ul>
+</div>

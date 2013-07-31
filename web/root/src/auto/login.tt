@@ -1,15 +1,8 @@
 
-<ul class="nav nav-tabs">
-    <li class="active">
-        <a href="#login" data-toggle="tab"><i class="icon-user"></i>&nbsp;Login</a>
-    </li>
-    <li><a href="#reg" data-toggle="tab"><i class="icon-pencil"></i>&nbsp;Registrar-se</a></li>
-</ul>
-
 <div class="row"><div class="span12">
 
 
-<div id="formtab" class="tab-content">
+<h2>Entrar</h2>
 <div class="tab-pane active" id="login">
 
     <form class="form-horizontal" method="post" action="/form/login">
@@ -28,28 +21,6 @@
 
 </div>
 
-<div class="tab-pane" id="reg">
-
-    <form class="form-horizontal" method="post" action="/form/register">
-
-        [%input_text('name','Nome', { pre => '<i class="icon-user"></i>' })|none%]
-
-        [%input_text('email','E-mail', { pre => '@' })|none%]
-
-        [%input_text('password', 'Senha', { type => 'password', pre => '<i class="icon-lock"></i>' })|none%]
-
-
-        <div class="control-group">
-            <div class="controls">
-            <button type="submit" class="btn">Sign in</button>
-            </div>
-        </div>
-    </form>
-
-
-</div>
-
-</div> <!-- formtab -->
 
 
 

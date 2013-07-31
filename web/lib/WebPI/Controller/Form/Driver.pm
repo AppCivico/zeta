@@ -26,11 +26,8 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
     }else{
 
-        # TODO fazer login sozinho
 
-
-
-        $c->detach( '/form/redirect_ok', [ '/', 'Bem vindo, ' . $c->user->name ] );
+        $c->detach( '/form/login/login');
     }
 }
 

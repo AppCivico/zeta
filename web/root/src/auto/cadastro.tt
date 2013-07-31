@@ -14,6 +14,9 @@
           [%input_text('last_name','Último nome')|none%]
           [%input_text('email','E-mail')|none%]
 
+          [%input_text('password','Senha', type => 'password')|none%]
+          [%input_text('password_confirm','Senha novamente',  type => 'password')|none%]
+
           [%input_text('cpf','CPF')|none%]
           [%input_text('cnh_code','Código CNH')|none%]
           [%input_text('first_driver_license','Data da habilitação')|none%]
