@@ -14,9 +14,13 @@
         <h4>Dados do proprietário do veículo</h4>
 
         <div class="clearfix">
-            <button type="button" class="btn btn-warning">Eu, [%driver.name%], sou o proprietário do veículo</button>
+            <input type="hidden" name="iamowner" value="0"/>
+            <button data-changeval-name="iamowner" data-changeval-value="1" data-toggle-class="hidden" data-toggle-class-target="#dados_dono,#btn02,#btn01" id="btn01" type="button" class="btn btn-warning">Eu, [%driver.name%], sou o proprietário do veículo</button>
+            <button data-changeval-name="iamowner" data-changeval-value="0" data-toggle-class="hidden" data-toggle-class-target="#dados_dono,#btn01,#btn02" id="btn02" class="hidden" type="button" class="btn">Preencher dados do proprietário</button>
         </div>
         <br/>
+
+<div id="dados_dono">
 
         [%input_text('name','Primeiro nome')|none%]
         [%input_text('last_name','Último nome')|none%]
@@ -47,6 +51,8 @@
         [%input_text('number','Número')|none%]
         [%input_text('complement','Complemento')|none%]
         [%input_text('neighborhood','Bairro')|none%]
+
+</div>
 
         </div>
     <div class="span5">

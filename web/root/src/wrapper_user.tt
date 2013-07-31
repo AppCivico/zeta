@@ -16,6 +16,7 @@
 [%-CALL assets.include("css/user.css")%]
 
 [%-CALL assets.include("js/bootstrap.min.js")%]
+[%-CALL assets.include("js/user.js")%]
 
 [%- assets.export("css") |none-%]
 
