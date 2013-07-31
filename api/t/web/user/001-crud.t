@@ -16,6 +16,7 @@ db_transaction {
         name     => 'Foo Bar',
         email    => 'foo1@email.com',
         password => 'foobarquux1',
+        password_confirm => 'foobarquux1',
         role     => 'user'
       ];
 
@@ -44,6 +45,7 @@ db_transaction {
         name     => 'AAAAAAAAA',
         email    => 'foo2@email.com',
         password => 'foobarquux1',
+        password_confirm => 'foobarquux1',
         role     => 'user'
       ];
 
