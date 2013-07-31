@@ -22,7 +22,7 @@ no strict 'refs';
 *{"main::$_"} = *$_ for grep { defined &{$_} } keys %PI::Test::Further::;
 use strict 'refs';
 
-my $auth_user = 0;
+my $auth_user;
 
 our $stash = {};
 
@@ -34,18 +34,18 @@ sub api_auth_as {
     $conf{user_id} ||= 1;
     $conf{roles}   ||= ['superadmin'];
 
-    unless ($auth_user) {
-        require Package::Stash;
-        require PI::TestOnly::Mock::AuthUser;
+    if(!$auth_user) {
+        use Package::Stash;
+        use PI::TestOnly::Mock::AuthUser;
 
         my $stashc    = Package::Stash->new('Catalyst::Plugin::Authentication');
-        my $auth_user = PI::TestOnly::Mock::AuthUser->new;
+        $auth_user = PI::TestOnly::Mock::AuthUser->new;
 
         $stashc->add_symbol( '&user',  sub { return $auth_user } );
         $stashc->add_symbol( '&_user', sub { return $auth_user } );
     }
 
-    $PI::TestOnly::Mock::AuthUser::_id    = $conf{id};
+    $PI::TestOnly::Mock::AuthUser::_id    = $conf{user_id};
     @PI::TestOnly::Mock::AuthUser::_roles = @{ $conf{roles} };
 }
 

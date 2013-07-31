@@ -35,8 +35,6 @@ sub result_GET {
         $c,
         entity => {
             email => $driver->user->email,
-
-
             ( map { $_ => $driver->$_->datetime }  qw/birth_date first_driver_license cnh_validity/ ),
 
             map { $_ => $attrs{$_}, } qw(

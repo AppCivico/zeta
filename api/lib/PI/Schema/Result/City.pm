@@ -205,9 +205,24 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head2 vehicle_owners
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:g0lJRUMz2Wfu/SrL6YowLQ
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleOwner>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_owners",
+  "PI::Schema::Result::VehicleOwner",
+  { "foreign.city_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-25 16:57:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7HbiYviKUkvoN52GCgQngg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
