@@ -8,7 +8,7 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
     rest_post '/vehicle_owners',
-      name  => 'criar dono de veículos',
+      name  => 'criar dono de veiculos',
       list  => 1,
       stash => 'vehicle_owner',
       [
@@ -50,7 +50,7 @@ db_transaction {
     };
 
     rest_put stash 'vehicle_owner.url',
-      name => 'atualizar dono de veículo',
+      name => 'atualizar dono de veiculo',
       [
         email   => 'car_owner2@aware.com',
         name    => 'new2',
