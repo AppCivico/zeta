@@ -270,9 +270,24 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 vehicles
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OIXaeObUb6Soq55EVjkm3g
+Type: has_many
+
+Related object: L<PI::Schema::Result::Vehicle>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicles",
+  "PI::Schema::Result::Vehicle",
+  { "foreign.driver_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-24 18:44:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OAEa2KX4B27sJ8IDyeTdfw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

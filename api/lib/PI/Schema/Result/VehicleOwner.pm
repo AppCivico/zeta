@@ -109,16 +109,6 @@ __PACKAGE__->table("vehicle_owner");
   data_type: 'text'
   is_nullable: 1
 
-=head2 state
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 city
-
-  data_type: 'text'
-  is_nullable: 1
-
 =head2 neighborhood
 
   data_type: 'text'
@@ -149,6 +139,12 @@ __PACKAGE__->table("vehicle_owner");
 =head2 created_by
 
   data_type: 'integer'
+  is_nullable: 0
+
+=head2 city_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 0
 
 =cut
@@ -185,10 +181,6 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 1 },
   "address",
   { data_type => "text", is_nullable => 1 },
-  "state",
-  { data_type => "text", is_nullable => 1 },
-  "city",
-  { data_type => "text", is_nullable => 1 },
   "neighborhood",
   { data_type => "text", is_nullable => 1 },
   "complement",
@@ -206,6 +198,8 @@ __PACKAGE__->add_columns(
   },
   "created_by",
   { data_type => "integer", is_nullable => 0 },
+  "city_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -221,6 +215,21 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
+
+=head2 city
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::City>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "city",
+  "PI::Schema::Result::City",
+  { id => "city_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
 
 =head2 contracts
 
@@ -253,9 +262,115 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:n7sLe3Jh3D+BVglZkpVcPg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-25 16:57:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RdmHnv9raNBk5+Prn626Fw
 
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
+
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                email=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                name=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                last_name=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                birth_date=> {
+                    required => 0,
+                    type     => DataStr,
+                },
+                cpf=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                bank_code=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                bank_ag=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                bank_cc=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                telephone_number=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                mobile_provider=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                mobile_number=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                address=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                city_id=> {
+                    required => 0,
+                    type     => 'Int',
+                },
+                neighborhood=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                complement=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                number=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                postal_code=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                created_by=> {
+                    required => 0,
+                    type     => 'Int',
+                }
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $vehicle_owner = $self->update( \%values );
+
+            return $vehicle_owner;
+        },
+
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

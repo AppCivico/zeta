@@ -207,24 +207,9 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 vehicles
 
-Type: has_many
-
-Related object: L<PI::Schema::Result::Vehicle>
-
-=cut
-
-__PACKAGE__->has_many(
-  "vehicles",
-  "PI::Schema::Result::Vehicle",
-  { "foreign.user_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4DpSPleS0VvInRjAfFKNbg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-24 18:44:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zYwSVGL9a9+2NM+cn2M+Ig
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 

@@ -122,13 +122,7 @@ __PACKAGE__->table("vehicle");
 =head2 observations
 
   data_type: 'text'
-  is_nullable: 0
-
-=head2 user_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 vehicle_owner_id
 
@@ -146,6 +140,12 @@ __PACKAGE__->table("vehicle");
 =head2 created_by
 
   data_type: 'integer'
+  is_nullable: 0
+
+=head2 driver_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 0
 
 =cut
@@ -187,9 +187,7 @@ __PACKAGE__->add_columns(
   "crv",
   { data_type => "text", is_nullable => 1 },
   "observations",
-  { data_type => "text", is_nullable => 0 },
-  "user_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  { data_type => "text", is_nullable => 1 },
   "vehicle_owner_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_at",
@@ -201,6 +199,8 @@ __PACKAGE__->add_columns(
   },
   "created_by",
   { data_type => "integer", is_nullable => 0 },
+  "driver_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -288,18 +288,18 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 user
+=head2 driver
 
 Type: belongs_to
 
-Related object: L<PI::Schema::Result::User>
+Related object: L<PI::Schema::Result::Driver>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "user",
-  "PI::Schema::Result::User",
-  { id => "user_id" },
+  "driver",
+  "PI::Schema::Result::Driver",
+  { id => "driver_id" },
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
@@ -379,9 +379,120 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:+dCZQwu+3kIUINLjEnyMrA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-24 18:44:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3wKBpL3I2JwKQ+yRP6VfgA
 
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
+
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+    return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                renavam => {
+                    required => 0,
+                    type     => 'Str',
+                    post_check => sub {
+                        my $r = shift;
+                        return 0 if $self->resultset('Vehicle')->search( {
+                            renavam => $r->get_value('renavam'),
+                            cpf     => $r->get_value('cpf')
+                        } )->count;
+
+                        return 1;
+                      }
+                },
+                cpf => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                car_plate => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                doors_number => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                manufacture_year => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                model => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                model_year => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                brand_name => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                car_type => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                km => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                color   => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                fuel_type => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                chassi => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                crv => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                observations  => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                driver_id => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                vehicle_owner_id => {
+                    required => 0,
+                    type     => 'Int',
+                },
+            },
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $vehicle = $self->update( \%values );
+
+            return $vehicle;
+        },
+
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
