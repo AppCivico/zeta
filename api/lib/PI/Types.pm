@@ -7,15 +7,15 @@ use MooseX::Types -declare => [
 use MooseX::Types::Moose qw(ArrayRef HashRef CodeRef Str ScalarRef);
 use Moose::Util::TypeConstraints;
 
-use DateTimeX::Easy;
+use DateTime::Format::Pg;
 
 subtype DataStr, as Str, where {
-    eval { DateTimeX::Easy->new($_)->datetime };
+    eval { DateTime::Format::Pg->parse_datetime($_)->datetime };
     return $@ eq '';
 }, message { "$_ data invalida" };
 
 coerce DataStr, from Str, via {
-    DateTimeX::Easy->new($_)->datetime;
+    DateTime::Format::Pg->parse_datetime($_)->datetime;
 };
 
 1;

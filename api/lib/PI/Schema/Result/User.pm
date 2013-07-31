@@ -283,7 +283,7 @@ sub verifiers_specs {
                         my $r = shift;
                         return 1 if $self->email eq $r->get_value('email');
 
-                        return 0 if $self->resultset_find( { email => $r->get_value('email') } );
+                        return 0 if $self->resultset_find( { email => lc ($r->get_value('email')) } );
 
                         return 1;
                       }
