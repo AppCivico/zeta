@@ -19,7 +19,7 @@
         <div class="control-group">
             <div class="controls">
             <label class="checkbox">
-                <input name="rememberme" type="checkbox" checked> Me lembrar
+                <input name="remember" type="checkbox" checked> Me lembrar
             </label>
             <button type="submit" class="btn">Entrar</button>
             </div>

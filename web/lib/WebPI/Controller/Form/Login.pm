@@ -14,7 +14,13 @@ sub login : Chained('base') : PathPart('login') : Args(0) {
     my ( $self, $c ) = @_;
 
      if ( $c->authenticate( $c->req->params ) ) {
+        if ($c->req->param('remember')) {
+            $c->session_time_to_live( 2629743 ) # 1 month
+        }
+
+
         $c->detach( '/form/redirect_ok', [ '/', 'Bem vindo, ' . $c->user->name ] );
+
     }else{
         $c->detach( '/form/redirect_error', [ ] );
     }
