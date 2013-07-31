@@ -33,6 +33,8 @@ db_transaction {
         'number'               => '1',
         'postal_code'          => '01310000',
         'city_id'              => 1,
+        password               => 'a',
+        password_confirm       => 'a',
         'email'                => 'sdasdas@asdas.com'
       ];
 
@@ -68,6 +70,9 @@ db_transaction {
         'marital_state'        => 'D',
         'address'              => 'foo st2',
         'neighborhood'         => 'foo bar2',
+
+        password               => 'a',
+        password_confirm       => 'a',
         'complement'           => 'third floor',
         'number'               => '2',
         'postal_code'          => '01310002',

@@ -24,8 +24,18 @@ sub verifiers_specs {
                 },
 
                 password => {
-                    required => 1,
-                    type     => 'Str',
+                    required  => 1,
+                    type      => 'Str',
+                    dependent => {
+                        password_confirm => {
+                            required => 1,
+                            type     => 'Str',
+                        },
+                    },
+                    post_check => sub {
+                        my $r = shift;
+                        return $r->get_value('password') eq $r->get_value('password_confirm');
+                    },
                 },
 
                 role => {

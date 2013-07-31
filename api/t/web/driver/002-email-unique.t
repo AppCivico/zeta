@@ -32,6 +32,8 @@ db_transaction {
         'number'               => '1',
         'postal_code'          => '01310000',
         'city_id'              => 1,
+        password               => 'a',
+        password_confirm       => 'a',
         'email'                => 'email1@email.com'
       ];
 
@@ -55,6 +57,8 @@ db_transaction {
         'neighborhood'         => 'foo bar',
         'complement'           => 'second floor',
         'number'               => '1',
+        password               => 'a',
+        password_confirm       => 'a',
         'postal_code'          => '01310000',
         'city_id'              => 1,
         'email'                => 'email1@email.com'
@@ -82,6 +86,8 @@ db_transaction {
         'telephone_number'     => '551112345678',
         'marital_state'        => 'S',
         'address'              => 'foo st',
+        password               => 'a',
+        password_confirm       => 'a',
         'neighborhood'         => 'foo bar',
         'complement'           => 'second floor',
         'number'               => '1',

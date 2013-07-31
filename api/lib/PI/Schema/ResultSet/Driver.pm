@@ -87,6 +87,20 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
+                password => {
+                    required  => 1,
+                    type      => 'Str',
+                    dependent => {
+                        password_confirm => {
+                            required => 1,
+                            type     => 'Str',
+                        },
+                    },
+                    post_check => sub {
+                        my $r = shift;
+                        return $r->get_value('password') eq $r->get_value('password_confirm');
+                    },
+                },
                 email => {
                     required   => 1,
                     type       => EmailAddress,
@@ -106,12 +120,14 @@ sub action_specs {
     return {
         create => sub {
             my %values  = shift->valid_values;
+
+            delete $values{password_confirm};
             my $user_rs = $self->resultset('User');
             my $user    = $user_rs->create(
                 {
                     email    => lc delete $values{email},
                     name     => "$values{name} $values{last_name}",
-                    password => '12345'
+                    password => delete $values{password}
                 }
             );
             $user->set_roles( { name => 'user' } );
