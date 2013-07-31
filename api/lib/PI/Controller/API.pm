@@ -79,7 +79,7 @@ sub login_POST {
                 $c->detach unless $driver;
 
             $attrs{driver} = {
-                map {$_ => $driver->{$_}} qw/id name last_name/
+                map {$_ => $driver->$_} qw/id name last_name/
             }
         }
 
