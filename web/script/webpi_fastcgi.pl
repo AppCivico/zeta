@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 use Catalyst::ScriptRunner;
-Catalyst::ScriptRunner->run('WebPI', 'FastCGI');
+Catalyst::ScriptRunner->run( 'WebPI', 'FastCGI' );
 
 1;
 

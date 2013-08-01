@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 use Catalyst::ScriptRunner;
-Catalyst::ScriptRunner->run('WebPI', 'Test');
+Catalyst::ScriptRunner->run( 'WebPI', 'Test' );
 
 1;
 

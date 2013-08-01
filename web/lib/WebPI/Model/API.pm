@@ -9,28 +9,27 @@ use Encode;
 use DateTime;
 use JSON::XS;
 
-
 has furl => (
-    is => 'rw',
-    lazy => 1,
-    isa => 'Furl',
+    is      => 'rw',
+    lazy    => 1,
+    isa     => 'Furl',
     default => sub {
         return Furl->new(
-            agent => 'WebPI',
+            agent   => 'WebPI',
             timeout => 30,
         );
     },
 );
 
 has my_config => (
-    is => 'rw',
+    is  => 'rw',
     isa => 'HashRef',
 );
 
 sub initialize_after_setup {
     my ( $self, $app ) = @_;
     $app->log->debug('Initializing NV2::AppLoja::Model::UserAgent...');
-    $self->my_config($app->config);
+    $self->my_config( $app->config );
 
     die "ERROR: please configure api_url\n" unless $app->config->{api_url};
 
@@ -42,43 +41,45 @@ sub initialize_after_setup {
 faz uma requisicao GET para listagens e carrega o retorno na stash
 
 =cut
+
 sub stash_result {
-    my ( $self, $c, $endpoint, %opts) = @_;
+    my ( $self, $c, $endpoint, %opts ) = @_;
 
-    $endpoint = join('/', @$endpoint) if (ref $endpoint eq 'ARRAY');
+    $endpoint = join( '/', @$endpoint ) if ( ref $endpoint eq 'ARRAY' );
 
-    my $url = exists $opts{api_url}
-        ? $opts{api_url}        . $endpoint
-        : $c->config->{api_url} . $endpoint;
+    my $url =
+      exists $opts{api_url}
+      ? $opts{api_url} . $endpoint
+      : $c->config->{api_url} . $endpoint;
 
-    $url .= $self->_generate_query_params($c, %opts);
+    $url .= $self->_generate_query_params( $c, %opts );
     my @headers = $self->_generate_headers($c);
 
-    if (exists $opts{body} && ref $opts{body} eq 'HASH'){
-        while(my ($k, $v) = each %{$opts{body}}){
+    if ( exists $opts{body} && ref $opts{body} eq 'HASH' ) {
+        while ( my ( $k, $v ) = each %{ $opts{body} } ) {
             $v = '' unless defined $v;
-            $opts{body}{$k} = encode('UTF-8', $v);
+            $opts{body}{$k} = encode( 'UTF-8', $v );
         }
     }
 
-    my $method      = lc( $opts{method}||'GET' );
+    my $method = lc( $opts{method} || 'GET' );
 
-    my $res = eval{
+    my $res = eval {
         $self->_do_http_req(
             method  => $method,
             url     => $url,
             headers => [@headers],
-            exists $opts{body} ? (body => $opts{body}) : ()
-        )
+            exists $opts{body} ? ( body => $opts{body} ) : ()
+        );
     };
-    if ($@){
-        $c->stash(error => "$method $endpoint", error_content => $@ );
+    if ($@) {
+        $c->stash( error => "$method $endpoint", error_content => $@ );
         $c->detach('/rest_error');
     }
 
-    if (!exists $opts{exp_code} && $res->code !~ /^(200|201|202|204|404|410|400)$/){
+    if ( !exists $opts{exp_code} && $res->code !~ /^(200|201|202|204|404|410|400)$/ ) {
         $c->stash(
-            error => "ERROR WHILE $method $endpoint CODE ${\$res->code}",
+            error         => "ERROR WHILE $method $endpoint CODE ${\$res->code}",
             error_content => $res->content,
             error_code    => $res->code,
             error_url     => $url
@@ -86,26 +87,27 @@ sub stash_result {
         $c->detach('/rest_error');
     }
 
+    if ( $c->debug ) {
 
-    if ($c->debug){
         # colocando todos os resultados na stash, porque eu acho que vai ficar
         # mais facil se quiser montar um erro com todos os resultados
-        push @{$c->stash->{backtrace}}, {
+        push @{ $c->stash->{backtrace} },
+          {
             method   => $method,
             endpoint => $endpoint,
             content  => $res->content,
             time     => DateTime->now->datetime
-        };
+          };
     }
     return if $res->code =~ /^(410|204)$/;
 
     # TODO talvez algum endpoint nao precisa de parser.
 
-    my $obj  = eval{decode_json $res->content};
+    my $obj = eval { decode_json $res->content };
 
-    if ($@){
+    if ($@) {
         $c->stash(
-            error => "Error while trying parse JSON.",
+            error         => "Error while trying parse JSON.",
             error_content => $res->content,
             error_code    => "JSON",
             error_url     => $url
@@ -113,11 +115,11 @@ sub stash_result {
         $c->detach('/rest_error');
     }
 
-    if (exists $opts{exp_code} && $res->code !~ $opts{exp_code}){
+    if ( exists $opts{exp_code} && $res->code !~ $opts{exp_code} ) {
         return undef if $opts{get_result};
 
         $c->stash(
-            error => "ERROR WHILE $method $endpoint CODE ${\$res->code} ISN'T $opts{exp_code}",
+            error         => "ERROR WHILE $method $endpoint CODE ${\$res->code} ISN'T $opts{exp_code}",
             error_content => $res->content,
             error_code    => $res->code,
             error_url     => $url
@@ -126,63 +128,62 @@ sub stash_result {
     }
 
     # tratando caso espcial do retorno em json do bad-request
-    if ($res->code == 400 && $obj->{error} =~ /^{/ && $obj->{error} =~ /}$/){
-        my $missing = eval{decode_json $obj->{error}};
+    if ( $res->code == 400 && $obj->{error} =~ /^{/ && $obj->{error} =~ /}$/ ) {
+        my $missing = eval { decode_json $obj->{error} };
         $obj->{form_error} = $missing;
-        $obj->{error} = 'Formulário inválido';
+        $obj->{error}      = 'Formulário inválido';
     }
 
     return $obj if $opts{get_result};
 
-    my $ref = $opts{stash} ? $c->stash->{$opts{stash}}||={} : $c->stash;
+    my $ref = $opts{stash} ? $c->stash->{ $opts{stash} } ||= {} : $c->stash;
 
     # merge hashs without rewrite a new
-    @{$ref}{keys %$obj} = values %$obj;
+    @{$ref}{ keys %$obj } = values %$obj;
 
-    if ($c->debug){
-        use DDP; p $obj;
+    if ( $c->debug ) {
+        use DDP;
+        p $obj;
     }
 
 }
 
 sub get_result {
-    my ( $self, $c, $endpoint, %opts) = @_;
+    my ( $self, $c, $endpoint, %opts ) = @_;
 
-    return $self->stash_result($c, $endpoint, %opts, get_result => 1);
+    return $self->stash_result( $c, $endpoint, %opts, get_result => 1 );
 }
 
 sub _generate_headers {
-    my ( $self, $c) = @_;
+    my ( $self, $c ) = @_;
 
     my $api_key;
-    if (!$c->user){
+    if ( !$c->user ) {
         $api_key = $c->config->{api_user_api_key};
-    }else{
+    }
+    else {
         $api_key = $c->user->api_key;
     }
 
-    return (
-        'X-API-Version', 1,
-        'X-API-Key', $api_key
-    );
+    return ( 'X-API-Version', 1, 'X-API-Key', $api_key );
 
 }
 
 sub _generate_query_params {
-    my ( $self, $c, %opts) = @_;
+    my ( $self, $c, %opts ) = @_;
 
     return '' unless exists $opts{params};
 
-    my @aa = ref $opts{params} eq 'HASH' ? %{$opts{params}} : @{$opts{params}};
+    my @aa = ref $opts{params} eq 'HASH' ? %{ $opts{params} } : @{ $opts{params} };
     my $str = '?';
 
     my $url = '';
-    while ( @aa){
-        my ($k, $v) = ((shift @aa), (shift @aa));
+    while (@aa) {
+        my ( $k, $v ) = ( ( shift @aa ), ( shift @aa ) );
 
         $v ||= '';
-        my $u = URI->new("", "http");
-        $u->query_form($k => $v);
+        my $u = URI->new( "", "http" );
+        $u->query_form( $k => $v );
 
         next unless $u->query;
 
@@ -199,36 +200,23 @@ sub _do_http_req {
     my $method = uc $args{method};
     my $res;
 
-    if ($method =~ /^GET/o){
-        $res = $self->furl->get(
-            $args{url},
-            $args{headers}
-        );
-    }elsif ($method =~ /^POST/o){
-        $res = $self->furl->post(
-            $args{url},
-            $args{headers},
-            $args{body}
-        );
-    }elsif ($method =~ /^PUT/o){
-        $res = $self->furl->put(
-            $args{url},
-            $args{headers},
-            $args{body}
-        );
-    }elsif ($method =~ /^DELETE/o){
-        $res = $self->furl->delete(
-            $args{url},
-            $args{headers}
-        );
-    }else{
+    if ( $method =~ /^GET/o ) {
+        $res = $self->furl->get( $args{url}, $args{headers} );
+    }
+    elsif ( $method =~ /^POST/o ) {
+        $res = $self->furl->post( $args{url}, $args{headers}, $args{body} );
+    }
+    elsif ( $method =~ /^PUT/o ) {
+        $res = $self->furl->put( $args{url}, $args{headers}, $args{body} );
+    }
+    elsif ( $method =~ /^DELETE/o ) {
+        $res = $self->furl->delete( $args{url}, $args{headers} );
+    }
+    else {
         die('not supported method');
     }
 
-
     return $res;
 }
-
-
 
 1;
