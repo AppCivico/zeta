@@ -91,7 +91,7 @@ db_transaction {
 
         ok( $me = delete $me->{vehicle_owners}, 'vehicle_owners list exists' );
 
-        is( @$me, ,0, '0 vehicle_owner' );
+        is( @$me, 0, '0 vehicle_owner' );
     };
 };
 
