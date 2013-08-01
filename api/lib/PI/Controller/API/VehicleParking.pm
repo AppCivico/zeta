@@ -10,21 +10,24 @@ __PACKAGE__->config(
     result       => 'DB::VehicleParking',
     object_key   => 'vehicle_parking',
 
-    update_roles => [qw/superadmin client/],
-    create_roles => [qw/superadmin client/],
-    delete_roles => [qw/superadmin client/],
+    update_roles => [qw/superadmin/],
+    create_roles => [qw/superadmin/],
+    delete_roles => [qw/superadmin/],
 
+    search_ok    => {
+        vehicle_id => 'Int',
+    }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
 
-sub base : Chained('/api/base') : PathPart('vehicle_parking') : CaptureArgs(1) {}
+sub base : Chained('/api/base') : PathPart('vehicle_parking') : CaptureArgs(0) {}
 
 sub object : Chained('base') : PathPart('') : CaptureArgs(1) {}
 
 sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') {}
 
 sub result_GET {
-    my ( $self, $c, $vehicle_id ) = @_;
+    my ( $self, $c ) = @_;
 
     my $vehicle_parking  = $c->stash->{vehicle_parking};
     my %attrs = $vehicle_parking->get_inflated_columns;
@@ -111,9 +114,7 @@ sub list_POST {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_parking->id ] )->as_string,
         entity => {
-            vehicle_id  => $vehicle_parking->vehicle_id,
-            id          => $vehicle_parking->id,
-
+            id => $vehicle_parking->id
         }
     );
 

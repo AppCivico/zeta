@@ -158,76 +158,20 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 entry_time=> {
-                    required => 1,
+                    required => 0,
                     type     => TimeStr,
                 },
-                name=> {
+                departure_time=> {
+                    required => 0,
+                    type     => TimeStr,
+                },
+                monthly_payment=> {
+                    required => 0,
+                    type     => 'Bool',
+                },
+                lat_lng=> {
                     required => 0,
                     type     => 'Str',
-                },
-                last_name=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                birth_date=> {
-                    required => 0,
-                    type     => DataStr,
-                },
-                cpf=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                bank_code=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                bank_ag=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                bank_cc=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                telephone_number=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                mobile_provider=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                mobile_number=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                address=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                city_id=> {
-                    required => 0,
-                    type     => 'Int',
-                },
-                neighborhood=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                complement=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                number=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                postal_code=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                created_by=> {
-                    required => 0,
-                    type     => 'Int',
                 }
             }
         ),
@@ -242,9 +186,9 @@ sub action_specs {
 
             not defined $values{$_} and delete $values{$_} for keys %values;
 
-            my $vehicle_owner = $self->update( \%values );
+            my $vehicle_parking = $self->update( \%values );
 
-            return $vehicle_owner;
+            return $vehicle_parking;
         },
 
     };

@@ -89,14 +89,15 @@ db_transaction {
       ];
 
 #criar novo estacionamento
-    rest_post '/vehicle_parking/'.stash 'vehicle.id',
+    rest_post '/vehicle_parking',
       name  => 'criar estacionamento veiculos',
       list  => 1,
       stash => 'vehicle_parking',
       [
         entry_time => '09:00:00',
         departure_time => '18:00:00',
-        monthly_payment => 1
+        monthly_payment => 1,
+        vehicle_id => stash 'vehicle.id'
       ];
 
     stash_test 'vehicle_parking.get', sub {
