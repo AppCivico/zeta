@@ -12,5 +12,21 @@ $( document ).ready(function() {
         $tg.toggleClass($me.attr('data-toggle-class'));
     });
 
+    $(document).on("click", "[data-activate-tab]", function(){
+        var $me = $(this);
+        $($me.attr('data-activate-tab')).tab('show');
+    });
+
+    $(document).on("click", "[data-set-focus]", function(){
+        var $me = $(this);
+        var elm = $($me.attr('data-set-focus'))[0]
+        if (elm) elm.focus();
+    });
+
+    $(document).on("click", "button[data-loading-text]", function(){
+        $(this).button('loading');
+    });
+
+
 
 });

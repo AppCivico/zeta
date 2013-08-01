@@ -1,9 +1,9 @@
 <h2>Cadastre seu veículo</h2>
-<form class="form-horizontal" method="post" action="/form/vehicle">
+<form class="form-horizontal" method="post" action="/form/user/driver_vehicle">
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tab1" data-toggle="tab">Proprietário do veículo</a></li>
-    <li><a href="#tab2" data-toggle="tab">Carro</a></li>
+    <li><a href="#tab2" id="atab2" data-toggle="tab">Carro</a></li>
 </ul>
 
 <div class="tab-content">
@@ -14,13 +14,14 @@
         <h4>Dados do proprietário do veículo</h4>
 
         <div class="clearfix">
-            <input type="hidden" name="iamowner" value="0"/>
-            <button data-changeval-name="iamowner" data-changeval-value="1" data-toggle-class="hidden" data-toggle-class-target="#dados_dono,#btn02,#btn01" id="btn01" type="button" class="btn btn-warning">Eu, [%driver.name%], sou o proprietário do veículo</button>
-            <button data-changeval-name="iamowner" data-changeval-value="0" data-toggle-class="hidden" data-toggle-class-target="#dados_dono,#btn01,#btn02" id="btn02" class="hidden" type="button" class="btn">Preencher dados do proprietário</button>
+            [%SET driver_is_the_owner = body.driver_is_the_owner || '0'%]
+            <input type="hidden" name="driver_is_the_owner" value="[%driver_is_the_owner%]"/>
+            <button data-changeval-name="driver_is_the_owner" data-changeval-value="1" data-toggle-class="hidden" data-toggle-class-target="#dados_dono,#btn02,#btn01" id="btn01" class="btn btn-warning [%IF driver_is_the_owner%]hidden[%END%]" type="button">Eu, [%driver.name%], sou o proprietário do veículo</button>
+            <button data-changeval-name="driver_is_the_owner" data-changeval-value="0" data-toggle-class="hidden" data-toggle-class-target="#dados_dono,#btn01,#btn02" id="btn02" class="btn [%IF !driver_is_the_owner%]hidden[%END%]" type="button">Preencher dados do proprietário</button>
         </div>
         <br/>
 
-<div id="dados_dono">
+<div id="dados_dono" class="[%IF driver_is_the_owner%]hidden[%END%]">
 
         [%input_text('name','Primeiro nome')|none%]
         [%input_text('last_name','Último nome')|none%]
@@ -65,7 +66,7 @@
 </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Continuar</button>
+            <button type="button" data-set-focus="#elm_brand_name" data-activate-tab="#atab2" class="btn">Continuar</button>
         </div>
     </fieldset>
 
@@ -109,7 +110,7 @@
 
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Continuar</button>
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
         </div>
     </fieldset>
 

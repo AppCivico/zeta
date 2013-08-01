@@ -9,8 +9,6 @@ BEGIN { extends 'Catalyst::Controller' }
 
 
 sub root: Chained('/root') : PathPart('form') : CaptureArgs(0) {
-    my ( $self, $c ) = @_;
-
 }
 
 sub redirect_ok :Private {

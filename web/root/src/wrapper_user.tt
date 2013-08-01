@@ -27,15 +27,16 @@
 <div class="container">
     [%INCLUDE parts/user_menu.tt%]
 
-    [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
-    [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
-
     <div class="row">
 
         <div class="span2">
             [%INCLUDE parts/user_side_menu.tt%]
         </div>
         <div class="span10">
+
+        [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
+        [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
+
         [%content|none%]
         </div>
 

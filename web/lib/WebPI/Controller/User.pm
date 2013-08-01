@@ -1,6 +1,7 @@
 package WebPI::Controller::User;
 use Moose;
 use namespace::autoclean;
+use URI;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -23,6 +24,10 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
         }
     );
 
+    if ($c->req->method eq 'POST'){
+        return;
+    }
+
     $c->stash->{template_wrapper} = 'user';
 
     if (@{$c->stash->{vehicles}} == 0){
@@ -31,7 +36,8 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
     # ...
 
     my $dashboard_uri = $c->uri_for_action('/user/dashboard/index');
-    if ($c->stash->{cadastro_incompleto} && $c->req->uri->as_string ne $dashboard_uri){
+
+    if ($c->stash->{cadastro_incompleto} && $c->req->uri->path ne URI->new($dashboard_uri)->path){
         $c->res->redirect($dashboard_uri);
         $c->detach;
     }

@@ -6,8 +6,6 @@ BEGIN { extends 'Catalyst::Controller' }
 
 
 sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) {
-    my ( $self, $c ) = @_;
-    $c->response->headers->header( 'charset' => 'utf-8' );
 }
 
 sub login : Chained('base') : PathPart('login') : Args(0) {
@@ -17,7 +15,7 @@ sub login : Chained('base') : PathPart('login') : Args(0) {
         if ($c->req->param('remember')) {
             $c->session_time_to_live( 2629743 ) # 1 month
         }else{
-            $c->session_time_to_live( 86400 ) # 1 day
+            $c->session_time_to_live( 14400 ) # 4h
         }
 
         my $url = \'/';

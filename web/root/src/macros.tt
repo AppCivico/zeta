@@ -3,8 +3,8 @@ SET ID_COUNT=0;
 MACRO input_text(name, label, opt) BLOCK;
 IF (!opt.classes) ; opt.classes = ['span3']; END;
 
-SET ID_COUNT = ID_COUNT + 1;
-SET id = "${name}_$ID_COUNT";
+
+SET id = "elm_${name}";
 
 
 
@@ -31,8 +31,8 @@ END;
 
 MACRO checkbox(name, label, opt) BLOCK;
 IF (!opt.classes) ; opt.classes = ['span3']; END;
-    SET ID_COUNT = ID_COUNT + 1;
-    SET id = "${name}_$ID_COUNT";
+
+    SET id = "elm_${name}";
 
     IF !opt.defined('value');
         opt.value = 1;
@@ -62,8 +62,8 @@ IF (!opt.classes) ; opt.classes = ['span3']; END;
 
 MACRO select_field(name, label, opt) BLOCK;
 IF (!opt.classes) ; opt.classes = ['span3']; END;
-    SET ID_COUNT = ID_COUNT + 1;
-    SET id = "${name}_$ID_COUNT";
+
+    SET id = "elm_${name}";
 
     IF !opt.value && body.$name.defined;
         value_name = opt.name;
