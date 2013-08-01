@@ -1,0 +1,4 @@
+[%IF main_view%]
+[%INCLUDE "user/dashboard/$main_view"%]
+[%ELSE%]
+[%END%]

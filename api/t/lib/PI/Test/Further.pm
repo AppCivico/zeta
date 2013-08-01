@@ -158,6 +158,10 @@ sub rest_post {
     return $obj;
 }
 
+sub dumpstash {
+    eval('use Data::Printer; p $stash;');
+}
+
 sub rest_reload {
     my ( $stashkey, $exp_code ) = @_;
 

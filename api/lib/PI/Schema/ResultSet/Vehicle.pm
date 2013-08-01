@@ -25,7 +25,8 @@ sub verifiers_specs {
                         my $r = shift;
                         return 0 if $self->resultset('Vehicle')->search( {
                             renavam => $r->get_value('renavam'),
-                            cpf     => $r->get_value('cpf')
+                            # se na tabela ta sem cpf, aqui tambem nao pode verificar usando o CPF>
+                            #cpf     => $r->get_value('cpf')
                         } )->count;
 
                         return 1;

@@ -1,0 +1,122 @@
+<h2>Cadastre seu veículo</h2>
+<form class="form-horizontal" method="post" action="/form/user/driver_vehicle">
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">Proprietário do veículo</a></li>
+    <li><a href="#tab2" id="atab2" data-toggle="tab">Carro</a></li>
+</ul>
+
+<div class="tab-content">
+<div class="tab-pane active" id="tab1">
+    <fieldset>
+<div class="row">
+    <div class="span5">
+        <h4>Dados do proprietário do veículo</h4>
+
+        <div class="clearfix">
+            [%SET driver_is_the_owner = body.driver_is_the_owner || '0'%]
+            <input type="hidden" name="driver_is_the_owner" value="[%driver_is_the_owner%]"/>
+            <button data-changeval-name="driver_is_the_owner" data-changeval-value="1" data-toggle-class="hidden" data-toggle-class-target="#dados_dono,#btn02,#btn01" id="btn01" class="btn btn-warning [%IF driver_is_the_owner%]hidden[%END%]" type="button">Eu, [%driver.name%], sou o proprietário do veículo</button>
+            <button data-changeval-name="driver_is_the_owner" data-changeval-value="0" data-toggle-class="hidden" data-toggle-class-target="#dados_dono,#btn01,#btn02" id="btn02" class="btn [%IF !driver_is_the_owner%]hidden[%END%]" type="button">Preencher dados do proprietário</button>
+        </div>
+        <br/>
+
+<div id="dados_dono" class="[%IF driver_is_the_owner%]hidden[%END%]">
+
+        [%input_text('name','Primeiro nome')|none%]
+        [%input_text('last_name','Último nome')|none%]
+        [%input_text('email','E-mail')|none%]
+
+        [%input_text('cpf','CPF')|none%]
+
+        [%input_text('birth_date','Data de nascimento')|none%]
+
+        [%input_text('telephone_number','Telefone')|none%]
+
+        [%input_text('mobile_number','Celular',)|none%]
+
+        [%select_field('mobile_provider', 'Operadora',  array => [
+        ['tim','Tim'],
+        ['oi','Oi'],
+        ['vivo','Vivo'],
+        ['claro','Claro'],
+        ['nextel','Nextel'],
+        ['outra','Outra'],
+        ])|none%]
+
+        [%input_text('postal_code','CEP')|none%]
+
+        [%select_field('city_id', 'Cidade',  array => select_cities)|none%]
+
+        [%input_text('address','Logradouro')|none%]
+        [%input_text('number','Número')|none%]
+        [%input_text('complement','Complemento')|none%]
+        [%input_text('neighborhood','Bairro')|none%]
+
+</div>
+
+        </div>
+    <div class="span5">
+        <h4>Dados para o pagamento</h4>
+
+        [%input_text('bank_code','Código do banco', classes => ['span1'])|none%]
+        [%input_text('bank_ag','Agência', classes => ['span1'])|none%]
+        [%input_text('bank_cc','Conta', classes => ['span1'])|none%]
+    </div>
+</div>
+
+        <div class="form-actions">
+            <button type="button" data-set-focus="#elm_brand_name" data-activate-tab="#atab2" class="btn">Continuar</button>
+        </div>
+    </fieldset>
+
+</div>
+
+<div class="tab-pane" id="tab2">
+    <fieldset>
+        <h4>Dados do veículo</h4>
+
+
+        [%input_text('brand_name','Marca')|none%]
+        [%input_text('model','modelo')|none%]
+        [%input_text('model_year','Ano do modelo')|none%]
+        [%input_text('color','Cor')|none%]
+        [%input_text('car_plate','Placa')|none%]
+
+        [%input_text('manufacture_year','Ano de fabricação')|none%]
+        [%input_text('renavam','Renavam')|none%]
+
+        [%select_field('doors_number', 'Número de portas',  array => [
+        ['2','Duas portas'],
+        ['4','Quatro portas']
+        ])|none%]
+
+        [%select_field('car_type', 'Tipo de Carro',  array => [
+        ['passeio','Passeio']
+        ])|none%]
+
+        [%input_text('km','Quilometragem')|none%]
+
+
+        [%select_field('fuel_type', 'Combustivel',  array => [
+        ['gasolina','Gasolina'],
+        ['alcool','Alcool'],
+        ['flex','Flex']
+        ])|none%]
+
+        [%input_text('chassi','Chassi')|none%]
+        [%input_text('crv','CRV')|none%]
+        [%input_text('observations','observações')|none%]
+
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+        </div>
+    </fieldset>
+
+</div>
+</div>
+
+
+
+</form>

@@ -16,10 +16,10 @@ sub cadastro : Chained('base') : PathPart('cadastro') : Args(0) {
     my $api = $c->model('API');
 
     $api->stash_result($c, 'cities');
+    $c->stash->{select_cities} = [map {[$_->{id}, $_->{name}]} @{$c->stash->{cities}}];
 
     $c->stash->{template} = 'auto/cadastro.tt';
 
-    $c->stash->{select_cities} = [map {[$_->{id}, $_->{name}]} @{$c->stash->{cities}}];
 }
 
 

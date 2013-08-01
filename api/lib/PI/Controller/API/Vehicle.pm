@@ -10,9 +10,13 @@ __PACKAGE__->config(
     result       => 'DB::Vehicle',
     object_key   => 'vehicle',
 
-    update_roles => [qw/superadmin client/],
-    create_roles => [qw/superadmin client/],
-    delete_roles => [qw/superadmin client/],
+    update_roles => [qw/superadmin/],
+    create_roles => [qw/superadmin/],
+    delete_roles => [qw/superadmin/],
+
+    search_ok    => {
+        driver_id => 'Int',
+    }
 
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -31,7 +35,30 @@ sub result_GET {
     $self->status_ok(
         $c,
         entity => {
-            map { $_ => $attrs{$_}, } qw(id model car_plate)
+            (map { $_ => $attrs{$_}, } qw(
+                id
+
+                name
+                renavam
+                cpf
+                car_plate
+                doors_number
+                manufacture_year
+                model
+                model_year
+                brand_name
+                car_type
+                km
+                color
+                fuel_type
+                chassi
+                crv
+                observations
+                vehicle_owner_id
+                driver_id
+            )),
+            ( map { $_ => ($attrs{$_} ? $attrs{$_}->datetime : undef) }  qw/created_at/ ),
+
         }
     );
 }
@@ -91,6 +118,8 @@ sub list_GET {
                             chassi
                             crv
                             observations
+                            vehicle_owner_id
+                            driver_id
                             created_at
                         /),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string

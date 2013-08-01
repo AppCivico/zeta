@@ -6,8 +6,6 @@ BEGIN { extends 'Catalyst::Controller' }
 
 
 sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) {
-    my ( $self, $c ) = @_;
-    $c->response->headers->header( 'charset' => 'utf-8' );
 }
 
 sub process : Chained('base') : PathPart('driver') : Args(0) {
@@ -26,11 +24,8 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
     }else{
 
-        # TODO fazer login sozinho
 
-
-
-        $c->detach( '/form/redirect_ok', [ '/', 'Bem vindo, ' . $c->user->name ] );
+        $c->detach( '/form/login/login');
     }
 }
 

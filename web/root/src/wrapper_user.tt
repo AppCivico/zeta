@@ -1,4 +1,3 @@
-[%IF !without_wrapper%][%IF template_wrapper %][% INCLUDE "wrapper_${template_wrapper}.tt"|none%][%ELSE%]
 <!DOCTYPE HTML>
 <html lang="pt-br">
 <head>
@@ -14,10 +13,10 @@
 <![endif]-->
 
 [%-CALL assets.include("css/bootstrap.min.css")%]
-[%-CALL assets.include("css/bootstrap.template.css")%]
-[%-CALL assets.include("css/site.css")%]
+[%-CALL assets.include("css/user.css")%]
 
 [%-CALL assets.include("js/bootstrap.min.js")%]
+[%-CALL assets.include("js/user.js")%]
 
 [%- assets.export("css") |none-%]
 
@@ -26,16 +25,21 @@
 <body><script>var actions=[];</script>
 
 <div class="container">
-    [%INCLUDE parts/menu.tt%]
+    [%INCLUDE parts/user_menu.tt%]
 
-    [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
-    [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
+    <div class="row">
 
-    [%content|none%]
-    <hr>
+        <div class="span2">
+            [%INCLUDE parts/user_side_menu.tt%]
+        </div>
+        <div class="span10">
 
-    <div class="footer">
-    <p>&copy; Company 2013</p>
+        [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
+        [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
+
+        [%content|none%]
+        </div>
+
     </div>
 
 </div> <!-- /container -->
@@ -45,4 +49,3 @@
 
 </body>
 </html>
-[%END%][%ELSE%][%content|none%][%END%]

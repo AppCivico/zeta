@@ -8,11 +8,14 @@
     <div class="span9">
       <form class="form-horizontal" method="post" action="/form/driver">
         <fieldset>
-          <legend>Controls Bootstrap supports</legend>
+          <legend>Seus dados</legend>
 
           [%input_text('name','Primeiro nome')|none%]
           [%input_text('last_name','Último nome')|none%]
           [%input_text('email','E-mail')|none%]
+
+          [%input_text('password','Senha', type => 'password')|none%]
+          [%input_text('password_confirm','Senha novamente',  type => 'password')|none%]
 
           [%input_text('cpf','CPF')|none%]
           [%input_text('cnh_code','Código CNH')|none%]
@@ -55,7 +58,7 @@
 
 
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Continuar</button>
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
             <button type="reset" class="btn">Limpar formulário</button>
           </div>
         </fieldset>
