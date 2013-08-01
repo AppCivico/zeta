@@ -10,9 +10,9 @@ __PACKAGE__->config(
     result       => 'DB::VehicleOwner',
     object_key   => 'vehicle_owner',
 
-    update_roles => [qw/superadmin client/],
-    create_roles => [qw/superadmin client/],
-    delete_roles => [qw/superadmin client/],
+    update_roles => [qw/superadmin/],
+    create_roles => [qw/superadmin/],
+    delete_roles => [qw/superadmin/],
 
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -46,8 +46,7 @@ sub result_GET {
                 mobile_provider
                 mobile_number
                 address
-                state
-                city
+                city_id
                 neighborhood
                 complement
                 number
@@ -106,22 +105,7 @@ sub list_GET {
                             last_name
                             birth_date
                             cpf
-                            bank_code
-                            bank_ag
-                            bank_cc
                             telephone_number
-                            mobile_provider
-                            mobile_number
-                            address
-                            state
-                            city
-                            neighborhood
-                            complement
-                            number
-                            postal_code
-                            created_at
-                            birth_date
-                            created_at
                         /),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
