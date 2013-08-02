@@ -5,7 +5,7 @@ BEGIN {
 }
 
 use Catalyst::ScriptRunner;
-Catalyst::ScriptRunner->run('WebPI', 'Server');
+Catalyst::ScriptRunner->run( 'WebPI', 'Server' );
 
 1;
 

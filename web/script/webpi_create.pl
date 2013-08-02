@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Catalyst::ScriptRunner;
-Catalyst::ScriptRunner->run('WebPI', 'Create');
+Catalyst::ScriptRunner->run( 'WebPI', 'Create' );
 
 1;
 

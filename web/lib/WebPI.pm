@@ -17,23 +17,23 @@ use Catalyst::Runtime 5.80;
 #                 directory
 
 use Catalyst qw/
-    -Debug
-    ConfigLoader
-    Static::Simple
+  -Debug
+  ConfigLoader
+  Static::Simple
 
-    Assets
-    StatusMessage
+  Assets
+  StatusMessage
 
-    Authentication
+  Authentication
 
-    Session::DynamicExpiry
-    Session
+  Session::DynamicExpiry
+  Session
 
-    Session::Store::File
-    Session::State::Cookie
-    Session::PerUser
+  Session::Store::File
+  Session::State::Cookie
+  Session::PerUser
 
-/;
+  /;
 
 extends 'Catalyst';
 
@@ -49,14 +49,14 @@ our $VERSION = '0.01';
 # local deployment.
 
 __PACKAGE__->config(
-    name => 'WebPI',
+    name     => 'WebPI',
     encoding => 'UTF8',
 
     # Disable deprecated behavior needed by old applications
     disable_component_resolution_regex_fallback => 1,
-    enable_catalyst_header => 1, # Send X-Catalyst header
+    enable_catalyst_header                      => 1,    # Send X-Catalyst header
 
-        'Plugin::Assets' => {
+    'Plugin::Assets' => {
 
         path        => '/static',
         output_path => 'built/',
@@ -66,17 +66,14 @@ __PACKAGE__->config(
 
 );
 
-
 after 'setup_components' => sub {
-  my $app = shift;
-  for (keys %{ $app->components }) {
-    if($app->components->{$_}->can('initialize_after_setup')){
-        $app->components->{$_}->initialize_after_setup($app);
+    my $app = shift;
+    for ( keys %{ $app->components } ) {
+        if ( $app->components->{$_}->can('initialize_after_setup') ) {
+            $app->components->{$_}->initialize_after_setup($app);
+        }
     }
-  }
 };
-
-
 
 # Start the application
 __PACKAGE__->setup();

@@ -4,7 +4,6 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-
 sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) {
 }
 
@@ -13,22 +12,22 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
     my $api = $c->model('API');
 
-    $api->stash_result($c, 'drivers',
+    $api->stash_result(
+        $c, 'drivers',
         method => 'POST',
         body   => $c->req->params
     );
 
-    if ($c->stash->{error}){
+    if ( $c->stash->{error} ) {
 
-        $c->detach( '/form/redirect_error', [ ] );
+        $c->detach( '/form/redirect_error', [] );
 
-    }else{
+    }
+    else {
 
-
-        $c->detach( '/form/login/login');
+        $c->detach('/form/login/login');
     }
 }
-
 
 __PACKAGE__->meta->make_immutable;
 

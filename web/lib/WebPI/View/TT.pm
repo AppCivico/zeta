@@ -6,13 +6,12 @@ extends 'Catalyst::View::TT';
 
 use Template::AutoFilter;
 
-
 __PACKAGE__->config(
     TEMPLATE_EXTENSION => '.tt',
     WRAPPER            => 'wrapper.tt',
-    render_die => 1,
+    render_die         => 1,
 
-    CLASS => 'Template::AutoFilter',
+    CLASS    => 'Template::AutoFilter',
     ENCODING => 'UTF8',
 
     PRE_PROCESS => 'macros.tt',
@@ -21,7 +20,6 @@ __PACKAGE__->config(
     TIMER        => 0,
     render_die   => 1,
 );
-
 
 =head1 NAME
 
