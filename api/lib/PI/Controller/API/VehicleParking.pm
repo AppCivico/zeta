@@ -10,9 +10,9 @@ __PACKAGE__->config(
     result       => 'DB::VehicleParking',
     object_key   => 'vehicle_parking',
 
-    update_roles => [qw/superadmin/],
-    create_roles => [qw/superadmin/],
-    delete_roles => [qw/superadmin/],
+    update_roles => [qw/superadmin user/],
+    create_roles => [qw/superadmin user/],
+    delete_roles => [qw/superadmin user/],
 
     search_ok    => {
         vehicle_id => 'Int',
