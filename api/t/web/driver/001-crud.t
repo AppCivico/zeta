@@ -71,12 +71,12 @@ db_transaction {
         'address'              => 'foo st2',
         'neighborhood'         => 'foo bar2',
 
-        password               => 'a',
-        password_confirm       => 'a',
-        'complement'           => 'third floor',
-        'number'               => '2',
-        'postal_code'          => '01310002',
-        'city_id'              => 1
+        password         => 'a',
+        password_confirm => 'a',
+        'complement'     => 'third floor',
+        'number'         => '2',
+        'postal_code'    => '01310002',
+        'city_id'        => 1
       ];
 
     rest_reload 'driver1';

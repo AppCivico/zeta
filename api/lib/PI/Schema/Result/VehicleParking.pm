@@ -82,6 +82,21 @@ __PACKAGE__->table("vehicle_parking");
   is_nullable: 0
   original: {default_value => \"now()"}
 
+=head2 name
+
+  data_type: 'text'
+  is_nullable: 0
+
+=head2 address
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 is_street
+
+  data_type: 'boolean'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -109,6 +124,12 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
+  "name",
+  { data_type => "text", is_nullable => 0 },
+  "address",
+  { data_type => "text", is_nullable => 1 },
+  "is_street",
+  { data_type => "boolean", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -141,8 +162,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zQNN/RessU5NUX0OsGlD5g
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-02 18:23:46
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JN93IP4Ao74Dh/sir2N/IA
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -172,7 +193,19 @@ sub verifiers_specs {
                 lat_lng=> {
                     required => 0,
                     type     => 'Str',
-                }
+                },
+                address=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                name=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                is_street=> {
+                    required => 0,
+                    type     => 'Bool',
+                },
             }
         ),
     };

@@ -13,11 +13,11 @@ db_transaction {
       list  => 1,
       stash => 'user',
       [
-        name     => 'Foo Bar',
-        email    => 'foo1@email.com',
-        password => 'foobarquux1',
+        name             => 'Foo Bar',
+        email            => 'foo1@email.com',
+        password         => 'foobarquux1',
         password_confirm => 'foobarquux1',
-        role     => 'user'
+        role             => 'user'
       ];
 
     stash_test 'user.get', sub {
@@ -42,11 +42,11 @@ db_transaction {
     rest_put stash 'user.url',
       name => 'atualizar usuario',
       [
-        name     => 'AAAAAAAAA',
-        email    => 'foo2@email.com',
-        password => 'foobarquux1',
+        name             => 'AAAAAAAAA',
+        email            => 'foo2@email.com',
+        password         => 'foobarquux1',
         password_confirm => 'foobarquux1',
-        role     => 'user'
+        role             => 'user'
       ];
 
     rest_reload 'user';

@@ -87,71 +87,72 @@ db_transaction {
         vehicle_owner_id => stash 'vehicle_owner.id'
       ];
 
-    #criar novo estacionamento
-    rest_post '/vehicle_parking',
-      name  => 'criar estacionamento veiculos',
+    #criar nova rota
+    rest_post '/vehicle_routes',
+      name  => 'criar rota de veiculos',
       list  => 1,
-      stash => 'vehicle_parking',
+      stash => 'vehicle_route',
       [
-        entry_time      => '09:00:00',
-        departure_time  => '18:00:00',
-        monthly_payment => 1,
-        vehicle_id      => stash 'vehicle.id',
-        address         => 'Rua eliseu',
-        name            => 'Estacionamento do zé',
-        is_street       => 0
+        name                => 'Rota teste 1',
+        start_time_gone     => '08:00:00',
+        start_time_back     => '18:00:00',
+        origin              => 'Casa',
+        origin_lat_lng      => '-23.446185,-46.553640',
+        destination         => 'Trabalho',
+        destination_lat_lng => '-23.572347,-46.643975',
+        vehicle_id          => stash 'vehicle.id'
       ];
 
-    stash_test 'vehicle_parking.get', sub {
+    stash_test 'vehicle_route.get', sub {
         my ($me) = @_;
 
-        is( $me->{id}, stash 'vehicle_parking.id', 'get has the same id!' );
+        is( $me->{id}, stash 'vehicle_route.id', 'get has the same id!' );
     };
 
-    stash_test 'vehicle_parking.list', sub {
+    stash_test 'vehicle_route.list', sub {
         my ($me) = @_;
 
-        ok( $me = delete $me->{vehicle_parking}, 'vehicle_parking list exists' );
+        ok( $me = delete $me->{vehicle_routes}, 'vehicle_route list exists' );
 
-        is( @$me, 1, '1 vehicle_parking' );
+        is( @$me, 1, '1 vehicle_route' );
 
         $me = [ sort { $a->{id} cmp $b->{id} } @$me ];
 
         is( $me->[0]{vehicle_id}, stash 'vehicle.id', 'listing ok' );
     };
 
-    rest_put stash 'vehicle_parking.url',
-      name => 'atualizar estacionamento',
+    rest_put stash 'vehicle_route.url',
+      name => 'atualizar rota',
       [
-        entry_time      => '12:00:00',
-        departure_time  => '00:00:00',
-        monthly_payment => 0,
-        address         => 'Rua josé',
-        name            => 'Rua',
-        is_street       => 1
+        name                => 'Rota teste 2',
+        start_time_gone     => '00:00:00',
+        start_time_back     => '06:00:00',
+        origin              => 'Trabalho',
+        origin_lat_lng      => '-23.572347,-46.643975',
+        destination         => 'O\'Malley\'s',
+        destination_lat_lng => '-23.558314,-46.665998'
       ];
 
-    rest_reload 'vehicle_parking';
+    rest_reload 'vehicle_route';
 
-    stash_test 'vehicle_parking.get', sub {
+    stash_test 'vehicle_route.get', sub {
         my ($me) = @_;
 
-        is( $me->{id}, stash 'vehicle_parking.id', 'get has the same id!' );
-        is( $me->{entry_time}, '12:00:00', 'entry time updated!' );
+        is( $me->{id}, stash 'vehicle_route.id', 'get has the same id!' );
+        is( $me->{start_time_gone}, '00:00:00', 'start_time_gone updated!' );
     };
 
-    rest_delete stash 'vehicle_parking.url';
+    rest_delete stash 'vehicle_route.url';
 
-    rest_reload 'vehicle_parking', 404;
+    rest_reload 'vehicle_route', 404;
 
-    rest_reload_list 'vehicle_parking';
+    rest_reload_list 'vehicle_route';
 
-    stash_test 'vehicle_parking.list', sub {
+    stash_test 'vehicle_route.list', sub {
         my ($me) = @_;
+        ok( $me = delete $me->{vehicle_routes}, 'vehicle_route list exists' );
 
-        ok( $me = delete $me->{vehicle_parking}, 'vehicle_parking list exists' );
-
-        is( @$me, 0, '0 vehicle_parking' );
+        is( @$me, 0, '0 vehicle_route' );
     };
 };
 

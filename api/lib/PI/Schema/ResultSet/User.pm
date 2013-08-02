@@ -60,8 +60,8 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 email => {
-                    required   => 1,
-                    type       => EmailAddress
+                    required => 1,
+                    type     => EmailAddress
                 },
                 password => {
                     required => 1,

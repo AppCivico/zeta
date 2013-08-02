@@ -69,10 +69,9 @@ db_transaction {
         like( $me->{error}, qr/"email":"invalid"/, 'email invalido' );
     };
 
-
     rest_post '/drivers',
-      name    => 'criando mais um usuario com email diferente',
-      stash   => 'driver2',
+      name  => 'criando mais um usuario com email diferente',
+      stash => 'driver2',
       [
         'name'                 => 'Foo',
         'last_name'            => 'Bar',
@@ -104,9 +103,7 @@ db_transaction {
 
     rest_put stash 'driver2.url',
       name => 'atualizar o email do motorista',
-      [
-        'email'              => 'email_novo@email.com'
-      ];
+      [ 'email' => 'email_novo@email.com' ];
 
     rest_reload 'driver2';
 
@@ -115,14 +112,11 @@ db_transaction {
         is( $me->{email}, 'email_novo@email.com', 'email atualizado' );
     };
 
-
     rest_put stash 'driver2.url',
       is_fail => 1,
-      stash => 'driver2',
-      name => 'atualizar motorista novo com o email do antigo tem que dar pau',
-      [
-        'email'              => 'email1@email.com'
-      ];
+      stash   => 'driver2',
+      name    => 'atualizar motorista novo com o email do antigo tem que dar pau',
+      [ 'email' => 'email1@email.com' ];
 
     stash_test 'driver2', sub {
         my ($me) = @_;

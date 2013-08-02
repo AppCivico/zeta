@@ -10,12 +10,12 @@ use PI::Test::Further;
 db_transaction {
 
     my $res = rest_get '/users', 403;
-    is($res->{error}, 'access denied','access denied');
+    is( $res->{error}, 'access denied', 'access denied' );
 
     rest_post '/login',
-      name  => 'teste o login',
+      name    => 'teste o login',
       is_fail => 1,
-      stash => 'login',
+      stash   => 'login',
       [
         'email'    => 'superadmin@email.com',
         'password' => '44444'
@@ -24,7 +24,7 @@ db_transaction {
     stash_test 'login', sub {
         my ($me) = @_;
 
-        is($me->{error}, "Login invalid(2)", 'Login invalid');
+        is( $me->{error}, "Login invalid(2)", 'Login invalid' );
     };
 
     rest_post '/login',
@@ -39,14 +39,14 @@ db_transaction {
     stash_test 'login', sub {
         my ($me) = @_;
 
-        ok($me->{api_key}, 'has api_key');
-        is($me->{email}, 'superadmin@email.com', 'email ok');
+        ok( $me->{api_key}, 'has api_key' );
+        is( $me->{email}, 'superadmin@email.com', 'email ok' );
 
-        is_deeply($me->{roles}, ['superadmin'], 'roles looks good');
+        is_deeply( $me->{roles}, ['superadmin'], 'roles looks good' );
 
-        my $users = rest_get '/users', 200, {api_key => $me->{api_key}};
+        my $users = rest_get '/users', 200, { api_key => $me->{api_key} };
 
-        is (@{$users->{users}}, 2, 'have 2 users');
+        is( @{ $users->{users} }, 2, 'have 2 users' );
 
     };
 

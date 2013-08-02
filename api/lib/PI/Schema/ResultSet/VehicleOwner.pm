@@ -18,75 +18,75 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                email=> {
+                email => {
                     required => 1,
                     type     => 'Str',
                 },
-                name=> {
+                name => {
                     required => 1,
                     type     => 'Str',
                 },
-                last_name=> {
+                last_name => {
                     required => 1,
                     type     => 'Str',
                 },
-                birth_date=> {
+                birth_date => {
                     required => 1,
                     type     => DataStr,
                 },
-                cpf=> {
+                cpf => {
                     required => 1,
                     type     => 'Str',
                 },
-                bank_code=> {
+                bank_code => {
                     required => 1,
                     type     => 'Str',
                 },
-                bank_ag=> {
+                bank_ag => {
                     required => 1,
                     type     => 'Str',
                 },
-                bank_cc=> {
+                bank_cc => {
                     required => 1,
                     type     => 'Str',
                 },
-                telephone_number=> {
+                telephone_number => {
                     required => 1,
                     type     => 'Str',
                 },
-                mobile_provider=> {
+                mobile_provider => {
                     required => 0,
                     type     => 'Str',
                 },
-                mobile_number=> {
+                mobile_number => {
                     required => 0,
                     type     => 'Str',
                 },
-                address=> {
+                address => {
                     required => 0,
                     type     => 'Str',
                 },
-                city_id=> {
+                city_id => {
                     required => 1,
                     type     => 'Int',
                 },
-                neighborhood=> {
+                neighborhood => {
                     required => 0,
                     type     => 'Str',
                 },
-                complement=> {
+                complement => {
                     required => 0,
                     type     => 'Str',
                 },
-                number=> {
+                number => {
                     required => 0,
                     type     => 'Str',
                 },
-                postal_code=> {
+                postal_code => {
                     required => 0,
                     type     => 'Str',
                 },
-                created_by=> {
+                created_by => {
                     required => 1,
                     type     => 'Int',
                 }
@@ -96,75 +96,75 @@ sub verifiers_specs {
         upsert => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                email=> {
+                email => {
                     required => 1,
                     type     => 'Str',
                 },
-                name=> {
+                name => {
                     required => 1,
                     type     => 'Str',
                 },
-                last_name=> {
+                last_name => {
                     required => 1,
                     type     => 'Str',
                 },
-                birth_date=> {
+                birth_date => {
                     required => 1,
                     type     => DataStr,
                 },
-                cpf=> {
+                cpf => {
                     required => 1,
                     type     => 'Str',
                 },
-                bank_code=> {
+                bank_code => {
                     required => 1,
                     type     => 'Str',
                 },
-                bank_ag=> {
+                bank_ag => {
                     required => 1,
                     type     => 'Str',
                 },
-                bank_cc=> {
+                bank_cc => {
                     required => 1,
                     type     => 'Str',
                 },
-                telephone_number=> {
+                telephone_number => {
                     required => 1,
                     type     => 'Str',
                 },
-                mobile_provider=> {
+                mobile_provider => {
                     required => 0,
                     type     => 'Str',
                 },
-                mobile_number=> {
+                mobile_number => {
                     required => 0,
                     type     => 'Str',
                 },
-                address=> {
+                address => {
                     required => 0,
                     type     => 'Str',
                 },
-                city_id=> {
+                city_id => {
                     required => 1,
                     type     => 'Int',
                 },
-                neighborhood=> {
+                neighborhood => {
                     required => 0,
                     type     => 'Str',
                 },
-                complement=> {
+                complement => {
                     required => 0,
                     type     => 'Str',
                 },
-                number=> {
+                number => {
                     required => 0,
                     type     => 'Str',
                 },
-                postal_code=> {
+                postal_code => {
                     required => 0,
                     type     => 'Str',
                 },
-                created_by=> {
+                created_by => {
                     required => 1,
                     type     => 'Int',
                 }
@@ -178,27 +178,27 @@ sub action_specs {
 
     return {
         create => sub {
-            my %values  = shift->valid_values;
+            my %values = shift->valid_values;
 
             my $vehicle_owner = $self->create( \%values );
 
             return $vehicle_owner;
         },
         upsert => sub {
-            my %values  = shift->valid_values;
+            my %values = shift->valid_values;
 
-            my $vehicle_owner = $self->search( { cpf => $values{cpf} })->next;
+            my $vehicle_owner = $self->search( { cpf => $values{cpf} } )->next;
 
-            if (!$vehicle_owner){
+            if ( !$vehicle_owner ) {
                 $vehicle_owner = $self->create( \%values );
             }
+
             # WARNING: nao atualizar nenhum valor, pois
             # nao tem como saber se aquele realmente eh o dono do carro ainda
             # entao nao pode mudar a ag/conta de outro dono, usando o cpf dele no cadastro de outrem.
 
             return $vehicle_owner;
-          },
-
+        },
 
     };
 }

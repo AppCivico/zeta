@@ -24,7 +24,7 @@ sub api_key_check : Private {
             {
                 api_key      => $api_key,
                 valid_until  => { '>=' => \'now()' },
-                valid_for_ip => [$c->req->address, undef]
+                valid_for_ip => [ $c->req->address, undef ]
             }
         )->first;
         my $user = $user_session ? $c->find_user( { id => $user_session->user_id } ) : undef;
@@ -61,7 +61,7 @@ sub login_POST {
                 api_key      => sha1_hex( rand(time) ),
                 valid_for_ip => $c->req->address,
 
-                valid_until  => \"now() + '1 month'::interval"
+                valid_until => \"now() + '1 month'::interval"
             }
         );
 
@@ -72,15 +72,12 @@ sub login_POST {
 
         $attrs{roles} = [ map { $_->name } $c->model('DB::User')->search( { id => $c->user->id } )->next->roles ];
 
-        if (grep {/^user$/} @{$attrs{roles}}){
-            my $driver = $c->model('DB::Driver')->search({user_id => $attrs{id}})->next;
+        if ( grep { /^user$/ } @{ $attrs{roles} } ) {
+            my $driver = $c->model('DB::Driver')->search( { user_id => $attrs{id} } )->next;
 
-            $self->status_bad_request( $c, message => 'Login invalid: no driver found!' ),
-                $c->detach unless $driver;
+            $self->status_bad_request( $c, message => 'Login invalid: no driver found!' ), $c->detach unless $driver;
 
-            $attrs{driver} = {
-                map {$_ => $driver->$_} qw/id name last_name/
-            }
+            $attrs{driver} = { map { $_ => $driver->$_ } qw/id name last_name/ };
         }
 
         delete $attrs{password};

@@ -1,4 +1,4 @@
-package PI::Schema::ResultSet::VehicleParking;
+package PI::Schema::ResultSet::VehicleRoute;
 use namespace::autoclean;
 
 use utf8;
@@ -18,38 +18,38 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                entry_time => {
-                    required => 1,
-                    type     => TimeStr,
-                },
-                departure_time => {
-                    required => 1,
-                    type     => TimeStr,
-                },
-                monthly_payment => {
+                name => {
                     required => 0,
-                    type     => 'Bool',
+                    type     => 'Str',
                 },
-                lat_lng => {
+                start_time_gone => {
+                    required => 0,
+                    type     => TimeStr,
+                },
+                start_time_back => {
+                    required => 0,
+                    type     => TimeStr,
+                },
+                origin => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                origin_lat_lng => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                destination => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                destination_lat_lng => {
                     required => 0,
                     type     => 'Str',
                 },
                 vehicle_id => {
                     required => 1,
                     type     => 'Int',
-                },
-                address => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                name => {
-                    required => 1,
-                    type     => 'Str',
-                },
-                is_street => {
-                    required => 0,
-                    type     => 'Bool',
-                },
+                }
             }
         )
     };
@@ -62,12 +62,11 @@ sub action_specs {
         create => sub {
             my %values = shift->valid_values;
 
-            my $vehicle_parking = $self->create( \%values );
+            my $vehicle_route = $self->create( \%values );
 
-            return $vehicle_parking;
+            return $vehicle_route;
           }
     };
 }
 
 1;
-

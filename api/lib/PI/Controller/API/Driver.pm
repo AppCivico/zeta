@@ -35,25 +35,29 @@ sub result_GET {
         $c,
         entity => {
             email => $driver->user->email,
-            ( map { $_ => ($driver->$_ ? $driver->$_->datetime : undef) }  qw/birth_date first_driver_license cnh_validity/ ),
-            map { $_ => $attrs{$_}, } qw(
-                id
-                name
-                last_name
+            (
+                map { $_ => ( $driver->$_ ? $driver->$_->datetime : undef ) }
+                  qw/birth_date first_driver_license cnh_validity/
+            ),
+            map { $_ => $attrs{$_}, }
+              qw(
+              id
+              name
+              last_name
 
-                cpf
-                cnh_code
-                mobile_provider
-                mobile_number
-                telephone_number
-                marital_state
-                address
-                neighborhood
-                complement
-                number
+              cpf
+              cnh_code
+              mobile_provider
+              mobile_number
+              telephone_number
+              marital_state
+              address
+              neighborhood
+              complement
+              number
 
-                postal_code
-            )
+              postal_code
+              )
         }
     );
 }
@@ -94,20 +98,23 @@ sub list_GET {
                 map {
                     my $r = $_;
                     +{
-                        (map { $_ => $r->{$_} } qw/
-                            id
-                            name
-                            last_name
-                            birth_date
-                            cpf
-                            cnh_code
+                        (
+                            map { $_ => $r->{$_} }
+                              qw/
+                              id
+                              name
+                              last_name
+                              birth_date
+                              cpf
+                              cnh_code
 
-                            mobile_provider
-                            mobile_number
-                            telephone_number
-                        /),
+                              mobile_provider
+                              mobile_number
+                              telephone_number
+                              /
+                        ),
 
-                        email                => $r->{user}{email},
+                        email => $r->{user}{email},
 
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }

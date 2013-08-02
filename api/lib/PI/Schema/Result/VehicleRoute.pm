@@ -151,6 +151,68 @@ __PACKAGE__->belongs_to(
 # Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GaBuP0AEv5PyE903CEKXIA
 
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
+
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr TimeStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                 name=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                start_time_gone=> {
+                    required => 0,
+                    type     => TimeStr,
+                },
+                start_time_back=> {
+                    required => 0,
+                    type     => TimeStr,
+                },
+                origin=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                origin_lat_lng=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                destination=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                destination_lat_lng=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $vehicle_route = $self->update( \%values );
+
+            return $vehicle_route;
+        },
+
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

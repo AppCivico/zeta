@@ -7,7 +7,7 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result      => 'DB::City',
+    result => 'DB::City',
 
 );
 with 'PI::TraitFor::Controller::AutoBase';
@@ -26,19 +26,21 @@ sub list_GET {
                 map {
                     my $r = $_;
                     +{
-                        (map { $_ => $r->{$_} } qw/
-                            id
-                            name
+                        (
+                            map { $_ => $r->{$_} }
+                              qw/
+                              id
+                              name
 
-                            state_id
-                            country_id
-                        /),
+                              state_id
+                              country_id
+                              /
+                        ),
                       }
                 } $c->stash->{collection}->as_hashref->all
             ]
         }
     );
 }
-
 
 1;

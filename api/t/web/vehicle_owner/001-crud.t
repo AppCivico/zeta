@@ -12,29 +12,29 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_owner',
       [
-        email   => 'car_owner@aware.com',
-        name    => 'new',
-        last_name   => 'owner',
-        birth_date=> '1990-09-19',
-        cpf=> '38979486804',
-        bank_code=> '034',
-        bank_ag=> '0147',
-        bank_cc=> '3254126',
-        telephone_number=> '551165522547',
-        mobile_provider=>   'claro',
-        mobile_number=> '5511999999999',
-        address=> 'Kingston',
-        city_id=> 1,
-        neighborhood=> 'DOWNTOWN',
-        complement=> 'teste',
-        number=> '13',
-        postal_code=> '012478520'
+        email            => 'car_owner@aware.com',
+        name             => 'new',
+        last_name        => 'owner',
+        birth_date       => '1990-09-19',
+        cpf              => '38979486804',
+        bank_code        => '034',
+        bank_ag          => '0147',
+        bank_cc          => '3254126',
+        telephone_number => '551165522547',
+        mobile_provider  => 'claro',
+        mobile_number    => '5511999999999',
+        address          => 'Kingston',
+        city_id          => 1,
+        neighborhood     => 'DOWNTOWN',
+        complement       => 'teste',
+        number           => '13',
+        postal_code      => '012478520'
       ];
 
     stash_test 'vehicle_owner.get', sub {
         my ($me) = @_;
 
-        is( $me->{id}, stash 'vehicle_owner.id',  'get has the same id!' );
+        is( $me->{id}, stash 'vehicle_owner.id', 'get has the same id!' );
     };
 
     stash_test 'vehicle_owner.list', sub {
@@ -52,23 +52,23 @@ db_transaction {
     rest_put stash 'vehicle_owner.url',
       name => 'atualizar dono de veiculo',
       [
-        email   => 'car_owner2@aware.com',
-        name    => 'new2',
-        last_name   => 'owner2',
-        birth_date=> '1990-09-20',
-        cpf=> '38979486810',
-        bank_code=> '035',
-        bank_ag=> '0148',
-        bank_cc=> '3254127',
-        telephone_number=> '551165522548',
-        mobile_provider=>   'vivo',
-        mobile_number=> '5511999999998',
-        address=> 'Kingston',
-        city_id=> 1,
-        neighborhood=> 'ROCK',
-        complement=> 'tes',
-        number=> '14',
-        postal_code=> '012478521'
+        email            => 'car_owner2@aware.com',
+        name             => 'new2',
+        last_name        => 'owner2',
+        birth_date       => '1990-09-20',
+        cpf              => '38979486810',
+        bank_code        => '035',
+        bank_ag          => '0148',
+        bank_cc          => '3254127',
+        telephone_number => '551165522548',
+        mobile_provider  => 'vivo',
+        mobile_number    => '5511999999998',
+        address          => 'Kingston',
+        city_id          => 1,
+        neighborhood     => 'ROCK',
+        complement       => 'tes',
+        number           => '14',
+        postal_code      => '012478521'
       ];
 
     rest_reload 'vehicle_owner';
@@ -76,8 +76,8 @@ db_transaction {
     stash_test 'vehicle_owner.get', sub {
         my ($me) = @_;
 
-        is( $me->{id},    stash 'vehicle_owner.id',  'get has the same id!' );
-        is( $me->{email}, 'car_owner2@aware.com', 'email updated!' );
+        is( $me->{id},    stash 'vehicle_owner.id', 'get has the same id!' );
+        is( $me->{email}, 'car_owner2@aware.com',   'email updated!' );
     };
 
     rest_delete stash 'vehicle_owner.url';

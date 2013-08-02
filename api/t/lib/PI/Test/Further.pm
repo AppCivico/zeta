@@ -34,11 +34,11 @@ sub api_auth_as {
     $conf{user_id} ||= 1;
     $conf{roles}   ||= ['superadmin'];
 
-    if(!$auth_user) {
+    if ( !$auth_user ) {
         use Package::Stash;
         use PI::TestOnly::Mock::AuthUser;
 
-        my $stashc    = Package::Stash->new('Catalyst::Plugin::Authentication');
+        my $stashc = Package::Stash->new('Catalyst::Plugin::Authentication');
         $auth_user = PI::TestOnly::Mock::AuthUser->new;
 
         $stashc->add_symbol( '&user',  sub { return $auth_user } );
@@ -201,14 +201,13 @@ sub rest_reload {
     return $res;
 }
 
-
 sub rest_get {
     my ( $url, $exp_code, $params ) = @_;
 
     $params ||= {};
 
-    my $uri = URI->new( $url );
-    $uri->query_form( %$params );
+    my $uri = URI->new($url);
+    $uri->query_form(%$params);
     $url = $uri->as_string;
 
     $exp_code ||= 200;

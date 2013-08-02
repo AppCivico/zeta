@@ -8,38 +8,37 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 
-#criar novo owner
+    #criar novo owner
     rest_post '/vehicle_owners',
-        name  => 'criar dono de veículos',
-        list  => 1,
-        stash => 'vehicle_owner',
+      name  => 'criar dono de veículos',
+      list  => 1,
+      stash => 'vehicle_owner',
       [
-        email   => 'car_owner@aware.com',
-        name    => 'new',
-        last_name   => 'owner',
-        birth_date=> '1990-09-19',
-        cpf=> '38979486804',
-        bank_code=> '034',
-        bank_ag=> '0147',
-        bank_cc=> '3254126',
-        telephone_number=> '551165522547',
-        mobile_provider=>   'claro',
-        mobile_number=> '5511999999999',
-        address=> 'Kingston',
-        city_id=> 1,
-        neighborhood=> 'DOWNTOWN',
-        complement=> 'teste',
-        number=> '13',
-        postal_code=> '012478520',
+        email            => 'car_owner@aware.com',
+        name             => 'new',
+        last_name        => 'owner',
+        birth_date       => '1990-09-19',
+        cpf              => '38979486804',
+        bank_code        => '034',
+        bank_ag          => '0147',
+        bank_cc          => '3254126',
+        telephone_number => '551165522547',
+        mobile_provider  => 'claro',
+        mobile_number    => '5511999999999',
+        address          => 'Kingston',
+        city_id          => 1,
+        neighborhood     => 'DOWNTOWN',
+        complement       => 'teste',
+        number           => '13',
+        postal_code      => '012478520',
 
+      ];
 
-     ];
-
-#criar novo driver
+    #criar novo driver
     rest_post '/drivers',
-        name  => 'criar motorista',
-        list  => 1,
-        stash => 'driver',
+      name  => 'criar motorista',
+      list  => 1,
+      stash => 'driver',
       [
         'name'                 => 'Foo',
         'last_name'            => 'Bar',
@@ -57,41 +56,41 @@ db_transaction {
         'complement'           => 'second floor',
         'number'               => '1',
         'postal_code'          => '01310000',
-        password_confirm=> '012478520',
-        password=> '012478520',
+        password_confirm       => '012478520',
+        password               => '012478520',
         'city_id'              => 1,
         'email'                => 'sdasdas@asdas.com'
       ];
 
-#criar novo veiculo
+    #criar novo veiculo
     rest_post '/vehicles',
       name  => 'criar veículos',
       list  => 1,
       stash => 'vehicle',
       [
-        renavam => '123456789',
-        cpf     => '38979486804',
-        car_plate   => 'LPI2672',
-        doors_number => '5',
+        renavam          => '123456789',
+        cpf              => '38979486804',
+        car_plate        => 'LPI2672',
+        doors_number     => '5',
         manufacture_year => '2009',
-        model => 'clio',
-        model_year => '2009',
-        brand_name => 'Renault',
-        car_type => 'Hatch',
-        km => 41000,
-        color => 'silver',
-        fuel_type => 'flex',
-        chassi => '21231dsfs3',
-        crv => '231ss32',
-        observations => 'teste',
-        driver_id   => stash 'driver.id',
+        model            => 'clio',
+        model_year       => '2009',
+        brand_name       => 'Renault',
+        car_type         => 'Hatch',
+        km               => 41000,
+        color            => 'silver',
+        fuel_type        => 'flex',
+        chassi           => '21231dsfs3',
+        crv              => '231ss32',
+        observations     => 'teste',
+        driver_id        => stash 'driver.id',
         vehicle_owner_id => stash 'vehicle_owner.id'
       ];
 
     stash_test 'vehicle.get', sub {
         my ($me) = @_;
 
-        is( $me->{id}, stash 'vehicle.id',  'get has the same id!' );
+        is( $me->{id}, stash 'vehicle.id', 'get has the same id!' );
     };
 
     stash_test 'vehicle.list', sub {
@@ -107,38 +106,37 @@ db_transaction {
     };
 
     do {
-        my $err = rest_get '/vehicles', 400, {driver_id => 'not a number'};
-        is ($err->{error}, 'invalid param driver_id', 'invalid number!');
+        my $err = rest_get '/vehicles', 400, { driver_id => 'not a number' };
+        is( $err->{error}, 'invalid param driver_id', 'invalid number!' );
 
-        $err = rest_get '/vehicles', 200, {driver_id => -5};
-        is_deeply($err->{vehicles}, [], 'no vehicles');
+        $err = rest_get '/vehicles', 200, { driver_id => -5 };
+        is_deeply( $err->{vehicles}, [], 'no vehicles' );
 
-        my $res = rest_get '/vehicles', 200, {driver_id => stash 'driver.id'};
-        is(@{$res->{vehicles}}, 1, '1 vehicle');
-        is($res->{vehicles}[0]{driver_id}, stash 'driver.id', 'same driver');
+        my $res = rest_get '/vehicles', 200, { driver_id => stash 'driver.id' };
+        is( @{ $res->{vehicles} }, 1, '1 vehicle' );
+        is( $res->{vehicles}[0]{driver_id}, stash 'driver.id', 'same driver' );
 
     };
-
 
     rest_put stash 'vehicle.url',
       name => 'atualizar veiculo',
       [
-        renavam => '1234567810',
-        cpf     => '02193635872',
-        car_plate   => 'BUA2609',
-        doors_number => '3',
+        renavam          => '1234567810',
+        cpf              => '02193635872',
+        car_plate        => 'BUA2609',
+        doors_number     => '3',
         manufacture_year => '1995',
-        model => 'gol',
-        model_year => '1995',
-        brand_name => 'VW',
-        car_type => 'Hatch',
-        km => 100000,
-        color => 'silver',
-        fuel_type => 'gasoline',
-        chassi => '21231dssa21fs3',
-        crv => '231s114s32',
-        observations => 'teste2',
-        driver_id   => stash 'driver.id',
+        model            => 'gol',
+        model_year       => '1995',
+        brand_name       => 'VW',
+        car_type         => 'Hatch',
+        km               => 100000,
+        color            => 'silver',
+        fuel_type        => 'gasoline',
+        chassi           => '21231dssa21fs3',
+        crv              => '231s114s32',
+        observations     => 'teste2',
+        driver_id        => stash 'driver.id',
         vehicle_owner_id => stash 'vehicle_owner.id'
       ];
 

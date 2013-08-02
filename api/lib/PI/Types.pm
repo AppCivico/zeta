@@ -2,7 +2,7 @@ package PI::Types;
 
 use MooseX::Types -declare => [
     qw( DataStr
-        TimeStr
+      TimeStr
       )
 ];
 use MooseX::Types::Moose qw(ArrayRef HashRef CodeRef Str ScalarRef);

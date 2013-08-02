@@ -119,7 +119,7 @@ sub action_specs {
     my $self = shift;
     return {
         create => sub {
-            my %values  = shift->valid_values;
+            my %values = shift->valid_values;
 
             delete $values{password_confirm};
             my $user_rs = $self->resultset('User');

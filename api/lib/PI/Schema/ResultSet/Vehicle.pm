@@ -19,15 +19,18 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 renavam => {
-                    required => 1,
-                    type     => 'Str',
+                    required   => 1,
+                    type       => 'Str',
                     post_check => sub {
                         my $r = shift;
-                        return 0 if $self->resultset('Vehicle')->search( {
-                            renavam => $r->get_value('renavam'),
-                            # se na tabela ta sem cpf, aqui tambem nao pode verificar usando o CPF>
-                            #cpf     => $r->get_value('cpf')
-                        } )->count;
+                        return 0 if $self->resultset('Vehicle')->search(
+                            {
+                                renavam => $r->get_value('renavam'),
+
+                                # se na tabela ta sem cpf, aqui tambem nao pode verificar usando o CPF>
+                                #cpf     => $r->get_value('cpf')
+                            }
+                        )->count;
 
                         return 1;
                       }
@@ -68,7 +71,7 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
-                color   => {
+                color => {
                     required => 1,
                     type     => 'Str',
                 },
@@ -84,7 +87,7 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Str',
                 },
-                observations  => {
+                observations => {
                     required => 0,
                     type     => 'Str',
                 },
@@ -98,7 +101,7 @@ sub verifiers_specs {
                 },
                 created_by => {
                     required => 1,
-                    type    => 'Int'
+                    type     => 'Int'
                 }
             },
         ),
@@ -110,7 +113,7 @@ sub action_specs {
 
     return {
         create => sub {
-            my %values  = shift->valid_values;
+            my %values = shift->valid_values;
 
             my $vehicle = $self->create( \%values );
 
