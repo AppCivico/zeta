@@ -22,21 +22,34 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
             driver_id => $c->user->driver->{id}
         }
     );
-    $api->stash_result(
-        $c,
-        ['vehicle_parking'],
-        params => {
-            driver_id => $c->user->driver->{id}
-        }
-    );
+
+    # por enquanto, a pessoa só pode ter um veiculo, logo
+    # o primeiro é o atual/ativo/o que importa.
+    my $vehicle_id = exists $c->stash->{vehicles}[0] ? $c->stash->{vehicles}[0]{id} : undef;
+    if ($vehicle_id){
+        $api->stash_result(
+            $c,
+            ['vehicle_parking'],
+            params => {
+                vehicle_id => $vehicle_id
+            }
+        );
+        $api->stash_result(
+            $c,
+            ['vehicle_routes'],
+            params => {
+                vehicle_id => $vehicle_id
+            }
+        );
+    }
     if ( $c->req->method eq 'POST' ) {
         return;
     }
 
     $c->stash->{template_wrapper} = 'user';
 
-    if ( @{ $c->stash->{vehicles} } == 0 ||
-         @{ $c->stash->{vehicle_parking} } == 0
+    if ( @{ $c->stash->{vehicles}||[] } == 0 ||
+         @{ $c->stash->{vehicle_parking}||[] } == 0
     ) {
         $c->stash->{cadastro_incompleto} = 1;
     }
