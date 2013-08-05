@@ -1,0 +1,51 @@
+[%IF !NO_TITLE%]
+<h2>Adicionar novo estacionamento</h2>
+[%END%]
+<form class="form-horizontal" method="post" action="/form/user/vehicle_parking">
+<div class="tab-pane active" id="tab1">
+    <fieldset>
+
+
+    [%input_text('name','Nome para o local')|none%]
+    [%input_text('entry_time','Hora de entrada',
+
+        app => '<i class="icon-time"></i>',
+        classes => ['span1','timepicker-me'],
+        divclass=> 'bootstrap-timepicker',
+        extratags => 'data-show-meridian="false" data-minute-step="10"'
+    )|none%]
+
+    [%input_text('departure_time','Hora da saida',
+
+        app => '<i class="icon-time"></i>',
+        classes => ['span1','timepicker-me'],
+        divclass=> 'bootstrap-timepicker',
+        extratags => 'data-show-meridian="false" data-minute-step="10"'
+    )|none%]
+
+
+
+    lat_lng
+
+    [%input_text('address','Endereço', )|none%]
+
+    <div class="control-group">
+        <label class="control-label" for="elm_monthly_payment">Estacionado na rua</label>
+        <div class="text controls">
+        <input type="checkbox" id="elm_monthly_payment" name="is_street" value="1" data-toggle-class="hidden" data-toggle-class-target="#dados_estacionamento" >
+        </div>
+    </div>
+
+
+    <div id="dados_estacionamento">
+        [%checkbox('monthly_payment','Mensal', classes => [], checked => vehicle_parking_obj.monthly_payment)|none%]
+    </div>
+
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+        </div>
+    </fieldset>
+
+</div>
+</form>

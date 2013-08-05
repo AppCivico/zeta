@@ -10,6 +10,7 @@ sub base : Chained('/user/form/base') : PathPart('') : CaptureArgs(0) {
     for my $field (qw /departure_time entry_time/){
         $c->req->params->{$field} .= ':00';
     }
+    $c->req->params->{is_street} ||= 0;
 
 }
 
