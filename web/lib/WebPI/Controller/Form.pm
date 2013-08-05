@@ -33,6 +33,14 @@ sub redirect_ok : Private {
 
 }
 
+
+
+sub not_found: Private {
+    my ( $self, $c) = @_;
+
+    $c->stash->{template} = 'not_found.tt';
+}
+
 sub redirect_error : Private {
     my ( $self, $c, %args ) = @_;
 
@@ -41,6 +49,7 @@ sub redirect_error : Private {
     if ( !$refer || $refer !~ /^http:\/\/$host/ ) {
         $refer = $c->uri_for('/');
     }
+    use DDP; p $refer;
     my $mid = $c->set_error_msg(
         {
             #%args,

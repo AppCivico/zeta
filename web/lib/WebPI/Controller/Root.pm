@@ -91,6 +91,12 @@ Attempt to render a view, if needed.
 =cut
 
 sub end : ActionClass('RenderView') {
+    my ( $self, $c ) = @_;
+
+    if ($c->debug){
+        my $x = $c->stash;
+        use DDP; p $x;
+    }
 }
 
 =head1 AUTHOR

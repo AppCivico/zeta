@@ -1,0 +1,31 @@
+<h2>Lista de rotas</h2>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+    <th>Nome</th>
+    <th>Hora da saída</th>
+    <th>Hora da chegada</th>
+    <th>Opções</th>
+</tr>
+</thead>
+<tbody>
+[%FOREACH v IN vehicle_routes %]
+<tr>
+    <th>[%v.name%]</th>
+    <td>[%v.start_time_gone%]</td>
+    <td>[%v.start_time_back%]</td>
+    <td>
+    [%href = c.uri_for_action('/user/route/edit', [v.id])%]
+    <a href="[%href%]">editar</a>
+    [%href = c.uri_for_action('/user/form/vehicleroute/process_delete', [v.id])%]
+    <a class="del" href="[%href%]" data-confirm="Deseja realmente remover?">remover</a>
+    </td>
+</tr>
+[%END%]
+</tbody>
+</table>
+
+[%href = c.uri_for_action('/user/route/add')%]
+<a class="btn" href="[%href%]">Adicionar um novo rota</a>

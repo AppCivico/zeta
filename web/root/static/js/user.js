@@ -27,6 +27,18 @@ $( document ).ready(function() {
         $(this).button('loading');
     });
 
+    $("[data-confirm]").click(function(event) {
+        var confirmPrompt = event.currentTarget.attributes['data-confirm'].value;
+        if (window.confirm(confirmPrompt)){
+            return 1;
+        }else{
+            event.preventDefault();
+        }
+        return 0;
+
+    });
+
+    $('.timepicker-me').timepicker();
 
 
 });

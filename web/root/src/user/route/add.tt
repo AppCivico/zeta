@@ -1,0 +1,46 @@
+[%IF !NO_TITLE%]
+<h2>Adicionar nova rota</h2>
+[%END%]
+<form class="form-horizontal" method="post" action="/form/user/vehicle_routes">
+<div class="tab-pane active" id="tab1">
+    <fieldset>
+[%IF NO_TITLE%]
+<input type="hidden" name="redirect_to_dashboard" value="1"/>
+[%END%]
+    [%input_text('name','Nome da rota', value => vehicle_route_obj.name, placeholder=>'Ex: Casa para Trabalho')|none%]
+    [%input_text('start_time_gone','Hora de partida',
+
+        app => '<i class="icon-time"></i>',
+        classes => ['span1','timepicker-me'],
+        divclass=> 'bootstrap-timepicker',
+        extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
+    )|none%]
+
+    [%input_text('start_time_back','Hora da chegada',
+
+        app => '<i class="icon-time"></i>',
+        classes => ['span1','timepicker-me'],
+        divclass=> 'bootstrap-timepicker',
+        extratags => 'data-default-time="false" data-show-meridian="false" data- data-minute-step="10"'
+    )|none%]
+
+
+
+
+
+    origin_lat_lng destination_lat_lng
+
+    [%input_text('origin','Endereço da origem', )|none%]
+    [%input_text('destination','Endereço do destino', value => vehicle_route_obj.destination)|none%]
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+            [%IF !NO_TITLE%]
+            [%href = c.uri_for_action('/user/route/index')%]
+            <a href="[%href%]" class="btn btn-right">Voltar para lista de rotas</a>
+            [%END%]
+        </div>
+    </fieldset>
+
+</div>
+</form>
