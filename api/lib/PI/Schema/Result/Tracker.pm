@@ -122,6 +122,44 @@ __PACKAGE__->has_many(
 # Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cl2NUGT8gUZIMpsPzKq6DA
 
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
+
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr TimeStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                code => {
+                    required => 0,
+                    type     => 'Str',
+                }
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $tracker = $self->update( \%values );
+
+            return $tracker;
+        },
+
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

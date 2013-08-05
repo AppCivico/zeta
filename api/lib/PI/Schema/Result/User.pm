@@ -162,6 +162,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 documents
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::Document>
+
+=cut
+
+__PACKAGE__->has_many(
+  "documents",
+  "PI::Schema::Result::Document",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 drivers
 
 Type: has_many
@@ -208,8 +223,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-24 18:44:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zYwSVGL9a9+2NM+cn2M+Ig
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-05 14:33:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PDd3JY59X7HpeXCx9TAaYg
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 
