@@ -11,7 +11,7 @@
 </tr>
 </thead>
 <tbody>
-[%FOREACH v IN vehicle_route %]
+[%FOREACH v IN vehicle_routes %]
 <tr>
     <th>[%v.name%]</th>
     <td>[%v.start_time_gone%]</td>
