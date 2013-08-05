@@ -35,8 +35,12 @@ sub process : Chained('base') : PathPart('vehicle_parking') : Args(0) {
 
     }
     else {
+        $c->detach( '/form/redirect_ok', [
+            $c->req->params->{redirect_to_dashboard}
+                ? '/user/dashboard/index'
+                : '/user/parking/index'
 
-        $c->detach( '/form/redirect_ok', [ '/user/dashboard/index', {}, 'Cadastrado com sucesso!' ] );
+        , {}, 'Cadastrado com sucesso!' ] );
     }
 }
 
