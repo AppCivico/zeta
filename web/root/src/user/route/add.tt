@@ -8,6 +8,28 @@
 <input type="hidden" name="redirect_to_dashboard" value="1"/>
 [%END%]
     [%input_text('name','Nome da rota', value => vehicle_route_obj.name, placeholder=>'Ex: Casa para Trabalho')|none%]
+
+<p>Clique sobre os dias da semana que você normalmente efetua essa rota</p>
+<div class="control-group ">
+    <div class="controls">
+        [%FOREACH i IN [1..7]%]
+        <input type="hidden" name="dow_[%i%]"/>
+        [%END%]
+        <div class="btn-group" id="btn_semana" data-toggle="buttons-checkbox">
+            <button type="button" data-changeval-name="dow_1" data-changeval-valuehc="active" title="Domingo" class="btn">D</button>
+            <button type="button" data-changeval-name="dow_2" data-changeval-valuehc="active" title="Segunda" class="btn u">S</button>
+            <button type="button" data-changeval-name="dow_3" data-changeval-valuehc="active" title="Terça" class="btn u">T</button>
+            <button type="button" data-changeval-name="dow_4" data-changeval-valuehc="active" title="Quarta" class="btn u">Q</button>
+            <button type="button" data-changeval-name="dow_5" data-changeval-valuehc="active" title="Quinta" class="btn u">Q</button>
+            <button type="button" data-changeval-name="dow_6" data-changeval-valuehc="active" title="Sexta" class="btn u">S</button>
+            <button type="button" data-changeval-name="dow_7" data-changeval-valuehc="active" title="Sábado" class="btn">S</button>
+        </div>
+
+        <button type="button" data-send-click="#btn_semana .u:not(.active)" class="btn btn-info">Marcar dias úteis</button>
+    </div>
+</div>
+
+
     [%input_text('start_time_gone','Hora de partida',
 
         app => '<i class="icon-time"></i>',
@@ -23,6 +45,8 @@
         divclass=> 'bootstrap-timepicker',
         extratags => 'data-default-time="false" data-show-meridian="false" data- data-minute-step="10"'
     )|none%]
+
+
 
 
 

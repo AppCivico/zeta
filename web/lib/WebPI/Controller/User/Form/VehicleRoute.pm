@@ -10,7 +10,12 @@ sub base : Chained('/user/form/base') : PathPart('') : CaptureArgs(0) {
     for my $field (qw /start_time_gone start_time_back/){
         $c->req->params->{$field} .= ':00';
     }
-
+    my @dow = ();
+    for my $i (1..7){
+        push @dow, $i if (exists $c->req->params->{"dow_$i"} && $c->req->params->{"dow_$i"});
+        delete $c->req->params->{"dow_$i"};
+    }
+    $c->req->params->{"days_of_week"} = join ',', @dow;
 
 }
 

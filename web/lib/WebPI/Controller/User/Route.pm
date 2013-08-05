@@ -22,6 +22,10 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
     for my $field (qw /start_time_gone start_time_back/){
         $c->stash->{vehicle_route_obj}{$field} = substr($c->stash->{vehicle_route_obj}{$field}, 0, -3); # tira os segundos
     }
+
+    my @dow = @{ $c->stash->{vehicle_route_obj}{days_of_week} || [] };
+    $c->stash->{dow}{$_} = 'active' for @dow;
+
 }
 
 sub index : Chained('base') : PathPart('') : Args(0) {

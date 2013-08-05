@@ -26,7 +26,7 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
     # por enquanto, a pessoa só pode ter um veiculo, logo
     # o primeiro é o atual/ativo/o que importa.
     my $vehicle_id = exists $c->stash->{vehicles}[0] ? $c->stash->{vehicles}[0]{id} : undef;
-    use DDP; p $vehicle_id;
+
     if ($vehicle_id){
         $api->stash_result(
             $c,
