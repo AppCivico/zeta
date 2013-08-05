@@ -78,7 +78,7 @@ __PACKAGE__->table("document");
 
   data_type: 'integer'
   is_foreign_key: 1
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 created_at
 
@@ -86,6 +86,12 @@ __PACKAGE__->table("document");
   default_value: current_timestamp
   is_nullable: 0
   original: {default_value => \"now()"}
+
+=head2 user_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
 
 =cut
 
@@ -108,7 +114,7 @@ __PACKAGE__->add_columns(
   "validated_by",
   { data_type => "integer", is_nullable => 1 },
   "vehicle_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -116,6 +122,8 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
+  "user_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -132,6 +140,26 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 user
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "user",
+  "PI::Schema::Result::User",
+  { id => "user_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
 =head2 vehicle
 
 Type: belongs_to
@@ -144,13 +172,80 @@ __PACKAGE__->belongs_to(
   "vehicle",
   "PI::Schema::Result::Vehicle",
   { id => "vehicle_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/LBU4xer0E44LpHFCYXnvg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-05 14:33:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QhKSp9Kcptzm0bd5ZGfvew
 
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
+
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr TimeStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                class_name => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                public_url => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                private_path => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                validated_at => {
+                    required => 0,
+                    type     => DataStr,
+                },
+                validated_by => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                vehicle_id => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                user_id => {
+                    required => 0,
+                    type     => 'Int',
+                },
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $document = $self->update( \%values );
+
+            return $document;
+        },
+
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
