@@ -22,14 +22,22 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
             driver_id => $c->user->driver->{id}
         }
     );
-
+    $api->stash_result(
+        $c,
+        ['vehicle_parking'],
+        params => {
+            driver_id => $c->user->driver->{id}
+        }
+    );
     if ( $c->req->method eq 'POST' ) {
         return;
     }
 
     $c->stash->{template_wrapper} = 'user';
 
-    if ( @{ $c->stash->{vehicles} } == 0 ) {
+    if ( @{ $c->stash->{vehicles} } == 0 ||
+         @{ $c->stash->{vehicle_parking} } == 0
+    ) {
         $c->stash->{cadastro_incompleto} = 1;
     }
 

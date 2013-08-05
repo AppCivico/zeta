@@ -1,0 +1,31 @@
+<h2>Editando estacionamento</h2>
+<form class="form-horizontal" method="post" action="/form/user/vehicle_parking/[%vehicle_parking_obj.id%]">
+<fieldset>
+
+    [%input_text('name','Nome', value => vehicle_parking_obj.name)|none%]
+    [%input_text('entry_time','Hora de entrada', value => vehicle_parking_obj.entry_time)|none%]
+    [%input_text('departure_time','Hora da saida', value => vehicle_parking_obj.departure_time)|none%]
+
+    [%input_text('address','Endereço', value => vehicle_parking_obj.address)|none%]
+
+
+    [%checkbox('monthly_payment','Mensal', classes => [], checked => vehicle_parking_obj.monthly_payment)|none%]
+
+
+
+
+    is_street
+
+
+    lat_lng
+
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Salvar</button>
+        [%href = c.uri_for_action('/user/parking/index')%]
+        <a href="[%href%]" class="btn btn-right">Voltar para lista de estacionamentos</a>
+    </div>
+</fieldset>
+
+
+</form>

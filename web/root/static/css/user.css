@@ -6,7 +6,16 @@ body {
 .sidebar-nav {
     padding: 9px 0;
 }
+.btn-right {
+    float:right;
+}
 
+a.del {
+    font-size: 0.8em;
+    color: #E00;
+    float:right;
+
+}
 @media (max-width: 980px) {
     /* Enable use of floated navbar text */
     .navbar-text.pull-right {

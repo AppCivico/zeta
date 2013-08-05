@@ -1,5 +1,11 @@
 [%IF main_view%]
 [%INCLUDE "user/dashboard/$main_view"%]
 [%ELSE%]
-aaaaaaaaa
+<dl>
+<dt>Status</dt>
+<dd>Carro fora de campanha</dd>
+
+<dt>Status do dispositivo</dt>
+<dd>instalado</dd>
+</dl>
 [%END%]

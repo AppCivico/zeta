@@ -1,0 +1,28 @@
+<h2>Lista de estacionamentos.</h2>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+    <th>Nome</th>
+    <th>Horário entrada</th>
+    <th>Horário saída</th>
+    <th>Opções</th>
+</tr>
+</thead>
+<tbody>
+[%FOREACH v IN vehicle_parking %]
+<tr>
+    <th>[%v.name%]</th>
+    <td>[%v.entry_time%]</td>
+    <td>[%v.departure_time%]</td>
+    <td>
+    [%href = c.uri_for_action('/user/parking/edit', [v.id])%]
+    <a href="[%href%]">editar</a>
+    [%href = c.uri_for_action('/user/form/vehicleparking/process_delete', [v.id])%]
+    <a class="del" href="[%href%]">remover</a>
+    </td>
+</tr>
+[%END%]
+</tbody>
+</table>

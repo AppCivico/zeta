@@ -7,6 +7,9 @@ IF (!opt.classes) ; opt.classes = ['span3']; END;
 SET id = "elm_${name}";
 
 
+    IF body.$name && body.$name.defined;
+        opt.value = body.$name;
+    END;
 
 %]
 <div class="control-group [%IF form_error.$name == 'invalid'%]error[%ELSIF form_error.$name%]warning[%END%]">
@@ -14,7 +17,7 @@ SET id = "elm_${name}";
     <div class="controls">
         <div class="[%IF opt.pre%]input-prepend[%END%]">
             [%IF opt.pre%]<span class="add-on">[%opt.pre|none%]</span>[%END%]
-            <input [%IF body.$name%]value="[%body.$name%]"[%END%] id="[%id%]" name="[%name%]" type="[%IF opt.type%][%opt.type%][%ELSE%]text[%END%]"
+            <input [%IF opt.value%]value="[%opt.value%]"[%END%] id="[%id%]" name="[%name%]" type="[%IF opt.type%][%opt.type%][%ELSE%]text[%END%]"
             [% IF opt.pattern %] pattern="[% opt.pattern %]" [% END %]
             [%~ IF opt.classes %] class="[% opt.classes.join(" ") %]"[% END ~%]
             [%~ IF opt.disabled %] disabled="disabled"[% END ~%]
