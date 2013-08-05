@@ -16,6 +16,10 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
         ['vehicle_parking', $id],
         stash => 'vehicle_parking_obj'
     );
+
+    for my $field (qw /departure_time entry_time/){
+        $c->stash->{vehicle_parking_obj}{$field} = substr($c->stash->{vehicle_parking_obj}{$field}, 0, -3); # tira os segundos
+    }
 }
 
 sub index : Chained('base') : PathPart('') : Args(0) {

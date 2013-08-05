@@ -15,7 +15,7 @@ SET id = "elm_${name}";
 <div class="control-group [%IF form_error.$name == 'invalid'%]error[%ELSIF form_error.$name%]warning[%END%]">
     <label class="control-label" for="[%id%]">[%label|none%]</label>
     <div class="controls">
-        <div class="[%IF opt.pre%]input-prepend[%END%]">
+        <div class="[%IF opt.pre%]input-prepend[%END%][%IF opt.app%] input-append[%END%][%IF opt.divclass%] [%opt.divclass%][%END%]">
             [%IF opt.pre%]<span class="add-on">[%opt.pre|none%]</span>[%END%]
             <input [%IF opt.value%]value="[%opt.value%]"[%END%] id="[%id%]" name="[%name%]" type="[%IF opt.type%][%opt.type%][%ELSE%]text[%END%]"
             [% IF opt.pattern %] pattern="[% opt.pattern %]" [% END %]
@@ -24,7 +24,9 @@ SET id = "elm_${name}";
             [%~ IF opt.placeholder %] placeholder="[%opt.placeholder%]"[% END ~%]
             [%~ IF opt.checked %] checked="checked"[% END ~%]
             [%~ IF opt.tabindex %] tabindex="[% opt.tabindex %]"[% END ~%]
+            [%~ IF opt.extratags %] [%opt.extratags|none%][% END ~%]
             [%~ IF opt.maxlength %] maxlength="[% opt.maxlength %]"[% END ~%]>
+            [%IF opt.app%]<span class="add-on">[%opt.app|none%]</span>[%END%]
         </div>
         [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Inválido[%ELSE%]Requerido[%END%]</span>[%END%]
         [% IF opt.support %]<p>[% (opt.support) %]</p>[% END %]

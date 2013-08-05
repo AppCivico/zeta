@@ -6,6 +6,11 @@ BEGIN { extends 'Catalyst::Controller' }
 
 sub base : Chained('/user/form/base') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
+
+    for my $field (qw /departure_time entry_time/){
+        $c->req->params->{$field} .= ':00';
+    }
+
 }
 
 sub process : Chained('base') : PathPart('vehicle_parking') : Args(0) {

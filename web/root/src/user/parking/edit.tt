@@ -3,14 +3,26 @@
 <fieldset>
 
     [%input_text('name','Nome', value => vehicle_parking_obj.name)|none%]
-    [%input_text('entry_time','Hora de entrada', value => vehicle_parking_obj.entry_time)|none%]
-    [%input_text('departure_time','Hora da saida', value => vehicle_parking_obj.departure_time)|none%]
+    [%input_text('entry_time','Hora de entrada',
+        value => vehicle_parking_obj.entry_time,
+        app => '<i class="icon-time"></i>',
+        classes => ['span1','timepicker-me'],
+        divclass=> 'bootstrap-timepicker',
+        extratags => 'data-show-meridian="false" data-minute-step="10"'
+    )|none%]
+
+    [%input_text('departure_time','Hora da saida',
+        value => vehicle_parking_obj.departure_time,
+        app => '<i class="icon-time"></i>',
+        classes => ['span1','timepicker-me'],
+        divclass=> 'bootstrap-timepicker',
+        extratags => 'data-show-meridian="false" data-minute-step="10"'
+    )|none%]
 
     [%input_text('address','Endereço', value => vehicle_parking_obj.address)|none%]
 
 
     [%checkbox('monthly_payment','Mensal', classes => [], checked => vehicle_parking_obj.monthly_payment)|none%]
-
 
 
 

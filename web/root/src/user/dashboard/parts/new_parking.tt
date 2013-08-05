@@ -13,7 +13,7 @@
         [%input_text('entry_time','Hora de entrada')|none%]
         [%input_text('departure_time','Hora da saida')|none%]
 
-    [%input_text('address','Endereço', value => vehicle_parking_obj.address)|none%]
+        [%input_text('address','Endereço', value => vehicle_parking_obj.address)|none%]
 
         [%checkbox('monthly_payment','Mensal', classes => [])|none%]
 

@@ -27,6 +27,7 @@ $( document ).ready(function() {
         $(this).button('loading');
     });
 
+    $('.timepicker-me').timepicker();
 
 
 });
