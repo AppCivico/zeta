@@ -107,7 +107,6 @@ db_transaction {
       stash => 'document',
       [
         class_name      => 'cpf',
-        public_url      => 'teste',
         private_path    => 'teste',
         user_id         => stash 'user.id'
       ];
@@ -134,7 +133,6 @@ db_transaction {
       name => 'atualizar documento',
       [
         class_name      => 'renavam',
-        public_url      => 'test car',
         private_path    => 'test-car',
         vehicle_id      => stash 'vehicle.id'
       ];

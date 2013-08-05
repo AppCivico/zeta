@@ -54,11 +54,6 @@ __PACKAGE__->table("document");
   data_type: 'text'
   is_nullable: 0
 
-=head2 public_url
-
-  data_type: 'text'
-  is_nullable: 1
-
 =head2 private_path
 
   data_type: 'text'
@@ -105,8 +100,6 @@ __PACKAGE__->add_columns(
   },
   "class_name",
   { data_type => "text", is_nullable => 0 },
-  "public_url",
-  { data_type => "text", is_nullable => 1 },
   "private_path",
   { data_type => "text", is_nullable => 1 },
   "validated_at",
@@ -181,8 +174,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-05 14:33:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QhKSp9Kcptzm0bd5ZGfvew
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-05 18:14:09
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KMF90yYkNqxHBDjiBwv1rQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -199,10 +192,6 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 class_name => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                public_url => {
                     required => 0,
                     type     => 'Str',
                 },

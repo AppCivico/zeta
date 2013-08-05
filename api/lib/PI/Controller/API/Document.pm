@@ -44,7 +44,6 @@ sub result_GET {
                   qw/
                     id
                     class_name
-                    public_url
                     private_path
                     validated_by
                     vehicle_id
@@ -98,7 +97,6 @@ sub list_GET {
                                qw/
                                 id
                                 class_name
-                                public_url
                                 private_path
                                 validated_by
                                 vehicle_id

@@ -22,10 +22,6 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Str',
                 },
-                public_url => {
-                    required => 0,
-                    type     => 'Str',
-                },
                 private_path => {
                     required => 0,
                     type     => 'Str',
