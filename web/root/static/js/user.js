@@ -1,10 +1,16 @@
 $( document ).ready(function() {
 
     $(document).on("click", "[data-changeval-name]", function(){
-        var $me = $(this);
-        $me.parents('form:first').find('[name="' + $me.attr('data-changeval-name') + '"]').val(
-            $me.attr('data-changeval-value')
-        );
+        var $me = $(this), $elm = $me.parents('form:first').find('[name="' + $me.attr('data-changeval-name') + '"]');
+
+        if ($me.attr('data-changeval-value')){
+            $elm.val($me.attr('data-changeval-value'));
+        }else if ($me.attr('data-changeval-valuehc')){
+
+            setTimeout(function(){
+                $elm.val( $me.hasClass($me.attr('data-changeval-valuehc')) ? 1 : 0 );
+            });
+        }
     });
 
     $(document).on("click", "[data-toggle-class]", function(){
@@ -26,6 +32,13 @@ $( document ).ready(function() {
     $(document).on("click", "button[data-loading-text]", function(){
         $(this).button('loading');
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $(document).on("click", "[data-send-click]", function(){
+        $($(this).attr('data-send-click')).click();
+    });
+
 
     $("[data-confirm]").click(function(event) {
         var confirmPrompt = event.currentTarget.attributes['data-confirm'].value;
