@@ -116,8 +116,14 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
+    # TODO verificar tipo do arquivo
+
     my $document = $c->stash->{collection}
       ->execute( $c, for => 'create', with => $c->req->params );
+
+    if ($c->req->upload('file')) {
+        $self->_upload_file($c, $document);
+    }
 
     $self->status_created(
         $c,
@@ -126,6 +132,37 @@ sub list_POST {
             id => $document->id
         }
     );
+}
+
+sub _upload_file {
+    my ($self, $c, $document) = @_;
+
+    my $upload      = $c->req->upload('file');
+    my $path        = $c->config->{private_path};
+    my $user_id     = $c->user->id;
+    my $class_name  = $document->class_name;
+
+    my $filename =
+        sprintf( '%i_%i_%s_%s', $document->id, $user_id, $class_name, $upload->filename );
+
+    unless (-d $path.'/'.$user_id) {
+        mkdir($path.'/'.$user_id);
+    }
+
+    my  $private_path =
+            $path =~ /^\//o
+            ? dir( $path )->resolve . '/' . $user_id . '/' . $filename
+            : PI->path_to( $path.'/'.$user_id, $filename );
+
+    unless ( $upload->copy_to($private_path) ) {
+        $c->res->body( to_json( { error => "Copy failed: $!" } ) );
+        $c->detach;
+    }
+    chmod 0644, $private_path;
+
+    $document->update({ private_path => $private_path});
+
+    return 1;
 }
 
 1;

@@ -92,7 +92,18 @@ sub rest_post {
     my $name = $conf{name} || "POST $url";
     my $stashkey = exists $conf{stash} ? $conf{stash} : undef;
 
-    my $req = POST $url, $data;
+    my $req;
+
+    if( !exists $conf{files} ) {
+        $req = POST $url, $data;
+    } else {
+
+        $conf{files}{$_} = [$conf{files}{$_}] for keys %{$conf{files}};
+
+        $req = POST $url,
+            'Content-Type' => 'form-data',
+            Content        =>   [@$data, %{$conf{files}}];
+    }
 
     $req->method( $conf{method} ) if exists $conf{method};
 

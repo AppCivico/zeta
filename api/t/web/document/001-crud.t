@@ -100,15 +100,19 @@ db_transaction {
         role             => 'user'
       ];
 
+     unless(-e '/tmp/test_pi') {
+        `echo test > /tmp/test_pi `;
+     }
+
     #criar novo documento
     rest_post '/documents',
       name  => 'criar documento',
       list  => 1,
       stash => 'document',
+      files => {'file' => '/tmp/test_pi'},
       [
-        class_name      => 'cpf',
-        private_path    => 'teste',
-        user_id         => stash 'user.id'
+        class_name  => 'cpf',
+        user_id     => stash 'user.id'
       ];
 
     stash_test 'document.get', sub {
