@@ -30,16 +30,16 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $tracker = $c->stash->{tracker};
-    my %attrs         = $tracker->get_inflated_columns;
+    my %attrs   = $tracker->get_inflated_columns;
     $self->status_ok(
         $c,
         entity => {
             (
                 map { $_ => $attrs{$_}, }
                   qw/
-                    id
-                    code
-                    vehicle_id
+                  id
+                  code
+                  vehicle_id
                   /
             ),
             ( map { $_ => $tracker->$_->datetime } qw/created_at/ )
@@ -88,9 +88,9 @@ sub list_GET {
                         (
                             map { $_ => $r->{$_} }
                               qw/
-                                id
-                                code
-                                vehicle_id
+                              id
+                              code
+                              vehicle_id
                               /
                         )
                       }

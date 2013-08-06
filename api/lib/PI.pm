@@ -42,13 +42,13 @@ our $VERSION = '0.01';
 # local deployment.
 
 __PACKAGE__->config(
-    name     => 'PI',
-    encoding => 'UTF-8',
+    name         => 'PI',
+    encoding     => 'UTF-8',
     private_path => '../etc/uploads',
+
     # Disable deprecated behavior needed by old applications
     disable_component_resolution_regex_fallback => 1,
     enable_catalyst_header                      => 1,    # Send X-Catalyst header
-
 
 );
 

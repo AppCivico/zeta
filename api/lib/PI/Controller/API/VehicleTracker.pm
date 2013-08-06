@@ -65,11 +65,15 @@ sub result_PUT {
 
     my $vehicle_tracker = $c->stash->{vehicle_tracker};
 
-    $vehicle_tracker->execute( $c, for => 'update', with =>  $c->req->params );
+    $vehicle_tracker->execute( $c, for => 'update', with => $c->req->params );
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_tracker->id ] )->as_string,
-        entity => { vehicle_id => $vehicle_tracker->vehicle_id, tracker_id => $vehicle_tracker->tracker_id, id => $vehicle_tracker->id }
+        entity => {
+            vehicle_id => $vehicle_tracker->vehicle_id,
+            tracker_id => $vehicle_tracker->tracker_id,
+            id         => $vehicle_tracker->id
+        }
       ),
       $c->detach
       if $vehicle_tracker;
@@ -79,7 +83,7 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 }
 
 sub list_GET {
-    my ( $self, $c )    = @_;
+    my ( $self, $c ) = @_;
 
     $self->status_ok(
         $c,
@@ -91,13 +95,13 @@ sub list_GET {
                         (
                             map { $_ => $r->{$_} }
                               qw/
-                                id
-                                tracker_id
-                                lat
-                                lng
-                                vehicle_id
-                                speed
-                                track_event
+                              id
+                              tracker_id
+                              lat
+                              lng
+                              vehicle_id
+                              speed
+                              track_event
                               /
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
@@ -111,8 +115,7 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $vehicle_tracker = $c->stash->{collection}
-      ->execute( $c, for => 'create', with => $c->req->params );
+    my $vehicle_tracker = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 
     $self->status_created(
         $c,

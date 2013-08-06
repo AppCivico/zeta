@@ -94,15 +94,16 @@ sub rest_post {
 
     my $req;
 
-    if( !exists $conf{files} ) {
+    if ( !exists $conf{files} ) {
         $req = POST $url, $data;
-    } else {
+    }
+    else {
 
-        $conf{files}{$_} = [$conf{files}{$_}] for keys %{$conf{files}};
+        $conf{files}{$_} = [ $conf{files}{$_} ] for keys %{ $conf{files} };
 
         $req = POST $url,
-            'Content-Type' => 'form-data',
-            Content        =>   [@$data, %{$conf{files}}];
+          'Content-Type' => 'form-data',
+          Content        => [ @$data, %{ $conf{files} } ];
     }
 
     $req->method( $conf{method} ) if exists $conf{method};

@@ -100,19 +100,19 @@ db_transaction {
         role             => 'user'
       ];
 
-     unless(-e '/tmp/test_pi') {
-        `echo test > /tmp/test_pi `;
-     }
+    unless ( -e '/tmp/test_pi' ) {
+        `echo test > /tmp/test_pi`;
+    }
 
     #criar novo documento
     rest_post '/documents',
       name  => 'criar documento',
       list  => 1,
       stash => 'document',
-      files => {'file' => '/tmp/test_pi'},
+      files => { 'file' => '/tmp/test_pi' },
       [
-        class_name  => 'cpf',
-        user_id     => stash 'user.id'
+        class_name => 'cpf',
+        user_id    => stash 'user.id'
       ];
 
     stash_test 'document.get', sub {
@@ -136,9 +136,9 @@ db_transaction {
     rest_put stash 'document.url',
       name => 'atualizar documento',
       [
-        class_name      => 'renavam',
-        private_path    => 'test-car',
-        vehicle_id      => stash 'vehicle.id'
+        class_name   => 'renavam',
+        private_path => 'test-car',
+        vehicle_id   => stash 'vehicle.id'
       ];
 
     rest_reload 'document';
@@ -146,8 +146,8 @@ db_transaction {
     stash_test 'document.get', sub {
         my ($me) = @_;
 
-        is( $me->{id}, stash 'document.id', 'get has the same id!' );
-        is( $me->{class_name}, 'renavam', 'code updated!' );
+        is( $me->{id},         stash 'document.id', 'get has the same id!' );
+        is( $me->{class_name}, 'renavam',           'code updated!' );
     };
 
     rest_delete stash 'document.url';
