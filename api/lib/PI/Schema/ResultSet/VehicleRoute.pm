@@ -51,15 +51,15 @@ sub verifiers_specs {
                     type     => 'Int',
                 },
                 days_of_week => {
-                    required => 0,
-                    type    => 'Str',
+                    required   => 0,
+                    type       => 'Str',
                     post_check => sub {
                         my $r = shift;
 
                         return 0 unless $r->get_value('days_of_week') =~ /^[1-7](,[1-7]){0,6}$/;
 
                         return 1;
-                    }
+                      }
                 }
             }
         )
@@ -73,9 +73,9 @@ sub action_specs {
         create => sub {
             my %values = shift->valid_values;
 
-            if( $values{days_of_week} ) {
-                my @days                = split  /,/, $values{days_of_week};
-                $values{days_of_week}   = \@days;
+            if ( $values{days_of_week} ) {
+                my @days = split /,/, $values{days_of_week};
+                $values{days_of_week} = \@days;
             }
 
             my $vehicle_route = $self->create( \%values );
