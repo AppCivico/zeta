@@ -1,0 +1,30 @@
+<h2>Lista de documentos</h2>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+    <th>Tipo</th>
+    <th>Válido</th>
+    <th>digitalização</th>
+</tr>
+</thead>
+<tbody>
+[%FOREACH d IN document %]
+<tr>
+    <th>[%d.class_name%]</th>
+    <td>[%d.validated_at%]</td>
+    <td>[%d.private_path%]</td>
+    <td>
+    [%href = c.uri_for_action('/user/document/edit', [d.id])%]
+    <a href="[%href%]">editar</a>
+    [%href = c.uri_for_action('/user/form/document/process_delete', [d.id])%]
+    <a class="del" href="[%href%]" data-confirm="Deseja realmente remover?">remover</a>
+    </td>
+</tr>
+[%END%]
+</tbody>
+</table>
+
+[%href = c.uri_for_action('/user/document/add')%]
+<a class="btn" href="[%href%]">Adicionar um novo documento</a>

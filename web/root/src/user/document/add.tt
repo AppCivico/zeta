@@ -1,0 +1,29 @@
+[%IF !NO_TITLE%]
+<h2>Adicionar documentos</h2>
+[%END%]
+<form class="form-horizontal" method="post" action="/form/user/document" enctype="multipart/form-data">
+<div class="tab-pane active" id="tab1">
+    <fieldset>
+[%IF NO_TITLE%]
+<input type="hidden" name="redirect_to_dashboard" value="1"/>
+[%END%]
+    [%input_text('class_name','Registro CNH', type => 'file')|none%]
+    [%input_text('class_name','Comprovante de residência', type => 'file')|none%]
+    [%input_text('class_name','Foto atualizada do carro', type => 'file')|none%]
+
+    <div id="dados_documento">
+        [%checkbox('vehicle_owner','Eu sou o dono do veículo', classes => [], checked => document_obj.vehicle_owner)|none%]
+    </div>
+
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+            [%IF !NO_TITLE%]
+            [%href = c.uri_for_action('/user/document/index')%]
+            <a href="[%href%]" class="btn btn-right">Voltar para lista de documentos</a>
+            [%END%]
+        </div>
+    </fieldset>
+
+</div>
+</form>
