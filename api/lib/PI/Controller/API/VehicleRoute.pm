@@ -45,6 +45,7 @@ sub result_GET {
                   origin_lat_lng
                   destination
                   destination_lat_lng
+                  days_of_week
                   /
             ),
         }
@@ -101,6 +102,7 @@ sub list_GET {
                               destination
                               destination_lat_lng
                               vehicle_id
+                              days_of_week
                               /
                         )
                       }

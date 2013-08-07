@@ -100,7 +100,8 @@ db_transaction {
         origin_lat_lng      => '-23.446185,-46.553640',
         destination         => 'Trabalho',
         destination_lat_lng => '-23.572347,-46.643975',
-        vehicle_id          => stash 'vehicle.id'
+        vehicle_id          => stash 'vehicle.id',
+        days_of_week        => '1,2,3,4,5,6,7'
       ];
 
     stash_test 'vehicle_route.get', sub {
@@ -130,7 +131,8 @@ db_transaction {
         origin              => 'Trabalho',
         origin_lat_lng      => '-23.572347,-46.643975',
         destination         => 'O\'Malley\'s',
-        destination_lat_lng => '-23.558314,-46.665998'
+        destination_lat_lng => '-23.558314,-46.665998',
+        days_of_week        => '1,2,7'
       ];
 
     rest_reload 'vehicle_route';

@@ -90,6 +90,11 @@ __PACKAGE__->table("vehicle_route");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 days_of_week
+
+  data_type: 'smallint[]'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -116,6 +121,8 @@ __PACKAGE__->add_columns(
   { data_type => "point", is_nullable => 1 },
   "vehicle_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "days_of_week",
+  { data_type => "smallint[]", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -148,8 +155,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GaBuP0AEv5PyE903CEKXIA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-06 18:36:45
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OhI0KA3CR9xo0ZBQOBTIoQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -193,6 +200,19 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Str',
                 },
+                days_of_week => {
+                    required => 0,
+                    type    => 'Str',
+                    post_check => sub {
+                        my $r = shift;
+
+                        if($r->get_value('days_of_week')) {
+                            return 0 unless $r->get_value('days_of_week') =~ /^[1-7](,[1-7]){0,6}$/;
+                        }
+
+                        return 1;
+                    }
+                }
             }
         ),
     };
@@ -205,6 +225,11 @@ sub action_specs {
             my %values = shift->valid_values;
 
             not defined $values{$_} and delete $values{$_} for keys %values;
+
+            if($values{days_of_week}) {
+                my @days = split  /,/, $values{days_of_week};
+                $values{days_of_week} = \@days;
+            }
 
             my $vehicle_route = $self->update( \%values );
 
