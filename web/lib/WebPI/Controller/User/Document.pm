@@ -1,7 +1,6 @@
 package WebPI::Controller::User::Document;
 use Moose;
 use namespace::autoclean;
-use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -33,13 +32,10 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         }
     );
 
-    my $resid = 'Comprovante de residência';
-    utf8::decode($resid);
-
     $c->stash->{class_name_conf} = {
         foto_carro              => 'Foto do carro',
         registro_cnh            => 'Registro de cnh',
-        comprovante_residencia  => $resid
+        comprovante_residencia  => 'Comprovante de residência'
     };
 }
 
