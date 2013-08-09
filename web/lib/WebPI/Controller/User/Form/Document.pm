@@ -38,7 +38,44 @@ sub process : Chained('base') : PathPart('document') : Args(0) {
     }
     else {
 
-        $c->detach( '/form/redirect_ok', [ '/user/dashboard/index', {}, 'Cadastrado com sucesso!' ] );
+        $c->detach( '/form/redirect_ok', [ '/user/document/index', {}, 'Cadastrado com sucesso!' ] );
+    }
+}
+
+sub process_edit : Chained('base') : PathPart('documents') : Args(1) {
+    my ( $self, $c, $id) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, [ 'documents', $id ],
+        method => 'PUT',
+        body   => $c->req->params
+    );
+
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    }
+    else {
+        $c->detach( '/form/redirect_ok', [ '/user/document/index', {}, 'Alterado com sucesso!' ] );
+    }
+}
+
+sub process_delete : Chained('base') : PathPart('remove_documents') : Args(1) {
+    my ( $self, $c, $id) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, [ 'documents', $id ],
+        method => 'DELETE'
+    );
+
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    }
+    else {
+        $c->detach( '/form/redirect_ok', [ '/user/document/index', {}, 'Removido com sucesso!' ] );
     }
 }
 

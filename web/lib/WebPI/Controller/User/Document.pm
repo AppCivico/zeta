@@ -1,6 +1,7 @@
 package WebPI::Controller::User::Document;
 use Moose;
 use namespace::autoclean;
+use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -13,7 +14,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
     my $api = $c->model('API');
     $api->stash_result(
         $c,
-        ['document', $id],
+        ['documents', $id],
         stash => 'document_obj'
     );
 
@@ -22,7 +23,24 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 
 sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
+    my $api = $c->model('API');
 
+    $api->stash_result(
+        $c,
+        ['documents'],
+        params => {
+            user_id => $c->user->id
+        }
+    );
+
+    my $resid = 'Comprovante de residência';
+    utf8::decode($resid);
+
+    $c->stash->{class_name_conf} = {
+        foto_carro              => 'Foto do carro',
+        registro_cnh            => 'Registro de cnh',
+        comprovante_residencia  => $resid
+    };
 }
 
 sub edit: Chained('object') : PathPart('') : Args(0) {
