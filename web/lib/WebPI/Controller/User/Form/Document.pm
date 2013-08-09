@@ -12,12 +12,21 @@ sub process : Chained('base') : PathPart('document') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
+    my $p   = $c->req->params;
 
-    $api->stash_result(
-        $c, [ 'document', $c->stash->{document}{id}, 'vehicle_with_owner' ],
-        method => 'POST',
-        body   => $c->req->params
-    );
+    foreach my $class (qw/registro_cnh comprovante_residencia foto_carro/){
+        my $upload = $c->req->upload($class);
+        next unless $upload;
+
+        $api->stash_result(
+            $c, [ 'documents' ],
+            method => 'UPLOAD',
+            body   => [
+                class_name  => $class,
+                file        => [ $upload->tempname ]
+            ]
+        );
+    }
 
     if ( $c->stash->{error} ) {
 
@@ -29,8 +38,6 @@ sub process : Chained('base') : PathPart('document') : Args(0) {
         $c->detach( '/form/redirect_ok', [ '/user/dashboard/index', {}, 'Cadastrado com sucesso!' ] );
     }
 }
-
-
 
 __PACKAGE__->meta->make_immutable;
 

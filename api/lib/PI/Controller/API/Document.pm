@@ -138,20 +138,23 @@ sub _upload_file {
     my $user_id    = $c->user->id;
     my $class_name = $document->class_name;
 
-    my $filename = sprintf( '%i_%i_%s_%s', $document->id, $user_id, $class_name, $upload->filename );
+    use DDP; p $upload;
 
-    unless ( -d $path . '/' . $user_id ) {
-        mkdir( $path . '/' . $user_id );
-    }
+    my $dir_path =
+      $path =~ /^\//o
+      ? dir($path)->resolve . '/' . $user_id
+      : PI->path_to( $path . '/' . $user_id)->stringify;
+    mkdir( $dir_path );
 
+    my $filename = sprintf( '%i_%i_%s', $document->id, $user_id, $class_name );
     my $private_path =
       $path =~ /^\//o
       ? dir($path)->resolve . '/' . $user_id . '/' . $filename
-      : PI->path_to( $path . '/' . $user_id, $filename );
-
+      : PI->path_to( $path . '/' . $user_id, $filename )->stringify;
+p $private_path;
     unless ( $upload->copy_to($private_path) ) {
-        $c->res->body( to_json( { error => "Copy failed: $!" } ) );
-        $c->detach;
+
+        $self->status_bad_request( $c, message => "Copy failed: $!"), $c->detach;
     }
     chmod 0644, $private_path;
 

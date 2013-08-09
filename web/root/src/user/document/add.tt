@@ -7,9 +7,9 @@
 [%IF NO_TITLE%]
 <input type="hidden" name="redirect_to_dashboard" value="1"/>
 [%END%]
-    [%input_text('class_name','Registro CNH', type => 'file')|none%]
-    [%input_text('class_name','Comprovante de residência', type => 'file')|none%]
-    [%input_text('class_name','Foto atualizada do carro', type => 'file')|none%]
+    [%input_text('registro_cnh','Registro CNH', type => 'file')|none%]
+    [%input_text('comprovante_residencia','Comprovante de residência', type => 'file')|none%]
+    [%input_text('foto_carro','Foto atualizada do carro', type => 'file')|none%]
 
     <div id="dados_documento">
         [%checkbox('vehicle_owner','Eu sou o dono do veículo', classes => [], checked => document_obj.vehicle_owner)|none%]
