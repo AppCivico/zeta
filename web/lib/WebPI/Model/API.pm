@@ -42,6 +42,7 @@ faz uma requisicao GET para listagens e carrega o retorno na stash
 
 =cut
 
+use HTTP::Request::Common;
 sub stash_result {
     my ( $self, $c, $endpoint, %opts ) = @_;
 
@@ -64,14 +65,25 @@ sub stash_result {
 
     my $method = lc( $opts{method} || 'GET' );
 
-    my $res = eval {
-        $self->_do_http_req(
-            method  => $method,
-            url     => $url,
-            headers => [@headers],
-            exists $opts{body} ? ( body => $opts{body} ) : ()
-        );
-    };
+    my $res;
+    if ($method eq 'upload'){
+        $res = eval {
+            my $req = POST $url,
+            @headers,
+            Content_Type => 'form-data',
+            Content      => $opts{body};
+            $self->furl->request($req);
+        };
+    }else{
+        $res = eval {
+            $self->_do_http_req(
+                method  => $method,
+                url     => $url,
+                headers => [@headers],
+                exists $opts{body} ? ( body => $opts{body} ) : ()
+            );
+        };
+    }
     if ($@) {
         $c->stash( error => "$method $endpoint", error_content => $@ );
         $c->detach('/rest_error');

@@ -93,8 +93,8 @@ db_transaction {
       list  => 1,
       stash => 'tracker',
       [
-        code                => '123456789',
-        vehicle_id          => stash 'vehicle.id'
+        code       => '123456789',
+        vehicle_id => stash 'vehicle.id'
       ];
 
     stash_test 'tracker.get', sub {
@@ -117,17 +117,15 @@ db_transaction {
 
     rest_put stash 'tracker.url',
       name => 'atualizar rastreador',
-      [
-        code    => 'ABCDE',
-      ];
+      [ code => 'ABCDE', ];
 
     rest_reload 'tracker';
 
     stash_test 'tracker.get', sub {
         my ($me) = @_;
 
-        is( $me->{id}, stash 'tracker.id', 'get has the same id!' );
-        is( $me->{code}, 'ABCDE', 'code updated!' );
+        is( $me->{id},   stash 'tracker.id', 'get has the same id!' );
+        is( $me->{code}, 'ABCDE',            'code updated!' );
     };
 
     rest_delete stash 'tracker.url';

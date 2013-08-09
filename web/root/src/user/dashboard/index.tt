@@ -7,5 +7,7 @@
 
 <dt>Status do dispositivo</dt>
 <dd>instalado</dd>
+
+[vehicles.0.name]
 </dl>
 [%END%]

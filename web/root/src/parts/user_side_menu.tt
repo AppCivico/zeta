@@ -9,15 +9,17 @@
         [%href = c.uri_for_action('/user/account/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user"></i>Meus dados</a></li>
 
-        <li><a href="#"><i class="icon-road"></i> Meu carro</a></li>
+        [%href = c.uri_for_action('/user/vehicle/index')%]
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user"></i>Meu carro</a></li>
 
         [%href = c.uri_for_action('/user/parking/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user"></i>Estacionamentos</a></li>
 
         [%href = c.uri_for_action('/user/route/index')%]
-
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-random"></i> Minhas rotas</a></li>
-        <li><a href="#"><i class="icon-file"></i> Meus documentos</a></li>
+
+        [%href = c.uri_for_action('/user/document/index')%]
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-file"></i> Meus documentos</a></li>
 
         <li class="nav-header">Sua conta</li>
         <li><a href="#"><i class="icon-envelope"></i> Convites</a></li>

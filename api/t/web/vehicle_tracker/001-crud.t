@@ -93,8 +93,8 @@ db_transaction {
       list  => 1,
       stash => 'tracker',
       [
-        code                => '123456789',
-        vehicle_id          => stash 'vehicle.id'
+        code       => '123456789',
+        vehicle_id => stash 'vehicle.id'
       ];
 
     #criar log de rota de veículo
@@ -103,12 +103,12 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_tracker',
       [
-        tracker_id          => stash 'tracker.id',
-        track_event         => '2013-08-05 12:00:00',
-        lat                 => '-23.446185',
-        lng                 => '-46.553640',
-        speed               => '60.00',
-        vehicle_id          => stash 'vehicle.id'
+        tracker_id  => stash 'tracker.id',
+        track_event => '2013-08-05 12:00:00',
+        lat         => '-23.446185',
+        lng         => '-46.553640',
+        speed       => '60.00',
+        vehicle_id  => stash 'vehicle.id'
       ];
 
     stash_test 'vehicle_tracker.get', sub {
@@ -132,11 +132,11 @@ db_transaction {
     rest_put stash 'vehicle_tracker.url',
       name => 'atualizar log de rota',
       [
-        tracker_id          => stash 'tracker.id',
-        track_event         => '2013-08-10 05:00:00',
-        lat                 => '-23.587587',
-        lng                 => '-46.549072',
-        speed               => '80.00'
+        tracker_id  => stash 'tracker.id',
+        track_event => '2013-08-10 05:00:00',
+        lat         => '-23.587587',
+        lng         => '-46.549072',
+        speed       => '80.00'
       ];
 
     rest_reload 'vehicle_tracker';

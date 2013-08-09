@@ -43,6 +43,8 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
             }
         );
     }
+    $c->stash->{vehicle_id} = $vehicle_id;
+
     if ( $c->req->method eq 'POST' ) {
         return;
     }
