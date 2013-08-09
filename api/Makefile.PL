@@ -61,6 +61,8 @@ requires 'DateTime::Format::Excel';
 requires 'Math::Expression::Evaluator';
 requires 'Template';
 requires 'Catalyst::Plugin::Assets';
+requires 'MooseX::MarkAsMethods';
+requires 'MooseX::NonMoose';
 
 requires 'Text::CSV_XS';
 requires 'Digest::MD5';
@@ -80,6 +82,7 @@ catalyst;
 install_script glob('script/*.pl');
 auto_install;
 WriteAll;
+
 
 
 

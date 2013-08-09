@@ -49,7 +49,7 @@ sub redirect_error : Private {
     if ( !$refer || $refer !~ /^http:\/\/$host/ ) {
         $refer = $c->uri_for('/');
     }
-    use DDP; p $refer;
+
     my $mid = $c->set_error_msg(
         {
             #%args,
