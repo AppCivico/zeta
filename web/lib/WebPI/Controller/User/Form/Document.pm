@@ -23,6 +23,9 @@ sub process : Chained('base') : PathPart('document') : Args(0) {
             method => 'UPLOAD',
             body   => [
                 class_name  => $class,
+                ( $class eq 'foto_carro' ? (
+                    vehicle_id => $c->stash->{vehicle_id}
+                ) : () ),
                 file        => [ $upload->tempname ]
             ]
         );

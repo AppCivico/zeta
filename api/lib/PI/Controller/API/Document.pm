@@ -1,6 +1,7 @@
 package PI::Controller::API::Document;
 
 use Moose;
+use File::Spec;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -115,7 +116,7 @@ sub list_POST {
 
     # TODO verificar tipo do arquivo
 
-    my $document = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    my $document = $c->stash->{collection}->execute( $c, for => 'create', with => { %{ $c->req->params }, user_id => $c->user->id } );
 
     if ( $c->req->upload('file') ) {
         $self->_upload_file( $c, $document );
@@ -138,8 +139,6 @@ sub _upload_file {
     my $user_id    = $c->user->id;
     my $class_name = $document->class_name;
 
-    use DDP; p $upload;
-
     my $dir_path =
       $path =~ /^\//o
       ? dir($path)->resolve . '/' . $user_id
@@ -151,14 +150,14 @@ sub _upload_file {
       $path =~ /^\//o
       ? dir($path)->resolve . '/' . $user_id . '/' . $filename
       : PI->path_to( $path . '/' . $user_id, $filename )->stringify;
-p $private_path;
+
     unless ( $upload->copy_to($private_path) ) {
 
         $self->status_bad_request( $c, message => "Copy failed: $!"), $c->detach;
     }
     chmod 0644, $private_path;
 
-    $document->update( { private_path => $private_path } );
+    $document->update( { private_path =>  File::Spec->rel2abs($private_path) } );
 
     return 1;
 }
