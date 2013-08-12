@@ -1,0 +1,32 @@
+<h2>Lista de rastreadores</h2>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Código</th>
+    <th>Data de cadastro</th>
+    <th>Status</th>
+</tr>
+</thead>
+<tbody>
+[%FOREACH r IN trackers %]
+<tr>
+    <th>[%d.id%]</th>
+    <td>[%d.code%]</td>
+    <td>[%d.created_at%]</td>
+    <td>[%d.status%]</td>
+    <td>
+        [%href = c.uri_for_action('/user/route/edit', [v.id])%]
+        <a href="[%href%]">editar</a>
+        [%href = c.uri_for_action('/user/form/vehicleroute/process_delete', [v.id])%]
+        <a class="del" href="[%href%]" data-confirm="Deseja realmente remover?">remover</a>
+    </td>
+</tr>
+[%END%]
+</tbody>
+</table>
+
+[%href = c.uri_for_action('/trackermanager/tracker/add')%]
+<a class="btn" href="[%href%]">Adicionar um novo rastreador</a>

@@ -1,5 +1,5 @@
 <h2>Editando veículo</h2>
-<form class="form-horizontal" method="post" action="/form/user/vehicle/[%vehicle_obj.id%]">
+<form class="form-horizontal" method="post" action="/user/form/vehicle/[%vehicle_obj.id%]">
 <fieldset>
     <fieldset>
         <h4>Dados do veículo</h4>

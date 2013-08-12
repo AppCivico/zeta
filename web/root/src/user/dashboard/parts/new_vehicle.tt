@@ -1,5 +1,5 @@
 <h2>Cadastre seu veículo</h2>
-<form class="form-horizontal" method="post" action="/form/user/driver_vehicle">
+<form class="form-horizontal" method="post" action="/user/form/driver_vehicle">
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tab1" data-toggle="tab">Proprietário do veículo</a></li>

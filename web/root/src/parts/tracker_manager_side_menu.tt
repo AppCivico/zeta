@@ -1,0 +1,14 @@
+<div class="well sidebar-nav" style="width: 168px" data-spy="affix" data-offset-top="0">
+    <ul class="nav nav-list">
+        [%href = c.uri_for_action('/trackermanager/dashboard/index')%]
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]">Dashboard</a></li>
+
+        <li class="nav-header">Rastreadores</li>
+        [%href = c.uri_for_action('/trackermanager/tracker/index')%]
+        <li><a href="[%href%]"><i class="icon-user"></i>Rastreadores</a></li>
+
+        <li class="nav-header">Outros</li>
+        <li><a href="/contato">Contato</a></li>
+        <li><a href="[%c.uri_for('/logout')%]">Sair</a></li>
+    </ul>
+</div>

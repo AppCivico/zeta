@@ -1,7 +1,7 @@
 [%IF !NO_TITLE%]
 <h2>Adicionar nova rota</h2>
 [%END%]
-<form class="form-horizontal" method="post" action="/form/user/vehicle_routes">
+<form class="form-horizontal" method="post" action="/user/form/vehicle_routes">
 <div class="tab-pane active" id="tab1">
     <fieldset>
 [%IF NO_TITLE%]

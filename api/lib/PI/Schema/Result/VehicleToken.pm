@@ -59,7 +59,6 @@ __PACKAGE__->table("vehicle_token");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 created_at
 
@@ -97,11 +96,7 @@ __PACKAGE__->add_columns(
   "vehicle_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "token",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -183,8 +178,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 16:52:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4mjI1aaED7tn7vCzGKioZw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 17:51:37
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4wGDWFJkOLzQCH/+5VxMFw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

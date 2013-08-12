@@ -222,6 +222,36 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 user_token_admin_trackers
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::UserToken>
+
+=cut
+
+__PACKAGE__->has_many(
+  "user_token_admin_trackers",
+  "PI::Schema::Result::UserToken",
+  { "foreign.admin_tracker_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 user_token_users
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::UserToken>
+
+=cut
+
+__PACKAGE__->has_many(
+  "user_token_users",
+  "PI::Schema::Result::UserToken",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 vehicle_tokens
 
 Type: has_many
@@ -238,8 +268,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 12:17:58
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lXwd99BmEDcY8FIUTzoz6A
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 17:51:37
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DX9Dml0nebjiVJVAVGKdwQ
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 

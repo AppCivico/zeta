@@ -28,4 +28,4 @@
 </table>
 
 [%href = c.uri_for_action('/user/route/add')%]
-<a class="btn" href="[%href%]">Adicionar um novo rota</a>
+<a class="btn" href="[%href%]">Adicionar uma nova rota</a>

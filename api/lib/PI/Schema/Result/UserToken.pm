@@ -57,7 +57,6 @@ __PACKAGE__->table("user_token");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 created_at
 
@@ -90,11 +89,7 @@ __PACKAGE__->add_columns(
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "token",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -155,8 +150,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 11:55:09
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:grYayfo1lZzypI5tcoHtjA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 17:51:37
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:x7smQj5ukWcFzLdyOEnteg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
