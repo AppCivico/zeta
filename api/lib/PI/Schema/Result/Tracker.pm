@@ -66,6 +66,11 @@ __PACKAGE__->table("tracker");
   is_nullable: 0
   original: {default_value => \"now()"}
 
+=head2 status
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -87,6 +92,8 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
+  "status",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -119,8 +126,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cl2NUGT8gUZIMpsPzKq6DA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 11:34:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xQpD3hJzzMq9PsG20tvplQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -139,6 +146,10 @@ sub verifiers_specs {
                 code => {
                     required => 0,
                     type     => 'Str',
+                },
+                status => {
+                    required => 0,
+                    type     => 'Str'
                 }
             }
         ),

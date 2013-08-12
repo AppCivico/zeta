@@ -18,6 +18,7 @@ VALUES
 
 INSERT INTO "user"(id, name, email, password) VALUES (1, 'superadmin','superadmin@email.com', '$2a$08$Hys9hzza605zZVKNJvdiBe9bHfdB4JKFnG8douGv53IW4e9M5cKrW');
 INSERT INTO "user"(id, name, email, password) VALUES (2, 'webapi-1','no email', 'no password');
+INSERT INTO "user"(id, name, email, password) VALUES (3, 'admin-tracker','admin-tracker@email.com', '$2a$08$Hys9hzza605zZVKNJvdiBe9bHfdB4JKFnG8douGv53IW4e9M5cKrW');
 
 
 
@@ -27,6 +28,8 @@ INSERT INTO "user_role" ( user_id, role_id) VALUES (1, 0); -- superadmin
 -- role: webapi                                         user:
 INSERT INTO "user_role" ( user_id, role_id) VALUES (2, 7); -- webapi-1
 
+-- role: admintracker                                         user:
+INSERT INTO "user_role" ( user_id, role_id) VALUES (3, 6); -- admin-tracker
 -- usuario da API
 -- que tem acesso aos endpoints 'publicos'
 INSERT INTO user_session(user_id,api_key,valid_for_ip,valid_until)

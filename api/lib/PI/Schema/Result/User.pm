@@ -222,9 +222,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 vehicle_tokens
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-05 14:33:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PDd3JY59X7HpeXCx9TAaYg
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleToken>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_tokens",
+  "PI::Schema::Result::VehicleToken",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 12:17:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lXwd99BmEDcY8FIUTzoz6A
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 
