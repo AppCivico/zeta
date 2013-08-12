@@ -30,7 +30,7 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $vehicle_token = $c->stash->{vehicle_token};
-    my %attrs           = $vehicle_token->get_inflated_columns;
+    my %attrs         = $vehicle_token->get_inflated_columns;
     $self->status_ok(
         $c,
         entity => {
@@ -57,7 +57,7 @@ sub result_PUT {
 
     my $vehicle_token = $c->stash->{vehicle_token};
 
-    $vehicle_token->execute( $c, for => 'update', with => { %{$c->req->params}, user_id => $c->user->id } );
+    $vehicle_token->execute( $c, for => 'update', with => { %{ $c->req->params }, user_id => $c->user->id } );
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_token->id ] )->as_string,
@@ -87,13 +87,13 @@ sub list_GET {
                         (
                             map { $_ => $r->{$_} }
                               qw/
-                               id
-                               user_id
-                               vehicle_id
-                               token
-                               created_at
-                               used_at
-                               alert_sent_at
+                              id
+                              user_id
+                              vehicle_id
+                              token
+                              created_at
+                              used_at
+                              alert_sent_at
                               /
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
@@ -107,7 +107,8 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $vehicle_token = $c->stash->{collection}->execute( $c, for => 'create', with => { %{$c->req->params}, user_id => $c->user->id } );
+    my $vehicle_token = $c->stash->{collection}
+      ->execute( $c, for => 'create', with => { %{ $c->req->params }, user_id => $c->user->id } );
 
     $self->status_created(
         $c,

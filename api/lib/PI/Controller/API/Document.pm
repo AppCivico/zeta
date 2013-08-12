@@ -116,7 +116,8 @@ sub list_POST {
 
     # TODO verificar tipo do arquivo
 
-    my $document = $c->stash->{collection}->execute( $c, for => 'create', with => { %{ $c->req->params }, user_id => $c->user->id } );
+    my $document = $c->stash->{collection}
+      ->execute( $c, for => 'create', with => { %{ $c->req->params }, user_id => $c->user->id } );
 
     if ( $c->req->upload('file') ) {
         $self->_upload_file( $c, $document );
@@ -142,8 +143,8 @@ sub _upload_file {
     my $dir_path =
       $path =~ /^\//o
       ? dir($path)->resolve . '/' . $user_id
-      : PI->path_to( $path . '/' . $user_id)->stringify;
-    mkdir( $dir_path );
+      : PI->path_to( $path . '/' . $user_id )->stringify;
+    mkdir($dir_path);
 
     my $filename = sprintf( '%i_%i_%s', $document->id, $user_id, $class_name );
     my $private_path =
@@ -153,11 +154,11 @@ sub _upload_file {
 
     unless ( $upload->copy_to($private_path) ) {
 
-        $self->status_bad_request( $c, message => "Copy failed: $!"), $c->detach;
+        $self->status_bad_request( $c, message => "Copy failed: $!" ), $c->detach;
     }
     chmod 0644, $private_path;
 
-    $document->update( { private_path =>  File::Spec->rel2abs($private_path) } );
+    $document->update( { private_path => File::Spec->rel2abs($private_path) } );
 
     return 1;
 }

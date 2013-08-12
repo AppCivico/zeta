@@ -28,7 +28,7 @@ sub verifiers_specs {
                 },
                 status => {
                     required => 0,
-                    type    => 'Str'
+                    type     => 'Str'
                 }
             }
         )

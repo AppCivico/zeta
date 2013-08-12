@@ -96,8 +96,8 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_token',
       [
-        vehicle_id  => stash 'vehicle.id',
-        user_id     => 3,
+        vehicle_id => stash 'vehicle.id',
+        user_id    => 3,
       ];
 
     stash_test 'vehicle_token.get', sub {
@@ -120,9 +120,7 @@ db_transaction {
 
     rest_put stash 'vehicle_token.url',
       name => 'marcar token como usado',
-      [
-        used_at => '2013-08-12 15:00:00'
-      ];
+      [ used_at => '2013-08-12 15:00:00' ];
 
     rest_reload 'vehicle_token';
 

@@ -51,8 +51,8 @@ sub action_specs {
 
             my $vehicle_token;
             do {
-                $values{token} = $random->randpattern( "ssss" );
-                $vehicle_token = eval{$self->create( \%values )};
+                $values{token} = $random->randpattern("ssss");
+                $vehicle_token = eval { $self->create( \%values ) };
 
                 die $@ if $@ && "$@" !~ /vehicle_token_token_vehicle_id_key/;
 
