@@ -10,7 +10,7 @@
             <li [% IF "/${c_req_path}" == '/cadastro' %]class="active"[%END%]><a href="/cadastro">Cadastro</a></li>
             <li [% IF "/${c_req_path}" == '/login' %]class="active"[%END%]><a href="/login">Login</a></li>
             [%ELSE%]
-                <li><a href="[%c.uri_for_action('/user/account/index')%]">Minha conta</a></li>
+                <li><a href="[%c.uri_for_action("/$role_controller/dashboard/index")%]">Dashboard</a></li>
             [%END%]
 
             <li [% IF "/${c_req_path}" == '/contato' %]class="active"[%END%]><a href="/contato">Contato</a></li>

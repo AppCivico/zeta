@@ -93,6 +93,7 @@ sub list_GET {
                               code
                               vehicle_id
                               status
+                              created_at
                               /
                         )
                       }

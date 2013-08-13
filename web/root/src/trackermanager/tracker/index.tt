@@ -13,14 +13,14 @@
 <tbody>
 [%FOREACH r IN trackers %]
 <tr>
-    <th>[%d.id%]</th>
-    <td>[%d.code%]</td>
-    <td>[%d.created_at%]</td>
-    <td>[%d.status%]</td>
+    <th>[%r.id%]</th>
+    <td>[%r.code%]</td>
+    <td>[%r.created_at%]</td>
+    <td>[%r.status%]</td>
     <td>
-        [%href = c.uri_for_action('/user/route/edit', [v.id])%]
+        [%href = c.uri_for_action('/trackermanager/tracker/edit', [r.id])%]
         <a href="[%href%]">editar</a>
-        [%href = c.uri_for_action('/user/form/vehicleroute/process_delete', [v.id])%]
+        [%href = c.uri_for_action('/trackermanager/form/tracker/process_delete', [r.id])%]
         <a class="del" href="[%href%]" data-confirm="Deseja realmente remover?">remover</a>
     </td>
 </tr>

@@ -23,7 +23,7 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 vehicle_id => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 status => {

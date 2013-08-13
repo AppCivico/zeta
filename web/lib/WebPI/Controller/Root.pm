@@ -46,6 +46,13 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     @{ $c->stash }{ keys %$status_msg } = values %$status_msg if ref $status_msg eq 'HASH';
     @{ $c->stash }{ keys %$error_msg }  = values %$error_msg  if ref $error_msg eq 'HASH';
 
+    if ($c->user){
+        if ( grep { /^user$/ } $c->user->roles ) {
+        $c->stash->{role_controller} = 'user';
+        }elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
+        $c->stash->{role_controller} = 'trackermanager';
+        }
+    }
 }
 
 =head2 default

@@ -21,8 +21,6 @@ sub base : Chained('/root') : PathPart('tracker-manager') : CaptureArgs(0) {
 
     $c->stash->{template_wrapper} = 'tracker_manager';
 
-
-
 }
 
 __PACKAGE__->meta->make_immutable;

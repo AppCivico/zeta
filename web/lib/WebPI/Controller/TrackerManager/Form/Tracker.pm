@@ -14,12 +14,10 @@ sub process : Chained('base') : PathPart('tracker') : Args(0) {
     my $api     = $c->model('API');
     my $params  = $c->req->params;
 
-    $api->stash_result(
-        body   => [
-            $c, [ 'trackers'],
-            method => 'POST',
-            body   => $params
-        ]
+     $api->stash_result(
+        $c, [ 'trackers'],
+        method => 'POST',
+        body   => $params
     );
 
     if ( $c->stash->{error} ) {
@@ -38,7 +36,7 @@ sub process_edit : Chained('base') : PathPart('tracker') : Args(1) {
     my $api = $c->model('API');
 
     $api->stash_result(
-        $c, [ 'vehicles', $id ],
+        $c, [ 'trackers', $id],
         method => 'PUT',
         body   => $c->req->params
     );
@@ -47,7 +45,25 @@ sub process_edit : Chained('base') : PathPart('tracker') : Args(1) {
         $c->detach( '/form/redirect_error', [] );
     }
     else {
-        $c->detach( '/form/redirect_ok', [ '/user/vehicle/index', {}, 'Alterado com sucesso!' ] );
+        $c->detach( '/form/redirect_ok', [ '/trackermanager/tracker/index', {}, 'Alterado com sucesso!' ] );
+    }
+}
+
+sub process_delete : Chained('base') : PathPart('remove_tracker') : Args(1) {
+    my ( $self, $c, $id) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, [ 'trackers', $id ],
+        method => 'DELETE'
+    );
+
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    }
+    else {
+        $c->detach( '/form/redirect_ok', [ '/trackermanager/tracker/index', {}, 'Removido com sucesso!' ] );
     }
 }
 

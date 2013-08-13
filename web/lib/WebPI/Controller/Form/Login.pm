@@ -19,9 +19,9 @@ sub login : Chained('base') : PathPart('login') : Args(0) {
         }
 
         my $url = \'/';
-        if ( grep { 'user' } $c->user->roles ) {
+        if ( grep { /^user$/ } $c->user->roles ) {
             $url = '/user/dashboard/index';
-        }elsif ( grep { 'admin-tracker' } $c->user->roles ) {
+        }elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
             $url = '/trackermanager/dashboard/index';
         }
 
