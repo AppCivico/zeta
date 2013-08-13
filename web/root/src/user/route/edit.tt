@@ -1,5 +1,5 @@
 <h2>Editando rota</h2>
-<form class="form-horizontal" method="post" action="/form/user/vehicle_routes/[%vehicle_route_obj.id%]">
+<form class="form-horizontal" method="post" action="/user/form/vehicle_routes/[%vehicle_route_obj.id%]">
 <fieldset>
 
     [%input_text('name','Nome da rota', value => vehicle_route_obj.name, placeholder=>'Ex: Casa para Trabalho')|none%]

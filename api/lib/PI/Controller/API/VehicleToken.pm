@@ -1,4 +1,4 @@
-package PI::Controller::API::VehicleTracker;
+package PI::Controller::API::VehicleToken;
 
 use Moose;
 
@@ -7,8 +7,8 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result     => 'DB::VehicleTracker',
-    object_key => 'vehicle_tracker',
+    result     => 'DB::VehicleToken',
+    object_key => 'vehicle_token',
 
     update_roles => [qw/superadmin user admin-tracker/],
     create_roles => [qw/superadmin user admin-tracker/],
@@ -20,7 +20,7 @@ __PACKAGE__->config(
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
 
-sub base : Chained('/api/base') : PathPart('vehicle_trackers') : CaptureArgs(0) { }
+sub base : Chained('/api/base') : PathPart('vehicle_tokens') : CaptureArgs(0) { }
 
 sub object : Chained('base') : PathPart('') : CaptureArgs(1) { }
 
@@ -29,8 +29,8 @@ sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { 
 sub result_GET {
     my ( $self, $c ) = @_;
 
-    my $vehicle_tracker = $c->stash->{vehicle_tracker};
-    my %attrs           = $vehicle_tracker->get_inflated_columns;
+    my $vehicle_token = $c->stash->{vehicle_token};
+    my %attrs         = $vehicle_token->get_inflated_columns;
     $self->status_ok(
         $c,
         entity => {
@@ -38,45 +38,37 @@ sub result_GET {
                 map { $_ => $attrs{$_}, }
                   qw/
                   id
-                  tracker_id
-                  lat
-                  lng
+                  user_id
                   vehicle_id
-                  speed
+                  token
                   /
             ),
-            ( map { $_ => $vehicle_tracker->$_->datetime } qw/created_at track_event/ )
+            (
+                map { $_ => ( $vehicle_token->$_ ? $vehicle_token->$_->datetime : undef ) }
+                  qw/created_at used_at alert_sent_at/
+            )
         }
     );
 
 }
 
-sub result_DELETE {
-    my ( $self, $c ) = @_;
-    my $vehicle_tracker = $c->stash->{vehicle_tracker};
-
-    $vehicle_tracker->delete;
-
-    $self->status_no_content($c);
-}
-
 sub result_PUT {
     my ( $self, $c ) = @_;
 
-    my $vehicle_tracker = $c->stash->{vehicle_tracker};
+    my $vehicle_token = $c->stash->{vehicle_token};
 
-    $vehicle_tracker->execute( $c, for => 'update', with => $c->req->params );
+    $vehicle_token->execute( $c, for => 'update', with => { %{ $c->req->params }, user_id => $c->user->id } );
     $self->status_accepted(
         $c,
-        location => $c->uri_for( $self->action_for('result'), [ $vehicle_tracker->id ] )->as_string,
+        location => $c->uri_for( $self->action_for('result'), [ $vehicle_token->id ] )->as_string,
         entity => {
-            vehicle_id => $vehicle_tracker->vehicle_id,
-            tracker_id => $vehicle_tracker->tracker_id,
-            id         => $vehicle_tracker->id
+            vehicle_id => $vehicle_token->vehicle_id,
+            user_id    => $vehicle_token->user_id,
+            id         => $vehicle_token->id
         }
       ),
       $c->detach
-      if $vehicle_tracker;
+      if $vehicle_token;
 }
 
 sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
@@ -88,7 +80,7 @@ sub list_GET {
     $self->status_ok(
         $c,
         entity => {
-            vehicle_trackers => [
+            vehicle_tokens => [
                 map {
                     my $r = $_;
                     +{
@@ -96,12 +88,12 @@ sub list_GET {
                             map { $_ => $r->{$_} }
                               qw/
                               id
-                              tracker_id
-                              lat
-                              lng
+                              user_id
                               vehicle_id
-                              speed
-                              track_event
+                              token
+                              created_at
+                              used_at
+                              alert_sent_at
                               /
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
@@ -115,13 +107,14 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $vehicle_tracker = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    my $vehicle_token = $c->stash->{collection}
+      ->execute( $c, for => 'create', with => { %{ $c->req->params }, user_id => $c->user->id } );
 
     $self->status_created(
         $c,
-        location => $c->uri_for( $self->action_for('result'), [ $vehicle_tracker->id ] )->as_string,
+        location => $c->uri_for( $self->action_for('result'), [ $vehicle_token->id ] )->as_string,
         entity => {
-            id => $vehicle_tracker->id
+            id => $vehicle_token->id
         }
     );
 

@@ -46,7 +46,7 @@ db_transaction {
 
         my $users = rest_get '/users', 200, { api_key => $me->{api_key} };
 
-        is( @{ $users->{users} }, 2, 'have 2 users' );
+        is( @{ $users->{users} }, 3, 'have 3 users' );
 
     };
 

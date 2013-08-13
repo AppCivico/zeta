@@ -5,7 +5,7 @@ use URI;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
+sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
     if ( !$c->user || !grep { /^user$/ } $c->user->roles ) {

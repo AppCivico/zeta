@@ -1,7 +1,7 @@
 [%IF !NO_TITLE%]
 <h2>Adicionar documentos</h2>
 [%END%]
-<form class="form-horizontal" method="post" action="/form/user/document" enctype="multipart/form-data">
+<form class="form-horizontal" method="post" action="/user/form/document" enctype="multipart/form-data">
 <div class="tab-pane active" id="tab1">
     <fieldset>
 [%IF NO_TITLE%]

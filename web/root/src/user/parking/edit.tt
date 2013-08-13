@@ -1,5 +1,5 @@
 <h2>Editando estacionamento</h2>
-<form class="form-horizontal" method="post" action="/form/user/vehicle_parking/[%vehicle_parking_obj.id%]">
+<form class="form-horizontal" method="post" action="/user/form/vehicle_parking/[%vehicle_parking_obj.id%]">
 <fieldset>
 
     [%input_text('name','Nome para o local', value => vehicle_parking_obj.name)|none%]

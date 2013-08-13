@@ -1,7 +1,7 @@
 [%IF !NO_TITLE%]
 <h2>Adicionar novo estacionamento</h2>
 [%END%]
-<form class="form-horizontal" method="post" action="/form/user/vehicle_parking">
+<form class="form-horizontal" method="post" action="/user/form/vehicle_parking">
 <div class="tab-pane active" id="tab1">
     <fieldset>
 [%IF NO_TITLE%]

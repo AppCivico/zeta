@@ -1,12 +1,12 @@
 use utf8;
-package PI::Schema::Result::Tracker;
+package PI::Schema::Result::VehicleToken;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-PI::Schema::Result::Tracker
+PI::Schema::Result::VehicleToken
 
 =cut
 
@@ -34,11 +34,11 @@ extends 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "PassphraseColumn");
 
-=head1 TABLE: C<tracker>
+=head1 TABLE: C<vehicle_token>
 
 =cut
 
-__PACKAGE__->table("tracker");
+__PACKAGE__->table("vehicle_token");
 
 =head1 ACCESSORS
 
@@ -47,17 +47,18 @@ __PACKAGE__->table("tracker");
   data_type: 'integer'
   is_auto_increment: 1
   is_nullable: 0
-  sequence: 'tracker_id_seq'
-
-=head2 code
-
-  data_type: 'text'
-  is_nullable: 0
+  sequence: 'vehicle_token_id_seq'
 
 =head2 vehicle_id
 
   data_type: 'integer'
-  is_nullable: 1
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 token
+
+  data_type: 'text'
+  is_nullable: 0
 
 =head2 created_at
 
@@ -66,9 +67,20 @@ __PACKAGE__->table("tracker");
   is_nullable: 0
   original: {default_value => \"now()"}
 
-=head2 status
+=head2 used_at
 
-  data_type: 'text'
+  data_type: 'timestamp'
+  is_nullable: 1
+
+=head2 user_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
+=head2 alert_sent_at
+
+  data_type: 'timestamp'
   is_nullable: 1
 
 =cut
@@ -79,12 +91,12 @@ __PACKAGE__->add_columns(
     data_type         => "integer",
     is_auto_increment => 1,
     is_nullable       => 0,
-    sequence          => "tracker_id_seq",
+    sequence          => "vehicle_token_id_seq",
   },
-  "code",
-  { data_type => "text", is_nullable => 0 },
   "vehicle_id",
-  { data_type => "integer", is_nullable => 1 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "token",
+  { data_type => "text", is_nullable => 0 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -92,8 +104,12 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
-  "status",
-  { data_type => "text", is_nullable => 1 },
+  "used_at",
+  { data_type => "timestamp", is_nullable => 1 },
+  "user_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "alert_sent_at",
+  { data_type => "timestamp", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -108,26 +124,62 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
-=head1 RELATIONS
+=head1 UNIQUE CONSTRAINTS
 
-=head2 vehicle_trackers
+=head2 C<vehicle_token_token_vehicle_id_key>
 
-Type: has_many
+=over 4
 
-Related object: L<PI::Schema::Result::VehicleTracker>
+=item * L</token>
+
+=item * L</vehicle_id>
+
+=back
 
 =cut
 
-__PACKAGE__->has_many(
-  "vehicle_trackers",
-  "PI::Schema::Result::VehicleTracker",
-  { "foreign.tracker_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+__PACKAGE__->add_unique_constraint("vehicle_token_token_vehicle_id_key", ["token", "vehicle_id"]);
+
+=head1 RELATIONS
+
+=head2 user
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "user",
+  "PI::Schema::Result::User",
+  { id => "user_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
+=head2 vehicle
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::Vehicle>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "vehicle",
+  "PI::Schema::Result::Vehicle",
+  { id => "vehicle_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 11:34:51
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xQpD3hJzzMq9PsG20tvplQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 17:51:37
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4wGDWFJkOLzQCH/+5VxMFw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -143,14 +195,14 @@ sub verifiers_specs {
         update => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                code => {
+                used_at => {
                     required => 0,
-                    type     => 'Str',
+                    type     => DataStr,
                 },
-                status => {
+                alert_sent_at => {
                     required => 0,
-                    type     => 'Str'
-                }
+                    type     => DataStr,
+                },
             }
         ),
     };
@@ -164,11 +216,10 @@ sub action_specs {
 
             not defined $values{$_} and delete $values{$_} for keys %values;
 
-            my $tracker = $self->update( \%values );
+            my $vehicle_token = $self->update( \%values );
 
-            return $tracker;
+            return $vehicle_token;
         },
-
     };
 }
 

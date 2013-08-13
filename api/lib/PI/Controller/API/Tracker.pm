@@ -10,9 +10,9 @@ __PACKAGE__->config(
     result     => 'DB::Tracker',
     object_key => 'tracker',
 
-    update_roles => [qw/superadmin/],
-    create_roles => [qw/superadmin/],
-    delete_roles => [qw/superadmin/],
+    update_roles => [qw/superadmin admin-tracker/],
+    create_roles => [qw/superadmin admin-tracker/],
+    delete_roles => [qw/superadmin admin-tracker/],
 
     search_ok => {
         vehicle_id => 'Int',
@@ -40,6 +40,7 @@ sub result_GET {
                   id
                   code
                   vehicle_id
+                  status
                   /
             ),
             ( map { $_ => $tracker->$_->datetime } qw/created_at/ )
@@ -91,6 +92,8 @@ sub list_GET {
                               id
                               code
                               vehicle_id
+                              status
+                              created_at
                               /
                         )
                       }

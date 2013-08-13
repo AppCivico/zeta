@@ -363,6 +363,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 vehicle_tokens
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleToken>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_tokens",
+  "PI::Schema::Result::VehicleToken",
+  { "foreign.vehicle_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 vehicle_trackers
 
 Type: has_many
@@ -379,8 +394,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-24 18:44:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3wKBpL3I2JwKQ+yRP6VfgA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 12:06:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VbaohBu3r7rUtu8/3HVbDg
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
