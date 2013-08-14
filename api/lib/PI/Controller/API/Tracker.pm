@@ -78,6 +78,13 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    my $rs = $c->stash->{collection};
+
+    if($c->req->params->{available}) {
+        $rs->search({
+            status => 'ativo'
+        });
+    }
 
     $self->status_ok(
         $c,
@@ -97,7 +104,7 @@ sub list_GET {
                               /
                         )
                       }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->as_hashref->all
             ]
         }
     );
