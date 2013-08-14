@@ -22,7 +22,6 @@ sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { 
 
 sub result_GET {
     my ( $self, $c ) = @_;
-    my $p = $c->req->params;
 
     eval {
         my $vehicle = $c->stash->{collection}->search( { car_plate => $c->req->params->{car_plate} } )->next;
@@ -47,6 +46,7 @@ sub result_GET {
                       id
                       model
                       brand_name
+                      manufacture_year
                       /
                 ),
             }
