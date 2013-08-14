@@ -101,7 +101,7 @@ sub verifiers_specs {
                 },
                 created_by => {
                     required => 1,
-                    type     => 'Int'
+                    type     => 'Int',
                 }
             },
         ),

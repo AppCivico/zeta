@@ -114,7 +114,8 @@ sub list_POST {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_token->id ] )->as_string,
         entity => {
-            id => $vehicle_token->id
+            id    => $vehicle_token->id,
+            token => $vehicle_token->token
         }
     );
 

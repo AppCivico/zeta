@@ -11,14 +11,18 @@ ci = levels of continuation indentation; bk = 1 if in BLOCK, 0 if not.
 in:out indent c b  nesting   code + messages; (messages begin with >>>)
 lines  levels i k            (code begins with one '.' per indent level)
 ------  ----- - - --------   -------------------------------------------
-L50:41   i2:2 0 0 {[         ..'first_driver_license' => '1990-0 ....
-L100:94  i2:2 0 0 {[         ..user_id     => 3,
-L137:135 i0:0 0 1            >>>Last line
+L50:38   i2:2 0 0 {[         ..'mobile_provider'      => 'test',
+L100:100 i1:1 0 1 {          .#checar validade de token de veíc ....
+L103:103 i3:2 0 1 {{         >>>Start indentation disagreement: input=3; output=2
+L117:117 i0:0 0 1 {          >>>End indentation disagreement from input line 103
+L119:119 i0:0 0 1            >>>Last line
 
-No indentation disagreement seen
+First indentation disagreement seen at input line 103
+Last indentation disagreement seen at input line 112
+Note: Indentation disagreement detection is not accurate for outdenting and -lp.
 
 No lines exceeded 120 characters
-  Maximum output line length was 78 at line 112
+  Maximum output line length was 64 at line 112
 Suggest including 'use warnings;'
 Suggest including 'use strict;'
 Converged.  Output for iteration 2 same as for iter 1.

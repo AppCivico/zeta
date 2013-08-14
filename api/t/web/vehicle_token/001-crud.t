@@ -1,13 +1,10 @@
 use utf8;
 use FindBin qw($Bin);
 use lib "$Bin/../../lib";
-use String::Random;
 
 use PI::Test::Further;
 
 api_auth_as user_id => 1, roles => ['superadmin'];
-
-my $str_random = new String::Random;
 
 db_transaction {
 
