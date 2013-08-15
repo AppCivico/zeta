@@ -37,6 +37,10 @@ sub add: Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
 }
 
+sub activate: Chained('base') : PathPart('activate'): Args(0) {
+    my ( $self, $c ) = @_;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

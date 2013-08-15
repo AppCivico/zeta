@@ -54,6 +54,7 @@ sub stash_result {
       : $c->config->{api_url} . $endpoint;
 
     $url .= $self->_generate_query_params( $c, %opts );
+
     my @headers = $self->_generate_headers($c);
 
     if ( exists $opts{body} && ref $opts{body} eq 'HASH' ) {

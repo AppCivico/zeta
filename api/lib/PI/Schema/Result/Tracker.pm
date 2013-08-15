@@ -150,6 +150,10 @@ sub verifiers_specs {
                 status => {
                     required => 0,
                     type     => 'Str'
+                },
+                vehicle_id => {
+                    required => 0,
+                    type     => 'Int'
                 }
             }
         ),

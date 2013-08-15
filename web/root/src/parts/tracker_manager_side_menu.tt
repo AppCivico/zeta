@@ -5,7 +5,9 @@
 
         <li class="nav-header">Rastreadores</li>
         [%href = c.uri_for_action('/trackermanager/tracker/index')%]
-        <li><a href="[%href%]"><i class="icon-user"></i>Rastreadores</a></li>
+        <li><a href="[%href%]"><i class="icon-user"></i>Listar</a></li>
+        [%href = c.uri_for_action('/trackermanager/tracker/activate')%]
+        <li><a href="[%href%]"><i class="icon-user"></i>Vincular veículo</a></li>
 
         <li class="nav-header">Outros</li>
         <li><a href="/contato">Contato</a></li>

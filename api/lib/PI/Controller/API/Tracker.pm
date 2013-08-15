@@ -81,7 +81,7 @@ sub list_GET {
     my $rs = $c->stash->{collection};
 
     if($c->req->params->{available}) {
-        $rs->search({
+       $rs = $rs->search({
             status => 'ativo'
         });
     }

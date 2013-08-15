@@ -1,6 +1,7 @@
 package WebPI::Controller::TrackerManager::Form::Tracker;
 use Moose;
 use namespace::autoclean;
+use DateTime;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -67,7 +68,63 @@ sub process_delete : Chained('base') : PathPart('remove_tracker') : Args(1) {
     }
 }
 
+sub check_token: Chained('base') : PathPart('check_token'): Args(0) {
+    my ( $self, $c )    = @_;
+    my $api             = $c->model('API');
 
+    my $result = $api->stash_result(
+        $c, ['vehicle_token_check'],
+        params  => $c->req->params
+    );
+
+    if($result->{error}) {
+        $c->stash(error => $result->{error});
+    }
+
+    $api->stash_result(
+        $c, ['trackers'],
+        params  => {available => 1}
+    );
+
+    $c->stash(
+        without_wrapper => 1,
+        template => 'trackermanager/tracker/check_token.tt',
+        result   => $result,
+        trackers => [ map { [ $_->{id}, $_->{code} ] } @{ $c->stash->{trackers} } ]
+    );
+}
+
+sub process_activation: Chained('base') : PathPart('activation') Args(0) {
+    my ( $self, $c )    = @_;
+    my $api             = $c->model('API');
+
+    my $params = $c->req->params;
+
+    $params->{status} = 'vinculado';
+
+    $api->stash_result(
+        $c, ['trackers', $params->{tracker}],
+        method => 'PUT',
+        body   => $c->req->params
+    );
+
+
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    } else {
+
+        $api->stash_result(
+            $c, ['vehicle_tokens', $params->{token_id}],
+            method => 'PUT',
+            body => [
+                user_id => $c->user->id
+            ]
+
+        );
+
+        $c->detach( '/form/redirect_ok', [ '/trackermanager/tracker/index', {}, 'Removido com sucesso!' ] );
+    }
+}
 
 __PACKAGE__->meta->make_immutable;
 

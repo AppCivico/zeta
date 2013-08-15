@@ -195,14 +195,14 @@ sub verifiers_specs {
         update => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                used_at => {
-                    required => 0,
-                    type     => DataStr,
-                },
                 alert_sent_at => {
                     required => 0,
                     type     => DataStr,
                 },
+                user_id => {
+                    required => 0,
+                    type     => 'Int',
+                }
             }
         ),
     };
@@ -213,6 +213,8 @@ sub action_specs {
     return {
         update => sub {
             my %values = shift->valid_values;
+
+            $values{used_at} = '\now()';
 
             not defined $values{$_} and delete $values{$_} for keys %values;
 

@@ -40,6 +40,7 @@ sub result_GET {
         $self->status_ok(
             $c,
             entity => {
+                token_id => $token->id,
                 (
                     map { $_ => $vehicle->$_, }
                       qw/

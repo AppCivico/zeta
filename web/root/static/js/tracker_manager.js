@@ -1,0 +1,41 @@
+$( document ).ready(function() {
+    $(".errors").hide();
+
+    $('#check_token').click(function(){
+        var car_plate   = $("#elm_car_plate").val();
+        var token       = $("#elm_token").val();
+        var invalid     = false;
+
+        $(".errors").hide();
+
+        if(car_plate == '') {
+            invalid = true;
+            $("#car_plate_error").show();
+            reset_button();
+        }
+        if(token == '') {
+            invalid = true;
+            $("#token_error").show();
+            reset_button();
+        }
+
+        if(invalid == false) {
+            $.ajax({
+                url: "/tracker-manager/form/check_token",
+                data: {car_plate: car_plate, token: token},
+                type: 'html',
+                success: function(result){
+                    $("#car_info").html(result);
+                    reset_button();
+                }
+            });
+        }
+    });
+
+});
+
+function reset_button(){
+    setTimeout(function () {
+        $("#check_token").button('reset');
+    })
+}
