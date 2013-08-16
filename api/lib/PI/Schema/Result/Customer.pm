@@ -305,8 +305,127 @@ __PACKAGE__->belongs_to(
 
 # Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:giJauyyHnhKLujZA2nDV8w
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
 
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr/;
 
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                email=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                fancy_name=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                corporate_name=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                cnpj=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                state_registration=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                municipal_registration=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                phone=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                mobile_phone=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                secondary_phone=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                postal_code=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                address=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                number=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                neighborhood=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                complement=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                city_id=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                state_id=> {
+                    required => 0,
+                    type     => 'Str',
+                },
+                password => {
+                    required  => 1,
+                    type      => 'Str',
+                    dependent => {
+                        password_confirm => {
+                            required => 1,
+                            type     => 'Str',
+                        },
+                    },
+                    post_check => sub {
+                        my $r = shift;
+                        return $r->get_value('password') eq $r->get_value('password_confirm');
+                    },
+                },
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            delete $values{password_confirm};
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $user_rs = $self->resultset('User');
+            my $user    = $user_rs->update(
+                {
+                    password => delete $values{password}
+                }
+            );
+
+            my $customer = $self->update( \%values );
+
+            return $customer;
+        },
+    };
+}
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
 1;

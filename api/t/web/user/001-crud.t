@@ -61,12 +61,6 @@ db_transaction {
 
     rest_reload 'user', 404;
 
-    # ao inves de
-    # my $list = rest_get '/users';
-    # use DDP; p $list;
-
-    # utilizar
-
     rest_reload_list 'user';
 
     stash_test 'user.list', sub {
