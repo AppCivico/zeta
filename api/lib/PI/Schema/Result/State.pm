@@ -118,6 +118,21 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 cep_caches
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::CepCache>
+
+=cut
+
+__PACKAGE__->has_many(
+  "cep_caches",
+  "PI::Schema::Result::CepCache",
+  { "foreign.state_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 cities
 
 Type: has_many
@@ -169,8 +184,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:M5zenDcMXbz/+y+fjaKfHg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-19 17:03:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ycCUfzaZ2l9FL0MdnAfs5A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -73,11 +73,10 @@ __PACKAGE__->table("city");
   is_foreign_key: 1
   is_nullable: 1
 
-=head2 automatic_fill
+=head2 name_url
 
-  data_type: 'boolean'
-  default_value: false
-  is_nullable: 0
+  data_type: 'text'
+  is_nullable: 1
 
 =cut
 
@@ -102,8 +101,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "country_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-  "automatic_fill",
-  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
+  "name_url",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -119,6 +118,21 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
+
+=head2 cep_caches
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::CepCache>
+
+=cut
+
+__PACKAGE__->has_many(
+  "cep_caches",
+  "PI::Schema::Result::CepCache",
+  { "foreign.city_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
 
 =head2 country
 
@@ -221,8 +235,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-25 16:57:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7HbiYviKUkvoN52GCgQngg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-19 19:12:14
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3Kj77qi5Lb8tbyL11SxQ8w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
