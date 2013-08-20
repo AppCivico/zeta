@@ -27,13 +27,13 @@
         [%input_text('last_name','Último nome')|none%]
         [%input_text('email','E-mail')|none%]
 
-        [%input_text('cpf','CPF')|none%]
+        [%input_text('cpf','CPF', classes => ['span3', 'cpf'])|none%]
 
-        [%input_text('birth_date','Data de nascimento')|none%]
+        [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'])|none%]
 
-        [%input_text('telephone_number','Telefone')|none%]
+        [%input_text('telephone_number','Telefone', classes => ['span3', 'phone'])|none%]
 
-        [%input_text('mobile_number','Celular',)|none%]
+        [%input_text('mobile_number','Celular', classes => ['span3', 'mobile_phone'])|none%]
 
         [%select_field('mobile_provider', 'Operadora',  array => [
         ['tim','Tim'],
@@ -44,7 +44,7 @@
         ['outra','Outra'],
         ])|none%]
 
-        [%input_text('postal_code','CEP')|none%]
+        [%input_text('postal_code','CEP', classes => ['span3', 'postal_code'])|none%]
 
         [%select_field('city_id', 'Cidade',  array => select_cities)|none%]
 

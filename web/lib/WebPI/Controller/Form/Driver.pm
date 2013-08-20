@@ -10,12 +10,30 @@ sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) {
 sub process : Chained('base') : PathPart('driver') : Args(0) {
     my ( $self, $c ) = @_;
 
+    my $param = { %{ $c->req->params } };
+
     my $api = $c->model('API');
+    my $form = $c->model('Form');
+
+    $form->format_date(
+        $param,
+        'first_driver_license',
+        'cnh_validity',
+        'birth_date'
+    );
+
+    $form->cut_off_str(
+        $param,
+        'telephone_number',
+        'mobile_number',
+        'postal_code',
+        'cpf'
+    );
 
     $api->stash_result(
         $c, 'drivers',
         method => 'POST',
-        body   => $c->req->params
+        body   => $param
     );
 
     if ( $c->stash->{error} ) {

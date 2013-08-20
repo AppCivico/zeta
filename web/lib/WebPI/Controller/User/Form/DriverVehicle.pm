@@ -12,20 +12,33 @@ sub process : Chained('base') : PathPart('driver_vehicle') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
+    my $form = $c->model('Form');
+
+    my $params = { %{ $c->req->params } };
+
+    $form->format_date(
+        $params,
+        'birth_date'
+    );
+
+    $form->cut_off_str(
+        $params,
+        'telephone_number',
+        'mobile_number',
+        'postal_code',
+        'cpf'
+    );
 
     $api->stash_result(
         $c, [ 'drivers', $c->stash->{driver}{id}, 'vehicle_with_owner' ],
         method => 'POST',
-        body   => $c->req->params
+        body   => $params
     );
 
     if ( $c->stash->{error} ) {
-
         $c->detach( '/form/redirect_error', [] );
-
     }
     else {
-
         $c->detach( '/form/redirect_ok', [ '/user/dashboard/index', {}, 'Cadastrado com sucesso!' ] );
     }
 }
