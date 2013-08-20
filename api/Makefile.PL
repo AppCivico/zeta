@@ -71,6 +71,8 @@ requires 'MooseX::Traits';
 requires 'DBD::Pg';
 requires 'Statistics::Descriptive';
 requires 'XML::Simple';
+requires 'WWW::Correios::CEP';
+requires 'Text2URI';
 
 requires 'Config::General'; # This should reflect the config file format you've chosen
                  # See Catalyst::Plugin::ConfigLoader for supported formats
