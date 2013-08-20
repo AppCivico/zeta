@@ -23,6 +23,8 @@ sub login : Chained('base') : PathPart('login') : Args(0) {
             $url = '/user/dashboard/index';
         }elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
             $url = '/trackermanager/dashboard/index';
+        } elsif (grep {/^admin$/} $c->user->roles) {
+            $url = '/admin/dashboard/index';
         }
 
         $c->detach( '/form/redirect_ok', [ $url, {}, 'Bem vindo, ' . $c->user->name ] );

@@ -1,0 +1,32 @@
+<h2>Lista de clientes</h2>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Nome fantasia</th>
+    <th>Razão social</th>
+    <th>CNPJ</th>
+</tr>
+</thead>
+<tbody>
+[%FOREACH c IN customers %]
+<tr>
+    <th>[%c.id%]</th>
+    <td>[%c.fancy_name%]</td>
+    <td>[%c.corporate_name%]</td>
+    <td>[%c.cnpj%]</td>
+    <td>
+        [%href = c.uri_for_action('/admin/customer/edit', [c.id])%]
+        <a href="[%href%]">editar</a>
+        [%href = c.uri_for_action('/admin/form/customer/process_delete', [c.id])%]
+        <a class="del" href="[%href%]" data-confirm="Deseja realmente remover?">remover</a>
+    </td>
+</tr>
+[%END%]
+</tbody>
+</table>
+
+[%href = c.uri_for_action('/admin/customer/add')%]
+<a class="btn" href="[%href%]">Adicionar um novo cliente</a>
