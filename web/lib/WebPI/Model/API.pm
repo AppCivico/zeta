@@ -58,6 +58,8 @@ sub stash_result {
     my @headers = $self->_generate_headers($c);
 
     if ( exists $opts{body} && ref $opts{body} eq 'HASH' ) {
+        $opts{body} = {%{$opts{body}}};
+
         while ( my ( $k, $v ) = each %{ $opts{body} } ) {
             $v = '' unless defined $v;
             $opts{body}{$k} = encode( 'UTF-8', $v );
