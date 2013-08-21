@@ -92,7 +92,9 @@
         ])|none%]
 
         [%select_field('car_type', 'Tipo de Carro',  array => [
-        ['passeio','Passeio']
+        ['passeio','Passeio'],
+        ['esporte','Esporte'],
+        ['utilitário','Utilitário']
         ])|none%]
 
         [%input_text('km','Quilometragem')|none%]
@@ -101,7 +103,12 @@
         [%select_field('fuel_type', 'Combustivel',  array => [
         ['gasolina','Gasolina'],
         ['alcool','Alcool'],
-        ['flex','Flex']
+        ['flex','Flex'],
+        ['diesel','Diesel'],
+        ['gnv','GNV'],
+        ['elétrico','Elétrico'],
+        ['híbrido','Híbrido'],
+        ['outro','Outro']
         ])|none%]
 
         [%input_text('chassi','Chassi')|none%]

@@ -42,9 +42,9 @@ VALUES (2, 'p01IpoDpNjPAzB8azQVTcK7v450u1EAjlnFu0J0DPbDz6uuMVgSsFst8wDRF17v9qOcG
 
 
 -- estados/paises/cidades
-INSERT INTO "country" (name, name_url, created_by) VALUES ('Brazil', 'brazil', 1); -- default country
-INSERT INTO "state" (name, created_by, country_id, uf) VALUES ('Sao paulo',1, 1, 'SP'); -- default country
-INSERT INTO "city" (name, state_id, country_id) VALUES ('Sao paulo', 1, 1); -- default country
+INSERT INTO "country" (name, name_url, created_by) VALUES ('Brasil', 'brasil', 1); -- default country
+INSERT INTO "state" (name, created_by, country_id, uf) VALUES ('São paulo',1, 1, 'SP'); -- default country
+INSERT INTO "city" (name, state_id, country_id, name_url) VALUES ('São paulo', 1, 1, 'sao-paulo'); -- default country
 
 
 

@@ -21,6 +21,7 @@
 [%-CALL assets.include("js/jquery.maskedinput.js")%]
 [%-CALL assets.include("js/user.js")%]
 [%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/address.js")%]
 
 [%- assets.export("css") |none-%]
 

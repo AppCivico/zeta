@@ -31,7 +31,7 @@ sub list_GET {
                               qw/
                               id
                               name
-
+                              name_url
                               state_id
                               country_id
                               /

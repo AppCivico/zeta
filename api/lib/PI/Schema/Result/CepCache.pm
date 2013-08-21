@@ -53,7 +53,6 @@ __PACKAGE__->table("cep_cache");
 
   data_type: 'text'
   is_nullable: 0
-  original: {data_type => "varchar"}
 
 =head2 postal_code
 
@@ -64,7 +63,6 @@ __PACKAGE__->table("cep_cache");
 
   data_type: 'text'
   is_nullable: 1
-  original: {data_type => "varchar"}
 
 =head2 city_id
 
@@ -78,6 +76,11 @@ __PACKAGE__->table("cep_cache");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 location
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -89,23 +92,17 @@ __PACKAGE__->add_columns(
     sequence          => "cep_cache_id_seq",
   },
   "address",
-  {
-    data_type   => "text",
-    is_nullable => 0,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 0 },
   "postal_code",
   { data_type => "integer", is_nullable => 0 },
   "neighborhood",
-  {
-    data_type   => "text",
-    is_nullable => 1,
-    original    => { data_type => "varchar" },
-  },
+  { data_type => "text", is_nullable => 1 },
   "city_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "state_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "location",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -153,8 +150,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-19 17:03:36
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ReS5d/WjC4z+ml3MLuM7HA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-20 19:03:18
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uEhKI/LfGwiPsh/uOLNk8Q
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -187,6 +184,10 @@ sub verifiers_specs {
                     type        =>  'Str'
                 },
                 state_id => {
+                    required    => 0,
+                    type        =>  'Str'
+                },
+                location => {
                     required    => 0,
                     type        =>  'Str'
                 },
