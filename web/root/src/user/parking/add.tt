@@ -24,12 +24,9 @@
         extratags => 'data-default-time="false" data-show-meridian="false" data- data-minute-step="10"'
     )|none%]
 
-
-
-    lat_lng
-
     [%input_text('address','Endereço', )|none%]
 
+    [%input_text('lat_lng','', type => 'hidden' )|none%] <div id="map_canvas" style="width:300px; height:300px"></div>
     <div class="control-group">
         <label class="control-label" for="elm_monthly_payment">Estacionado na rua</label>
         <div class="text controls">

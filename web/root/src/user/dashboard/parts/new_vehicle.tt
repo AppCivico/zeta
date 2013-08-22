@@ -120,7 +120,6 @@
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
         </div>
     </fieldset>
-
 </div>
 </div>
 

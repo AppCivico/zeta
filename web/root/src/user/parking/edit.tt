@@ -19,9 +19,7 @@
         extratags => 'data-show-meridian="false" data-minute-step="10"'
     )|none%]
 
-
-
-    lat_lng
+    [%input_text('lat_lng','', type => 'hidden' )|none%] <div id="map_canvas" style="width:300px; height:300px"></div>
 
     [%input_text('address','Endereço', value => vehicle_parking_obj.address)|none%]
 
