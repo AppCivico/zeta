@@ -1,3 +1,8 @@
+<script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
+</script>
+[%-CALL assets.include("js/maps.js")%]
+
 [%IF !NO_TITLE%]
 <h2>Adicionar nova rota</h2>
 [%END%]
@@ -46,17 +51,12 @@
         extratags => 'data-default-time="false" data-show-meridian="false" data- data-minute-step="10"'
     )|none%]
 
-
-
-
-
-
-
-    origin_lat_lng destination_lat_lng
+    [%input_text('origin_lat_lng','', type => 'hidden' )|none%]
+    [%input_text('destination_lat_lng','', type => 'hidden' )|none%]
 
     [%input_text('origin','Endereço da origem', )|none%]
     [%input_text('destination','Endereço do destino', value => vehicle_route_obj.destination)|none%]
-
+    <div id="map_canvas" style="width:300px; height:300px"></div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
             [%IF !NO_TITLE%]

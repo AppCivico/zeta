@@ -1,3 +1,8 @@
+<script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
+</script>
+[%-CALL assets.include("js/maps.js")%]
+
 <h2>Editando rota</h2>
 <form class="form-horizontal" method="post" action="/user/form/vehicle_routes/[%vehicle_route_obj.id%]">
 <fieldset>
@@ -41,10 +46,9 @@
         extratags => 'data-show-meridian="false" data-minute-step="10"'
     )|none%]
 
-
-
-    origin_lat_lng destination_lat_lng
-
+    [%input_text('origin_lat_lng','', type => 'hidden' )|none%]
+    [%input_text('destination_lat_lng','', type => 'hidden' )|none%]
+    <div id="map_canvas" style="width:300px; height:300px"></div>
     [%input_text('origin','Endereço da origem', value => vehicle_route_obj.origin)|none%]
     [%input_text('destination','Endereço do destino', value => vehicle_route_obj.destination)|none%]
 
