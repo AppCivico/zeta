@@ -1,3 +1,8 @@
+<script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
+</script>
+[%-CALL assets.include("js/maps.js")%]
+
 <h2>Editando estacionamento</h2>
 <form class="form-horizontal" method="post" action="/user/form/vehicle_parking/[%vehicle_parking_obj.id%]">
 <fieldset>

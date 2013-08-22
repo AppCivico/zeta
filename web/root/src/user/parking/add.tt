@@ -1,3 +1,10 @@
+<script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
+</script>
+[%-CALL assets.include("js/maps.js")%]
+
+<h2>Adicione pelo menos um estacionamento</h2>
+
 [%IF !NO_TITLE%]
 <h2>Adicionar novo estacionamento</h2>
 [%END%]

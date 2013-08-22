@@ -19,9 +19,6 @@
 [%-CALL assets.include("js/bootstrap.min.js")%]
 [%-CALL assets.include("js/bootstrap-timepicker.min.js")%]
 [%-CALL assets.include("js/jquery.maskedinput.js")%]
-<script type="text/javascript"
-    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
-</script>
 [%-CALL assets.include("js/user.js")%]
 [%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/address.js")%]
