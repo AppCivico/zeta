@@ -21,16 +21,16 @@ $( document ).ready(function() {
         $('#elm_destination').length && $('#elm_destination').val().length
     )
     {
-        calcRoute();
         codeAddress('#elm_origin_lat_lng', '#elm_origin');
         codeAddress('#elm_destination_lat_lng', '#elm_destination');
+        calcRoute();
     }
 
     $('#elm_origin, #elm_destination').blur(function(){
        if($('#elm_origin').val().length > 0 && $('#elm_destination').val().length > 0) {
-            calcRoute();
             codeAddress('#elm_origin_lat_lng', '#elm_origin');
             codeAddress('#elm_destination_lat_lng', '#elm_destination');
+            calcRoute();
         }
     });
 
@@ -72,12 +72,13 @@ function codeAddress(selector, addr_value) {
                 map.setOptions({zoom: 14});
 
                 $(selector).val(results[0].geometry.location.mb+','+results[0].geometry.location.nb);
-                console.log(results[0].geometry.location.mb+','+results[0].geometry.location.nb);
+
                 var marker = new google.maps.Marker({
                     map: map,
                     position: results[0].geometry.location
                 });
                 markersArray.push(marker);
+
             } else {
                 $(selector).val(0);
                 alert('Falha ao localizar endereço');
@@ -141,8 +142,10 @@ function calcRoute() {
 
     directionsService.route(request, function(result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
+            clearOverlays();
             directionsDisplay.setDirections(result);
             directionsDisplay.setMap(map);
+            console.log(markersArray);
         }
     });
 }

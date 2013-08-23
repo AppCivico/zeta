@@ -5,6 +5,7 @@ use utf8;
 use Moose;
 use MooseX::Types::Email qw/EmailAddress/;
 use PI::Types qw /DataStr/;
+use MooseX::Types::CPF qw(CPF);
 extends 'DBIx::Class::ResultSet';
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -36,7 +37,11 @@ sub verifiers_specs {
                 },
                 cpf => {
                     required => 1,
-                    type     => 'Str',
+                    type     => CPF,
+                    post_check => sub {
+                        my $r = shift;
+                        return $r->get_value('cpf') !~ /^(\d)$1*$/ ;
+                    }
                 },
                 bank_code => {
                     required => 1,

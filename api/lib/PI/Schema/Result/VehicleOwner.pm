@@ -285,6 +285,7 @@ with 'PI::Schema::Role::ResultsetFind';
 
 use Data::Verifier;
 use MooseX::Types::Email qw/EmailAddress/;
+use MooseX::Types::CPF qw(CPF);
 use PI::Types qw /DataStr/;
 
 sub verifiers_specs {
@@ -309,9 +310,13 @@ sub verifiers_specs {
                     required => 0,
                     type     => DataStr,
                 },
-                cpf=> {
+                cpf => {
                     required => 0,
-                    type     => 'Str',
+                    type     => CPF,
+                    post_check => sub {
+                        my $r = shift;
+                        return $r->get_value('cpf') !~ /^(\d)$1*$/ ;
+                    }
                 },
                 bank_code=> {
                     required => 0,

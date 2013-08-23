@@ -8,6 +8,7 @@
 <dt>Status do dispositivo</dt>
 <dd>instalado</dd>
 
-[vehicles.0.name]
+<dt>Veículo</dt>
+<dd>[%vehicles.0.brand_name%] - [%vehicles.0.model%]</dd>
 </dl>
 [%END%]

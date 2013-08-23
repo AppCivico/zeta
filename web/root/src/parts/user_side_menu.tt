@@ -18,6 +18,7 @@
         [%href = c.uri_for_action('/user/route/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-random"></i> Minhas rotas</a></li>
 
+        <!--
         [%href = c.uri_for_action('/user/document/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-file"></i> Meus documentos</a></li>
 
@@ -29,7 +30,7 @@
 
         [%END%]
         <li class="nav-header">Outros</li>
-        <li><a href="/contato">Contato</a></li>
+        <li><a href="/contato">Contato</a></li> -->
         <li><a href="[%c.uri_for('/logout')%]">Sair</a></li>
     </ul>
 </div>

@@ -46,6 +46,7 @@
 
         [%input_text('postal_code','CEP', classes => ['span3', 'postal_code'])|none%]
 
+        [%select_field('state_id', 'Estado',  array => select_states)|none%]
         [%select_field('city_id', 'Cidade',  array => select_cities)|none%]
 
         [%input_text('address','Logradouro')|none%]

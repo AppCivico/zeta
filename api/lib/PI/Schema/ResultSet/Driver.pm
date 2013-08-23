@@ -4,6 +4,7 @@ use namespace::autoclean;
 use utf8;
 use Moose;
 use MooseX::Types::Email qw/EmailAddress/;
+use MooseX::Types::CPF qw(CPF);
 use PI::Types qw /DataStr/;
 extends 'DBIx::Class::ResultSet';
 with 'PI::Role::Verification';
@@ -33,7 +34,11 @@ sub verifiers_specs {
                 },
                 cpf => {
                     required => 1,
-                    type     => 'Str',
+                    type     => CPF,
+                    post_check => sub {
+                        my $r = shift;
+                        return $r->get_value('cpf') !~ /^(\d)$1*$/ ;
+                    }
                 },
                 cnh_code => {
                     required => 1,
