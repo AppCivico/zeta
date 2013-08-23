@@ -223,6 +223,20 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<driver_cpf_key>
+
+=over 4
+
+=item * L</cpf>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("driver_cpf_key", ["cpf"]);
+
 =head1 RELATIONS
 
 =head2 city
@@ -286,8 +300,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-24 18:44:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OAEa2KX4B27sJ8IDyeTdfw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-23 14:17:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:289YmxC89/BDEqTkF/KI5Q
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
