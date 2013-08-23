@@ -59,7 +59,7 @@ sub stash_result {
 
     if ( exists $opts{body} && ref $opts{body} eq 'HASH' ) {
         $opts{body} = {%{$opts{body}}};
-        $
+
         while ( my ( $k, $v ) = each %{ $opts{body} } ) {
             $v = '' unless defined $v;
             $opts{body}{$k} = encode( 'UTF-8', $v );
