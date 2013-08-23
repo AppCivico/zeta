@@ -3,8 +3,6 @@
 </script>
 [%-CALL assets.include("js/maps.js")%]
 
-<h2>Adicione pelo menos um estacionamento</h2>
-
 [%IF !NO_TITLE%]
 <h2>Adicionar novo estacionamento</h2>
 [%END%]
