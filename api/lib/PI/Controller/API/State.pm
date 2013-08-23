@@ -1,4 +1,4 @@
-package PI::Controller::API::City;
+package PI::Controller::API::State;
 
 use Moose;
 
@@ -7,12 +7,12 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result => 'DB::City',
+    result => 'DB::State',
 
 );
 with 'PI::TraitFor::Controller::AutoBase';
 
-sub base : Chained('/api/base') : PathPart('cities') : CaptureArgs(0) { }
+sub base : Chained('/api/base') : PathPart('states') : CaptureArgs(0) { }
 
 sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 }
@@ -22,7 +22,7 @@ sub list_GET {
     $self->status_ok(
         $c,
         entity => {
-            cities => [
+            states => [
                 map {
                     my $r = $_;
                     +{
@@ -31,8 +31,7 @@ sub list_GET {
                               qw/
                               id
                               name
-                              name_url
-                              state_id
+                              uf
                               country_id
                               /
                         ),

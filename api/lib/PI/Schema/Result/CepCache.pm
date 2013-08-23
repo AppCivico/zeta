@@ -150,8 +150,9 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-20 19:03:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:yeK4J7BOkq7rSNO2ylAtzw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-20 19:03:18
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uEhKI/LfGwiPsh/uOLNk8Q
+
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -184,6 +185,10 @@ sub verifiers_specs {
                     type        =>  'Str'
                 },
                 state_id => {
+                    required    => 0,
+                    type        =>  'Str'
+                },
+                location => {
                     required    => 0,
                     type        =>  'Str'
                 },

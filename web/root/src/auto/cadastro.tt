@@ -1,3 +1,7 @@
+[%-CALL assets.include("js/jquery.maskedinput.js")%]
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/address.js")%]
+
 <section id="forms">
   <div class="page-header">
     <h1>Faça o seu cadastro!</h1>
@@ -17,16 +21,16 @@
           [%input_text('password','Senha', type => 'password')|none%]
           [%input_text('password_confirm','Senha novamente',  type => 'password')|none%]
 
-          [%input_text('cpf','CPF')|none%]
+          [%input_text('cpf','CPF', classes => ['span3', 'cpf'])|none%]
           [%input_text('cnh_code','Código CNH')|none%]
-          [%input_text('first_driver_license','Data da habilitação')|none%]
-          [%input_text('cnh_validity','Validade da habilitação')|none%]
+          [%input_text('first_driver_license','Data da habilitação', classes => ['span3', 'date'])|none%]
+          [%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'])|none%]
 
-          [%input_text('birth_date','Data de nascimento')|none%]
+          [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'])|none%]
 
-          [%input_text('telephone_number','Telefone')|none%]
+          [%input_text('telephone_number','Telefone', classes => ['span3', 'phone'])|none%]
 
-          [%input_text('mobile_number','Celular',)|none%]
+          [%input_text('mobile_number','Celular', classes => ['span3', 'mobile_phone'])|none%]
 
 
           [%select_field('mobile_provider', 'Operadora',  array => [
@@ -46,8 +50,9 @@
             ['D','Divorciado(a)'],
         ])|none%]
 
-          [%input_text('postal_code','CEP')|none%]
+          [%input_text('postal_code','CEP', classes => ['span3', 'postal_code'])|none%]
 
+          [%select_field('state_id', 'Estado',  array => select_states)|none%]
           [%select_field('city_id', 'Cidade',  array => select_cities)|none%]
 
           [%input_text('address','Logradouro')|none%]

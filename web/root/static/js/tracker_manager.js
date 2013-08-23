@@ -23,7 +23,7 @@ $( document ).ready(function() {
             $.ajax({
                 url: "/tracker-manager/form/check_token",
                 data: {car_plate: car_plate, token: token},
-                type: 'html',
+                dataType: 'html',
                 success: function(result){
                     $("#car_info").html(result);
                     reset_button();

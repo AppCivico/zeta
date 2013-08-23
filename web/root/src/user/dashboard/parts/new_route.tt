@@ -1,0 +1,2 @@
+<h2>Adicione pelo menos uma rota</h2>
+[%INCLUDE 'user/route/add.tt' NO_TITLE=>1%]

@@ -42,10 +42,38 @@ VALUES (2, 'p01IpoDpNjPAzB8azQVTcK7v450u1EAjlnFu0J0DPbDz6uuMVgSsFst8wDRF17v9qOcG
 
 
 -- estados/paises/cidades
-INSERT INTO "country" (name, name_url, created_by) VALUES ('Brazil', 'brazil', 1); -- default country
-INSERT INTO "state" (name, created_by, country_id, uf) VALUES ('Sao paulo',1, 1, 'SP'); -- default country
-INSERT INTO "city" (name, state_id, country_id) VALUES ('Sao paulo', 1, 1); -- default country
+INSERT INTO "country" (name, name_url, created_by) VALUES ('Brasil', 'brasil', 1); -- default country
 
+--insert brazilian states
+insert into state (name,uf,country_id, created_by) values ('Goiás','GO',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Mato Grosso','MT',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Mato Grosso do Sul','MS',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Distrito Federal','DF',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Amazonas','AM',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Acre','AC',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Rondônia','RO',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Roraima','RR',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Amapá','AP',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Tocantins','TO',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Pará','PA',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Maranhão','MA',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Piauí', 'PI',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Ceará', 'CE',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Rio Grande do Norte', 'RN',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Paraíba', 'PB',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Pernambuco',  'PE',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Sergipe', 'SE',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Alagoas', 'AL',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Bahia', 'BA',1, 1);
+insert into state (name,uf,country_id, created_by) values ('São Paulo','SP',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Minas Gerais', 'MG',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Rio de Janeiro','RJ',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Espírito Santo', 'ES',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Paraná','PR',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Santa Catarina','SC',1, 1);
+insert into state (name,uf,country_id, created_by) values ('Rio Grande do Sul','RS',1, 1);
+
+INSERT INTO "city" (name, state_id, country_id, name_url) VALUES ('São paulo', 1, 1, 'sao-paulo'); -- insert default city
 
 
 

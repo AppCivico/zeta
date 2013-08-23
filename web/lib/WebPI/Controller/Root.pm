@@ -51,7 +51,10 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
         $c->stash->{role_controller} = 'user';
         }elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
         $c->stash->{role_controller} = 'trackermanager';
+        }elsif ( grep { /^admin$/ } $c->user->roles ) {
+        $c->stash->{role_controller} = 'admin';
         }
+
     }
 }
 

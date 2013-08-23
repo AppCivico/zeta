@@ -53,7 +53,8 @@ sub result_GET {
                 postal_code => $new_address->{cep},
                 neighborhood => $new_address->{neighborhood},
                 city_id => $city->id,
-                state_id => $uf->id
+                state_id => $uf->id,
+                location => $new_address->{location},
             });
         };
 
@@ -74,6 +75,7 @@ sub result_GET {
                 neighborhood
                 city_id
                 state_id
+                location
               )
         }
     );
