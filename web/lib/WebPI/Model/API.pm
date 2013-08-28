@@ -9,17 +9,6 @@ use Encode;
 use DateTime;
 use JSON::XS;
 
-has furl => (
-    is      => 'rw',
-    lazy    => 1,
-    isa     => 'Furl',
-    default => sub {
-        return Furl->new(
-            agent   => 'WebPI',
-            timeout => 30,
-        );
-    },
-);
 
 has my_config => (
     is  => 'rw',
@@ -75,7 +64,7 @@ sub stash_result {
             @headers,
             Content_Type => 'form-data',
             Content      => $opts{body};
-            $self->furl->request($req);
+            $furl->request($req);
         };
     }else{
         $res = eval {
@@ -214,18 +203,23 @@ sub _do_http_req {
 
     my $method = uc $args{method};
     my $res;
+    my $furl = Furl->new(
+            agent   => 'WebPI',
+            headers => [ 'Accept-Encoding' => 'gzip' ],
+            timeout => 5,
+        );
 
     if ( $method =~ /^GET/o ) {
-        $res = $self->furl->get( $args{url}, $args{headers} );
+        $res = $furl->get( $args{url}, $args{headers} );
     }
     elsif ( $method =~ /^POST/o ) {
-        $res = $self->furl->post( $args{url}, $args{headers}, $args{body} );
+        $res = $furl->post( $args{url}, $args{headers}, $args{body} );
     }
     elsif ( $method =~ /^PUT/o ) {
-        $res = $self->furl->put( $args{url}, $args{headers}, $args{body} );
+        $res = $furl->put( $args{url}, $args{headers}, $args{body} );
     }
     elsif ( $method =~ /^DELETE/o ) {
-        $res = $self->furl->delete( $args{url}, $args{headers} );
+        $res = $furl->delete( $args{url}, $args{headers} );
     }
     else {
         die('not supported method');
