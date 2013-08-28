@@ -64,6 +64,12 @@ sub stash_result {
             @headers,
             Content_Type => 'form-data',
             Content      => $opts{body};
+
+            my $furl = Furl->new(
+                agent   => 'WebPI',
+                timeout => 30,
+            );
+
             $furl->request($req);
         };
     }else{
@@ -205,8 +211,7 @@ sub _do_http_req {
     my $res;
     my $furl = Furl->new(
             agent   => 'WebPI',
-            headers => [ 'Accept-Encoding' => 'gzip' ],
-            timeout => 5,
+            timeout => 30,
         );
 
     if ( $method =~ /^GET/o ) {
