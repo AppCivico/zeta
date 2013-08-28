@@ -63,24 +63,28 @@ function initialize() {
 function codeAddress(selector, addr_value) {
     var address = $(addr_value).val();
 
-    if(address.length != 0 && addr != address) {
+    if (address.length != 0 && addr != address) {
         geocoder.geocode( { 'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 clearOverlays();
 
-                map.setCenter(results[0].geometry.location);
-                map.setOptions({zoom: 14});
+                if (results[0]){
+                    map.setCenter(results[0].geometry.location);
+                    map.setOptions({zoom: 14});
 
-                $(selector).val(results[0].geometry.location.mb+','+results[0].geometry.location.nb);
+                    $(selector).val(results[0].geometry.location.toString());
 
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location
-                });
-                markersArray.push(marker);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                    markersArray.push(marker);
+                }else{
+                    $(selector).val('');
+                }
 
             } else {
-                $(selector).val(0);
+                $(selector).val('');
                 alert('Falha ao localizar endereço');
             }
         });
