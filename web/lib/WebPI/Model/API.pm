@@ -31,6 +31,7 @@ faz uma requisicao GET para listagens e carrega o retorno na stash
 
 =cut
 
+
 use HTTP::Request::Common;
 sub stash_result {
     my ( $self, $c, $endpoint, %opts ) = @_;
@@ -65,12 +66,7 @@ sub stash_result {
             Content_Type => 'form-data',
             Content      => $opts{body};
 
-            my $furl = Furl->new(
-                agent   => 'WebPI',
-                timeout => 30,
-            );
-
-            $furl->request($req);
+            $self->furl->request($req);
         };
     }else{
         $res = eval {
@@ -209,22 +205,18 @@ sub _do_http_req {
 
     my $method = uc $args{method};
     my $res;
-    my $furl = Furl->new(
-            agent   => 'WebPI',
-            timeout => 30,
-        );
 
     if ( $method =~ /^GET/o ) {
-        $res = $furl->get( $args{url}, $args{headers} );
+        $res = $self->furl->get( $args{url}, $args{headers} );
     }
     elsif ( $method =~ /^POST/o ) {
-        $res = $furl->post( $args{url}, $args{headers}, $args{body} );
+        $res = $self->furl->post( $args{url}, $args{headers}, $args{body} );
     }
     elsif ( $method =~ /^PUT/o ) {
-        $res = $furl->put( $args{url}, $args{headers}, $args{body} );
+        $res = $self->furl->put( $args{url}, $args{headers}, $args{body} );
     }
     elsif ( $method =~ /^DELETE/o ) {
-        $res = $furl->delete( $args{url}, $args{headers} );
+        $res = $self->furl->delete( $args{url}, $args{headers} );
     }
     else {
         die('not supported method');
@@ -232,5 +224,13 @@ sub _do_http_req {
 
     return $res;
 }
+
+sub furl {
+    return Furl->new(
+        agent   => 'WebPI',
+        timeout => 100
+    );
+}
+
 
 1;
