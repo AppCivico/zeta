@@ -9,6 +9,8 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 db_transaction {
 
     for my $num ( 1 .. 3 ) {
+        my @cpfs = qw/225.525.633-92 351.889.759-47 876.358.155-80/;
+
         rest_post '/drivers',
           name  => 'criar motorista',
           stash => 'driver' . $num,
@@ -16,7 +18,7 @@ db_transaction {
             'name'                 => 'Foo' . $num,
             'last_name'            => 'Bar' . $num,
             'birth_date'           => '1970-01-01',
-            'cpf'                  => '3897948680' . $num,
+            'cpf'                  => $cpfs[$num-1],
             'first_driver_license' => '1990-01-01',
             'cnh_code'             => 'xxxxx',
             'cnh_validity'         => '2014-01-01',
