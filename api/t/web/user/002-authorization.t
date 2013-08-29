@@ -44,10 +44,6 @@ db_transaction {
 
         is_deeply( $me->{roles}, ['superadmin'], 'roles looks good' );
 
-        my $users = rest_get '/users', 200, { api_key => $me->{api_key} };
-
-        is( @{ $users->{users} }, 3, 'have 3 users' );
-
     };
 
 };
