@@ -22,17 +22,6 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
         $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
         $c->stash->{main_view} = 'parts/new_vehicle.tt';
-    }elsif ( @{ $c->stash->{vehicle_parking} ||[] } == 0 ) {
-
-        $c->stash->{cadastro_incompleto} = 1;
-
-        $api->stash_result( $c, 'cities' );
-        $api->stash_result( $c, 'states' );
-
-        $c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
-        $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
-
-        $c->stash->{main_view} = 'parts/new_parking.tt';
     }elsif ( @{ $c->stash->{vehicle_routes} ||[] } == 0 ) {
 
         $c->stash->{cadastro_incompleto} = 1;
@@ -44,6 +33,17 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
         $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
         $c->stash->{main_view} = 'parts/new_route.tt';
+    }elsif ( @{ $c->stash->{vehicle_parking} ||[] } == 0 ) {
+
+        $c->stash->{cadastro_incompleto} = 1;
+
+        $api->stash_result( $c, 'cities' );
+        $api->stash_result( $c, 'states' );
+
+        $c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
+        $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+
+        $c->stash->{main_view} = 'parts/new_parking.tt';
     }
 
 }
