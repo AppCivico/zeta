@@ -1,6 +1,6 @@
 <!-- Jumbotron -->
 <div class="jumbotron">
-<h1>Marketing stuff!</h1>
+<h1>Ganhe até R$ 1.000,00 por mês!</h1>
 <p class="lead">Para fazer o cadastro, clique no botão abaixo!</p>
 <a class="btn btn-large btn-success" href="/cadastro">Quero me cadastrar!</a>
 </div>
