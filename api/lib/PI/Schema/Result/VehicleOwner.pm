@@ -319,7 +319,7 @@ sub verifiers_specs {
                         my $str = $r->get_value('cpf');
                         return 0 if $str =~ /^(\d)\1*$/ ;
                         return 1 if $self->cpf eq $str;
-                        return 0 if $self->find( { cpf => $str } );
+                        return 0 if $self->resultset_find( { cpf => $str } );
                         return 1;
                     }
                 },
