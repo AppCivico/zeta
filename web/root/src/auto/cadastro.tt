@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="span12">
-      <form class="form-horizontal" method="post" action="/form/driver">
+      <form class="form-horizontal" method="post" action="/form/driver" autocomplete="off">
         <fieldset>
             <legend>Informações pessoais</legend>
 

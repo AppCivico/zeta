@@ -1,1 +1,3 @@
-/* */
+input {text-indent: 0.5em}
+input.required, select.required {background-image: url(/static/img/exclamation_lgRed.gif); background-repeat: no-repeat; background-position: 0.3em center;}
+textarea.required {background: #FFF url(/static/img/exclamation_lgRed.gif) no-repeat left 3px;}

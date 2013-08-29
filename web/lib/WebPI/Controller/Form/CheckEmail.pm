@@ -33,7 +33,7 @@ sub process : Chained('base') : PathPart('check_email') : Args(0) {
 
         }else{
 
-            $c->detach( '/form/redirect_ok', [ '/cadastro/cadastro', {}, 'Crie sua conta!',
+            $c->detach( '/form/redirect_ok', [ '/cadastro/cadastro', {}, '',
                 email => $c->req->params->{email}
             ] );
 
