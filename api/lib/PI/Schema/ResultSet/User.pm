@@ -70,6 +70,16 @@ sub verifiers_specs {
             }
         ),
 
+        check_email  => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                email => {
+                    required => 1,
+                    type     => EmailAddress
+                }
+            }
+        ),
+
     };
 }
 

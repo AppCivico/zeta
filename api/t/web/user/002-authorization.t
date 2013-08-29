@@ -46,6 +46,44 @@ db_transaction {
 
     };
 
+
+    api_auth_as;
+
+    rest_post '/check_email',
+      name  => 'testar se o email existe',
+      code => 200,
+      stash => 'mailtest',
+      [
+        'email'                => 'superadmin@email.com'
+      ];
+
+    stash_test 'mailtest', sub {
+        my ($me) = @_;
+        is($me->{user}{name}, 'superadmin', 'looks good');
+    };
+
+    rest_post '/check_email',
+      name  => 'testar se o email existe',
+      code => 200,
+      stash => 'mailtest',
+      [
+        'email'                => 'fooobar@aa.com'
+      ];
+
+    stash_test 'mailtest', sub {
+        my ($me) = @_;
+        is($me->{user}, undef, 'looks ok too');
+    };
+
+    rest_post '/check_email',
+      name  => 'testar se o email existe',
+      is_fail => 1,
+      stash => 'mailtest',
+      [
+        'email'                => 'doesnot is a email'
+      ];
+
+
 };
 
 done_testing;
