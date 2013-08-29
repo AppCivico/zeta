@@ -3,7 +3,7 @@ use FindBin qw($Bin);
 use lib "$Bin/../../lib";
 
 use PI::Test::Further;
-
+use DateTime;
 api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
@@ -116,15 +116,16 @@ db_transaction {
     };
 
     rest_put stash 'vehicle_token.url',
-      name => 'marcar token como usado',
-      [ used_at => '2013-08-12 15:00:00' ];
+      [],
+      name => 'marcar token como usado';
 
     rest_reload 'vehicle_token';
 
     stash_test 'vehicle_token.get', sub {
         my ($me) = @_;
+        my $today = DateTime->now->ymd;
 
-        is( $me->{used_at}, '2013-08-12T15:00:00', 'token used' );
+        like( $me->{used_at}, qr/^${today}T/, 'token used' );
     };
 
 };
