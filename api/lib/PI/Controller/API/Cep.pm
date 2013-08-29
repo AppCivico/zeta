@@ -3,6 +3,7 @@ package PI::Controller::API::Cep;
 use Moose;
 use WWW::Correios::CEP;
 use Text2URI;
+use JSON::XS;
 my $url_parser = Text2URI->new;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
@@ -29,8 +30,10 @@ sub result_GET {
         eval {
             my $cepper = new WWW::Correios::CEP();
             my $new_address = $cepper->find( $c->req->params->{postal_code} );
+use DDP; p $new_address;
 
             die{'postal_code.invalid'} unless $new_address;
+            die{'postal_code.invalid: ' . $new_address->{status}} if $new_address->{status};
 
             my $uf = $c->model('DB::State')->search({ uf => $new_address->{uf} })->next;
 
@@ -59,6 +62,7 @@ sub result_GET {
         };
 
         if ( $@ && ref $@ eq 'HASH' ) {
+
             $self->status_bad_request( $c, message => encode_json($@) ), $c->detach;
         } elsif ($@) {
             $self->status_bad_request( $c, message => "$@" ), $c->detach;
