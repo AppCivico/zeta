@@ -34,7 +34,7 @@ sub get_address : Chained('base') : PathPart('get_address') {
 
     my $params = { %{$c->req->params} };
 
-    $form->cut_off_str(
+    $form->only_number(
         $params,
         'postal_code'
     );

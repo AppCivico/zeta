@@ -1,6 +1,7 @@
 package WebPI::Controller::Form::Driver;
 use Moose;
 use namespace::autoclean;
+use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -22,7 +23,7 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
         'birth_date'
     );
 
-    $form->cut_off_str(
+    $form->only_number(
         $param,
         'telephone_number',
         'mobile_number',

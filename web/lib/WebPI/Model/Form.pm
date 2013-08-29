@@ -17,7 +17,7 @@ sub format_date {
 
 }
 
-sub cut_off_str {
+sub only_number {
     my ($self, $ref, @fields) = @_;
 
     foreach my $f (@fields) {

@@ -5,67 +5,83 @@
 <section id="forms">
   <div class="page-header">
     <h1>Faça o seu cadastro!</h1>
+    <p>Começe agora o cadastro e (bla bla ganha até ...)</p>
   </div>
 
   <div class="row">
-
-    <div class="span9">
+    <div class="span12">
       <form class="form-horizontal" method="post" action="/form/driver">
         <fieldset>
-          <legend>Seus dados</legend>
+            <legend>Informações pessoais</legend>
 
-          [%input_text('name','Primeiro nome')|none%]
-          [%input_text('last_name','Último nome')|none%]
-          [%input_text('email','E-mail')|none%]
+            [%input_text('name','Primeiro nome', req=>1)|none%]
+            [%input_text('last_name','Último nome', req=>1)|none%]
 
-          [%input_text('cpf','CPF', classes => ['span3', 'cpf'])|none%]
-          [%input_text('cnh_code','Código CNH')|none%]
-          [%input_text('first_driver_license','Data da habilitação', classes => ['span3', 'date'])|none%]
-          [%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'])|none%]
+            [%input_text('cpf','CPF', classes => ['span3', 'cpf'], req=>1)|none%]
 
-          [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'])|none%]
+            [%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'], req=>1)|none%]
 
-          [%input_text('telephone_number','Telefone', classes => ['span3', 'phone'])|none%]
+            [%input_text('cnh_code','Código CNH', req=>1)|none%]
+            [%input_text('first_driver_license','Dirige desde', classes => ['span3', 'date'], req=>1)|none%]
 
-          [%input_text('mobile_number','Celular', classes => ['span3', 'mobile_phone'])|none%]
+            [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'], req=>1)|none%]
 
+            [%select_field('marital_state', 'Estado civil',  array => [
+                ['S','Solteiro (a)'],
+                ['C','Casado (a)'],
+                ['V','Viuvo(a)'],
+                ['D','Divorciado(a)'],
+            ], req=>1)|none%]
 
-          [%select_field('mobile_provider', 'Operadora',  array => [
-            ['tim','Tim'],
-            ['oi','Oi'],
-            ['vivo','Vivo'],
-            ['claro','Claro'],
-            ['nextel','Nextel'],
-            ['outra','Outra'],
-
-        ])|none%]
-
-          [%select_field('marital_state', 'Estado civil',  array => [
-            ['S','Solteiro (a)'],
-            ['C','Casado (a)'],
-            ['V','Viuvo(a)'],
-            ['D','Divorciado(a)'],
-        ])|none%]
-
-          [%input_text('postal_code','CEP', classes => ['span3', 'postal_code'])|none%]
-
-          [%select_field('state_id', 'Estado',  array => select_states)|none%]
-          [%select_field('city_id', 'Cidade',  array => select_cities)|none%]
-
-          [%input_text('address','Logradouro')|none%]
-          [%input_text('number','Número')|none%]
-          [%input_text('complement','Complemento')|none%]
-          [%input_text('neighborhood','Bairro')|none%]
-
-          [%input_text('password','Senha', type => 'password')|none%]
-          [%input_text('password_confirm','Senha novamente',  type => 'password')|none%]
-
-
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
-            <button type="reset" class="btn">Limpar formulário</button>
-          </div>
         </fieldset>
+
+        <fieldset>
+            <legend>Informações de localização</legend>
+            <p>Para facilitar as próximas etapadas do cadastro, precisamos do endereço de sua residência</p>
+            [%input_text('postal_code','CEP', classes => ['span3', 'postal_code'])|none%]
+
+            [%select_field('state_id', 'Estado',  array => select_states)|none%]
+            [%select_field('city_id', 'Cidade',  array => select_cities)|none%]
+
+            [%input_text('address','Logradouro')|none%]
+            [%input_text('number','Número')|none%]
+            [%input_text('complement','Complemento')|none%]
+            [%input_text('neighborhood','Bairro')|none%]
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Informações de contato</legend>
+            <p>Sempre que necessário, entraremos em contato com você através destas informações</p>
+            [%input_text('email','E-mail', value => email, req=>1)|none%]
+
+            [%input_text('telephone_number','Telefone', classes => ['span3', 'phone'], req=>1)|none%]
+
+            [%input_text('mobile_number','Celular', classes => ['span3', 'mobile_phone'], req=>1)|none%]
+
+            [%select_field('mobile_provider', 'Operadora',  array => [
+                ['tim','Tim'],
+                ['oi','Oi'],
+                ['vivo','Vivo'],
+                ['claro','Claro'],
+                ['nextel','Nextel'],
+                ['outra','Outra'],
+                ], req=>1)|none%]
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Informações da conta</legend>
+            <p>Após esta etapa, você irá precisar desta senha para acessar seu perfil</p>
+            [%input_text('password','Senha', type => 'password', req=>1)|none%]
+            [%input_text('password_confirm','Senha novamente',  type => 'password', req=>1)|none%]
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+                <button type="reset" class="btn">Limpar formulário</button>
+            </div>
+        </fieldset>
+
       </form>
     </div>
   </div>

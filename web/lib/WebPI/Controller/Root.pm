@@ -42,7 +42,7 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     $c->load_status_msgs;
     my $status_msg = $c->stash->{status_msg};
     my $error_msg  = $c->stash->{error_msg};
-
+use DDP; p $status_msg;p$error_msg;
     @{ $c->stash }{ keys %$status_msg } = values %$status_msg if ref $status_msg eq 'HASH';
     @{ $c->stash }{ keys %$error_msg }  = values %$error_msg  if ref $error_msg eq 'HASH';
 

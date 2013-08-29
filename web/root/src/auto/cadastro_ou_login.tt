@@ -1,0 +1,27 @@
+[%-CALL assets.include("js/jquery.maskedinput.js")%]
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/address.js")%]
+
+<section id="forms">
+    <div class="page-header">
+        <h1>Participar da Publicidade inteligente</h1>
+        <p>Digite seu e-mail para que possamos começar o seu cadastro!</p>
+    </div>
+
+  <div class="row">
+    <div class="span12">
+      <form class="form-horizontal" method="post" action="/form/driver">
+        <fieldset>
+
+          [%input_text('email','E-mail')|none%]
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+</section>
+

@@ -21,7 +21,7 @@ sub process : Chained('base') : PathPart('driver_vehicle') : Args(0) {
         'birth_date'
     );
 
-    $form->cut_off_str(
+    $form->only_number(
         $params,
         'telephone_number',
         'mobile_number',
