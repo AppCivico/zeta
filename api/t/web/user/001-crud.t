@@ -31,12 +31,11 @@ db_transaction {
         my ($me) = @_;
 
         ok( $me = delete $me->{users}, 'users list exists' );
-
-        is( @$me, 4, '4 users' );
+        is( @$me, 5, '5 users' );
 
         $me = [ sort { $a->{id} <=> $b->{id} } @$me ];
 
-        is( $me->[3]{email}, 'foo1@email.com', 'listing ok' );
+        is( $me->[4]{email}, 'foo1@email.com', 'listing ok' );
     };
 
     rest_put stash 'user.url',
@@ -68,7 +67,7 @@ db_transaction {
 
         ok( $me = delete $me->{users}, 'users list exists' );
 
-        is( @$me, 3, '3 users' );
+        is( @$me, 4, '4 users' );
 
         is( $me->[0]{email}, 'superadmin@email.com', 'listing ok' );
     };
