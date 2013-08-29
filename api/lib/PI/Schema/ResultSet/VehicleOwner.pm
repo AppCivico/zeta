@@ -40,7 +40,7 @@ sub verifiers_specs {
                     type     => CPF,
                     post_check => sub {
                         my $r = shift;
-                        return $r->get_value('cpf') !~ /^(\d)$1*$/ ;
+                        return $r->get_value('cpf') !~ /^(\d)\1*$/ ;
                     }
                 },
                 bank_code => {
