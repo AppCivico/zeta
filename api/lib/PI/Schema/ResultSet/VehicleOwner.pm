@@ -38,9 +38,13 @@ sub verifiers_specs {
                 cpf => {
                     required => 1,
                     type     => CPF,
+                    filters => [$PI::Types::ONLY_DIGITY],
                     post_check => sub {
                         my $r = shift;
-                        return $r->get_value('cpf') !~ /^(\d)\1*$/ ;
+                        my $str = $r->get_value('cpf');
+                        return 0 if $str =~ /^(\d)\1*$/ ;
+                        return 0 if $self->find( { cpf => $str } );
+                        return 1;
                     }
                 },
                 bank_code => {
