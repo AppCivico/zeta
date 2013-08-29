@@ -128,7 +128,7 @@ __PACKAGE__->table("vehicle");
 
   data_type: 'integer'
   is_foreign_key: 1
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 created_at
 
@@ -189,7 +189,7 @@ __PACKAGE__->add_columns(
   "observations",
   { data_type => "text", is_nullable => 1 },
   "vehicle_owner_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -330,7 +330,12 @@ __PACKAGE__->belongs_to(
   "vehicle_owner",
   "PI::Schema::Result::VehicleOwner",
   { id => "vehicle_owner_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
 );
 
 =head2 vehicle_parkings
@@ -394,8 +399,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 12:06:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VbaohBu3r7rUtu8/3HVbDg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-29 11:21:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:BO+EIi1BNb5C4QptQLEFgQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
