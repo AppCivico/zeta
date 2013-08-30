@@ -23,4 +23,14 @@ body.contato{
 	background-image: url(/static/img/bg4.gif);
 	background-color: #b8b8b8;
 }
+.menu-top{
+	list-style: none;
+}
+.menu-top li{
+	margin-right: 1px;
+	display: inline-block;
+}
+.menu-top li:last-child{
+	margin-right: 0;
+}
 
