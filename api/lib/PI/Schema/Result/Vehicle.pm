@@ -54,11 +54,6 @@ __PACKAGE__->table("vehicle");
   data_type: 'text'
   is_nullable: 0
 
-=head2 cpf
-
-  data_type: 'text'
-  is_nullable: 0
-
 =head2 car_plate
 
   data_type: 'text'
@@ -160,8 +155,6 @@ __PACKAGE__->add_columns(
   },
   "renavam",
   { data_type => "text", is_nullable => 0 },
-  "cpf",
-  { data_type => "text", is_nullable => 0 },
   "car_plate",
   { data_type => "text", is_nullable => 0 },
   "doors_number",
@@ -216,18 +209,6 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 UNIQUE CONSTRAINTS
-
-=head2 C<vehicle_cpf_key>
-
-=over 4
-
-=item * L</cpf>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("vehicle_cpf_key", ["cpf"]);
 
 =head2 C<vehicle_renavam_key>
 
@@ -399,8 +380,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-29 11:21:51
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:BO+EIi1BNb5C4QptQLEFgQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-30 12:01:24
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Eh65zccoe0E/m25weioztA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -423,16 +404,16 @@ sub verifiers_specs {
                         my $r = shift;
                         return 0 if $self->resultset('Vehicle')->search( {
                             renavam => $r->get_value('renavam'),
-                            cpf     => $r->get_value('cpf')
+                         #   cpf     => $r->get_value('cpf')
                         } )->count;
 
                         return 1;
                       }
                 },
-                cpf => {
-                    required => 0,
-                    type     => 'Str',
-                },
+#                 cpf => {
+#                     required => 0,
+#                     type     => 'Str',
+#                 },
                 car_plate => {
                     required => 0,
                     type     => 'Str',
