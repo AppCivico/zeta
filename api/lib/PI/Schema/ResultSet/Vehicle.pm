@@ -35,10 +35,10 @@ sub verifiers_specs {
                         return 1;
                       }
                 },
-                cpf => {
-                    required => 1,
-                    type     => 'Str',
-                },
+#                 cpf => {
+#                     required => 1,
+#                     type     => 'Str',
+#                 },
                 car_plate => {
                     required => 1,
                     type     => 'Str',
@@ -96,7 +96,7 @@ sub verifiers_specs {
                     type     => 'Int',
                 },
                 vehicle_owner_id => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 created_by => {
