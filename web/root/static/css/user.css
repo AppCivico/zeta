@@ -58,18 +58,29 @@ a.del {
     border-bottom: 2px solid white;
 }
 
+#side-menu-page {
+    position: absolute;
+    bottom: 65px;
+    width: 190px;
+}
+
 /* Large desktop */
 @media (min-width: 1200px) {
     .side-menu {
         width: 270px;
         margin-left: 30px;
     }
-
+    #side-menu-page {
+        width: 240px;
+    }
 }
 @media (min-width: 768px) and (max-width: 979px) {
 
     .side-menu {
         width: 166px;
+    }
+    #side-menu-page {
+        width: 136px;
     }
 
 }
@@ -80,5 +91,10 @@ a.del {
         width: 100%;
         top: 0;
         margin-left: 0;
+    }
+    #side-menu-page {
+        width: 100%;
+        position: relative;
+        bottom: 0;
     }
 }
