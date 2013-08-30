@@ -1,3 +1,29 @@
+body{
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-image: url(/static/img/bg1.gif);
+	background-color: #deb893;
+}
+body.participar,
+body.cadastro{
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-image: url(/static/img/bg2.gif);
+	background-color: #a5cbcc;
+}
+body.login{
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-image: url(/static/img/bg3.gif);
+	background-color: #a5b2cc;
+}
+body.contato{
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-image: url(/static/img/bg4.gif);
+	background-color: #b8b8b8;
+}
+
 input {text-indent: 0.5em}
 select {text-indent: 0.3em}
 input.required, select.required {background-image: url(/static/img/exclamation_lgRed.gif); background-repeat: no-repeat; background-position: 0.3em center;}
