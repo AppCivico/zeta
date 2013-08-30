@@ -14,8 +14,11 @@
             <label class="checkbox">
                 <input name="remember" type="checkbox" checked> Me lembrar
             </label>
-            <button type="submit" class="btn">Entrar</button>
+
             </div>
+        </div>
+        <div class="form-actions">
+        <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Entrar</button>
         </div>
     </form>
 
