@@ -4,11 +4,36 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/user/form/base') : PathPart('') : CaptureArgs(0) {
+sub base : Chained('/user/form/base') : PathPart('vehicle') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
 
-sub process_edit : Chained('base') : PathPart('vehicle') : Args(1) {
+sub process : Chained('base') : PathPart('') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $api = $c->model('API');
+    my $form = $c->model('Form');
+
+    my $params = {
+        %{ $c->req->params },
+        driver_id => $c->stash->{driver}{id}
+    };
+
+    $api->stash_result(
+        $c, [ 'vehicles' ],
+        method => 'POST',
+        body   => $params
+    );
+
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    }
+    else {
+        $c->detach( '/form/redirect_ok', [ '/user/dashboard/index', {}, 'Cadastrado com sucesso!' ] );
+    }
+}
+
+sub process_edit : Chained('base') : PathPart('') : Args(1) {
     my ( $self, $c, $id) = @_;
 
     my $api = $c->model('API');
