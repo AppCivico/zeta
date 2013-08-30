@@ -23,7 +23,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body><script>var actions=[];</script>
+<body class="[% body_class %]"><script>var actions=[];</script>
 
 <div class="container">
     [%INCLUDE parts/menu.tt%]
