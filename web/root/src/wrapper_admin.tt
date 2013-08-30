@@ -15,7 +15,7 @@
 [%-CALL assets.include("css/bootstrap.min.css")%]
 [%-CALL assets.include("css/bootstrap-timepicker.min.css")%]
 [%-CALL assets.include("css/system.css")%]
-[%-CALL assets.include("css/user.css")%]
+
 
 [%-CALL assets.include("js/bootstrap.min.js")%]
 [%-CALL assets.include("js/bootstrap-timepicker.min.js")%]
