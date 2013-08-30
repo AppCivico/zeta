@@ -50,7 +50,7 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     $class =~ s/^WebPI::Controller:://;
     $class =~ s/::/-/g;
 
-    $c->stash->{body_class} = "$class $class-$action";
+    $c->stash->{body_class} = lc "$class $class-$action";
 
     if ($c->user){
         if ( grep { /^user$/ } $c->user->roles ) {
