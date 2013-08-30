@@ -76,7 +76,7 @@ sub default : Path {
     $self->root($c);
     my $maybe_view = join '/', @{ $c->req->arguments };
 
-    if ($c->user && $maybe_view =~ /^(cadastro)$/){
+    if ($c->user && $maybe_view =~ /^(participar)$/){
         $c->detach( 'Form::Login' => 'after_login' );
     }
     my $output;
