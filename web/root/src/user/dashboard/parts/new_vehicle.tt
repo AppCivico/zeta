@@ -5,7 +5,7 @@
         <h4>Dados do veículo</h4>
 
 
-        [%input_text('brand_name','Marca')|none%]
+        [%input_text('brand_name','Marca', req=>1)|none%]
         [%input_text('model','modelo')|none%]
         [%input_text('model_year','Ano do modelo')|none%]
         [%input_text('color','Cor')|none%]
