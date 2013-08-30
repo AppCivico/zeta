@@ -76,7 +76,11 @@ sub default : Path {
     $self->root($c);
     my $maybe_view = join '/', @{ $c->req->arguments };
     my $output;
-    eval { $output = $c->view('TT')->render( $c, "auto/$maybe_view.tt" ); };
+    eval {
+        $c->stash->{body_class} .= ' ' . $maybe_view;
+        $c->stash->{body_class} =~ s/\//-/g;
+        $output = $c->view('TT')->render( $c, "auto/$maybe_view.tt" );
+    };
     if ( $@ && $@ =~ /not found$/ ) {
         $c->response->body('Page not found');
         $c->response->status(404);
