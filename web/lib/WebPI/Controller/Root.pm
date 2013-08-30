@@ -46,7 +46,7 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     @{ $c->stash }{ keys %$status_msg } = values %$status_msg if ref $status_msg eq 'HASH';
     @{ $c->stash }{ keys %$error_msg }  = values %$error_msg  if ref $error_msg eq 'HASH';
 
-    my ($class, $action) = ($c->action->class, $c->action->action);
+    my ($class, $action) = ($c->action->class, $c->action->name);
     $class =~ s/^WebPI::Controller:://;
     $class =~ s/::/-/g;
 
