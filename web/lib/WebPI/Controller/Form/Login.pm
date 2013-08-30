@@ -19,21 +19,26 @@ sub login : Chained('base') : PathPart('login') : Args(0) {
             $c->session_time_to_live(14400)      # 4h
         }
 
-        my $url = \'/';
-        if ( grep { /^user$/ } $c->user->roles ) {
-            $url = '/user/dashboard/index';
-        }elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
-            $url = '/trackermanager/dashboard/index';
-        } elsif (grep {/^admin$/} $c->user->roles) {
-            $url = '/admin/dashboard/index';
-        }
-
-        $c->detach( '/form/redirect_ok', [ $url, {}, 'Bem vindo, ' . $c->user->name ] );
+        $self->after_login($c);
 
     }
     else {
         $c->detach( '/form/redirect_error', [] );
     }
+}
+
+sub after_login {
+    my ($self, $c) = @_;
+    my $url = \'/';
+    if ( grep { /^user$/ } $c->user->roles ) {
+        $url = '/user/dashboard/index';
+    }elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
+        $url = '/trackermanager/dashboard/index';
+    } elsif (grep {/^admin$/} $c->user->roles) {
+        $url = '/admin/dashboard/index';
+    }
+
+    $c->detach( '/form/redirect_ok', [ $url, {}, 'Bem vindo, ' . $c->user->name ] );
 }
 
 __PACKAGE__->meta->make_immutable;
