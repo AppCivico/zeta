@@ -1,7 +1,7 @@
 <div class="sidebar-nav">
     <ul class="nav nav-list">
         [%href = c.uri_for_action('/user/dashboard/index')%]
-        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]">Dashboard</a></li>
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]">Minha conta</a></li>
 
 
         [%IF !cadastro_incompleto%]
@@ -18,7 +18,7 @@
         [%href = c.uri_for_action('/user/route/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-random"></i> Minhas rotas</a></li>
 
-<!--
+
         [%href = c.uri_for_action('/user/document/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-file"></i> Meus documentos</a></li>
 
@@ -27,11 +27,15 @@
         <li><a href="#"><i class="icon-plus"></i> Pagamentos</a></li>
         <li><a href="#"><i class="icon-folder-open"></i> Contratos</a></li>
         <li><a href="#"><i class="icon-exclamation-sign"></i> Alertas recebidos</a></li>
--->
+
         [%END%]
-        <li class="nav-header">Páginas</li>
+    </ul>
+
+    <ul id="side-menu-page" class="nav nav-list">
+        <li class="nav-header" >Páginas</li>
         <li><a href="/faq">Perguntas frequentes</a></li>
         <li><a href="/contato">Contato</a></li>
+        <li class="nav-header"></li>
         <li><a href="[%c.uri_for('/logout')%]">Sair</a></li>
     </ul>
 </div>

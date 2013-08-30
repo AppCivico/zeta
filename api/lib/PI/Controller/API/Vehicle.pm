@@ -10,9 +10,9 @@ __PACKAGE__->config(
     result     => 'DB::Vehicle',
     object_key => 'vehicle',
 
-    update_roles => [qw/superadmin/],
-    create_roles => [qw/superadmin/],
-    delete_roles => [qw/superadmin/],
+    update_roles => [qw/superadmin user/],
+    create_roles => [qw/superadmin user/],
+    delete_roles => [qw/superadmin user/],
 
     search_ok => {
         driver_id => 'Int',
