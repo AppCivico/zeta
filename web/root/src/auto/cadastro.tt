@@ -19,11 +19,6 @@
 
             [%input_text('cpf','CPF', classes => ['span3', 'cpf'], req=>1)|none%]
 
-            [%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'], req=>1)|none%]
-
-            [%input_text('cnh_code','Código CNH', req=>1)|none%]
-            [%input_text('first_driver_license','Dirige desde', classes => ['span3', 'date'], req=>1)|none%]
-
             [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'], req=>1)|none%]
 
             [%select_field('marital_state', 'Estado civil',  array => [
@@ -36,17 +31,25 @@
         </fieldset>
 
         <fieldset>
+            <legend>Informações do condutor</legend>
+
+            [%input_text('cnh_code','Código CNH', req=>1)|none%]
+            [%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'], req=>1)|none%]
+            [%input_text('first_driver_license','Data da 1ª habilitação', classes => ['span3', 'date'], req=>1)|none%]
+        </fieldset>
+
+        <fieldset>
             <legend>Informações de localização</legend>
             <p>Para facilitar as próximas etapadas do cadastro, precisamos do endereço de sua residência</p>
             [%input_text('postal_code','CEP', classes => ['span3', 'postal_code'])|none%]
+            <p id="cep_not_found" style="display:none;">CEP não encontrado</p>
+            [%select_field('state_id', 'Estado',  array => select_states, disabled => ['disabled'])|none%]
+            [%select_field('city_id', 'Cidade',  array => select_cities, disabled => ['disabled'])|none%]
 
-            [%select_field('state_id', 'Estado',  array => select_states)|none%]
-            [%select_field('city_id', 'Cidade',  array => select_cities)|none%]
-
-            [%input_text('address','Logradouro')|none%]
-            [%input_text('number','Número')|none%]
-            [%input_text('complement','Complemento')|none%]
-            [%input_text('neighborhood','Bairro')|none%]
+            [%input_text('address','Logradouro', disabled => ['disabled'])|none%]
+            [%input_text('number','Número', disabled => ['disabled'])|none%]
+            [%input_text('complement','Complemento', disabled => ['disabled'])|none%]
+            [%input_text('neighborhood','Bairro', disabled => ['disabled'])|none%]
 
         </fieldset>
 
