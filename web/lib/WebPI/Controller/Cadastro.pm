@@ -18,10 +18,7 @@ sub cadastro : Chained('base') : PathPart('cadastro') : Args(0) {
 
     my $api = $c->model('API');
 
-    $api->stash_result( $c, 'cities' );
     $api->stash_result( $c, 'states' );
-
-    $c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
     $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
 
@@ -49,6 +46,26 @@ sub get_address : Chained('base') : PathPart('get_address') {
 
     $c->res->header('content-type', 'application/json;charset=UTF-8');
     $c->res->body(encode_json($result));
+}
+
+sub get_cities: Chained('base') : PathPart('get_cities') {
+    my ( $self, $c ) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, 'cities',
+        params => {
+            state_id => $c->req->params->{state_id}
+        }
+     );
+
+    $c->stash(
+        select_cities => [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ],
+        without_wrapper => 1,
+        template => 'auto/cities.tt'
+    );
+
 }
 
 __PACKAGE__->meta->make_immutable;

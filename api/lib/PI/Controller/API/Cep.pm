@@ -27,45 +27,57 @@ sub result_GET {
     my $address = $c->stash->{collection}->search( { postal_code => $c->req->params->{postal_code} } )->next;
 
     if (!$address) {
+        my $TIMEOUT_IN_SECONDS = 5;
         eval {
-            my $cepper = new WWW::Correios::CEP();
-            my $new_address = $cepper->find( $c->req->params->{postal_code} );
-use DDP; p $new_address;
+            local $SIG{ALRM} = sub { die "alarm\n" };
+            alarm($TIMEOUT_IN_SECONDS);
 
-            die{'postal_code.invalid'} unless $new_address;
-            die{'postal_code.invalid: ' . $new_address->{status}} if $new_address->{status};
+            eval {
+                my $ua = LWP::UserAgent->new;
 
-            my $uf = $c->model('DB::State')->search({ uf => $new_address->{uf} })->next;
+                my $cepper = WWW::Correios::CEP->new();
 
-            my $city_url = $url_parser->translate($new_address->{location});
+                my $new_address = $cepper->find( $c->req->params->{postal_code} );
+                alarm(0);
 
-            my $city = $c->model('DB::City')->search({ name_url => $city_url, state_id => $uf->id })->next;
+                die{'postal_code.invalid'} unless $new_address;
+                die{'postal_code.invalid: ' . $new_address->{status}} if $new_address->{status};
 
-            if(!$city) {
-                $city = $c->model('DB::City')->create({
-                    name => $new_address->{location},
-                    name_url => $city_url,
+                my $uf = $c->model('DB::State')->search({ uf => $new_address->{uf} })->next;
+
+                my $city_url = $url_parser->translate($new_address->{location});
+
+                my $city = $c->model('DB::City')->search({ name_url => $city_url, state_id => $uf->id })->next;
+
+                if(!$city) {
+                    $city = $c->model('DB::City')->create({
+                        name => $new_address->{location},
+                        name_url => $city_url,
+                        state_id => $uf->id,
+                        country_id => 1
+                    });
+                }
+                $new_address->{cep} =~ s/[^\d]//g;
+
+                $address = $c->stash->{collection}->create({
+                    address => $new_address->{street},
+                    postal_code => $new_address->{cep},
+                    neighborhood => $new_address->{neighborhood},
+                    city_id => $city->id,
                     state_id => $uf->id,
-                    country_id => 1
+                    location => $new_address->{location},
                 });
+            };
+
+            if ( $@ && ref $@ eq 'HASH' ) {
+
+                $self->status_bad_request( $c, message => encode_json($@) ), $c->detach;
+            } elsif ($@) {
+                $self->status_bad_request( $c, message => "$@" ), $c->detach;
             }
-            $new_address->{cep} =~ s/[^\d]//g;
-
-            $address = $c->stash->{collection}->create({
-                address => $new_address->{street},
-                postal_code => $new_address->{cep},
-                neighborhood => $new_address->{neighborhood},
-                city_id => $city->id,
-                state_id => $uf->id,
-                location => $new_address->{location},
-            });
         };
-
-        if ( $@ && ref $@ eq 'HASH' ) {
-
-            $self->status_bad_request( $c, message => encode_json($@) ), $c->detach;
-        } elsif ($@) {
-            $self->status_bad_request( $c, message => "$@" ), $c->detach;
+        if ($@) {
+            $self->status_bad_request( $c, message => 'timeout' ), $c->detach;
         }
     }
 

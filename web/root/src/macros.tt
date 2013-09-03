@@ -28,8 +28,31 @@ SET id = "elm_${name}";
             [%~ IF opt.extratags %] [%opt.extratags|none%][% END ~%]
             [%~ IF opt.maxlength %] maxlength="[% opt.maxlength %]"[% END ~%]>
             [%IF opt.app%]<span class="add-on">[%opt.app|none%]</span>[%END%]
+            [%IF opt.help%]<span class="help-inline">[%opt.help %]</span>[%END%]
+
+            [%IF opt.input_append%][%opt.input_append|none%][%END%]
         </div>
-        [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Inválido[%ELSE%]Requerido[%END%]</span>[%END%]
+        [%IF form_error.$name%]
+            <span class="help-inline">
+                [%-IF form_error.$name == 'invalid'-%]
+                    [%-IF opt.only_digits && !opt.value.match('^[0-9]+$') -%]
+                        Digite apenas números
+                    [%ELSIF opt.check_length && opt.value.length != 11%]
+                        Código inválido
+                    [%ELSIF opt.date || opt.birth_date%]
+                        [%IF opt.birth_date && opt.value%]
+                            O condutor deve ser maior
+                        [%ELSE%]
+                            Data inválida
+                        [%END%]
+                    [%ELSE%]
+                        Valor inválido
+                    [%END%]
+                [%-ELSE-%]
+                    Este campo não pode ser vazio
+                [%END%]
+            </span>
+        [%END%]
         [% IF opt.support %]<p>[% (opt.support) %]</p>[% END %]
     </div>
 </div>[%
@@ -60,7 +83,7 @@ IF (opt.req); opt.classes.push('required'); END;
    [%~ IF opt.checked %] checked="checked"[% END ~%]
    [%~ IF opt.tabindex %] tabindex="[% opt.tabindex %]"[% END ~%]
    [%~ IF opt.maxlength %] maxlength="[% opt.maxlength %]"[% END ~%]>
-   [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Inválido[%ELSE%]Requerido[%END%]</span>[%END%]
+   [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Valor inválido[%ELSE%]Este campo não pode ser vazio[%END%]</span>[%END%]
    [% IF opt.support %]<p>[% (opt.support) %]</p>[% END %]
  </div>
 </div>
@@ -94,7 +117,8 @@ IF (opt.req); opt.classes.push('required'); END;
       %]<option value="[% this_value | html %]" [% IF this_value == opt.value %]selected="selected"[% END %]>[% (this_name) %]</option>
    [% END %]
   </select>
-  [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Inválido[%ELSE%]Requerido[%END%]</span>[%END%]
+  [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Valor inválido[%ELSE%]Este campo não pode ser vazio[%END%]</span>[%END%]
+  [%IF opt.help%]<span class="help-inline">[%opt.help %]</span>[%END%]
   [% IF opt.support %]<p>[% (opt.support) %]</p>[% END %]
  </div>
 </div>

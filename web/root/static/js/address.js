@@ -1,11 +1,31 @@
 $( document ).ready(function() {
 
+    $('form').on('click','select,input', function(event){
+        $(event.target).parents('.controls:first').find('.help-inline').show();
+    });
+
+    $('form').on('blur','select,input', function(event){
+        $(event.target).parents('.controls:first').find('.help-inline').hide();
+    });
+
+    $('#elm_state_id').change(function(){
+       get_cities($(this).val());
+    });
+
     $(".errors").hide();
 
-    $('.postal_code').blur(function(){
-        var postal_code = $(this).val(),
-            invalid     = false,
-            $me         = $(this);
+    $('.postal_code').keyup(function() {
+
+        var cep = $(this).val().replace('_', '');
+
+        if(cep.length < 9) {
+            return false;
+        }
+
+        var $me         = $(this),
+            postal_code = $me.val(),
+            invalid     = false;
+
         $me.addClass('input-loading');
 
         $(".errors").hide();
@@ -43,7 +63,7 @@ $( document ).ready(function() {
                 },
                 complete: function(){
                     $me.removeClass('input-loading');
-                    $('.span3').removeAttr('disabled');
+
                 }
             });
         }
@@ -55,4 +75,23 @@ function reset_button(){
     setTimeout(function () {
         $("#check_token").button('reset');
     })
+}
+
+function get_cities(state_id) {
+
+    if(!state_id) {
+        return false;
+    }
+
+    $.ajax({
+        url: "/get_cities",
+        data: {state_id: state_id},
+        dataType: 'html',
+        success: function(result) {
+            $("#cities").html(result);
+        },
+        error: function(err) {
+            alert(err);
+        }
+    });
 }

@@ -8,3 +8,13 @@ textarea.required {background: #FFF url(/static/img/exclamation_lgRed.gif) no-re
     background-repeat: no-repeat;
     background-position: 98% center;
 }
+
+.hide {
+    display: none;
+}
+
+.controls .help-inline, #cep_not_found {
+    border: 1px solid #EEE;
+    background-color: white;
+    padding-right: 5px;
+}

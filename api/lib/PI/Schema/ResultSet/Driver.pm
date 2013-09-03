@@ -46,7 +46,7 @@ sub verifiers_specs {
                         my $name    = $r->get_value('last_name');
 
                         return 0 if $name !~ /^[^\d]+$/ ;
-                        return 0 if length($name) <= 1;
+                        return 0 if length($name) <= 2;
 
                         return 1;
                     }
@@ -115,9 +115,11 @@ sub verifiers_specs {
                         if ($r->get_value('birth_date')) {
                             my $birth_date      = eval { DateTime::Format::Pg->parse_datetime($r->get_value('birth_date')) };
                             my $first_license   = eval { DateTime::Format::Pg->parse_datetime($r->get_value('first_driver_license')) };
-                            my $interval        = eval{$first_license->subtract_datetime( $birth_date )};
 
-                            return 1 if $interval->years >= 18;
+                            if(DateTime->compare($first_license, $birth_date) > 0) {
+                                my $interval = eval{$first_license->subtract_datetime( $birth_date )};
+                                return 1 if $interval->years >= 18;
+                            }
                         }
 
                         return 0;
@@ -140,11 +142,11 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 address => {
-                    required => 0,
+                    required => 1,
                     type     => 'Str',
                 },
                 neighborhood => {
-                    required => 0,
+                    required => 1,
                     type     => 'Str',
                 },
                 complement => {
@@ -152,7 +154,7 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 number => {
-                    required => 0,
+                    required => 1,
                     type     => 'Str',
                 },
                 postal_code => {
