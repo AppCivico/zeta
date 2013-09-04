@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 
-    $('form').on('click','select,input', function(event){
+    $('form').on('focus','select,input', function(event){
         $(event.target).parents('.controls:first').find('.help-inline').show();
     });
 

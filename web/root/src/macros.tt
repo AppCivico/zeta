@@ -120,6 +120,7 @@ IF (opt.req); opt.classes.push('required'); END;
   [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Valor inválido[%ELSE%]Este campo não pode ser vazio[%END%]</span>[%END%]
   [%IF opt.help%]<span class="help-inline">[%opt.help %]</span>[%END%]
   [% IF opt.support %]<p>[% (opt.support) %]</p>[% END %]
+  [%IF opt.input_append%][%opt.input_append|none%][%END%]
  </div>
 </div>
 [%
