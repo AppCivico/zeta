@@ -15,7 +15,7 @@ $( document ).ready(function() {
     $(".errors").hide();
 
     $('.postal_code').keyup(function() {
-
+        $('#cep_not_found').hide();
         var cep = $(this).val().replace('_', '');
 
         if(cep.length < 9) {
