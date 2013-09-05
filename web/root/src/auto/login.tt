@@ -1,28 +1,33 @@
 
 <div class="row"><div class="span12">
 
+    <div class="page-header bg-dark">
+        <h1>Entrar</h1>
+        <p></p>
+    </div>
 
-<h2>Entrar</h2>
-<div class="tab-pane active" id="login">
+	<div class="tab-pane active page-content" id="login">
+    [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
+    [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
 
-    <form class="form-horizontal" method="post" action="/form/login">
-        [%input_text('email','E-mail', { pre => '@' })|none%]
-        [%input_text('password', 'Senha', { type => 'password', pre => '<i class="icon-lock"></i>' })|none%]
+		<form class="form-horizontal" method="post" action="/form/login">
+			[%input_text('email','E-mail', { pre => '@' })|none%]
+			[%input_text('password', 'Senha', { type => 'password', pre => '<i class="icon-lock"></i>' })|none%]
 
-        <div class="control-group">
-            <div class="controls">
-            <label class="checkbox">
-                <input name="remember" type="checkbox" checked> Me lembrar
-            </label>
+			<div class="control-group">
+				<div class="controls">
+				<label class="checkbox">
+					<input name="remember" type="checkbox" checked> Me lembrar
+				</label>
 
-            </div>
-        </div>
-        <div class="form-actions">
-        <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Entrar</button>
-        </div>
-    </form>
+				</div>
+			</div>
+			<div class="form-actions">
+			<button type="submit" class="btn btn-primary" data-loading-text="Processando...">Entrar</button>
+			</div>
+		</form>
 
-</div>
+	</div>
 
 
 

@@ -1,59 +1,65 @@
-<h2>Cadastre seu veículo</h2>
-<form class="form-horizontal" method="post" action="/user/form/vehicle">
-
-<fieldset>
-    <legend>Aparencia do veículo</legend>
-
-    [%input_text('brand_name','Marca', req=>1)|none%]
-    [%input_text('model','modelo', req=>1)|none%]
-    [%input_text('model_year','Ano do modelo', req=>1)|none%]
-    [%input_text('color','Cor', req=>1)|none%]
-
-
-</fieldset>
-<fieldset>
-    <legend>Detalhes do veículo</legend>
-
-    [%input_text('manufacture_year','Ano de fabricação', req=>1)|none%]
-    [%input_text('km','Quilometragem', req=>1)|none%]
-
-    [%input_text('renavam','Renavam', req=>1)|none%]
-
-    [%input_text('car_plate','Placa', req=>1)|none%]
-        [%select_field('car_type', 'Tipo de Carro', req=>1,  array => [
-        ['passeio','Passeio'],
-        ['esporte','Esporte'],
-        ['utilitário','Utilitário']
-        ])|none%]
-
-    [%select_field('doors_number', 'Número de portas', req=>1, array => [
-    ['2','Duas portas'],
-    ['4','Quatro portas']
-    ])|none%]
-
-
-    [%select_field('fuel_type', 'Combustivel', req=>1,  array => [
-    ['gasolina','Gasolina'],
-    ['alcool','Alcool'],
-    ['flex','Flex'],
-    ['diesel','Diesel'],
-    ['gnv','GNV'],
-    ['elétrico','Elétrico'],
-    ['híbrido','Híbrido'],
-    ['outro','Outro']
-    ])|none%]
-</fieldset>
-<fieldset>
-    <legend>Documentos do veículo</legend>
-
-    [%input_text('chassi','Chassi')|none%]
-    [%input_text('crv','CRV')|none%]
-    [%input_text('observations','Observações')|none%]
-
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+    <div class="page-header bg-dark">
+        <h3>Cadastre seu veículo</h3>
+        <p></p>
     </div>
-</fieldset>
+
+	<div class="row page-content">
+		<form class="form-horizontal" method="post" action="/user/form/vehicle">
+
+		<fieldset>
+			<legend>Aparencia do veículo</legend>
+
+			[%input_text('brand_name','Marca', req=>1)|none%]
+			[%input_text('model','modelo', req=>1)|none%]
+			[%input_text('model_year','Ano do modelo', req=>1)|none%]
+			[%input_text('color','Cor', req=>1)|none%]
 
 
-</form>
+		</fieldset>
+		<fieldset>
+			<legend>Detalhes do veículo</legend>
+
+			[%input_text('manufacture_year','Ano de fabricação', req=>1)|none%]
+			[%input_text('km','Quilometragem', req=>1)|none%]
+
+			[%input_text('renavam','Renavam', req=>1)|none%]
+
+			[%input_text('car_plate','Placa', req=>1)|none%]
+				[%select_field('car_type', 'Tipo de Carro', req=>1,  array => [
+				['passeio','Passeio'],
+				['esporte','Esporte'],
+				['utilitário','Utilitário']
+				])|none%]
+
+			[%select_field('doors_number', 'Número de portas', req=>1, array => [
+			['2','Duas portas'],
+			['4','Quatro portas']
+			])|none%]
+
+
+			[%select_field('fuel_type', 'Combustivel', req=>1,  array => [
+			['gasolina','Gasolina'],
+			['alcool','Alcool'],
+			['flex','Flex'],
+			['diesel','Diesel'],
+			['gnv','GNV'],
+			['elétrico','Elétrico'],
+			['híbrido','Híbrido'],
+			['outro','Outro']
+			])|none%]
+		</fieldset>
+		<fieldset>
+			<legend>Documentos do veículo</legend>
+
+			[%input_text('chassi','Chassi')|none%]
+			[%input_text('crv','CRV')|none%]
+			[%input_text('observations','Observações')|none%]
+
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+			</div>
+		</fieldset>
+
+
+		</form>
+	</div>

@@ -118,7 +118,8 @@ body.contato{
 }
 
 .bg-dark{
-	background-image: url(/static/img/bg-dark.png);
+	background-color: #000;
+    background-color: rgba(0,0,0,.3);
 }
 .bg-bright{
 	background-image: url(/static/img/bg-bright.png);
@@ -149,8 +150,11 @@ body.contato{
 }
 
 .form-actions {
-    background-color: #333;
-    background-color: rgba(255,255,255,.3);
+    background: none;
+	border: none;
+}
+legend{
+	border-bottom: 1px solid #fff;
 }
 
 .footer{
@@ -186,4 +190,19 @@ body.contato{
 .menu-footer li.item a:hover{
 	color: #f9ffc8;
     text-decoration: none;
+}
+
+.page-header{
+	color: #fff;
+	padding: 10px 30px;
+	margin: 0;
+}
+.page-header h3{
+	margin: 0;
+}
+.page-content{
+	margin: 0;
+	background-color: #333;
+    background-color: rgba(255,255,255,.3);
+	padding: 20px 30px;
 }

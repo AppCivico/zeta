@@ -3,13 +3,15 @@
 [%-CALL assets.include("js/address.js")%]
 
 <section id="forms">
-  <div class="page-header">
+  <div class="page-header bg-dark">
     <h1>Faça o seu cadastro!</h1>
     <p>Começe agora o cadastro e (bla bla ganha até ...)</p>
   </div>
 
-  <div class="row">
-    <div class="span12">
+  <div class="row page-content">
+    <div class="span11">
+    [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
+    [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
       <form class="form-horizontal" method="post" action="/form/driver" autocomplete="off">
         <fieldset>
             <legend>Informações pessoais</legend>
@@ -112,6 +114,7 @@
       </form>
     </div>
   </div>
+  <div class="divider divider-bottom"></div>
 
 </section>
 

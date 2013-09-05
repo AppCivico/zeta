@@ -31,9 +31,6 @@
     [%INCLUDE parts/menu.tt%]
 	<div class="divider"></div>
 
-    [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
-    [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
-
     [%content|none%]
 </div> <!-- /container -->
 <div class="footer bg-dark">
