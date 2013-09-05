@@ -40,7 +40,7 @@ SET id = "elm_${name}";
                     [%ELSIF opt.check_length && opt.value.length != 11%]
                         Código inválido
                     [%ELSIF opt.date || opt.birth_date%]
-                        [%IF opt.birth_date && opt.value%]
+                        [%IF opt.birth_date && too_young%]
                             O condutor deve ser maior
                         [%ELSE%]
                             Data inválida

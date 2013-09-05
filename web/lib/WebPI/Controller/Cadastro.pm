@@ -1,5 +1,7 @@
 package WebPI::Controller::Cadastro;
 use Moose;
+use DateTime;
+use DateTime::Format::Pg;
 use namespace::autoclean;
 use JSON::XS;
 
@@ -21,9 +23,31 @@ sub cadastro : Chained('base') : PathPart('cadastro') : Args(0) {
     $api->stash_result( $c, 'states' );
     $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
+    if(exists($c->stash->{form_error}{birth_date})) {
+        my $now = DateTime->now;
+
+        my $body = { %{$c->stash->{body} } };
+
+        my $form = $c->model('Form');
+
+        $form->format_date(
+            $body,
+            'birth_date'
+        );
+
+        #TODO  limpar a string com uma regex retirando os caracteres que vem com a mascara de data
+        if($body->{birth_date} != '--') {
+            my $dt = DateTime::Format::Pg->parse_datetime($body->{birth_date});
+
+            my $interval = $now->subtract_datetime($dt);
+
+            if($interval->years < 18) {
+                $c->stash->{too_young} = 1;
+            }
+        }
+    }
 
     $c->stash->{template} = 'auto/cadastro.tt';
-
 }
 
 sub get_address : Chained('base') : PathPart('get_address') {
@@ -65,7 +89,6 @@ sub get_cities: Chained('base') : PathPart('get_cities') {
         without_wrapper => 1,
         template => 'auto/cities.tt'
     );
-
 }
 
 __PACKAGE__->meta->make_immutable;

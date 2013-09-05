@@ -322,14 +322,42 @@ sub verifiers_specs {
                 name => {
                     required => 0,
                     type     => 'Str',
+                    post_check => sub {
+                        my $r       = shift;
+                        my $name    = $r->get_value('name');
+
+                        return 0 if $name !~ /^[^\d]+$/ ;
+                        return 0 if length($name) <= 1;
+
+                        return 1;
+                    }
                 },
                 last_name => {
                     required => 0,
                     type     => 'Str',
+                    post_check => sub {
+                        my $r       = shift;
+                        my $name    = $r->get_value('last_name');
+
+                        return 0 if $name !~ /^[^\d]+$/ ;
+                        return 0 if length($name) <= 2;
+
+                        return 1;
+                    }
                 },
                 birth_date => {
                     required => 0,
                     type     => DataStr,
+                    post_check => sub {
+                        my $r   = shift;
+                        my $now = DateTime->now();
+                        my $date     = eval { DateTime::Format::Pg->parse_datetime($r->get_value('birth_date')) };
+                        my $interval = eval{$now->subtract_datetime( $date )};
+
+                        return 1 if $interval->years >= 18 && $interval->years < 120;
+
+                        return 0;
+                    }
                 },
                 cpf => {
                     required => 0,
@@ -347,14 +375,48 @@ sub verifiers_specs {
                 cnh_code => {
                     required => 0,
                     type     => 'Str',
+                    post_check => sub {
+                        my $r   = shift;
+                        my $cnh = $r->get_value('cnh_code');
+
+                        return 0 if $cnh !~ /^[\d]+$/ ;
+                        return 0 if length($cnh) != 11;
+
+                        return 1;
+                    }
                 },
                 cnh_validity => {
                     required => 0,
                     type     => DataStr,
+                    post_check => sub {
+                        my $r       = shift;
+                        my $now     = DateTime->now();
+                        my $date    = eval { DateTime::Format::Pg->parse_datetime($r->get_value('cnh_validity')) };
+                        my $cmp     = DateTime->compare($now, $date);
+
+                        return 1 if $cmp <= 0;
+
+                        return 0;
+                    }
                 },
                 first_driver_license => {
                     required => 0,
                     type     => DataStr,
+                    post_check => sub {
+                        my $r   = shift;
+
+                        if ($r->get_value('birth_date')) {
+                            my $birth_date      = eval { DateTime::Format::Pg->parse_datetime($r->get_value('birth_date')) };
+                            my $first_license   = eval { DateTime::Format::Pg->parse_datetime($r->get_value('first_driver_license')) };
+
+                            if(DateTime->compare($first_license, $birth_date) > 0) {
+                                my $interval = eval{$first_license->subtract_datetime( $birth_date )};
+                                return 1 if $interval->years >= 18;
+                            }
+                        }
+
+                        return 0;
+                    }
                 },
                 mobile_provider => {
                     required => 0,
