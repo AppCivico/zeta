@@ -59,4 +59,11 @@ border-radius: 3px 0 0 3px;
 .navbar .nav li:last-child a {
 border-right: 0;
 border-radius: 0 3px 3px 0;
-},
+}
+.alert-error{
+	background-color: rgba(255,255,255,.75);
+}
+.controls .help-inline{
+	border: none;
+	background: none;
+}

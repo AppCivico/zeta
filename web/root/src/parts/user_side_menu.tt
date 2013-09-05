@@ -1,8 +1,7 @@
-<div class="sidebar-nav">
-    <ul class="nav nav-list">
+
+    <ul class="side-menu">
         [%href = c.uri_for_action('/user/dashboard/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]">Minha conta</a></li>
-
 
         [%IF !cadastro_incompleto%]
         <li class="nav-header">Sobre você</li>
@@ -27,15 +26,5 @@
         <li><a href="#"><i class="icon-plus icon-white"></i> Pagamentos</a></li>
         <li><a href="#"><i class="icon-folder-open icon-white"></i> Contratos</a></li>
         <li><a href="#"><i class="icon-exclamation-sign icon-white"></i> Alertas recebidos</a></li>
-
         [%END%]
     </ul>
-
-    <ul id="side-menu-page" class="nav nav-list">
-        <li class="nav-header" >Páginas</li>
-        <li><a href="/faq">Perguntas frequentes</a></li>
-        <li><a href="/contato">Contato</a></li>
-        <li class="nav-header"></li>
-        <li><a href="[%c.uri_for('/logout')%]">Sair</a></li>
-    </ul>
-</div>

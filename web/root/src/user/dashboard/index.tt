@@ -1,14 +1,19 @@
 [%IF main_view%]
-[%INCLUDE "user/dashboard/$main_view"%]
+	[%INCLUDE "user/dashboard/$main_view"%]
 [%ELSE%]
-<dl>
-<dt>Status</dt>
-<dd>Carro fora de campanha</dd>
+	<div class="page-header bg-dark">
+		<h3>Status da sua conta</h3>
+	</div>
+	<div class="row page-content">
+		<dl>
+		<dt>Status</dt>
+		<dd>Carro fora de campanha</dd>
 
-<dt>Status do dispositivo</dt>
-<dd>instalado</dd>
+		<dt>Status do dispositivo</dt>
+		<dd>instalado</dd>
 
-<dt>Veículo</dt>
-<dd>[%vehicles.0.brand_name%] - [%vehicles.0.model%]</dd>
-</dl>
+		<dt>Veículo</dt>
+		<dd>[%vehicles.0.brand_name%] - [%vehicles.0.model%]</dd>
+		</dl>
+	</div>
 [%END%]

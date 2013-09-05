@@ -1,5 +1,4 @@
 body {
-    padding-top: 60px;
     overflow-y: scroll;
 }
 
@@ -26,75 +25,47 @@ a.del {
 }
 
 .side-menu {
-    width: 220px;
-    background-color: rgb(0, 105, 112);
-    position: fixed;
-    height: 100%;
-    top: 40px;
-    padding-top: 20px;
+	list-style: none;
+	margin-left: 0;
+	padding: 0;
+}
+.side-menu>li {
+	margin: 0;
+	padding: 0;
+   	background-color: #000;
+    background-color: rgba(0,0,0,.3);
+	padding: 10px 15px;
 }
 
-.side-menu .a, .side-menu .nav-list>li>a {
+.side-menu a {
     color: white;
     text-shadow: 0 0 0;
 }
-.side-menu .nav>li>a:hover, .side-menu .nav>li>a:focus {
-    background-color: rgb(55, 122, 43);
+.side-menu a:hover, .side-menu a:focus {
+   	color: #e0e0e0;
+	text-decoration: none;
 }
 
-.side-menu .nav-list>.active>a {
-    background-color: rgb(6, 204, 82);
+.side-menu li.active{
+    background-color: #666;
+    background-color: rgba(0,0,0,.5);
+}
+
+.side-menu li.active a {
     font-weight: bold;
 }
 
-.side-menu .nav-list>li>a {
-    color: white;
-}
-
-.side-menu .nav-list .nav-header {
-    color: white;
-    text-align: center;
-    text-shadow: none;
-    border-bottom: 2px solid white;
-}
-
-#side-menu-page {
-    position: absolute;
-    bottom: 65px;
-    width: 190px;
+.side-menu .nav-header {
+    background-color: #666;
+    background-color: rgba(0,0,0,.15);
+	color: #000;
 }
 
 /* Large desktop */
 @media (min-width: 1200px) {
-    .side-menu {
-        width: 270px;
-        margin-left: 30px;
-    }
-    #side-menu-page {
-        width: 240px;
-    }
 }
 @media (min-width: 768px) and (max-width: 979px) {
-
-    .side-menu {
-        width: 166px;
-    }
-    #side-menu-page {
-        width: 136px;
-    }
-
 }
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {
-    .side-menu {
-        position: relative;
-        width: 100%;
-        top: 0;
-        margin-left: 0;
-    }
-    #side-menu-page {
-        width: 100%;
-        position: relative;
-        bottom: 0;
-    }
 }
