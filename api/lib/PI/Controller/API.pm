@@ -77,7 +77,7 @@ sub login_POST {
 
             $self->status_bad_request( $c, message => 'Login invalid: no driver found!' ), $c->detach unless $driver;
 
-            $attrs{driver} = { map { $_ => $driver->$_ } qw/id name last_name/ };
+            $attrs{driver} = { map { $_ => $driver->$_ } qw/id name/ };
         }
 
         delete $attrs{password};

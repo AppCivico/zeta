@@ -14,10 +14,7 @@
         <fieldset>
             <legend>Informações pessoais</legend>
 
-            [%input_text('name','Primeiro nome', req=>1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
-            [%input_text('last_name','Último nome', req=>1,
+            [%input_text('name','Nome completo', req=>1,
                 input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
             )|none%]
 
@@ -95,17 +92,6 @@
             [%input_text('mobile_number','Celular', classes => ['span3', 'mobile_phone'], req=>1,
                 input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
             )|none%]
-
-            [%select_field('mobile_provider', 'Operadora',  array => [
-                ['tim','Tim'],
-                ['oi','Oi'],
-                ['vivo','Vivo'],
-                ['claro','Claro'],
-                ['nextel','Nextel'],
-                ['outra','Outra'],
-                ], req=>1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-                )|none%]
 
         </fieldset>
 

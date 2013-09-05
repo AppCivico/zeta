@@ -54,11 +54,6 @@ __PACKAGE__->table("driver");
   data_type: 'text'
   is_nullable: 0
 
-=head2 last_name
-
-  data_type: 'text'
-  is_nullable: 0
-
 =head2 birth_date
 
   data_type: 'date'
@@ -82,11 +77,6 @@ __PACKAGE__->table("driver");
 =head2 cnh_validity
 
   data_type: 'date'
-  is_nullable: 0
-
-=head2 mobile_provider
-
-  data_type: 'text'
   is_nullable: 0
 
 =head2 mobile_number
@@ -166,8 +156,6 @@ __PACKAGE__->add_columns(
   },
   "name",
   { data_type => "text", is_nullable => 0 },
-  "last_name",
-  { data_type => "text", is_nullable => 0 },
   "birth_date",
   { data_type => "date", is_nullable => 0 },
   "cpf",
@@ -178,8 +166,6 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 0 },
   "cnh_validity",
   { data_type => "date", is_nullable => 0 },
-  "mobile_provider",
-  { data_type => "text", is_nullable => 0 },
   "mobile_number",
   { data_type => "text", is_nullable => 0 },
   "telephone_number",
@@ -300,9 +286,8 @@ __PACKAGE__->has_many(
 );
 
 
-
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-23 14:17:20
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:veEOI3snpVKyXXT0j1ml1A
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-05 17:49:43
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:03YYY30jDmtmFD6gtFprtQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -328,19 +313,6 @@ sub verifiers_specs {
 
                         return 0 if $name !~ /^[^\d]+$/ ;
                         return 0 if length($name) <= 1;
-
-                        return 1;
-                    }
-                },
-                last_name => {
-                    required => 0,
-                    type     => 'Str',
-                    post_check => sub {
-                        my $r       = shift;
-                        my $name    = $r->get_value('last_name');
-
-                        return 0 if $name !~ /^[^\d]+$/ ;
-                        return 0 if length($name) <= 2;
 
                         return 1;
                     }
@@ -418,10 +390,6 @@ sub verifiers_specs {
                         return 0;
                     }
                 },
-                mobile_provider => {
-                    required => 0,
-                    type     => 'Str',
-                },
                 mobile_number => {
                     required => 0,
                     type     => 'Str',
@@ -461,15 +429,19 @@ sub verifiers_specs {
                 email => {
                     required   => 0,
                     type       => EmailAddress,
+                    dependent => {
+                        email_confirm => {
+                            required => 1,
+                            type     => EmailAddress,
+                        },
+                    },
                     post_check => sub {
                         my $r = shift;
-                        return 0 if $self->resultset('User')->search( {
-                            email => $r->get_value('email'),
-                            id => { '!=' => $self->user_id }
-                        } )->count;
+                        return 0 if ( $self->resultset('User')->find( { email => lc $r->get_value('email') } )
+                        || $r->get_value('email') ne $r->get_value('email_confirm'));
 
                         return 1;
-                      }
+                    }
                 },
             },
         ),
@@ -483,7 +455,7 @@ sub action_specs {
             my %values = shift->valid_values;
 
             not defined $values{$_} and delete $values{$_} for keys %values;
-
+            delete $values{email_confirm};
             $self->user->update({ email => delete $values{email} } ) if (exists $values{email});
 
             my $driver = $self->update( \%values );

@@ -19,7 +19,7 @@ use Data::Verifier;
 
 sub verifiers_specs {
     my $self = shift;
-    use Data::Dumper;
+
     return {
         create => Data::Verifier->new(
             filters => [qw(trim)],
@@ -34,19 +34,6 @@ sub verifiers_specs {
 
                         return 0 if $name !~ /^[^\d]+$/ ;
                         return 0 if length($name) <= 1;
-
-                        return 1;
-                    }
-                },
-                last_name => {
-                    required => 1,
-                    type     => 'Str',
-                    post_check => sub {
-                        my $r       = shift;
-                        my $name    = $r->get_value('last_name');
-
-                        return 0 if $name !~ /^[^\d]+$/ ;
-                        return 0 if length($name) <= 2;
 
                         return 1;
                     }
@@ -126,10 +113,6 @@ sub verifiers_specs {
                         return 0;
                     }
                 },
-                mobile_provider => {
-                    required => 1,
-                    type     => 'Str',
-                },
                 mobile_number => {
                     required => 1,
                     type     => 'Str',
@@ -177,7 +160,8 @@ sub verifiers_specs {
                     },
                     post_check => sub {
                         my $r = shift;
-                        return $r->get_value('password') eq $r->get_value('password_confirm');
+                        return 1 if ( $r->get_value('password') eq $r->get_value('password_confirm')
+                        && length $r->get_value('password') >= 5);
                     },
                 },
                 email => {
@@ -186,7 +170,7 @@ sub verifiers_specs {
                     dependent => {
                         email_confirm => {
                             required => 1,
-                            type     => 'Str',
+                            type     => EmailAddress,
                         },
                     },
                     post_check => sub {
@@ -195,7 +179,7 @@ sub verifiers_specs {
                         || $r->get_value('email') ne $r->get_value('email_confirm'));
 
                         return 1;
-                      }
+                    }
                 }
             },
         ),
@@ -209,11 +193,12 @@ sub action_specs {
             my %values = shift->valid_values;
 
             delete $values{password_confirm};
+            delete $values{email_confirm};
             my $user_rs = $self->resultset('User');
             my $user    = $user_rs->create(
                 {
                     email    => lc delete $values{email},
-                    name     => "$values{name} $values{last_name}",
+                    name     => "$values{name}",
                     password => delete $values{password}
                 }
             );

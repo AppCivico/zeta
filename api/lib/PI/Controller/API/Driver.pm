@@ -43,11 +43,8 @@ sub result_GET {
               qw(
               id
               name
-              last_name
-
               cpf
               cnh_code
-              mobile_provider
               mobile_number
               telephone_number
               marital_state
@@ -55,7 +52,6 @@ sub result_GET {
               neighborhood
               complement
               number
-
               postal_code
               )
         }
@@ -103,12 +99,9 @@ sub list_GET {
                               qw/
                               id
                               name
-                              last_name
                               birth_date
                               cpf
                               cnh_code
-
-                              mobile_provider
                               mobile_number
                               telephone_number
                               /

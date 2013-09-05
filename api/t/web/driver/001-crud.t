@@ -16,14 +16,12 @@ db_transaction {
       list  => 1,
       stash => 'driver1',
       [
-        'name'                 => 'Foo',
-        'last_name'            => 'Bar',
+        'name'                 => 'Foo Bar',
         'birth_date'           => '1970-01-01',
-        'cpf'                  => '38979486804',
+        'cpf'                  => '88654621400',
         'first_driver_license' => '1990-01-01',
-        'cnh_code'             => 'xxxxx',
+        'cnh_code'             => '12345678911',
         'cnh_validity'         => '2014-01-01',
-        'mobile_provider'      => 'test',
         'mobile_number'        => '5511123456789',
         'telephone_number'     => '551112345678',
         'marital_state'        => 'S',
@@ -33,9 +31,10 @@ db_transaction {
         'number'               => '1',
         'postal_code'          => '01310000',
         'city_id'              => 1,
-        password               => 'a',
-        password_confirm       => 'a',
-        'email'                => 'sdasdas@asdas.com'
+        password               => '12345',
+        password_confirm       => '12345',
+        'email'                => 'sdasdas@asdas.com',
+        'email_confirm'        => 'sdasdas@asdas.com'
       ];
 
     stash_test 'driver1.get', sub {
@@ -57,22 +56,19 @@ db_transaction {
     rest_put stash 'driver1.url',
       name => 'atualizar motorista',
       [
-        'name'                 => 'Foo2',
-        'last_name'            => 'Bar2',
+        'name'                 => 'Foolish Bar',
         'birth_date'           => '1972-01-01',
-        'cpf'                  => '93075317810',
+        'cpf'                  => '88654621400',
         'first_driver_license' => '1992-01-01',
-        'cnh_code'             => 'xxxxx2',
+        'cnh_code'             => '12345678911',
         'cnh_validity'         => '2016-01-01',
-        'mobile_provider'      => 'test2',
         'mobile_number'        => '551111111111',
         'telephone_number'     => '551111111111',
         'marital_state'        => 'D',
         'address'              => 'foo st2',
         'neighborhood'         => 'foo bar2',
-
-        password         => 'a',
-        password_confirm => 'a',
+        password         => '12345',
+        password_confirm => '12345',
         'complement'     => 'third floor',
         'number'         => '2',
         'postal_code'    => '01310002',
@@ -84,7 +80,7 @@ db_transaction {
     stash_test 'driver1.get', sub {
         my ($me) = @_;
 
-        is( $me->{name}, 'Foo2', 'name updated!' );
+        is( $me->{name}, 'Foolish Bar', 'name updated!' );
     };
 
     rest_delete stash 'driver1.url';
