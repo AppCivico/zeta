@@ -28,7 +28,7 @@ sub verifiers_specs {
                 name => {
                     required => 1,
                     type     => 'Str',
-                     post_check => sub {
+                    post_check => sub {
                         my $r       = shift;
                         my $name    = $r->get_value('name');
 
@@ -60,7 +60,7 @@ sub verifiers_specs {
                         my $date     = eval { DateTime::Format::Pg->parse_datetime($r->get_value('birth_date')) };
                         my $interval = eval{$now->subtract_datetime( $date )};
 
-                        return 1 if $interval->years >= 18;
+                        return 1 if $interval->years >= 18 && $interval->years < 120;
 
                         return 0;
                     }
@@ -96,12 +96,13 @@ sub verifiers_specs {
                     required => 1,
                     type     => DataStr,
                     post_check => sub {
-                        my $r       = shift;
-                        my $now     = DateTime->now();
-                        my $date    = eval { DateTime::Format::Pg->parse_datetime($r->get_value('cnh_validity')) };
-                        my $cmp     = DateTime->compare($now, $date);
+                        my $r           = shift;
+                        my $now         = DateTime->now();
+                        my $date        = eval { DateTime::Format::Pg->parse_datetime($r->get_value('cnh_validity')) };
+                        my $cmp         = DateTime->compare($now, $date);
+                        my $interval    = eval{$date->subtract_datetime( $now )};
 
-                        return 1 if $cmp <= 0;
+                        return 1 if $cmp <= 0 && $interval->years <= 5;
 
                         return 0;
                     }
@@ -182,9 +183,17 @@ sub verifiers_specs {
                 email => {
                     required   => 1,
                     type       => EmailAddress,
+                    dependent => {
+                        email_confirm => {
+                            required => 1,
+                            type     => 'Str',
+                        },
+                    },
                     post_check => sub {
                         my $r = shift;
-                        return 0 if ( $self->resultset('User')->find( { email => lc $r->get_value('email') } ) );
+                        return 0 if ( $self->resultset('User')->find( { email => lc $r->get_value('email') } )
+                        || $r->get_value('email') ne $r->get_value('email_confirm'));
+
                         return 1;
                       }
                 }

@@ -12,3 +12,12 @@ textarea.required {background: #FFF url(/static/img/exclamation_lgRed.gif) no-re
 .hide {
     display: none;
 }
+
+.controls .help-inline, {
+    padding-right: 5px;
+}
+
+.controls .hint-inline, #cep_not_found {
+    border: 1px solid #EEE;
+    background-color: white;
+}

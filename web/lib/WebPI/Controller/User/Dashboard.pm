@@ -15,10 +15,10 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
 
         $c->stash->{cadastro_incompleto} = 1;
 
-        $api->stash_result( $c, 'cities' );
+        #$api->stash_result( $c, 'cities' );
         $api->stash_result( $c, 'states' );
 
-        $c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
+        #$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
         $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
         $c->stash->{main_view} = 'parts/new_vehicle.tt';
@@ -26,10 +26,10 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
 
         $c->stash->{cadastro_incompleto} = 1;
 
-        $api->stash_result( $c, 'cities' );
+        #$api->stash_result( $c, 'cities' );
         $api->stash_result( $c, 'states' );
 
-        $c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
+        #$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
         $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
         $c->stash->{main_view} = 'parts/new_route.tt';
@@ -37,10 +37,10 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
 
         $c->stash->{cadastro_incompleto} = 1;
 
-        $api->stash_result( $c, 'cities' );
+        #$api->stash_result( $c, 'cities' );
         $api->stash_result( $c, 'states' );
 
-        $c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
+        #$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
         $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
         $c->stash->{main_view} = 'parts/new_parking.tt';
