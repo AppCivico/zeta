@@ -13,14 +13,25 @@ $( document ).ready(function() {
     });
 
     $('.postal_code').keyup(function() {
-        get_address($(this));
+        if(cep_val != $(this).val()){
+            get_address($(this));
+        }
     });
 
+
     if ($('.postal_code').val()) {
-        get_address($(this));
+        get_address($('.postal_code'));
     }
 
+
+    var cep_val;
+    $('.postal_code').click(function(){
+        cep_val = $(this).val();
+    });
+
 });
+
+
 
 function get_address( $me ) {
 
@@ -56,12 +67,12 @@ function get_address( $me ) {
 
                     $('#cep_not_found').show();
                     $('#elm_state_id').focus();
-
+                    $('.clear_addr').val('');
                     setTimeout("$('#cep_not_found').fadeOut();", 10000);
 
                 } else {
-
-                    $('#elm_address').val(result.address);
+                    addr_format = result.address.replace(/\s+- de.+a.+/, '');
+                    $('#elm_address').val(addr_format);
                     $('#elm_neighborhood').val(result.neighborhood);
                     $('#elm_state_id').val(result.state_id);
 
@@ -86,7 +97,7 @@ function get_address( $me ) {
 
 }
 
-function reset_button(){
+function reset_button() {
 
     setTimeout(function () {
         $("#check_token").button('reset');
