@@ -42,7 +42,7 @@
 		</div>
 		<div class="span9">
 
-		
+
 		[%IF error_msg %]
 			<div class="row page-content">
 				<div class="alert alert-error"><p>[%error_msg%]</p></div>
