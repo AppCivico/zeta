@@ -9,17 +9,18 @@
 		<fieldset>
 			<legend>Aparencia do veículo</legend>
 
-			[%input_text('brand_name','Marca', req=>1)|none%]
-			[%input_text('model','modelo', req=>1)|none%]
+			[%select_field('vehicle_brand_id', 'Marca', req=>1, array => select_brands)|none%]
+			<div id="model">
+                [%select_field('vehicle_model_id', 'Modelo', req=>1)|none%]
+			</div>
 			[%input_text('model_year','Ano do modelo', req=>1)|none%]
-			[%input_text('color','Cor', req=>1)|none%]
-
+			[%input_text('manufacture_year','Ano de fabricação', req=>1)|none%]
+			[%select_field('vehicle_color_id','Cor', req=>1, array => select_colors)|none%]
 
 		</fieldset>
 		<fieldset>
 			<legend>Detalhes do veículo</legend>
 
-			[%input_text('manufacture_year','Ano de fabricação', req=>1)|none%]
 			[%input_text('km','Quilometragem', req=>1)|none%]
 
 			[%input_text('renavam','Renavam', req=>1)|none%]
@@ -31,9 +32,16 @@
 				['utilitário','Utilitário']
 				])|none%]
 
+            [%select_field('state_id', 'Estado',  array => select_states, classes => ['span3', 'clear_addr'])|none%]
+            <div id="cities">
+                [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'])|none%]
+            </div>
+
 			[%select_field('doors_number', 'Número de portas', req=>1, array => [
-			['2','Duas portas'],
-			['4','Quatro portas']
+			['2','2'],
+			['3','3'],
+			['4','4'],
+			['5','5'],
 			])|none%]
 
 
@@ -51,8 +59,6 @@
 		<fieldset>
 			<legend>Documentos do veículo</legend>
 
-			[%input_text('chassi','Chassi')|none%]
-			[%input_text('crv','CRV')|none%]
 			[%input_text('observations','Observações')|none%]
 
 			<div class="form-actions">

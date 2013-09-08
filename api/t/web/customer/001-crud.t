@@ -13,31 +13,31 @@ db_transaction {
       list  => 1,
       stash => 'customer',
       [
-        fancy_name              => 'Foo Bar',
-        corporate_name          => 'Foo Bar LTDA.',
-        email                   => 'foo@bar.com.br',
-        cnpj                    => '021.925.0001/25',
-        state_registration      => '123acbd1',
-        municipal_registration  => 'muni12121',
-        phone                   => '551111111111',
-        mobile_phone            => '5511111111111',
-        secondary_phone         => '5511111111144',
-        postal_code             => '07190050',
-        address                 => 'Rua desembargador eliseu',
-        number                  => '59',
-        neighborhood            => 'Brooklyn',
-        complement              => 'apartamento 45',
-        city_id                 => 1,
-        state_id                => 1,
-        password                => 'teste',
-        password_confirm        => 'teste'
+        fancy_name             => 'Foo Bar',
+        corporate_name         => 'Foo Bar LTDA.',
+        email                  => 'foo@bar.com.br',
+        cnpj                   => '021.925.0001/25',
+        state_registration     => '123acbd1',
+        municipal_registration => 'muni12121',
+        phone                  => '551111111111',
+        mobile_phone           => '5511111111111',
+        secondary_phone        => '5511111111144',
+        postal_code            => '07190050',
+        address                => 'Rua desembargador eliseu',
+        number                 => '59',
+        neighborhood           => 'Brooklyn',
+        complement             => 'apartamento 45',
+        city_id                => 1,
+        state_id               => 1,
+        password               => 'teste',
+        password_confirm       => 'teste'
       ];
 
     stash_test 'customer.get', sub {
         my ($me) = @_;
 
-        is( $me->{id},    stash 'customer.id',  'get has the same id!' );
-        is( $me->{email}, 'foo@bar.com.br', 'email ok!' );
+        is( $me->{id},    stash 'customer.id', 'get has the same id!' );
+        is( $me->{email}, 'foo@bar.com.br',    'email ok!' );
     };
 
     stash_test 'customer.list', sub {
@@ -55,24 +55,24 @@ db_transaction {
     rest_put stash 'customer.url',
       name => 'atualizar cliente',
       [
-        fancy_name              => 'Foo Bar2',
-        corporate_name          => 'Foo Bar2 LTDA.',
-        email                   => 'foo@bar2.com.br',
-        cnpj                    => '021.925.0001/25',
-        state_registration      => '123acbd21',
-        municipal_registration  => 'muni121221',
-        phone                   => '5511111112111',
-        mobile_phone            => '55111111112111',
-        secondary_phone         => '55111111111244',
-        postal_code             => '07190052',
-        address                 => 'Avenida Paulista',
-        number                  => '58',
-        neighborhood            => 'Bela Vista',
-        complement              => 'apartamento 10',
-        city_id                 => 1,
-        state_id                => 1,
-        password                => 'teste2',
-        password_confirm        => 'teste2'
+        fancy_name             => 'Foo Bar2',
+        corporate_name         => 'Foo Bar2 LTDA.',
+        email                  => 'foo@bar2.com.br',
+        cnpj                   => '021.925.0001/25',
+        state_registration     => '123acbd21',
+        municipal_registration => 'muni121221',
+        phone                  => '5511111112111',
+        mobile_phone           => '55111111112111',
+        secondary_phone        => '55111111111244',
+        postal_code            => '07190052',
+        address                => 'Avenida Paulista',
+        number                 => '58',
+        neighborhood           => 'Bela Vista',
+        complement             => 'apartamento 10',
+        city_id                => 1,
+        state_id               => 1,
+        password               => 'teste2',
+        password_confirm       => 'teste2'
       ];
 
     rest_reload 'customer';

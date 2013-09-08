@@ -18,28 +18,28 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 address => {
-                    required    => 1,
-                    type        =>  'Str'
+                    required => 1,
+                    type     => 'Str'
                 },
-                postal_code =>  {
-                    required    => 1,
-                    type        =>  'Str'
+                postal_code => {
+                    required => 1,
+                    type     => 'Str'
                 },
                 neighborhood => {
-                    required    => 1,
-                    type        =>  'Str'
+                    required => 1,
+                    type     => 'Str'
                 },
                 city_id => {
-                    required    => 1,
-                    type        =>  'Str'
+                    required => 1,
+                    type     => 'Str'
                 },
                 state_id => {
-                    required    => 1,
-                    type        =>  'Str'
+                    required => 1,
+                    type     => 'Str'
                 },
                 location => {
-                    required    => 0,
-                    type        =>  'Str'
+                    required => 0,
+                    type     => 'Str'
                 },
             },
         ),

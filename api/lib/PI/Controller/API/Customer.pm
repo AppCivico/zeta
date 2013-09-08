@@ -36,24 +36,24 @@ sub result_GET {
         entity => {
             map { $_ => $attrs{$_}, }
               qw(
-                id
-                fancy_name
-                corporate_name
-                email
-                cnpj
-                state_registration
-                municipal_registration
-                phone
-                mobile_phone
-                secondary_phone
-                postal_code
-                address
-                number
-                neighborhood
-                complement
-                city_id
-                state_id
-                user_id
+              id
+              fancy_name
+              corporate_name
+              email
+              cnpj
+              state_registration
+              municipal_registration
+              phone
+              mobile_phone
+              secondary_phone
+              postal_code
+              address
+              number
+              neighborhood
+              complement
+              city_id
+              state_id
+              user_id
               )
         }
     );
@@ -98,24 +98,24 @@ sub list_GET {
                         (
                             map { $_ => $r->{$_} }
                               qw/
-                                id
-                                fancy_name
-                                corporate_name
-                                email
-                                cnpj
-                                state_registration
-                                municipal_registration
-                                phone
-                                mobile_phone
-                                secondary_phone
-                                postal_code
-                                address
-                                number
-                                neighborhood
-                                complement
-                                city_id
-                                state_id
-                                user_id
+                              id
+                              fancy_name
+                              corporate_name
+                              email
+                              cnpj
+                              state_registration
+                              municipal_registration
+                              phone
+                              mobile_phone
+                              secondary_phone
+                              postal_code
+                              address
+                              number
+                              neighborhood
+                              complement
+                              city_id
+                              state_id
+                              user_id
                               /
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
@@ -136,7 +136,7 @@ sub list_POST {
         location => $c->uri_for( $self->action_for('result'), [ $customer->id ] )->as_string,
         entity => {
             corporate_name => $customer->corporate_name,
-            id              => $customer->id
+            id             => $customer->id
         }
     );
 

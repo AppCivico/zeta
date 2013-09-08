@@ -1,12 +1,12 @@
 use utf8;
-package PI::Schema::Result::State;
+package PI::Schema::Result::VehicleBrand;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-PI::Schema::Result::State
+PI::Schema::Result::VehicleBrand
 
 =cut
 
@@ -34,11 +34,11 @@ extends 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "PassphraseColumn");
 
-=head1 TABLE: C<state>
+=head1 TABLE: C<vehicle_brand>
 
 =cut
 
-__PACKAGE__->table("state");
+__PACKAGE__->table("vehicle_brand");
 
 =head1 ACCESSORS
 
@@ -47,12 +47,12 @@ __PACKAGE__->table("state");
   data_type: 'integer'
   is_auto_increment: 1
   is_nullable: 0
-  sequence: 'state_id_seq'
+  sequence: 'vehicle_brand_id_seq'
 
 =head2 name
 
   data_type: 'text'
-  is_nullable: 1
+  is_nullable: 0
 
 =head2 created_at
 
@@ -60,22 +60,6 @@ __PACKAGE__->table("state");
   default_value: current_timestamp
   is_nullable: 0
   original: {default_value => \"now()"}
-
-=head2 created_by
-
-  data_type: 'integer'
-  is_nullable: 0
-
-=head2 country_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 1
-
-=head2 uf
-
-  data_type: 'text'
-  is_nullable: 0
 
 =cut
 
@@ -85,10 +69,10 @@ __PACKAGE__->add_columns(
     data_type         => "integer",
     is_auto_increment => 1,
     is_nullable       => 0,
-    sequence          => "state_id_seq",
+    sequence          => "vehicle_brand_id_seq",
   },
   "name",
-  { data_type => "text", is_nullable => 1 },
+  { data_type => "text", is_nullable => 0 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -96,12 +80,6 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
-  "created_by",
-  { data_type => "integer", is_nullable => 0 },
-  "country_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-  "uf",
-  { data_type => "text", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -118,68 +96,18 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 cep_caches
+=head2 vehicle_models
 
 Type: has_many
 
-Related object: L<PI::Schema::Result::CepCache>
+Related object: L<PI::Schema::Result::VehicleModel>
 
 =cut
 
 __PACKAGE__->has_many(
-  "cep_caches",
-  "PI::Schema::Result::CepCache",
-  { "foreign.state_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 cities
-
-Type: has_many
-
-Related object: L<PI::Schema::Result::City>
-
-=cut
-
-__PACKAGE__->has_many(
-  "cities",
-  "PI::Schema::Result::City",
-  { "foreign.state_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 country
-
-Type: belongs_to
-
-Related object: L<PI::Schema::Result::Country>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "country",
-  "PI::Schema::Result::Country",
-  { id => "country_id" },
-  {
-    is_deferrable => 0,
-    join_type     => "LEFT",
-    on_delete     => "NO ACTION",
-    on_update     => "NO ACTION",
-  },
-);
-
-=head2 customers
-
-Type: has_many
-
-Related object: L<PI::Schema::Result::Customer>
-
-=cut
-
-__PACKAGE__->has_many(
-  "customers",
-  "PI::Schema::Result::Customer",
-  { "foreign.state_id" => "self.id" },
+  "vehicle_models",
+  "PI::Schema::Result::VehicleModel",
+  { "foreign.vehicle_brand_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
@@ -194,14 +122,50 @@ Related object: L<PI::Schema::Result::Vehicle>
 __PACKAGE__->has_many(
   "vehicles",
   "PI::Schema::Result::Vehicle",
-  { "foreign.state_id" => "self.id" },
+  { "foreign.vehicle_brand_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
 
 # Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-07 16:57:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:T+d+0NTQKgec2V5S4LEyuA
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:e3FZgh02X1n9j0GZcbNcgg
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
 
+use Data::Verifier;
+use PI::Types qw /DataStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+    return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                name => {
+                    required => 0,
+                    type     => 'Str',
+                }
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $vehicle_brand = $self->update( \%values );
+
+            return $vehicle_brand;
+        },
+
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

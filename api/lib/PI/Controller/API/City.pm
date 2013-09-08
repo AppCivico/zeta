@@ -7,7 +7,7 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result => 'DB::City',
+    result    => 'DB::City',
     search_ok => {
         state_id => 'Int',
     }

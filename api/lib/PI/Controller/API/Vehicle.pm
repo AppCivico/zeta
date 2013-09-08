@@ -39,21 +39,17 @@ sub result_GET {
                 map { $_ => $attrs{$_}, }
                   qw(
                   id
-                  name
                   renavam
-                  cpf
                   car_plate
                   doors_number
                   manufacture_year
-                  model
+                  vehicle_model_id
                   model_year
-                  brand_name
-                  car_type
+                  vehicle_brand_id
+                  vehicle_body_style_id
                   km
-                  color
+                  vehicle_color_id
                   fuel_type
-                  chassi
-                  crv
                   observations
                   vehicle_owner_id
                   driver_id
@@ -74,7 +70,7 @@ sub result_PUT {
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle->id ] )->as_string,
-        entity => { model => $vehicle->model, id => $vehicle->id }
+        entity => { model => $vehicle->vehicle_model_id, id => $vehicle->id }
       ),
       $c->detach
       if $vehicle;
@@ -106,21 +102,17 @@ sub list_GET {
                             map { $_ => $r->{$_} }
                               qw/
                               id
-                              name
                               renavam
-                              cpf
                               car_plate
                               doors_number
                               manufacture_year
-                              model
+                              vehicle_model_id
                               model_year
-                              brand_name
-                              car_type
+                              vehicle_brand_id
+                              vehicle_body_style_id
                               km
-                              color
+                              vehicle_color_id
                               fuel_type
-                              chassi
-                              crv
                               observations
                               vehicle_owner_id
                               driver_id
@@ -145,7 +137,7 @@ sub list_POST {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle->id ] )->as_string,
         entity => {
-            model     => $vehicle->model,
+            model     => $vehicle->vehicle_model_id,
             id        => $vehicle->id,
             car_plate => $vehicle->car_plate
         }

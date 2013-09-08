@@ -8,46 +8,18 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 
-    #criar novo owner
-    rest_post '/vehicle_owners',
-      name  => 'criar dono de veículos',
-      list  => 1,
-      stash => 'vehicle_owner',
-      [
-        email            => 'car_owner@aware.com',
-        name             => 'new',
-        last_name        => 'owner',
-        birth_date       => '1990-09-19',
-        cpf              => '38979486804',
-        bank_code        => '034',
-        bank_ag          => '0147',
-        bank_cc          => '3254126',
-        telephone_number => '551165522547',
-        mobile_provider  => 'claro',
-        mobile_number    => '5511999999999',
-        address          => 'Kingston',
-        city_id          => 1,
-        neighborhood     => 'DOWNTOWN',
-        complement       => 'teste',
-        number           => '13',
-        postal_code      => '012478520',
-
-      ];
-
     #criar novo driver
     rest_post '/drivers',
       name  => 'criar motorista',
       list  => 1,
       stash => 'driver',
       [
-        'name'                 => 'Foo',
-        'last_name'            => 'Bar',
+        'name'                 => 'Foo Bar',
         'birth_date'           => '1970-01-01',
-        'cpf'                  => '38979486804',
+        'cpf'                  => '71082918270',
         'first_driver_license' => '1990-01-01',
-        'cnh_code'             => 'xxxxx',
+        'cnh_code'             => '12345678911',
         'cnh_validity'         => '2014-01-01',
-        'mobile_provider'      => 'test',
         'mobile_number'        => '5511123456789',
         'telephone_number'     => '551112345678',
         'marital_state'        => 'S',
@@ -56,10 +28,48 @@ db_transaction {
         'complement'           => 'second floor',
         'number'               => '1',
         'postal_code'          => '01310000',
-        password_confirm       => '012478520',
-        password               => '012478520',
         'city_id'              => 1,
-        'email'                => 'sdasdas@asdas.com'
+        password               => '12345',
+        password_confirm       => '12345',
+        'email'                => 'sdasdas@asdas.com',
+        'email_confirm'        => 'sdasdas@asdas.com'
+      ];
+
+    #criar nova marca
+    rest_post '/vehicle_brands',
+        name  => 'criar marca de veículo',
+        list  => 1,
+        stash => 'vehicle_brand',
+        [
+            name => 'renault',
+        ];
+
+    #criar novo modelo de veiculo
+    rest_post '/vehicle_models',
+      name  => 'criar modelo de veículo',
+      list  => 1,
+      stash => 'vehicle_model',
+      [
+        name => 'Clio',
+        vehicle_brand_id => stash 'vehicle_brand.id'
+      ];
+
+    #criar nova cor de veiculo
+    rest_post '/vehicle_colors',
+      name  => 'criar cor de veículo',
+      list  => 1,
+      stash => 'vehicle_color',
+      [
+        name => 'Preto',
+      ];
+
+    #criar nova carroceria de veiculo
+    rest_post '/vehicle_body_styles',
+      name  => 'criar carroceria de veículo',
+      list  => 1,
+      stash => 'vehicle_body_style',
+      [
+        name => 'Hatch',
       ];
 
     #criar novo veiculo
@@ -68,23 +78,22 @@ db_transaction {
       list  => 1,
       stash => 'vehicle',
       [
-        renavam          => '123456789',
-        cpf              => '38979486804',
-        car_plate        => 'LPI2672',
-        doors_number     => '5',
-        manufacture_year => '2009',
-        model            => 'clio',
-        model_year       => '2009',
-        brand_name       => 'Renault',
-        car_type         => 'Hatch',
-        km               => 41000,
-        color            => 'silver',
-        fuel_type        => 'flex',
-        chassi           => '21231dsfs3',
-        crv              => '231ss32',
-        observations     => 'teste',
-        driver_id        => stash 'driver.id',
-        vehicle_owner_id => stash 'vehicle_owner.id'
+        renavam                 => '123456789',
+        car_plate               => 'LPI2672',
+        doors_number            => '5',
+        manufacture_year        => '2009',
+        vehicle_model_id        => stash 'vehicle_model.id',
+        model_year              => '2009',
+        vehicle_brand_id        => stash 'vehicle_brand.id',
+        vehicle_body_style_id   => stash 'vehicle_body_style.id',
+        km                      => 41000,
+        vehicle_color_id        => stash 'vehicle_color.id',
+        fuel_type               => 'flex',
+        observations            => 'teste',
+        driver_id               => stash 'driver.id',
+        vehicle_owner_id        => stash 'vehicle_owner.id',
+        state_id                => 1,
+        city_id                 => 1
       ];
 
     stash_test 'vehicle.get', sub {
@@ -102,7 +111,7 @@ db_transaction {
 
         $me = [ sort { $a->{id} cmp $b->{id} } @$me ];
 
-        is( $me->[0]{model}, 'clio', 'listing ok' );
+        is( $me->[0]{vehicle_model_id}, stash 'vehicle_model.id', 'listing ok' );
     };
 
     do {
@@ -121,23 +130,22 @@ db_transaction {
     rest_put stash 'vehicle.url',
       name => 'atualizar veiculo',
       [
-        renavam          => '1234567810',
-        cpf              => '02193635872',
-        car_plate        => 'BUA2609',
-        doors_number     => '3',
-        manufacture_year => '1995',
-        model            => 'gol',
-        model_year       => '1995',
-        brand_name       => 'VW',
-        car_type         => 'Hatch',
-        km               => 100000,
-        color            => 'silver',
-        fuel_type        => 'gasoline',
-        chassi           => '21231dssa21fs3',
-        crv              => '231s114s32',
-        observations     => 'teste2',
-        driver_id        => stash 'driver.id',
-        vehicle_owner_id => stash 'vehicle_owner.id'
+        renavam                 => '987654321',
+        car_plate               => 'BUA2609',
+        doors_number            => '5',
+        manufacture_year        => '1995',
+        vehicle_model_id        => stash 'vehicle_model.id',
+        model_year              => '1996',
+        vehicle_brand_id        => stash 'vehicle_brand.id',
+        vehicle_body_style_id   => stash 'vehicle_body_style_id.id',
+        km                      => 70000,
+        vehicle_color_id        => stash 'vehicle_color.id',
+        fuel_type               => 'flex',
+        observations            => 'teste',
+        driver_id               => stash 'driver.id',
+        vehicle_owner_id        => stash 'vehicle_owner.id',
+        state_id                => 1,
+        city_id                 => 1
       ];
 
     rest_reload 'vehicle';
@@ -145,7 +153,7 @@ db_transaction {
     stash_test 'vehicle.get', sub {
         my ($me) = @_;
 
-        is( $me->{model}, 'gol', 'car model updated!' );
+        is( $me->{km}, 70000, 'car km updated!' );
     };
 
     rest_delete stash 'vehicle.url';

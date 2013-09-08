@@ -8,21 +8,18 @@ exit;
 api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
-    my $addr = rest_get '/cep', 200,
-    {
-        postal_code => '01310000'
-    };
-    use DDP; p $addr;
+    my $addr = rest_get '/cep', 200, { postal_code => '01310000' };
+    use DDP;
+    p $addr;
 
     is( $addr->{state_id}, 1, 'Address is valid!' );
 
-    $addr = rest_get '/cep', 400,
-    {
-        postal_code => '00000000'
-    };
+    $addr = rest_get '/cep', 400, { postal_code => '00000000' };
 
-    use DDP; p $addr;
-     #is( $addr->{state_id}, 1, 'Address is invalid!' );
+    use DDP;
+    p $addr;
+
+    #is( $addr->{state_id}, 1, 'Address is invalid!' );
 };
 
 done_testing;

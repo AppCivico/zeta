@@ -80,10 +80,12 @@ sub list_GET {
     my ( $self, $c ) = @_;
     my $rs = $c->stash->{collection};
 
-    if($c->req->params->{available}) {
-       $rs = $rs->search({
-            status => 'ativo'
-        });
+    if ( $c->req->params->{available} ) {
+        $rs = $rs->search(
+            {
+                status => 'ativo'
+            }
+        );
     }
 
     $self->status_ok(
