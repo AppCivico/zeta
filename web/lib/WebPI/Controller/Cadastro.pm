@@ -80,7 +80,8 @@ sub get_cities: Chained('base') : PathPart('get_cities') {
     $api->stash_result(
         $c, 'cities',
         params => {
-            state_id => $c->req->params->{state_id}
+            state_id => $c->req->params->{state_id},
+            order    => 'name'
         }
      );
 

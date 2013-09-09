@@ -36,6 +36,15 @@ sub verifiers_specs {
                 car_plate => {
                     required => 1,
                     type     => 'Str',
+                    post_check => sub {
+                        my $r       = shift;
+                        my $plate   = $r->get_value('car_plate');
+
+                        return 0 unless
+                            $plate =~ /^[a-zA-Z]{3}\d{4}$/;
+
+                        return 1;
+                    }
                 },
                 doors_number => {
                     required => 1,

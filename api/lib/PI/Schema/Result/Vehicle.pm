@@ -486,7 +486,7 @@ with 'PI::Schema::Role::ResultsetFind';
 use Data::Verifier;
 use MooseX::Types::Email qw/EmailAddress/;
 use PI::Types qw /DataStr/;
-
+use Data::Dumper;
 sub verifiers_specs {
     my $self = shift;
     return {
@@ -498,10 +498,13 @@ sub verifiers_specs {
                     type     => 'Str',
                     post_check => sub {
                         my $r = shift;
-                        return 0 if $self->resultset('Vehicle')->search( {
+
+                        my $invalid = $self->resultset('Vehicle')->search( {
                             renavam => $r->get_value('renavam'),
-                         #   cpf     => $r->get_value('cpf')
+                            id      => { '!=' => $self->id }
                         } )->count;
+
+                        return 0 if $invalid;
 
                         return 1;
                       }

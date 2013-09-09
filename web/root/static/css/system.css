@@ -9,6 +9,10 @@ textarea.required {background: #FFF url(/static/img/exclamation_lgRed.gif) no-re
     background-position: 98% center;
 }
 
+select, .input-loading {
+    background-position: 94% center;
+}
+
 .hide {
     display: none;
 }
@@ -20,4 +24,8 @@ textarea.required {background: #FFF url(/static/img/exclamation_lgRed.gif) no-re
 .controls .hint-inline, #cep_not_found {
     border: 1px solid #EEE;
     background-color: white;
+}
+
+#elm_car_plate {
+    text-transform: uppercase;
 }

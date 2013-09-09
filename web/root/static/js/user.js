@@ -53,4 +53,13 @@ $( document ).ready(function() {
 
     $('.timepicker-me').timepicker();
 
+    if($('#elm_state_id').length) {
+        var city_id;
+        if($('#city_aux').val()) {
+            city_id = $('#city_aux').val();
+        }
+
+        get_cities($('#elm_state_id').val(), city_id);
+    }
+
 });

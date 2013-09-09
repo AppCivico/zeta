@@ -11,12 +11,12 @@
 
 			[%select_field('vehicle_brand_id', 'Marca', req=>1, array => select_brands)|none%]
 			<div id="model">
-                [%select_field('vehicle_model_id', 'Modelo', req=>1)|none%]
+                [%select_field('vehicle_model_id', 'Modelo', req=>1, array => select_models)|none%]
 			</div>
-			[%input_text('model_year','Ano do modelo', req=>1)|none%]
-			[%input_text('manufacture_year','Ano de fabricação', req=>1)|none%]
-			[%select_field('vehicle_color_id','Cor', req=>1, array => select_colors)|none%]
-
+            [%input_text('model_year','Ano do modelo', req=>1)|none%]
+            [%input_text('manufacture_year','Ano de fabricação', req=>1)|none%]
+            [%select_field('vehicle_color_id','Cor', req=>1, array => select_colors)|none%]
+            [%select_field('vehicle_body_style_id','Carroceria', req=>1, array => select_body_styles)|none%]
 		</fieldset>
 		<fieldset>
 			<legend>Detalhes do veículo</legend>
@@ -26,34 +26,29 @@
 			[%input_text('renavam','Renavam', req=>1)|none%]
 
 			[%input_text('car_plate','Placa', req=>1)|none%]
-				[%select_field('car_type', 'Tipo de Carro', req=>1,  array => [
-				['passeio','Passeio'],
-				['esporte','Esporte'],
-				['utilitário','Utilitário']
-				])|none%]
 
-            [%select_field('state_id', 'Estado',  array => select_states, classes => ['span3', 'clear_addr'])|none%]
+            [%select_field('state_id', 'Estado de registro',  array => select_states, classes => ['span3', 'clear_addr'], req => 1)|none%]
             <div id="cities">
-                [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'])|none%]
+                [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'], req => 1)|none%]
             </div>
 
 			[%select_field('doors_number', 'Número de portas', req=>1, array => [
-			['2','2'],
-			['3','3'],
-			['4','4'],
-			['5','5'],
+                ['2','2'],
+                ['3','3'],
+                ['4','4'],
+                ['5','5'],
 			])|none%]
 
 
 			[%select_field('fuel_type', 'Combustivel', req=>1,  array => [
-			['gasolina','Gasolina'],
-			['alcool','Alcool'],
-			['flex','Flex'],
-			['diesel','Diesel'],
-			['gnv','GNV'],
-			['elétrico','Elétrico'],
-			['híbrido','Híbrido'],
-			['outro','Outro']
+                ['gasolina','Gasolina'],
+                ['alcool','Alcool'],
+                ['flex','Flex'],
+                ['diesel','Diesel'],
+                ['gnv','GNV'],
+                ['elétrico','Elétrico'],
+                ['híbrido','Híbrido'],
+                ['outro','Outro']
 			])|none%]
 		</fieldset>
 		<fieldset>

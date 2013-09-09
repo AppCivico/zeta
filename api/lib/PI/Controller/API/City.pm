@@ -10,6 +10,7 @@ __PACKAGE__->config(
     result    => 'DB::City',
     search_ok => {
         state_id => 'Int',
+        order   => 'Str'
     }
 );
 with 'PI::TraitFor::Controller::AutoBase';
@@ -45,6 +46,7 @@ sub list_GET {
             ]
         }
     );
+
 }
 
 1;

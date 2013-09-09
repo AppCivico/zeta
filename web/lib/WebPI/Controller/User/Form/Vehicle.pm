@@ -19,6 +19,11 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         driver_id => $c->stash->{driver}{id}
     };
 
+    $form->format_car_plate(
+        $params,
+        'car_plate'
+    );
+
     $api->stash_result(
         $c, [ 'vehicles' ],
         method => 'POST',

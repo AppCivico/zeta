@@ -26,4 +26,12 @@ sub only_number {
 
 }
 
+sub format_car_plate {
+    my ($self, $ref, @fields) = @_;
+
+    foreach my $f (@fields) {
+        $ref->{$f} =~ s/-//g;
+    }
+}
+
 1;

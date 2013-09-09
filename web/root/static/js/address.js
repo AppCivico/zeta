@@ -1,5 +1,4 @@
 $( document ).ready(function() {
-
     $('form').on('focus','select,input', function(event) {
         $(event.target).parents('.controls:first').find('.hint-inline').show();
     });
@@ -18,23 +17,17 @@ $( document ).ready(function() {
         }
     });
 
-
     if ($('.postal_code').val()) {
         get_address($('.postal_code'));
     }
-
 
     var cep_val;
     $('.postal_code').click(function(){
         cep_val = $(this).val();
     });
-
 });
 
-
-
 function get_address( $me ) {
-
     var cep = $me.val().replace('_', '');
     $('#cep_not_found').hide();
 
@@ -105,11 +98,15 @@ function reset_button() {
 
 }
 
-function get_cities(state_id) {
+function get_cities(state_id, city_id) {
+    var $me = $('#elm_city_id');
 
     if(!state_id) {
         return false;
     }
+
+    $me.removeClass('required');
+    $me.addClass('input-loading');
 
     $.ajax({
         url: "/get_cities",
@@ -120,7 +117,13 @@ function get_cities(state_id) {
         },
         error: function(err) {
             alert(err);
+        },
+        complete: function() {
+            $me.removeClass('input-loading');
+            $me.addClass('required');
+            if(city_id) {
+                $('#elm_city_id').val(city_id);
+            }
         }
     });
-
 }

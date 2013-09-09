@@ -53,6 +53,8 @@ sub result_GET {
                   observations
                   vehicle_owner_id
                   driver_id
+                  state_id
+                  city_id
                   )
             ),
             ( map { $_ => ( $attrs{$_} ? $attrs{$_}->datetime : undef ) } qw/created_at/ ),
@@ -101,22 +103,24 @@ sub list_GET {
                         (
                             map { $_ => $r->{$_} }
                               qw/
-                              id
-                              renavam
-                              car_plate
-                              doors_number
-                              manufacture_year
-                              vehicle_model_id
-                              model_year
-                              vehicle_brand_id
-                              vehicle_body_style_id
-                              km
-                              vehicle_color_id
-                              fuel_type
-                              observations
-                              vehicle_owner_id
-                              driver_id
-                              created_at
+                                id
+                                renavam
+                                car_plate
+                                doors_number
+                                manufacture_year
+                                vehicle_model_id
+                                model_year
+                                vehicle_brand_id
+                                vehicle_body_style_id
+                                km
+                                vehicle_color_id
+                                fuel_type
+                                observations
+                                vehicle_owner_id
+                                driver_id
+                                state_id
+                                city_id
+                                created_at
                               /
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string

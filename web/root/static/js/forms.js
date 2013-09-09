@@ -3,6 +3,7 @@ $( document ).ready(function() {
     $('.phone').mask('(99) 9999-9999');
     $('.postal_code').mask('99999-999');
     $('.cpf').mask('999.999.999-99');
+    $('#elm_car_plate').mask('aaa-9999');
 
     $('.mobile_phone').focusout(function(){
         var phone, element;

@@ -18,7 +18,7 @@ SET id = "elm_${name}";
     <div class="controls">
         <div class="[%IF opt.pre%]input-prepend[%END%][%IF opt.app%] input-append[%END%][%IF opt.divclass%] [%opt.divclass%][%END%]">
             [%IF opt.pre%]<span class="add-on">[%opt.pre|none%]</span>[%END%]
-            <input [%IF opt.value%]value="[%opt.value%]"[%END%] id="[%id%]" name="[%name%]" type="[%IF opt.type%][%opt.type%][%ELSE%]text[%END%]"
+            <input [%IF opt.value.defined%]value="[%opt.value%]"[%END%] id="[%id%]" name="[%name%]" type="[%IF opt.type%][%opt.type%][%ELSE%]text[%END%]"
             [% IF opt.pattern %] pattern="[% opt.pattern %]" [% END %]
             [%~ IF opt.classes %] class="[% opt.classes.join(" ") %]"[% END ~%]
             [%~ IF opt.disabled %] disabled="disabled"[% END ~%]
