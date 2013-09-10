@@ -61,6 +61,11 @@ __PACKAGE__->table("vehicle_brand");
   is_nullable: 0
   original: {default_value => \"now()"}
 
+=head2 fipe_id
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -80,6 +85,8 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
+  "fipe_id",
+  { data_type => "integer", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -127,8 +134,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-07 16:57:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:e3FZgh02X1n9j0GZcbNcgg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-10 15:13:45
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iAJx/Rva1KaZfzl1Nf51jQ
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
