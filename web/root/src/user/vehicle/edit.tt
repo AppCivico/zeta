@@ -1,4 +1,7 @@
-<h2>Editando veículo</h2>
+<div class="page-header bg-dark">
+	<h3>Editando veículo</h3>
+</div>
+<div class="row page-content">
 <form class="form-horizontal" method="post" action="/user/form/vehicle/[%vehicle_obj.id%]">
 <fieldset>
     <fieldset>
@@ -54,3 +57,4 @@
         </div>
     </fieldset>
 </form>
+</div>

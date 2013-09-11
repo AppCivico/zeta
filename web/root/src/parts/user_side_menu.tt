@@ -6,13 +6,13 @@
         [%IF !cadastro_incompleto%]
         <li class="nav-header">Sobre você</li>
         [%href = c.uri_for_action('/user/account/index')%]
-        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user icon-white"></i>Meus dados</a></li>
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user icon-white"></i> Meus dados</a></li>
 
         [%href = c.uri_for_action('/user/vehicle/index')%]
-        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user icon-white"></i>Meu carro</a></li>
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user icon-white"></i> Meu carro</a></li>
 
         [%href = c.uri_for_action('/user/parking/index')%]
-        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user icon-white"></i>Estacionamentos</a></li>
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-user icon-white"></i> Estacionamentos</a></li>
 
         [%href = c.uri_for_action('/user/route/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-random icon-white"></i> Minhas rotas</a></li>

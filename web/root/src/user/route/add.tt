@@ -4,67 +4,79 @@
 [%-CALL assets.include("js/maps.js")%]
 
 [%IF !NO_TITLE%]
-<h2>Adicionar nova rota</h2>
+<div class="page-header bg-dark">
+	<h3>Adicionar nova rota</h3>
+</div>
 [%END%]
-<form class="form-horizontal" method="post" action="/user/form/vehicle_routes">
-<div class="tab-pane active" id="tab1">
-    <fieldset>
-[%IF NO_TITLE%]
-<input type="hidden" name="redirect_to_dashboard" value="1"/>
-[%END%]
-    [%input_text('name','Nome da rota', value => vehicle_route_obj.name, placeholder=>'Ex: Casa para Trabalho')|none%]
+<div class="row page-content">
+	<form class="form-horizontal" method="post" action="/user/form/vehicle_routes">
+	<div class="tab-pane active" id="tab1">
+		<fieldset>
+	[%IF NO_TITLE%]
+	<input type="hidden" name="redirect_to_dashboard" value="1"/>
+	[%END%]
+		[%input_text('name','Nome da rota', value => vehicle_route_obj.name, placeholder=>'Ex: Casa para Trabalho')|none%]
 
-<p>Clique sobre os dias da semana que você normalmente efetua essa rota</p>
-<div class="control-group ">
-    <div class="controls">
-        [%FOREACH i IN [1..7]%]
-        <input type="hidden" name="dow_[%i%]"/>
-        [%END%]
-        <div class="btn-group" id="btn_semana" data-toggle="buttons-checkbox">
-            <button type="button" data-changeval-name="dow_1" data-changeval-valuehc="active" title="Domingo" class="btn">D</button>
-            <button type="button" data-changeval-name="dow_2" data-changeval-valuehc="active" title="Segunda" class="btn u">S</button>
-            <button type="button" data-changeval-name="dow_3" data-changeval-valuehc="active" title="Terça" class="btn u">T</button>
-            <button type="button" data-changeval-name="dow_4" data-changeval-valuehc="active" title="Quarta" class="btn u">Q</button>
-            <button type="button" data-changeval-name="dow_5" data-changeval-valuehc="active" title="Quinta" class="btn u">Q</button>
-            <button type="button" data-changeval-name="dow_6" data-changeval-valuehc="active" title="Sexta" class="btn u">S</button>
-            <button type="button" data-changeval-name="dow_7" data-changeval-valuehc="active" title="Sábado" class="btn">S</button>
-        </div>
+	<p>Clique sobre os dias da semana que você normalmente efetua essa rota</p>
+	<div class="control-group ">
+		<div class="controls">
+			[%FOREACH i IN [1..7]%]
+			<input type="hidden" name="dow_[%i%]"/>
+			[%END%]
+			<div class="btn-group" id="btn_semana" data-toggle="buttons-checkbox">
+				<button type="button" data-changeval-name="dow_1" data-changeval-valuehc="active" title="Domingo" class="btn">D</button>
+				<button type="button" data-changeval-name="dow_2" data-changeval-valuehc="active" title="Segunda" class="btn u">S</button>
+				<button type="button" data-changeval-name="dow_3" data-changeval-valuehc="active" title="Terça" class="btn u">T</button>
+				<button type="button" data-changeval-name="dow_4" data-changeval-valuehc="active" title="Quarta" class="btn u">Q</button>
+				<button type="button" data-changeval-name="dow_5" data-changeval-valuehc="active" title="Quinta" class="btn u">Q</button>
+				<button type="button" data-changeval-name="dow_6" data-changeval-valuehc="active" title="Sexta" class="btn u">S</button>
+				<button type="button" data-changeval-name="dow_7" data-changeval-valuehc="active" title="Sábado" class="btn">S</button>
+			</div>
 
-        <button type="button" data-send-click="#btn_semana .u:not(.active)" class="btn btn-info">Marcar dias úteis</button>
-    </div>
+			<button type="button" data-send-click="#btn_semana .u:not(.active)" class="btn btn-info">Marcar dias úteis</button>
+		</div>
+	</div>
+
+
+		[%input_text('start_time_gone','Hora de partida',
+
+			app => '<i class="icon-time"></i>',
+			classes => ['span1','timepicker-me'],
+			divclass=> 'bootstrap-timepicker',
+			extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
+		)|none%]
+
+		[%input_text('start_time_back','Hora da chegada',
+
+			app => '<i class="icon-time"></i>',
+			classes => ['span1','timepicker-me'],
+			divclass=> 'bootstrap-timepicker',
+			extratags => 'data-default-time="false" data-show-meridian="false" data- data-minute-step="10"'
+		)|none%]
+
+		[%input_text('origin_lat_lng','', type => 'hidden' )|none%]
+		[%input_text('destination_lat_lng','', type => 'hidden' )|none%]
+
+		[%input_text('origin','Endereço da origem', )|none%]
+		[%input_text('destination','Endereço do destino', value => vehicle_route_obj.destination)|none%]
+
+		<div class="control-group ">
+			<label class="control-label"></label>
+			<div class="text controls">
+				<div id="map_canvas" style="width:300px; height:300px"></div>
+			</div>
+		</div>
+
+		<div class="form-actions">
+				<button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
+				[%IF !NO_TITLE%]
+				[%href = c.uri_for_action('/user/route/index')%]
+				<a href="[%href%]" class="btn">Voltar para lista de rotas</a>
+				[%END%]
+			</div>
+		</fieldset>
+
+	</div>
+	</form>
 </div>
 
-
-    [%input_text('start_time_gone','Hora de partida',
-
-        app => '<i class="icon-time"></i>',
-        classes => ['span1','timepicker-me'],
-        divclass=> 'bootstrap-timepicker',
-        extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
-    )|none%]
-
-    [%input_text('start_time_back','Hora da chegada',
-
-        app => '<i class="icon-time"></i>',
-        classes => ['span1','timepicker-me'],
-        divclass=> 'bootstrap-timepicker',
-        extratags => 'data-default-time="false" data-show-meridian="false" data- data-minute-step="10"'
-    )|none%]
-
-    [%input_text('origin_lat_lng','', type => 'hidden' )|none%]
-    [%input_text('destination_lat_lng','', type => 'hidden' )|none%]
-
-    [%input_text('origin','Endereço da origem', )|none%]
-    [%input_text('destination','Endereço do destino', value => vehicle_route_obj.destination)|none%]
-    <div id="map_canvas" style="width:300px; height:300px"></div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
-            [%IF !NO_TITLE%]
-            [%href = c.uri_for_action('/user/route/index')%]
-            <a href="[%href%]" class="btn btn-right">Voltar para lista de rotas</a>
-            [%END%]
-        </div>
-    </fieldset>
-
-</div>
-</form>

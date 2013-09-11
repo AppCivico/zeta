@@ -11,9 +11,11 @@
 <!--[if lt IE 9]>
     <script src="/static/js/html5shiv.js"></script>
 <![endif]-->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
 
 [%-CALL assets.include("css/bootstrap.min.css")%]
 [%-CALL assets.include("css/bootstrap-timepicker.min.css")%]
+[%-CALL assets.include("css/bootstrap.template.css")%]
 [%-CALL assets.include("css/system.css")%]
 [%-CALL assets.include("css/user.css")%]
 [%-CALL assets.include("css/site.css")%]
@@ -41,21 +43,13 @@
 			[%INCLUDE parts/user_side_menu.tt%]
 		</div>
 		<div class="span9">
-
-
 		[%IF error_msg %]
 			<div class="row page-content">
 				<div class="alert alert-error"><p>[%error_msg%]</p></div>
 			</div>
 		[%END%]
 		[%IF status_msg %]
-			<div class="page-header bg-dark">
-				<h3>Status da sua conta</h3>
-				<p></p>
-			</div>
-			<div class="row page-content">
-				<div class="alert"><p>[%status_msg%]</p></div>
-			</div>
+			<div class="alert"><p>[%status_msg%]</p></div>
 		[%END%]
 
 		[%content|none%]

@@ -26,6 +26,12 @@ body.contato{
 	background-image: url(/static/img/bg4.gif);
 	background-color: #b8b8b8;
 }
+a{
+	color: #000;
+}
+a:hover{
+	color: #666;
+}
 .menu-top{
 	list-style: none;
 }
@@ -60,6 +66,10 @@ body.contato{
 }
 .masthead .logo{
 	padding-top: 5px;
+}
+.masthead .welcome{
+	float: right;
+	margin-top: 20px;
 }
 .divider{
 	margin: 16px 0;
@@ -103,14 +113,17 @@ body.contato{
 
 .partners{
 	margin: 20px 0;
+	text-align: center;
 }
 .partners .title{
+	text-align: left;
 	color: #fff;
 	font-size: 1em;
 	margin-bottom: 5px;
 	text-transform:uppercase;
 }
 .partners .logos{
+	display: inline-block;
 	border-radius: 2px;
 }
 .partners .logos .item{
