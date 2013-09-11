@@ -67,3 +67,14 @@ border-radius: 0 3px 3px 0;
 	border: none;
 	background: none;
 }
+
+.table-striped tbody>tr:nth-child(odd)>td,.table-striped tbody>tr:nth-child(odd)>th{
+	background-color: #fff;
+    background-color: rgba(255,255,255,.30);
+	border-bottom: 1px solid #fff;
+}
+.table-striped tbody>tr:nth-child(even)>td,.table-striped tbody>tr:nth-child(even)>th{
+	background-color: #fff;
+    background-color: rgba(255,255,255,.15);
+	border-bottom: 1px solid #fff;
+}

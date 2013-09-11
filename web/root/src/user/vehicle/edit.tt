@@ -1,43 +1,48 @@
-<h2>Editando veículo</h2>
-<form class="form-horizontal" method="post" action="/user/form/vehicle/[%vehicle_obj.id%]">
-<fieldset>
-    <fieldset>
-        <h4>Dados do veículo</h4>
-        [%input_text('brand_name','Marca', value => vehicle_obj.brand_name)|none%]
-        [%input_text('model','modelo', value => vehicle_obj.model)|none%]
-        [%input_text('model_year','Ano do modelo', value => vehicle_obj.model_year)|none%]
-        [%input_text('color','Cor', value => vehicle_obj.color)|none%]
-        [%input_text('car_plate','Placa', value => vehicle_obj.car_plate)|none%]
+<div class="page-header bg-dark">
+	<h3>Editando veículo</h3>
+</div>
+<div class="row page-content">
+	<form class="form-horizontal" method="post" action="/user/form/vehicle/[%vehicle_obj.id%]">
+	<fieldset>
+		<fieldset>
+			<h4>Dados do veículo</h4>
+			[%input_text('brand_name','Marca', value => vehicle_obj.brand_name)|none%]
+			[%input_text('model','modelo', value => vehicle_obj.model)|none%]
+			[%input_text('model_year','Ano do modelo', value => vehicle_obj.model_year)|none%]
+			[%input_text('color','Cor', value => vehicle_obj.color)|none%]
+			[%input_text('car_plate','Placa', value => vehicle_obj.car_plate)|none%]
 
-        [%input_text('manufacture_year','Ano de fabricação', value => vehicle_obj.manufacture_year)|none%]
-        [%input_text('renavam','Renavam', value => vehicle_obj.renavam)|none%]
+			[%input_text('manufacture_year','Ano de fabricação', value => vehicle_obj.manufacture_year)|none%]
+			[%input_text('renavam','Renavam', value => vehicle_obj.renavam)|none%]
 
-        [%select_field('doors_number', 'Número de portas', value => vehicle_obj.doors_number,
-            array => [
-                ['2','Duas portas'],
-                ['4','Quatro portas']
-        ])|none%]
+			[%select_field('doors_number', 'Número de portas', value => vehicle_obj.doors_number,
+				array => [
+					['2','Duas portas'],
+					['4','Quatro portas']
+			])|none%]
 
-        [%select_field('car_type', 'Tipo de Carro', value => vehicle_obj.car_type,  array => [
-        ['passeio','Passeio']
-        ])|none%]
+			[%select_field('car_type', 'Tipo de Carro', value => vehicle_obj.car_type,  array => [
+			['passeio','Passeio']
+			])|none%]
 
-        [%input_text('km','Quilometragem', value => vehicle_obj.km)|none%]
-
-
-        [%select_field('fuel_type', 'Combustivel', value => vehicle_obj.fuel_type,  array => [
-        ['gasolina','Gasolina'],
-        ['alcool','Alcool'],
-        ['flex','Flex']
-        ])|none%]
-
-        [%input_text('chassi','Chassi', value => vehicle_obj.chassi)|none%]
-        [%input_text('crv','CRV', value => vehicle_obj.crv)|none%]
-        [%input_text('observations','observações', value => vehicle_obj.observations)|none%]
+			[%input_text('km','Quilometragem', value => vehicle_obj.km)|none%]
 
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
-        </div>
-    </fieldset>
-</form>
+			[%select_field('fuel_type', 'Combustivel', value => vehicle_obj.fuel_type,  array => [
+			['gasolina','Gasolina'],
+			['alcool','Alcool'],
+			['flex','Flex']
+			])|none%]
+
+			[%input_text('chassi','Chassi', value => vehicle_obj.chassi)|none%]
+			[%input_text('crv','CRV', value => vehicle_obj.crv)|none%]
+			[%input_text('observations','observações', value => vehicle_obj.observations)|none%]
+
+
+			<div class="form-actions">
+				<button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
+			</div>
+		</fieldset>
+	</form>
+</div>
+
