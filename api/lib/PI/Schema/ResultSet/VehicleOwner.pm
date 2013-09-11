@@ -36,16 +36,16 @@ sub verifiers_specs {
                     type     => DataStr,
                 },
                 cpf => {
-                    required => 1,
-                    type     => CPF,
-                    filters => [$PI::Types::ONLY_DIGITY],
+                    required   => 1,
+                    type       => CPF,
+                    filters    => [$PI::Types::ONLY_DIGITY],
                     post_check => sub {
-                        my $r = shift;
+                        my $r   = shift;
                         my $str = $r->get_value('cpf');
-                        return 0 if $str =~ /^(\d)\1*$/ ;
+                        return 0 if $str =~ /^(\d)\1*$/;
                         return 0 if $self->find( { cpf => $str } );
                         return 1;
-                    }
+                      }
                 },
                 bank_code => {
                     required => 1,

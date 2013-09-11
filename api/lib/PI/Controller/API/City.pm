@@ -7,9 +7,10 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result => 'DB::City',
+    result    => 'DB::City',
     search_ok => {
         state_id => 'Int',
+        order   => 'Str'
     }
 );
 with 'PI::TraitFor::Controller::AutoBase';
@@ -45,6 +46,7 @@ sub list_GET {
             ]
         }
     );
+
 }
 
 1;

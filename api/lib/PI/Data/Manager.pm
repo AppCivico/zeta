@@ -18,7 +18,7 @@ sub apply {
     my ($self) = @_;
     foreach my $scope ( keys %{ $self->verifiers } ) {
         my $results = $self->verify( $scope, $self->_input );
-        if ($results->success){
+        if ( $results->success ) {
             my $ref = $self->actions->{$scope};
 
             return $ref ? $ref->($results) : 1;

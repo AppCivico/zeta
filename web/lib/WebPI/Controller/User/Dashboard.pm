@@ -14,37 +14,35 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
     if ( @{ $c->stash->{vehicles} } == 0 ) {
 
         $c->stash->{cadastro_incompleto} = 1;
-
-        #$api->stash_result( $c, 'cities' );
-        $api->stash_result( $c, 'states' );
-
-        #$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
-        $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
-
         $c->stash->{main_view} = 'parts/new_vehicle.tt';
+
     }elsif ( @{ $c->stash->{vehicle_routes} ||[] } == 0 ) {
 
         $c->stash->{cadastro_incompleto} = 1;
-
-        #$api->stash_result( $c, 'cities' );
-        $api->stash_result( $c, 'states' );
-
-        #$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
-        $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
-
         $c->stash->{main_view} = 'parts/new_route.tt';
+
     }elsif ( @{ $c->stash->{vehicle_parking} ||[] } == 0 ) {
 
         $c->stash->{cadastro_incompleto} = 1;
-
-        #$api->stash_result( $c, 'cities' );
-        $api->stash_result( $c, 'states' );
-
-        #$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
-        $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
-
         $c->stash->{main_view} = 'parts/new_parking.tt';
+
     }
+
+    $api->stash_result( $c, 'states' );
+    $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+
+    $api->stash_result( $c, 'vehicle_colors' );
+    $c->stash->{select_colors} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_colors} } ];
+
+    $api->stash_result( $c, 'vehicle_body_styles' );
+    $c->stash->{select_body_styles} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_body_styles} } ];
+
+    $api->stash_result( $c, 'vehicle_brands' );
+    $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
+
+    #temporariamente, ja vai sair que vai ser por ajax
+    $api->stash_result( $c, 'vehicle_models' );
+    $c->stash->{select_models} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_models} } ];
 
 }
 

@@ -69,24 +69,9 @@ __PACKAGE__->table("vehicle");
   data_type: 'integer'
   is_nullable: 0
 
-=head2 model
-
-  data_type: 'text'
-  is_nullable: 0
-
 =head2 model_year
 
   data_type: 'integer'
-  is_nullable: 0
-
-=head2 brand_name
-
-  data_type: 'text'
-  is_nullable: 0
-
-=head2 car_type
-
-  data_type: 'text'
   is_nullable: 0
 
 =head2 km
@@ -94,25 +79,10 @@ __PACKAGE__->table("vehicle");
   data_type: 'integer'
   is_nullable: 0
 
-=head2 color
-
-  data_type: 'text'
-  is_nullable: 0
-
 =head2 fuel_type
 
   data_type: 'text'
   is_nullable: 0
-
-=head2 chassi
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 crv
-
-  data_type: 'text'
-  is_nullable: 1
 
 =head2 observations
 
@@ -143,6 +113,42 @@ __PACKAGE__->table("vehicle");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 state_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 city_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 vehicle_model_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 vehicle_brand_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 vehicle_color_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 vehicle_body_style_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -161,24 +167,12 @@ __PACKAGE__->add_columns(
   { data_type => "smallint", is_nullable => 0 },
   "manufacture_year",
   { data_type => "integer", is_nullable => 0 },
-  "model",
-  { data_type => "text", is_nullable => 0 },
   "model_year",
   { data_type => "integer", is_nullable => 0 },
-  "brand_name",
-  { data_type => "text", is_nullable => 0 },
-  "car_type",
-  { data_type => "text", is_nullable => 0 },
   "km",
   { data_type => "integer", is_nullable => 0 },
-  "color",
-  { data_type => "text", is_nullable => 0 },
   "fuel_type",
   { data_type => "text", is_nullable => 0 },
-  "chassi",
-  { data_type => "text", is_nullable => 1 },
-  "crv",
-  { data_type => "text", is_nullable => 1 },
   "observations",
   { data_type => "text", is_nullable => 1 },
   "vehicle_owner_id",
@@ -193,6 +187,18 @@ __PACKAGE__->add_columns(
   "created_by",
   { data_type => "integer", is_nullable => 0 },
   "driver_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "state_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "city_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "vehicle_model_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "vehicle_brand_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "vehicle_color_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "vehicle_body_style_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
@@ -237,6 +243,21 @@ __PACKAGE__->has_many(
   "PI::Schema::Result::CampaignVehicle",
   { "foreign.vehicle_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 city
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::City>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "city",
+  "PI::Schema::Result::City",
+  { id => "city_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
 =head2 contracts
@@ -284,6 +305,66 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 state
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::State>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "state",
+  "PI::Schema::Result::State",
+  { id => "state_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
+=head2 vehicle_body_style
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::VehicleBodyStyle>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "vehicle_body_style",
+  "PI::Schema::Result::VehicleBodyStyle",
+  { id => "vehicle_body_style_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
+=head2 vehicle_brand
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::VehicleBrand>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "vehicle_brand",
+  "PI::Schema::Result::VehicleBrand",
+  { id => "vehicle_brand_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
+=head2 vehicle_color
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::VehicleColor>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "vehicle_color",
+  "PI::Schema::Result::VehicleColor",
+  { id => "vehicle_color_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
 =head2 vehicle_invitations
 
 Type: has_many
@@ -297,6 +378,21 @@ __PACKAGE__->has_many(
   "PI::Schema::Result::VehicleInvitation",
   { "foreign.vehicle_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 vehicle_model
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::VehicleModel>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "vehicle_model",
+  "PI::Schema::Result::VehicleModel",
+  { id => "vehicle_model_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
 =head2 vehicle_owner
@@ -380,8 +476,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-30 12:01:24
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Eh65zccoe0E/m25weioztA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-08 01:47:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JWfUa45skfqWoQag1AEdOA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -390,7 +486,7 @@ with 'PI::Schema::Role::ResultsetFind';
 use Data::Verifier;
 use MooseX::Types::Email qw/EmailAddress/;
 use PI::Types qw /DataStr/;
-
+use Data::Dumper;
 sub verifiers_specs {
     my $self = shift;
     return {
@@ -402,18 +498,17 @@ sub verifiers_specs {
                     type     => 'Str',
                     post_check => sub {
                         my $r = shift;
-                        return 0 if $self->resultset('Vehicle')->search( {
+
+                        my $invalid = $self->resultset('Vehicle')->search( {
                             renavam => $r->get_value('renavam'),
-                         #   cpf     => $r->get_value('cpf')
+                            id      => { '!=' => $self->id }
                         } )->count;
+
+                        return 0 if $invalid;
 
                         return 1;
                       }
                 },
-#                 cpf => {
-#                     required => 0,
-#                     type     => 'Str',
-#                 },
                 car_plate => {
                     required => 0,
                     type     => 'Str',
@@ -426,39 +521,31 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
-                model => {
+                vehicle_model_id => {
                     required => 0,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
                 model_year => {
                     required => 0,
                     type     => 'Int',
                 },
-                brand_name => {
+                vehicle_brand_id => {
                     required => 0,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
-                car_type => {
+                vehicle_body_style_id => {
                     required => 0,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
                 km => {
                     required => 0,
                     type     => 'Int',
                 },
-                color   => {
+               vehicle_color_id   => {
                     required => 0,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
                 fuel_type => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                chassi => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                crv => {
                     required => 0,
                     type     => 'Str',
                 },
@@ -474,6 +561,14 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
+                state_id => {
+                    required => 1,
+                    type     => 'Int',
+                },
+                city_id => {
+                    required => 1,
+                    type     => 'Int',
+                }
             },
         ),
     };

@@ -23,25 +23,28 @@ sub verifiers_specs {
                     type       => 'Str',
                     post_check => sub {
                         my $r = shift;
-                        return 0 if $self->resultset('Vehicle')->search(
+                        return 0
+                          if $self->resultset('Vehicle')->search(
                             {
                                 renavam => $r->get_value('renavam'),
-
-                                # se na tabela ta sem cpf, aqui tambem nao pode verificar usando o CPF>
-                                #cpf     => $r->get_value('cpf')
                             }
-                        )->count;
+                          )->count;
 
                         return 1;
                       }
                 },
-#                 cpf => {
-#                     required => 1,
-#                     type     => 'Str',
-#                 },
                 car_plate => {
                     required => 1,
                     type     => 'Str',
+                    post_check => sub {
+                        my $r       = shift;
+                        my $plate   = $r->get_value('car_plate');
+
+                        return 0 unless
+                            $plate =~ /^[a-zA-Z]{3}\d{4}$/;
+
+                        return 1;
+                    }
                 },
                 doors_number => {
                     required => 1,
@@ -51,40 +54,32 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
-                model => {
+                vehicle_model_id => {
                     required => 1,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
                 model_year => {
                     required => 1,
                     type     => 'Int',
                 },
-                brand_name => {
+                vehicle_brand_id => {
                     required => 1,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
-                car_type => {
+                vehicle_body_style_id => {
                     required => 1,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
                 km => {
                     required => 1,
                     type     => 'Int',
                 },
-                color => {
+                vehicle_color_id => {
                     required => 1,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
                 fuel_type => {
                     required => 1,
-                    type     => 'Str',
-                },
-                chassi => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                crv => {
-                    required => 0,
                     type     => 'Str',
                 },
                 observations => {
@@ -100,6 +95,14 @@ sub verifiers_specs {
                     type     => 'Int',
                 },
                 created_by => {
+                    required => 1,
+                    type     => 'Int',
+                },
+                state_id => {
+                    required => 1,
+                    type     => 'Int',
+                },
+                city_id => {
                     required => 1,
                     type     => 'Int',
                 }

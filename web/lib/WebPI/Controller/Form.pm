@@ -33,8 +33,6 @@ sub redirect_ok : Private {
 
 }
 
-
-
 sub not_found: Private {
     my ( $self, $c) = @_;
 

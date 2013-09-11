@@ -16,7 +16,6 @@ with 'PI::Schema::Role::InflateAsHashRef';
 
 use Data::Verifier;
 
-
 sub verifiers_specs {
     my $self = shift;
 
@@ -26,92 +25,94 @@ sub verifiers_specs {
             profile => {
 
                 name => {
-                    required => 1,
-                    type     => 'Str',
+                    required   => 1,
+                    type       => 'Str',
                     post_check => sub {
-                        my $r       = shift;
-                        my $name    = $r->get_value('name');
+                        my $r    = shift;
+                        my $name = $r->get_value('name');
 
-                        return 0 if $name !~ /^[^\d]+$/ ;
+                        return 0 if $name !~ /^[^\d]+$/;
                         return 0 if length($name) <= 1;
 
                         return 1;
-                    }
+                      }
                 },
                 birth_date => {
-                    required => 1,
-                    type     => DataStr,
+                    required   => 1,
+                    type       => DataStr,
                     post_check => sub {
-                        my $r   = shift;
-                        my $now = DateTime->now();
-                        my $date     = eval { DateTime::Format::Pg->parse_datetime($r->get_value('birth_date')) };
-                        my $interval = eval{$now->subtract_datetime( $date )};
+                        my $r        = shift;
+                        my $now      = DateTime->now();
+                        my $date     = eval { DateTime::Format::Pg->parse_datetime( $r->get_value('birth_date') ) };
+                        my $interval = eval { $now->subtract_datetime($date) };
 
                         return 1 if $interval->years >= 18 && $interval->years < 120;
 
                         return 0;
-                    }
+                      }
                 },
                 cpf => {
-                    required => 1,
-                    type     => CPF,
-                    filters => [$PI::Types::ONLY_DIGITY],
+                    required   => 1,
+                    type       => CPF,
+                    filters    => [$PI::Types::ONLY_DIGITY],
                     post_check => sub {
                         my $r   = shift;
                         my $str = $r->get_value('cpf');
 
-                        return 0 if $str =~ /^(\d)\1*$/ ;
+                        return 0 if $str =~ /^(\d)\1*$/;
                         return 0 if $self->find( { cpf => $str } );
 
                         return 1;
-                    }
+                      }
                 },
                 cnh_code => {
-                    required => 1,
-                    type     => 'Str',
+                    required   => 1,
+                    type       => 'Str',
                     post_check => sub {
                         my $r   = shift;
                         my $cnh = $r->get_value('cnh_code');
 
-                        return 0 if $cnh !~ /^[\d]+$/ ;
+                        return 0 if $cnh !~ /^[\d]+$/;
                         return 0 if length($cnh) != 11;
 
                         return 1;
-                    }
+                      }
                 },
                 cnh_validity => {
-                    required => 1,
-                    type     => DataStr,
+                    required   => 1,
+                    type       => DataStr,
                     post_check => sub {
-                        my $r           = shift;
-                        my $now         = DateTime->now();
-                        my $date        = eval { DateTime::Format::Pg->parse_datetime($r->get_value('cnh_validity')) };
-                        my $cmp         = DateTime->compare($now, $date);
-                        my $interval    = eval{$date->subtract_datetime( $now )};
+                        my $r        = shift;
+                        my $now      = DateTime->now();
+                        my $date     = eval { DateTime::Format::Pg->parse_datetime( $r->get_value('cnh_validity') ) };
+                        my $cmp      = DateTime->compare( $now, $date );
+                        my $interval = eval { $date->subtract_datetime($now) };
 
                         return 1 if $cmp <= 0 && $interval->years <= 5;
 
                         return 0;
-                    }
+                      }
                 },
                 first_driver_license => {
-                    required => 1,
-                    type     => DataStr,
+                    required   => 1,
+                    type       => DataStr,
                     post_check => sub {
-                        my $r   = shift;
+                        my $r = shift;
 
-                        if ($r->get_value('birth_date')) {
-                            my $birth_date      = eval { DateTime::Format::Pg->parse_datetime($r->get_value('birth_date')) };
-                            my $first_license   = eval { DateTime::Format::Pg->parse_datetime($r->get_value('first_driver_license')) };
+                        if ( $r->get_value('birth_date') ) {
+                            my $birth_date =
+                              eval { DateTime::Format::Pg->parse_datetime( $r->get_value('birth_date') ) };
+                            my $first_license =
+                              eval { DateTime::Format::Pg->parse_datetime( $r->get_value('first_driver_license') ) };
 
-                            if(DateTime->compare($first_license, $birth_date) > 0) {
-                                my $interval = eval{$first_license->subtract_datetime( $birth_date )};
+                            if ( DateTime->compare( $first_license, $birth_date ) > 0 ) {
+                                my $interval = eval { $first_license->subtract_datetime($birth_date) };
                                 return 1 if $interval->years >= 18;
                             }
                         }
 
                         return 0;
-                    }
+                      }
                 },
                 mobile_number => {
                     required => 1,
@@ -160,13 +161,14 @@ sub verifiers_specs {
                     },
                     post_check => sub {
                         my $r = shift;
-                        return 1 if ( $r->get_value('password') eq $r->get_value('password_confirm')
-                        && length $r->get_value('password') >= 5);
+                        return 1
+                          if ( $r->get_value('password') eq $r->get_value('password_confirm')
+                            && length $r->get_value('password') >= 5 );
                     },
                 },
                 email => {
-                    required   => 1,
-                    type       => EmailAddress,
+                    required  => 1,
+                    type      => EmailAddress,
                     dependent => {
                         email_confirm => {
                             required => 1,
@@ -175,11 +177,12 @@ sub verifiers_specs {
                     },
                     post_check => sub {
                         my $r = shift;
-                        return 0 if ( $self->resultset('User')->find( { email => lc $r->get_value('email') } )
-                        || $r->get_value('email') ne $r->get_value('email_confirm'));
+                        return 0
+                          if ( $self->resultset('User')->find( { email => lc $r->get_value('email') } )
+                            || $r->get_value('email') ne $r->get_value('email_confirm') );
 
                         return 1;
-                    }
+                      }
                 }
             },
         ),

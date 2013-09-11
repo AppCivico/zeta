@@ -183,9 +183,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 vehicles
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-19 17:03:36
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ycCUfzaZ2l9FL0MdnAfs5A
+Type: has_many
+
+Related object: L<PI::Schema::Result::Vehicle>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicles",
+  "PI::Schema::Result::Vehicle",
+  { "foreign.state_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-07 16:57:59
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:T+d+0NTQKgec2V5S4LEyuA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

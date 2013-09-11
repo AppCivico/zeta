@@ -115,9 +115,7 @@ db_transaction {
         is( $me->[0]{vehicle_id}, stash 'vehicle.id', 'listing ok' );
     };
 
-    rest_put stash 'vehicle_token.url',
-      [],
-      name => 'marcar token como usado';
+    rest_put stash 'vehicle_token.url', [], name => 'marcar token como usado';
 
     rest_reload 'vehicle_token';
 

@@ -18,71 +18,71 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                email=> {
+                email => {
                     required => 0,
                     type     => 'Str',
                 },
-                fancy_name=> {
+                fancy_name => {
                     required => 0,
                     type     => 'Str',
                 },
-                corporate_name=> {
+                corporate_name => {
                     required => 1,
                     type     => 'Str',
                 },
-                cnpj=> {
+                cnpj => {
                     required => 1,
                     type     => 'Str',
                 },
-                state_registration=> {
+                state_registration => {
                     required => 0,
                     type     => 'Str',
                 },
-                municipal_registration=> {
+                municipal_registration => {
                     required => 0,
                     type     => 'Str',
                 },
-                phone=> {
+                phone => {
                     required => 1,
                     type     => 'Str',
                 },
-                mobile_phone=> {
+                mobile_phone => {
                     required => 1,
                     type     => 'Str',
                 },
-                secondary_phone=> {
+                secondary_phone => {
                     required => 0,
                     type     => 'Str',
                 },
-                postal_code=> {
+                postal_code => {
                     required => 1,
                     type     => 'Str',
                 },
-                address=> {
+                address => {
                     required => 1,
                     type     => 'Str',
                 },
-                number=> {
+                number => {
                     required => 1,
                     type     => 'Str',
                 },
-                neighborhood=> {
+                neighborhood => {
                     required => 1,
                     type     => 'Str',
                 },
-                complement=> {
+                complement => {
                     required => 0,
                     type     => 'Str',
                 },
-                city_id=> {
+                city_id => {
                     required => 1,
                     type     => 'Str',
                 },
-                state_id=> {
+                state_id => {
                     required => 1,
                     type     => 'Str',
                 },
-                 password => {
+                password => {
                     required  => 1,
                     type      => 'Str',
                     dependent => {
@@ -117,7 +117,7 @@ sub action_specs {
                 }
             );
             $user->set_roles( { name => 'user' } );
-            $values{user_id}    = $user->id;
+            $values{user_id} = $user->id;
 
             my $customer = $self->create( \%values );
 

@@ -11,7 +11,7 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result      => 'DB::User',
+    result => 'DB::User',
 );
 with 'PI::TraitFor::Controller::AutoBase';
 
@@ -26,23 +26,26 @@ sub result_POST {
 
     $c->model('DB::User')->execute( $c, for => 'check_email', with => $c->req->params );
 
-    my $user = $c->stash->{collection}->search( {
-        email => $c->req->params->{email}
-    }, {
-        prefetch => [{ user_roles => 'role' } ],
-        result_class => 'DBIx::Class::ResultClass::HashRefInflator'
-    })->next;
+    my $user = $c->stash->{collection}->search(
+        {
+            email => $c->req->params->{email}
+        },
+        {
+            prefetch     => [ { user_roles => 'role' } ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator'
+        }
+    )->next;
 
     $self->status_ok(
         $c,
         entity => {
 
-            user => $user ? {
-                name => $user->{name},
-                roles => [
-                    map { $_->{role}{name} } @{$user->{user_roles}}
-                ]
-            } : undef
+            user => $user
+            ? {
+                name  => $user->{name},
+                roles => [ map { $_->{role}{name} } @{ $user->{user_roles} } ]
+              }
+            : undef
         }
     );
 }

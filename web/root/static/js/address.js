@@ -1,5 +1,4 @@
 $( document ).ready(function() {
-
     $('form').on('focus','select,input', function(event) {
         $(event.target).parents('.controls:first').find('.hint-inline').show();
     });
@@ -13,17 +12,22 @@ $( document ).ready(function() {
     });
 
     $('.postal_code').keyup(function() {
-        get_address($(this));
+        if(cep_val != $(this).val()){
+            get_address($(this));
+        }
     });
 
     if ($('.postal_code').val()) {
-        get_address($(this));
+        get_address($('.postal_code'));
     }
 
+    var cep_val;
+    $('.postal_code').click(function(){
+        cep_val = $(this).val();
+    });
 });
 
 function get_address( $me ) {
-
     var cep = $me.val().replace('_', '');
     $('#cep_not_found').hide();
 
@@ -56,12 +60,12 @@ function get_address( $me ) {
 
                     $('#cep_not_found').show();
                     $('#elm_state_id').focus();
-
+                    $('.clear_addr').val('');
                     setTimeout("$('#cep_not_found').fadeOut();", 10000);
 
                 } else {
-
-                    $('#elm_address').val(result.address);
+                    addr_format = result.address.replace(/\s+- de.+a.+/, '');
+                    $('#elm_address').val(addr_format);
                     $('#elm_neighborhood').val(result.neighborhood);
                     $('#elm_state_id').val(result.state_id);
 
@@ -86,7 +90,7 @@ function get_address( $me ) {
 
 }
 
-function reset_button(){
+function reset_button() {
 
     setTimeout(function () {
         $("#check_token").button('reset');
@@ -94,11 +98,15 @@ function reset_button(){
 
 }
 
-function get_cities(state_id) {
+function get_cities(state_id, city_id) {
+    var $me = $('#elm_city_id');
 
     if(!state_id) {
         return false;
     }
+
+    $me.removeClass('required');
+    $me.addClass('input-loading');
 
     $.ajax({
         url: "/get_cities",
@@ -109,7 +117,13 @@ function get_cities(state_id) {
         },
         error: function(err) {
             alert(err);
+        },
+        complete: function() {
+            $me.removeClass('input-loading');
+            $me.addClass('required');
+            if(city_id) {
+                $('#elm_city_id').val(city_id);
+            }
         }
     });
-
 }

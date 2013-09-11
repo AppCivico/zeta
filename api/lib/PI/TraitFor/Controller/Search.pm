@@ -10,9 +10,17 @@ around list_GET => sub {
     my ($c) = @_;
 
     my %may_search;
+    my %order;
+
     if ( exists $self->config->{search_ok} ) {
         foreach my $key_ok ( keys %{ $self->config->{search_ok} } ) {
-            $may_search{$key_ok} = $c->req->params->{$key_ok} if exists $c->req->params->{$key_ok};
+            if($key_ok eq 'order') {
+                $order{order_by} = $c->req->params->{$key_ok} ;
+                $may_search{$key_ok} = $c->req->params->{$key_ok} if exists $c->req->params->{$key_ok};
+            } else {
+                $may_search{$key_ok} = $c->req->params->{$key_ok} if exists $c->req->params->{$key_ok};
+            }
+
         }
     }
 
@@ -31,7 +39,11 @@ around list_GET => sub {
         }
     }
 
-    $c->stash->{collection} = $c->stash->{collection}->search( {%may_search} )
+    if(exists($may_search{order})) {
+        delete $may_search{order};
+    }
+
+    $c->stash->{collection} = $c->stash->{collection}->search( {%may_search}, {%order} )
       if %may_search;
 
     $self->$orig(@_);

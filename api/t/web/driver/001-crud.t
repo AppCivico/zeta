@@ -67,12 +67,12 @@ db_transaction {
         'marital_state'        => 'D',
         'address'              => 'foo st2',
         'neighborhood'         => 'foo bar2',
-        password         => '12345',
-        password_confirm => '12345',
-        'complement'     => 'third floor',
-        'number'         => '2',
-        'postal_code'    => '01310002',
-        'city_id'        => 1
+        password               => '12345',
+        password_confirm       => '12345',
+        'complement'           => 'third floor',
+        'number'               => '2',
+        'postal_code'          => '01310002',
+        'city_id'              => 1
       ];
 
     rest_reload 'driver1';
