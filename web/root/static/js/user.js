@@ -48,7 +48,6 @@ $( document ).ready(function() {
             event.preventDefault();
         }
         return 0;
-
     });
 
     $('.timepicker-me').timepicker();
@@ -62,4 +61,36 @@ $( document ).ready(function() {
         get_cities($('#elm_state_id').val(), city_id);
     }
 
+    $("#elm_vehicle_brand_id").change(function (){
+        filter_vehicle($(this).val());
+    });
+
 });
+
+function filter_vehicle(brand_id, vehicle_model_id) {
+
+    if(!brand_id) {
+        return false;
+    }
+
+    var $me = $('#elm_vehicle_model_id');
+
+    $me.removeClass('required');
+    $me.addClass('input-loading');
+
+    $.ajax({
+        url: "/get_vehicle_models",
+        data: {vehicle_brand_id: brand_id},
+        dataType: 'html',
+        success: function(result) {
+            $("#vehicle_model").html(result);
+        },
+        error: function(err) {
+            alert('Não foi possível encontrar os modelos.');
+        },
+        complete: function() {
+            $me.removeClass('input-loading');
+            $me.addClass('required');
+        }
+    });
+}

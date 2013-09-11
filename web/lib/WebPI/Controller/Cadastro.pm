@@ -92,6 +92,26 @@ sub get_cities: Chained('base') : PathPart('get_cities') {
     );
 }
 
+sub get_vehicle_models: Chained('base') : PathPart('get_vehicle_models') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, 'vehicle_models',
+        params => {
+            vehicle_brand_id    => $c->req->params->{vehicle_brand_id},
+            order               => 'name'
+        }
+     );
+
+    $c->stash(
+        select_vehicle_models => [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_models} } ],
+        without_wrapper => 1,
+        template => 'user/vehicle/vehicle_models.tt'
+    );
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

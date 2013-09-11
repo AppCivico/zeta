@@ -10,7 +10,7 @@
 			<legend>Aparencia do veículo</legend>
 
 			[%select_field('vehicle_brand_id', 'Marca', req=>1, array => select_brands)|none%]
-			<div id="model">
+			<div id="vehicle_model">
                 [%select_field('vehicle_model_id', 'Modelo', req=>1, array => select_models)|none%]
 			</div>
             [%input_text('model_year','Ano do modelo', req=>1)|none%]
