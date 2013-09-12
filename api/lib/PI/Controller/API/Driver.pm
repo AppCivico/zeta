@@ -127,7 +127,8 @@ sub list_POST {
         location => $c->uri_for( $self->action_for('result'), [ $driver->id ] )->as_string,
         entity => {
             name => $driver->name,
-            id   => $driver->id
+            id   => $driver->id,
+            user_id => $driver->user_id
         }
     );
 

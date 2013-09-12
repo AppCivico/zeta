@@ -8,46 +8,18 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 
-    #criar novo owner
-    rest_post '/vehicle_owners',
-      name  => 'criar dono de veículos',
-      list  => 1,
-      stash => 'vehicle_owner',
-      [
-        email            => 'car_owner@aware.com',
-        name             => 'new',
-        last_name        => 'owner',
-        birth_date       => '1990-09-19',
-        cpf              => '38979486804',
-        bank_code        => '034',
-        bank_ag          => '0147',
-        bank_cc          => '3254126',
-        telephone_number => '551165522547',
-        mobile_provider  => 'claro',
-        mobile_number    => '5511999999999',
-        address          => 'Kingston',
-        city_id          => 1,
-        neighborhood     => 'DOWNTOWN',
-        complement       => 'teste',
-        number           => '13',
-        postal_code      => '012478520',
-
-      ];
-
     #criar novo driver
-    rest_post '/drivers',
+     rest_post '/drivers',
       name  => 'criar motorista',
       list  => 1,
       stash => 'driver',
       [
-        'name'                 => 'Foo',
-        'last_name'            => 'Bar',
+        'name'                 => 'Foo Bar',
         'birth_date'           => '1970-01-01',
-        'cpf'                  => '38979486804',
+        'cpf'                  => '88654621400',
         'first_driver_license' => '1990-01-01',
-        'cnh_code'             => 'xxxxx',
+        'cnh_code'             => '12345678911',
         'cnh_validity'         => '2014-01-01',
-        'mobile_provider'      => 'test',
         'mobile_number'        => '5511123456789',
         'telephone_number'     => '551112345678',
         'marital_state'        => 'S',
@@ -56,35 +28,118 @@ db_transaction {
         'complement'           => 'second floor',
         'number'               => '1',
         'postal_code'          => '01310000',
-        password_confirm       => '012478520',
-        password               => '012478520',
         'city_id'              => 1,
-        'email'                => 'sdasdas@asdas.com'
+        password               => '12345',
+        password_confirm       => '12345',
+        'email'                => 'sdasdas@asdas.com',
+        'email_confirm'        => 'sdasdas@asdas.com'
       ];
 
-    #criar novo veiculo
+    #criar nova marca
+    rest_post '/vehicle_brands',
+        name  => 'criar marca de veículo',
+        list  => 1,
+        stash => 'vehicle_brand',
+        [
+            name => 'teste',
+        ];
+
+    #criar novo modelo de veiculo
+    rest_post '/vehicle_models',
+      name  => 'criar modelo de veículo',
+      list  => 1,
+      stash => 'vehicle_model',
+      [
+        name => 'TesteCar',
+        vehicle_brand_id => stash 'vehicle_brand.id'
+      ];
+
+    #criar nova cor de veiculo
+    rest_post '/vehicle_colors',
+      name  => 'criar cor de veículo',
+      list  => 1,
+      stash => 'vehicle_color',
+      [
+        name => 'Teste Gold',
+      ];
+
+    #criar nova carroceria de veiculo
+    rest_post '/vehicle_body_styles',
+      name  => 'criar carroceria de veículo',
+      list  => 1,
+      stash => 'vehicle_body_style',
+      [
+        name => 'Teste sedan',
+      ];
+
+     #criar novo veiculo
     rest_post '/vehicles',
       name  => 'criar veículos',
       list  => 1,
       stash => 'vehicle',
       [
-        renavam          => '123456789',
-        cpf              => '38979486804',
-        car_plate        => 'LPI2672',
-        doors_number     => '5',
-        manufacture_year => '2009',
-        model            => 'clio',
-        model_year       => '2009',
-        brand_name       => 'Renault',
-        car_type         => 'Hatch',
-        km               => 41000,
-        color            => 'silver',
-        fuel_type        => 'flex',
-        chassi           => '21231dsfs3',
-        crv              => '231ss32',
-        observations     => 'teste',
-        driver_id        => stash 'driver.id',
-        vehicle_owner_id => stash 'vehicle_owner.id'
+        renavam                 => '123456789',
+        car_plate               => 'LPI2672',
+        doors_number            => '5',
+        manufacture_year        => '2009',
+        vehicle_model_id        => stash 'vehicle_model.id',
+        model_year              => '2009',
+        vehicle_brand_id        => stash 'vehicle_brand.id',
+        vehicle_body_style_id   => stash 'vehicle_body_style.id',
+        km                      => 41000,
+        vehicle_color_id        => stash 'vehicle_color.id',
+        fuel_type               => 'flex',
+        observations            => 'teste',
+        driver_id               => stash 'driver.id',
+        vehicle_owner_id        => stash 'vehicle_owner.id',
+        state_id                => 1,
+        city_id                 => 1
+      ];
+
+    #criar novo endereço origem
+    rest_post '/addresses',
+      name  => 'criar novo endereço origem',
+      list  => 1,
+      stash => 'address_orig',
+      [
+        address         => 'Av. Paulista',
+        number          => '568',
+        neighborhood    => 'Bela Vista',
+        user_id         => 1,
+        postal_code     => '01310000'
+      ];
+
+    #criar novo profile de rota origem
+    rest_post '/vehicle_route_types',
+      name  => 'criar tipo de rota de veiculos origem',
+      list  => 1,
+      stash => 'vehicle_route_type_orig',
+      [
+        name => 'Casa',
+        address_id => stash 'address_orig.id'
+      ];
+
+    #criar novo endereço destino
+    rest_post '/addresses',
+      name  => 'criar novo endereço destino',
+      list  => 1,
+      stash => 'address_destino',
+      [
+        address         => 'Av. Queiroz Filho',
+        number          => '1700',
+        neighborhood    => 'Vila Hamburguesa',
+        user_id         => 1,
+        postal_code     => '05319000'
+      ];
+
+    #criar novo profile de rota de destino
+    rest_post '/vehicle_route_types',
+      name  => 'criar tipo de rota de veiculos destino',
+      list  => 1,
+      stash => 'vehicle_route_type_destino',
+      [
+        name => 'Trabalho',
+        address_id => stash 'address_destino.id'
       ];
 
     #criar nova rota
@@ -96,10 +151,8 @@ db_transaction {
         name                => 'Rota teste 1',
         start_time_gone     => '08:00:00',
         start_time_back     => '18:00:00',
-        origin              => 'Casa',
-        origin_lat_lng      => '-23.446185,-46.553640',
-        destination         => 'Trabalho',
-        destination_lat_lng => '-23.572347,-46.643975',
+        origin_id           => stash 'vehicle_route_type_orig.id',
+        destination_id      => stash 'vehicle_route_type_destino.id',
         vehicle_id          => stash 'vehicle.id',
         days_of_week        => '1,2,3,4,5,6,7'
       ];
@@ -126,13 +179,12 @@ db_transaction {
       name => 'atualizar rota',
       [
         name                => 'Rota teste 2',
-        start_time_gone     => '00:00:00',
-        start_time_back     => '06:00:00',
-        origin              => 'Trabalho',
-        origin_lat_lng      => '-23.572347,-46.643975',
-        destination         => 'O\'Malley\'s',
-        destination_lat_lng => '-23.558314,-46.665998',
-        days_of_week        => '1,2,7'
+        start_time_gone     => '18:00:00',
+        start_time_back     => '20:00:00',
+        origin_id           => stash 'vehicle_route_type_destino.id',
+        destination_id      => stash 'vehicle_route_type_orig.id',
+        vehicle_id          => stash 'vehicle.id',
+        days_of_week        => '1,2,3,4,5,6,7'
       ];
 
     rest_reload 'vehicle_route';
@@ -141,7 +193,7 @@ db_transaction {
         my ($me) = @_;
 
         is( $me->{id}, stash 'vehicle_route.id', 'get has the same id!' );
-        is( $me->{start_time_gone}, '00:00:00', 'start_time_gone updated!' );
+        is( $me->{start_time_gone}, '18:00:00', 'start_time_gone updated!' );
     };
 
     rest_delete stash 'vehicle_route.url';

@@ -49,11 +49,6 @@ __PACKAGE__->table("vehicle_route");
   is_nullable: 0
   sequence: 'vehicle_route_id_seq'
 
-=head2 name
-
-  data_type: 'text'
-  is_nullable: 1
-
 =head2 start_time_gone
 
   data_type: 'time'
@@ -62,26 +57,6 @@ __PACKAGE__->table("vehicle_route");
 =head2 start_time_back
 
   data_type: 'time'
-  is_nullable: 1
-
-=head2 origin
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 origin_lat_lng
-
-  data_type: 'point'
-  is_nullable: 1
-
-=head2 destination
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 destination_lat_lng
-
-  data_type: 'point'
   is_nullable: 1
 
 =head2 vehicle_id
@@ -95,6 +70,29 @@ __PACKAGE__->table("vehicle_route");
   data_type: 'smallint[]'
   is_nullable: 1
 
+=head2 origin_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 destination_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 name
+
+  data_type: 'text'
+  is_nullable: 0
+
+=head2 vehicle_parking_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -105,24 +103,22 @@ __PACKAGE__->add_columns(
     is_nullable       => 0,
     sequence          => "vehicle_route_id_seq",
   },
-  "name",
-  { data_type => "text", is_nullable => 1 },
   "start_time_gone",
   { data_type => "time", is_nullable => 1 },
   "start_time_back",
   { data_type => "time", is_nullable => 1 },
-  "origin",
-  { data_type => "text", is_nullable => 1 },
-  "origin_lat_lng",
-  { data_type => "point", is_nullable => 1 },
-  "destination",
-  { data_type => "text", is_nullable => 1 },
-  "destination_lat_lng",
-  { data_type => "point", is_nullable => 1 },
   "vehicle_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "days_of_week",
   { data_type => "smallint[]", is_nullable => 1 },
+  "origin_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "destination_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "name",
+  { data_type => "text", is_nullable => 0 },
+  "vehicle_parking_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -139,6 +135,36 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 destination
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::VehicleRouteType>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "destination",
+  "PI::Schema::Result::VehicleRouteType",
+  { id => "destination_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
+=head2 origin
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::VehicleRouteType>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "origin",
+  "PI::Schema::Result::VehicleRouteType",
+  { id => "origin_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
 =head2 vehicle
 
 Type: belongs_to
@@ -154,9 +180,29 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 vehicle_parking
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-06 18:36:45
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:OhI0KA3CR9xo0ZBQOBTIoQ
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::VehicleParking>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "vehicle_parking",
+  "PI::Schema::Result::VehicleParking",
+  { id => "vehicle_parking_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-12 14:58:45
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rPNUzDHUq08cLqcjWa3yYg
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -172,7 +218,7 @@ sub verifiers_specs {
         update => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                 name=> {
+                name => {
                     required => 0,
                     type     => 'Str',
                 },
@@ -184,21 +230,13 @@ sub verifiers_specs {
                     required => 0,
                     type     => TimeStr,
                 },
-                origin=> {
+                origin_id => {
                     required => 0,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
-                origin_lat_lng=> {
+                destination_id => {
                     required => 0,
-                    type     => 'Str',
-                },
-                destination=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                destination_lat_lng=> {
-                    required => 0,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
                 days_of_week => {
                     required => 0,

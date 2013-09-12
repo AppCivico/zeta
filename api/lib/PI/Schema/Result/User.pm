@@ -147,6 +147,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 addresses
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::Address>
+
+=cut
+
+__PACKAGE__->has_many(
+  "addresses",
+  "PI::Schema::Result::Address",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 customers
 
 Type: has_many
@@ -268,8 +283,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 17:51:37
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DX9Dml0nebjiVJVAVGKdwQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-12 11:28:24
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0fe7o1KwgXSUCH5EkVLDqQ
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 

@@ -1,4 +1,4 @@
-package PI::Schema::ResultSet::VehicleParking;
+package PI::Schema::ResultSet::Address;
 use namespace::autoclean;
 
 use utf8;
@@ -18,30 +18,30 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                arrival_time=> {
-                    required => 1,
-                    type     => TimeStr,
-                },
-                departure_time=> {
-                    required => 1,
-                    type     => TimeStr,
-                },
-                address_id=> {
-                    required => 1,
-                    type     => 'Int',
-                },
-                name=> {
+                address => {
                     required => 1,
                     type     => 'Str',
                 },
-                vehicle_parking_type_id=> {
+                number => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                neighborhood => {
+                    required => 1,
+                    type     => 'Str',
+                },
+                postal_code => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                lat_lng => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                user_id => {
                     required => 1,
                     type     => 'Int',
                 },
-                vehicle_id => {
-                    required    => 1,
-                    type        => 'Int'
-                }
             }
         )
     };
@@ -54,12 +54,11 @@ sub action_specs {
         create => sub {
             my %values = shift->valid_values;
 
-            my $vehicle_parking = $self->create( \%values );
+            my $address = $self->create( \%values );
 
-            return $vehicle_parking;
+            return $address;
           }
     };
 }
 
 1;
-

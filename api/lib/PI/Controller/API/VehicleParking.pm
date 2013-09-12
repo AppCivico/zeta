@@ -9,6 +9,9 @@ __PACKAGE__->config(
 
     result     => 'DB::VehicleParking',
     object_key => 'vehicle_parking',
+    result_attr => {
+        prefetch => ['vehicle_parking_type', 'address']
+    },
 
     update_roles => [qw/superadmin user/],
     create_roles => [qw/superadmin user/],
@@ -30,29 +33,40 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $vehicle_parking = $c->stash->{vehicle_parking};
-    my %attrs           = $vehicle_parking->get_inflated_columns;
+
     $self->status_ok(
         $c,
         entity => {
             (
-                map { $_ => $attrs{$_}, }
+                map { $_ => $vehicle_parking->$_ }
                   qw/
                   id
-                  entry_time
+                  arrival_time
                   departure_time
-                  monthly_payment
-                  lat_lng
                   vehicle_id
-                  address
                   name
-                  is_street
                   /
             ),
-            ( map { $_ => $vehicle_parking->$_->datetime } qw/created_at/ )
-
+            ( map { $_ => $vehicle_parking->$_->datetime } qw/created_at/ ),
+            type => {
+                ( map { $_ => $vehicle_parking->vehicle_parking_type->$_ } qw /id name/ )
+            },
+            address => {
+                    (
+                    map { $_ => $vehicle_parking->address->$_ }
+                        qw/
+                        id
+                        address
+                        number
+                        neighborhood
+                        postal_code
+                        lat_lng
+                        user_id
+                        /
+                    )
+            }
         }
     );
-
 }
 
 sub result_DELETE {
@@ -96,19 +110,32 @@ sub list_GET {
                             map { $_ => $r->{$_} }
                               qw/
                               id
-                              entry_time
+                              arrival_time
                               departure_time
-                              monthly_payment
-                              lat_lng
                               vehicle_id
                               created_at
                               vehicle_id
-                              address
                               name
-                              is_street
                               /
                         ),
-                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
+                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
+                        type => {
+                            ( map { $_ => $r->{vehicle_parking_type}{$_} } qw /id name/ )
+                        },
+                        address => {
+                                (
+                                map { $_ => $r->{address}{$_} }
+                                    qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    lat_lng
+                                    user_id
+                                    /
+                                )
+                        }
                       }
                 } $c->stash->{collection}->as_hashref->all
             ]

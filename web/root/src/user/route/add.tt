@@ -15,7 +15,22 @@
 	[%IF NO_TITLE%]
 	<input type="hidden" name="redirect_to_dashboard" value="1"/>
 	[%END%]
-		[%input_text('name','Nome da rota', value => vehicle_route_obj.name, placeholder=>'Ex: Casa para Trabalho')|none%]
+		[%select_field('origin_id','Saindo de: ')|none%]
+		[%input_text('start_time_gone','Às',
+
+            app => '<i class="icon-time"></i>',
+            classes => ['span1','timepicker-me'],
+            divclass=> 'bootstrap-timepicker',
+            extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
+        )|none%]
+		[%select_field('destination_id','Chegando em: ')|none%]
+        [%input_text('start_time_back','Às',
+
+            app => '<i class="icon-time"></i>',
+            classes => ['span1','timepicker-me'],
+            divclass=> 'bootstrap-timepicker',
+            extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
+        )|none%]
 
 	<p>Clique sobre os dias da semana que você normalmente efetua essa rota</p>
 	<div class="control-group ">
