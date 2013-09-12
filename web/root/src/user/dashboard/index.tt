@@ -13,7 +13,7 @@
 		<dd>instalado</dd>
 
 		<dt>Veículo</dt>
-		<dd>[%vehicles.0.brand_name%] - [%vehicles.0.model%]</dd>
+		<dd>[%vehicles.0.model.name%] - [%vehicles.0.model.id%]</dd>
 		</dl>
 	</div>
 [%END%]

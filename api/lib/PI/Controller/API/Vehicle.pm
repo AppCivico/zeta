@@ -9,6 +9,9 @@ __PACKAGE__->config(
 
     result     => 'DB::Vehicle',
     object_key => 'vehicle',
+    result_attr => {
+        prefetch => ['vehicle_model', 'vehicle_brand', 'vehicle_color', 'vehicle_body_style']
+    },
 
     update_roles => [qw/superadmin user/],
     create_roles => [qw/superadmin user/],
@@ -31,12 +34,12 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $vehicle = $c->stash->{vehicle};
-    my %attrs   = $vehicle->get_inflated_columns;
+
     $self->status_ok(
         $c,
         entity => {
             (
-                map { $_ => $attrs{$_}, }
+                map { $_ => $vehicle->$_ }
                   qw(
                   id
                   renavam
@@ -57,8 +60,20 @@ sub result_GET {
                   city_id
                   )
             ),
-            ( map { $_ => ( $attrs{$_} ? $attrs{$_}->datetime : undef ) } qw/created_at/ ),
+            ( map { $_ => ( $vehicle->$_ ? $vehicle->$_->datetime : undef ) } qw/created_at/ ),
 
+            model => {
+                ( map { $_ => $vehicle->vehicle_model->$_ } qw/id name/ ),
+            },
+            color => {
+                ( map { $_ => $vehicle->vehicle_color->$_ } qw/id name/ ),
+            },
+            brand => {
+                ( map { $_ => $vehicle->vehicle_brand->$_ } qw/id name/ ),
+            },
+            body_style => {
+                ( map { $_ => $vehicle->vehicle_body_style->$_ } qw/id name/ ),
+            },
         }
     );
 }
@@ -123,7 +138,20 @@ sub list_GET {
                                 created_at
                               /
                         ),
-                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
+
+                        model => {
+                            ( map { $_ => $r->{vehicle_model}{$_} } qw/id name/ ),
+                        },
+                        color => {
+                            ( map { $_ => $r->{vehicle_color}{$_} } qw/id name/ ),
+                        },
+                        brand => {
+                            ( map { $_ => $r->{vehicle_brand}{$_} } qw/id name/ ),
+                        },
+                        body_style => {
+                            ( map { $_ => $r->{vehicle_body_style}{$_} } qw/id name/ ),
+                        },
+                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
                       }
                 } $c->stash->{collection}->as_hashref->all
             ]

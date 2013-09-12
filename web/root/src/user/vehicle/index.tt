@@ -15,11 +15,11 @@
 	</thead>
 	<tbody>
 	<tr>
-		<td>[%vehicles.0.brand_name%]</td>
-		<td>[%vehicles.0.model%]</td>
+		<td>[%vehicles.0.brand.name%]</td>
+		<td>[%vehicles.0.model.name%]</td>
 		<td>[%vehicles.0.model_year%]</td>
 		<td>[%vehicles.0.manufacture_year%] </td>
-		<td>[%vehicles.0.color%]</td>
+		<td>[%vehicles.0.color.name%]</td>
 		<td>
 		[%href = c.uri_for_action('/user/vehicle/edit', [vehicles.0.id])%]
 		<a class="edit" href="[%href%]" class="edit"><i class="icon-pencil"></i> editar</a>
