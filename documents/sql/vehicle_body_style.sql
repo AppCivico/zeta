@@ -19,6 +19,7 @@ SET search_path = public, pg_catalog;
 -- Dependencies: 229 2087
 -- Data for Name: vehicle_body_style; Type: TABLE DATA; Schema: public; Owner: postgres
 --
+truncate vehicle_body_style cascade;
 
 COPY vehicle_body_style (id, name, created_at) FROM stdin;
 1	Buggy	2013-09-09 13:26:22.479937

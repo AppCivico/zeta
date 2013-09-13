@@ -8,46 +8,18 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 
-    #criar novo owner
-    rest_post '/vehicle_owners',
-      name  => 'criar dono de veículos',
-      list  => 1,
-      stash => 'vehicle_owner',
-      [
-        email            => 'car_owner@aware.com',
-        name             => 'new',
-        last_name        => 'owner',
-        birth_date       => '1990-09-19',
-        cpf              => '38979486804',
-        bank_code        => '034',
-        bank_ag          => '0147',
-        bank_cc          => '3254126',
-        telephone_number => '551165522547',
-        mobile_provider  => 'claro',
-        mobile_number    => '5511999999999',
-        address          => 'Kingston',
-        city_id          => 1,
-        neighborhood     => 'DOWNTOWN',
-        complement       => 'teste',
-        number           => '13',
-        postal_code      => '012478520',
-
-      ];
-
     #criar novo driver
     rest_post '/drivers',
       name  => 'criar motorista',
       list  => 1,
       stash => 'driver',
       [
-        'name'                 => 'Foo',
-        'last_name'            => 'Bar',
+        'name'                 => 'Foo Bar',
         'birth_date'           => '1970-01-01',
-        'cpf'                  => '38979486804',
+        'cpf'                  => '88654621400',
         'first_driver_license' => '1990-01-01',
-        'cnh_code'             => 'xxxxx',
+        'cnh_code'             => '12345678911',
         'cnh_validity'         => '2014-01-01',
-        'mobile_provider'      => 'test',
         'mobile_number'        => '5511123456789',
         'telephone_number'     => '551112345678',
         'marital_state'        => 'S',
@@ -56,10 +28,48 @@ db_transaction {
         'complement'           => 'second floor',
         'number'               => '1',
         'postal_code'          => '01310000',
-        password_confirm       => '012478520',
-        password               => '012478520',
         'city_id'              => 1,
-        'email'                => 'sdasdas@asdas.com'
+        password               => '12345',
+        password_confirm       => '12345',
+        'email'                => 'sdasdas@asdas.com',
+        'email_confirm'        => 'sdasdas@asdas.com'
+      ];
+
+    #criar nova marca
+    rest_post '/vehicle_brands',
+        name  => 'criar marca de veículo',
+        list  => 1,
+        stash => 'vehicle_brand',
+        [
+            name => 'teste',
+        ];
+
+    #criar novo modelo de veiculo
+    rest_post '/vehicle_models',
+      name  => 'criar modelo de veículo',
+      list  => 1,
+      stash => 'vehicle_model',
+      [
+        name => 'TesteCar',
+        vehicle_brand_id => stash 'vehicle_brand.id'
+      ];
+
+    #criar nova cor de veiculo
+    rest_post '/vehicle_colors',
+      name  => 'criar cor de veículo',
+      list  => 1,
+      stash => 'vehicle_color',
+      [
+        name => 'Teste Gold',
+      ];
+
+    #criar nova carroceria de veiculo
+    rest_post '/vehicle_body_styles',
+      name  => 'criar carroceria de veículo',
+      list  => 1,
+      stash => 'vehicle_body_style',
+      [
+        name => 'Teste sedan',
       ];
 
     #criar novo veiculo
@@ -68,23 +78,44 @@ db_transaction {
       list  => 1,
       stash => 'vehicle',
       [
-        renavam          => '123456789',
-        cpf              => '38979486804',
-        car_plate        => 'LPI2672',
-        doors_number     => '5',
-        manufacture_year => '2009',
-        model            => 'clio',
-        model_year       => '2009',
-        brand_name       => 'Renault',
-        car_type         => 'Hatch',
-        km               => 41000,
-        color            => 'silver',
-        fuel_type        => 'flex',
-        chassi           => '21231dsfs3',
-        crv              => '231ss32',
-        observations     => 'teste',
-        driver_id        => stash 'driver.id',
-        vehicle_owner_id => stash 'vehicle_owner.id'
+        renavam                 => '123456789',
+        car_plate               => 'LPI2672',
+        doors_number            => '5',
+        manufacture_year        => '2009',
+        vehicle_model_id        => stash 'vehicle_model.id',
+        model_year              => '2009',
+        vehicle_brand_id        => stash 'vehicle_brand.id',
+        vehicle_body_style_id   => stash 'vehicle_body_style.id',
+        km                      => 41000,
+        vehicle_color_id        => stash 'vehicle_color.id',
+        fuel_type               => 'flex',
+        observations            => 'teste',
+        driver_id               => stash 'driver.id',
+        vehicle_owner_id        => stash 'vehicle_owner.id',
+        state_id                => 1,
+        city_id                 => 1
+      ];
+
+    #criar novo endereço destino
+    rest_post '/addresses',
+      name  => 'criar novo endereço do estacionamento',
+      list  => 1,
+      stash => 'address',
+      [
+        address         => 'Av. Queiroz Filho',
+        number          => '1500',
+        neighborhood    => 'Vila Hamburguesa',
+        user_id         => 1,
+        postal_code     => '05319000'
+      ];
+
+    #criar novo tipo de estacionamento
+    rest_post '/vehicle_parking_types',
+      name  => 'criar novo tipo de estacionamento',
+      list  => 1,
+      stash => 'vehicle_parking_type',
+      [
+        name => 'Galpão fechado'
       ];
 
     #criar novo estacionamento
@@ -93,15 +124,14 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_parking',
       [
-        entry_time      => '09:00:00',
-        departure_time  => '18:00:00',
-        monthly_payment => 1,
-        vehicle_id      => stash 'vehicle.id',
-        address         => 'Rua eliseu',
-        name            => 'Estacionamento do zé',
-        is_street       => 0
+        arrival_time            => '09:00:00',
+        departure_time          => '18:00:00',
+        vehicle_id              => stash 'vehicle.id',
+        address_id              => stash 'address.id',
+        name                    => 'Carrefour',
+        vehicle_parking_type_id => stash 'vehicle_parking_type.id'
       ];
-
+#     dumpstash;
     stash_test 'vehicle_parking.get', sub {
         my ($me) = @_;
 
@@ -123,12 +153,12 @@ db_transaction {
     rest_put stash 'vehicle_parking.url',
       name => 'atualizar estacionamento',
       [
-        entry_time      => '12:00:00',
-        departure_time  => '00:00:00',
-        monthly_payment => 0,
-        address         => 'Rua josé',
-        name            => 'Rua',
-        is_street       => 1
+        arrival_time            => '10:00:00',
+        departure_time          => '18:00:00',
+        vehicle_id              => stash 'vehicle.id',
+        address_id              => stash 'address.id',
+        name                    => 'Carrefour',
+        vehicle_parking_type_id => stash 'vehicle_parking_type.id'
       ];
 
     rest_reload 'vehicle_parking';
@@ -137,7 +167,7 @@ db_transaction {
         my ($me) = @_;
 
         is( $me->{id}, stash 'vehicle_parking.id', 'get has the same id!' );
-        is( $me->{entry_time}, '12:00:00', 'entry time updated!' );
+        is( $me->{arrival_time}, '10:00:00', 'arrival time updated!' );
     };
 
     rest_delete stash 'vehicle_parking.url';

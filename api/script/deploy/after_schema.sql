@@ -75,6 +75,3 @@ INSERT INTO state (id, name, uf, country_id, created_by) VALUES
 (27, 'Tocantins', 'TO',1,1);
 
 INSERT INTO "city" (name, state_id, country_id, name_url) VALUES ('São paulo', 1, 1, 'sao-paulo'); -- insert default city
-
-
-

@@ -49,7 +49,7 @@ __PACKAGE__->table("vehicle_parking");
   is_nullable: 0
   sequence: 'vehicle_parking_id_seq'
 
-=head2 entry_time
+=head2 arrival_time
 
   data_type: 'time'
   is_nullable: 0
@@ -58,16 +58,6 @@ __PACKAGE__->table("vehicle_parking");
 
   data_type: 'time'
   is_nullable: 0
-
-=head2 monthly_payment
-
-  data_type: 'boolean'
-  is_nullable: 1
-
-=head2 lat_lng
-
-  data_type: 'point'
-  is_nullable: 1
 
 =head2 vehicle_id
 
@@ -87,14 +77,16 @@ __PACKAGE__->table("vehicle_parking");
   data_type: 'text'
   is_nullable: 0
 
-=head2 address
+=head2 address_id
 
-  data_type: 'text'
-  is_nullable: 1
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
 
-=head2 is_street
+=head2 vehicle_parking_type_id
 
-  data_type: 'boolean'
+  data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 1
 
 =cut
@@ -107,14 +99,10 @@ __PACKAGE__->add_columns(
     is_nullable       => 0,
     sequence          => "vehicle_parking_id_seq",
   },
-  "entry_time",
+  "arrival_time",
   { data_type => "time", is_nullable => 0 },
   "departure_time",
   { data_type => "time", is_nullable => 0 },
-  "monthly_payment",
-  { data_type => "boolean", is_nullable => 1 },
-  "lat_lng",
-  { data_type => "point", is_nullable => 1 },
   "vehicle_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_at",
@@ -126,10 +114,10 @@ __PACKAGE__->add_columns(
   },
   "name",
   { data_type => "text", is_nullable => 0 },
-  "address",
-  { data_type => "text", is_nullable => 1 },
-  "is_street",
-  { data_type => "boolean", is_nullable => 1 },
+  "address_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "vehicle_parking_type_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -144,7 +132,36 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<vehicle_parking_address_id_key>
+
+=over 4
+
+=item * L</address_id>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("vehicle_parking_address_id_key", ["address_id"]);
+
 =head1 RELATIONS
+
+=head2 address
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::Address>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "address",
+  "PI::Schema::Result::Address",
+  { id => "address_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
 
 =head2 vehicle
 
@@ -161,9 +178,44 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 vehicle_parking_type
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-02 18:23:46
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JN93IP4Ao74Dh/sir2N/IA
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::VehicleParkingType>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "vehicle_parking_type",
+  "PI::Schema::Result::VehicleParkingType",
+  { id => "vehicle_parking_type_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
+=head2 vehicle_routes
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleRoute>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_routes",
+  "PI::Schema::Result::VehicleRoute",
+  { "foreign.vehicle_parking_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-12 15:31:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JQy4SFoP11J3VjGfHO7BbA
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -178,7 +230,7 @@ sub verifiers_specs {
         update => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                entry_time=> {
+                arrival_time=> {
                     required => 0,
                     type     => TimeStr,
                 },
@@ -186,25 +238,17 @@ sub verifiers_specs {
                     required => 0,
                     type     => TimeStr,
                 },
-                monthly_payment=> {
+                address_id=> {
                     required => 0,
-                    type     => 'Bool',
-                },
-                lat_lng=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                address=> {
-                    required => 0,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
                 name=> {
                     required => 0,
                     type     => 'Str',
                 },
-                is_street=> {
+                vehicle_parking_type_id=> {
                     required => 0,
-                    type     => 'Bool',
+                    type     => 'Int',
                 },
             }
         ),

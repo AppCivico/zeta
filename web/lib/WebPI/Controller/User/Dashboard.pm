@@ -40,10 +40,15 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
     $api->stash_result( $c, 'vehicle_brands' );
     $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
 
-    #temporariamente, ja vai sair que vai ser por ajax
-    $api->stash_result( $c, 'vehicle_models' );
-    $c->stash->{select_models} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_models} } ];
-
+    $api->stash_result(
+        $c,
+        'vehicle_route_types',
+          params => {
+            user_id => $c->user->id,
+            order   => 'name'
+        }
+    );
+    $c->stash->{select_routes} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_route_types} } ];
 }
 
 sub index : Chained('object') : PathPart('') : Args(0) {

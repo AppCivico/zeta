@@ -19,7 +19,7 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 name => {
-                    required => 0,
+                    required => 1,
                     type     => 'Str',
                 },
                 start_time_gone => {
@@ -30,21 +30,13 @@ sub verifiers_specs {
                     required => 0,
                     type     => TimeStr,
                 },
-                origin => {
-                    required => 0,
-                    type     => 'Str',
+                origin_id => {
+                    required => 1,
+                    type     => 'Int',
                 },
-                origin_lat_lng => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                destination => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                destination_lat_lng => {
-                    required => 0,
-                    type     => 'Str',
+                destination_id => {
+                    required => 1,
+                    type     => 'Int',
                 },
                 vehicle_id => {
                     required => 1,

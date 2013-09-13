@@ -19,6 +19,7 @@ SET search_path = public, pg_catalog;
 -- Dependencies: 227 2087
 -- Data for Name: vehicle_color; Type: TABLE DATA; Schema: public; Owner: postgres
 --
+truncate vehicle_color cascade;
 
 COPY vehicle_color (id, name, created_at) FROM stdin;
 1	Laranja	2013-09-09 13:30:56.742192

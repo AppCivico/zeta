@@ -14,6 +14,11 @@ __PACKAGE__->config(
     create_roles => [qw/superadmin user/],
     delete_roles => [qw/superadmin user/],
 
+    search_ok => {
+        vehicle_brand_id    => 'Int',
+        order               => 'Str'
+    }
+
 );
 
 with 'PI::TraitFor::Controller::DefaultCRUD';

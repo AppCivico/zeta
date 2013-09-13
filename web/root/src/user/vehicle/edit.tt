@@ -7,7 +7,8 @@
     <fieldset>
         <h4>Dados do veículo</h4>
         [%select_field('vehicle_brand_id', 'Marca', req=>1, array => select_brands, value => vehicle_obj.vehicle_brand_id)|none%]
-        <div id="model">
+        <input type="hidden" id="vehicle_model_aux" value="[%vehicle_obj.vehicle_model_id%]">
+        <div id="vehicle_model">
             [%select_field('vehicle_model_id', 'Modelo', req=>1, array => select_models, value => vehicle_obj.vehicle_model_id)|none%]
         </div>
         [%input_text('model_year','Ano do modelo', value => vehicle_obj.model_year)|none%]

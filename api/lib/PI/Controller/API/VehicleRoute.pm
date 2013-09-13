@@ -9,6 +9,9 @@ __PACKAGE__->config(
 
     result     => 'DB::VehicleRoute',
     object_key => 'vehicle_route',
+    result_attr => {
+        prefetch => [{'origin'=>'address'}, {'destination'=>'address'}]
+    },
 
     update_roles => [qw/superadmin user/],
     create_roles => [qw/superadmin user/],
@@ -30,24 +33,54 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $vehicle_route = $c->stash->{vehicle_route};
-    my %attrs         = $vehicle_route->get_inflated_columns;
+
     $self->status_ok(
         $c,
         entity => {
             (
-                map { $_ => $attrs{$_}, }
+                map { $_ => $vehicle_route->$_ }
                   qw/
                   id
                   name
                   start_time_gone
                   start_time_back
-                  origin
-                  origin_lat_lng
-                  destination
-                  destination_lat_lng
                   days_of_week
                   /
             ),
+            origin => {
+                ( map { $_ => $vehicle_route->origin->$_ } qw/id name/ ),
+
+                address => {
+                    (
+                        map { $_ => $vehicle_route->origin->address->$_ }
+                        qw/
+                        id
+                        address
+                        number
+                        neighborhood
+                        postal_code
+                        lat_lng
+                        user_id
+                        /
+                    ),
+                },
+            },
+            destination => {
+                ( map { $_ => $vehicle_route->destination->$_ } qw/id name/ ),
+
+                address => {
+                    map { $_ => $vehicle_route->origin->address->$_ }
+                        qw/
+                        id
+                        address
+                        number
+                        neighborhood
+                        postal_code
+                        lat_lng
+                        user_id
+                        /
+                }
+            },
         }
     );
 
@@ -97,14 +130,42 @@ sub list_GET {
                               name
                               start_time_gone
                               start_time_back
-                              origin
-                              origin_lat_lng
-                              destination
-                              destination_lat_lng
                               vehicle_id
                               days_of_week
                               /
-                        )
+                        ),
+                        origin => {
+                            ( map { $_ => $r->{origin}{$_} } qw/id name/ ),
+
+                            address => {
+                                map { $_ => $r->{origin}{address}{$_} }
+                                    qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    lat_lng
+                                    user_id
+                                    /
+                            }
+                        },
+                        destination => {
+                            ( map { $_ => $r->{destination}{$_} } qw/id name/ ),
+
+                            address => {
+                                map { $_ => $r->{destination}{address}{$_} }
+                                    qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    lat_lng
+                                    user_id
+                                    /
+                            }
+                        },
                       }
                 } $c->stash->{collection}->as_hashref->all
             ]
