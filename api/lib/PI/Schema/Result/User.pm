@@ -283,8 +283,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-12 11:28:24
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0fe7o1KwgXSUCH5EkVLDqQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-13 10:42:03
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:34SFVZibMBh+Rry1O8OyTQ
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 

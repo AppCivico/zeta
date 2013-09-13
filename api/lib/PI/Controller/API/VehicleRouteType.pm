@@ -17,6 +17,11 @@ __PACKAGE__->config(
     create_roles => [qw/superadmin user webapi/],
     delete_roles => [qw/superadmin user/],
 
+    search_ok => {
+        user_id => 'Int',
+        order   => 'Str'
+    }
+
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
 
@@ -40,6 +45,7 @@ sub result_GET {
                   id
                   name
                   address_id
+                  user_id
                   /
             ),
             address => {
@@ -104,6 +110,7 @@ sub list_GET {
                               id
                               name
                               address_id
+                              user_id
                               /
                         ),
                         address => {
