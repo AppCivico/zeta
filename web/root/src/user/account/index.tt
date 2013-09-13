@@ -2,22 +2,20 @@
 	<h3>Meus dados</h3>
 </div>
 <div class="row page-content">
-	<dl>
-	<dt>Nome</dt>
-	<dd>[%driver.name%] [%driver.last_name%]</dd>
+	<dl class="profile">
+		<dt>Nome</dt>
+		<dd>[%driver.name%] [%driver.last_name%]</dd>
 
-	<dt>Data de nascimento</dt>
-	<dd>[%driver.birth_date%]</dd>
+		<dt>Data de nascimento</dt>
+		<dd>[%driver.birth_date%]</dd>
 
-	<dt>CPF</dt>
-	<dd>[%driver.cpf%]</dd>
+		<dt>CPF</dt>
+		<dd>[%driver.cpf%]</dd>
 
-	<dt>CNH</dt>
-	<dd>[%driver.cnh_code%]</dd>
+		<dt>CNH</dt>
+		<dd>[%driver.cnh_code%]</dd>
 
-	<dt>Primeira carta</dt>
-	<dd>[%driver.first_driver_license%]</dd>
-
-
+		<dt>Primeira carta</dt>
+		<dd>[%driver.first_driver_license%]</dd>
 	</dl>
 </div>

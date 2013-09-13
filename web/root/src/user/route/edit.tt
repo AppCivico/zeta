@@ -49,13 +49,13 @@
 			extratags => 'data-show-meridian="false" data-minute-step="10"'
 		)|none%]
 
-		[%input_text('origin_lat_lng','', type => 'hidden' )|none%]
-		[%input_text('destination_lat_lng','', type => 'hidden' )|none%]
+		<input type="hidden" name="origin_lat_lng" id="elm_origin_lat_lng">
+		<input type="hidden" name="destination_lat_lng" id="elm_destination_lat_lng">
 
 		<div class="control-group ">
 			<label class="control-label"></label>
 			<div class="text controls">
-				<div id="map_canvas" style="width:300px; height:300px"></div>
+				<div id="map_canvas" style="width:300px; height:300px" class="map-route"></div>
 			</div>
 		</div>
 

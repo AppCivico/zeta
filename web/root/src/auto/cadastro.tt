@@ -1,11 +1,11 @@
 [%-CALL assets.include("js/jquery.maskedinput.js")%]
 [%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/address.js")%]
-
+[%-CALL assets.include("js/cadastro.js")%]
 <section id="forms">
   <div class="page-header bg-dark">
     <h1>Faça o seu cadastro!</h1>
-    <p>Começe agora o cadastro e (bla bla ganha até ...)</p>
+    <p>Para ser nosso parceiro, precisamos que você preencha o formulário abaixo</p>
   </div>
 
   <div class="row page-content">
@@ -40,16 +40,25 @@
 
         <fieldset>
             <legend>Informações do condutor</legend>
-
-            [%input_text('cnh_code','Código CNH', req=>1, only_digits => 1, check_length => 1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
-            [%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'], req=>1, date => 1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
-            [%input_text('first_driver_license','Data da 1ª habilitação', classes => ['span3', 'date'], req=>1, date => 1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
+			
+			<div class="pull-left">
+				[%input_text('cnh_code','Código CNH', req=>1, only_digits => 1, check_length => 1
+				)|none%]
+				[%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'], req=>1, date => 1
+				)|none%]
+				[%input_text('first_driver_license','Data da 1ª habilitação', classes => ['span3', 'date'], req=>1, date => 1
+				)|none%]
+			</div>
+			<div class="pull-left">
+				<div class="cnh-hint">
+					<div class="cnh-arrow">
+						<img src="/static/img/cnh_arrow.png">
+					</div>
+					<div class="cnh-arrow2">
+						<img src="/static/img/cnh_arrow2.png">
+					</div>
+				</div>
+			</div>
         </fieldset>
 
         <fieldset>
@@ -106,7 +115,7 @@
             [%input_text('password_confirm','Senha novamente',  type => 'password', req=>1)|none%]
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+                <button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
                 <button type="reset" class="btn">Limpar formulário</button>
             </div>
         </fieldset>

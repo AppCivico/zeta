@@ -1,13 +1,12 @@
     <div class="page-header bg-dark">
         <h3>Cadastre seu veículo</h3>
-        <p></p>
+        <p>As informações sobre o seu automóvel são fundamentais para a nossa parceria. Por favor, preencha os dados abaixo</p>
     </div>
 
 	<div class="row page-content">
 		<form class="form-horizontal" method="post" action="/user/form/vehicle">
 
 		<fieldset>
-			<legend>Aparencia do veículo</legend>
 
 			[%select_field('vehicle_brand_id', 'Marca', req=>1, array => select_brands)|none%]
 			<div id="model">
@@ -19,8 +18,6 @@
             [%select_field('vehicle_body_style_id','Carroceria', req=>1, array => select_body_styles)|none%]
 		</fieldset>
 		<fieldset>
-			<legend>Detalhes do veículo</legend>
-
 			[%input_text('km','Quilometragem', req=>1)|none%]
 
 			[%input_text('renavam','Renavam', req=>1)|none%]
@@ -52,12 +49,10 @@
 			])|none%]
 		</fieldset>
 		<fieldset>
-			<legend>Documentos do veículo</legend>
-
 			[%input_text('observations','Observações')|none%]
 
 			<div class="form-actions">
-				<button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+				<button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
 			</div>
 		</fieldset>
 

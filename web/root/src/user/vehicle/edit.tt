@@ -53,7 +53,7 @@
         [%input_text('observations','observações', value => vehicle_obj.observations)|none%]
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+            <button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
         </div>
     </fieldset>
 </form>
