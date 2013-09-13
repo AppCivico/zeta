@@ -19,11 +19,11 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 arrival_time=> {
-                    required => 1,
+                    required => 0,
                     type     => TimeStr,
                 },
                 departure_time=> {
-                    required => 1,
+                    required => 0,
                     type     => TimeStr,
                 },
                 address_id=> {

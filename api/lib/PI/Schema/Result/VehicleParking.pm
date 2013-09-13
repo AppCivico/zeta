@@ -52,12 +52,12 @@ __PACKAGE__->table("vehicle_parking");
 =head2 arrival_time
 
   data_type: 'time'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 departure_time
 
   data_type: 'time'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 vehicle_id
 
@@ -100,9 +100,9 @@ __PACKAGE__->add_columns(
     sequence          => "vehicle_parking_id_seq",
   },
   "arrival_time",
-  { data_type => "time", is_nullable => 0 },
+  { data_type => "time", is_nullable => 1 },
   "departure_time",
-  { data_type => "time", is_nullable => 0 },
+  { data_type => "time", is_nullable => 1 },
   "vehicle_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_at",
@@ -214,8 +214,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-12 15:31:49
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JQy4SFoP11J3VjGfHO7BbA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-13 19:52:47
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:izCAxQOhG7KFiIw10myvsw
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

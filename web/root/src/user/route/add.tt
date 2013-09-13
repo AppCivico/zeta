@@ -2,6 +2,7 @@
     src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
 </script>
 [%-CALL assets.include("js/maps.js")%]
+[%-CALL assets.include("js/routes.js")%]
 
 [%IF !NO_TITLE%]
 <div class="page-header bg-dark">
@@ -11,19 +12,23 @@
 <div class="row page-content">
 	<form class="form-horizontal" method="post" action="/user/form/vehicle_routes">
 	<div class="tab-pane active" id="tab1">
-		<fieldset>
+<fieldset>
 	[%IF NO_TITLE%]
 	<input type="hidden" name="redirect_to_dashboard" value="1"/>
 	[%END%]
 		[%select_field('origin_id','Saindo de: ', array => select_routes)|none%]
-		[%input_text('start_time_gone','Às',
+		<a href="#new_address" id="origin" class="addr btn" role="button" data-toggle="modal">Novo endereço</a>
 
+		[%input_text('start_time_gone','Às',
             app => '<i class="icon-time"></i>',
             classes => ['span1','timepicker-me'],
             divclass=> 'bootstrap-timepicker',
             extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
         )|none%]
+
 		[%select_field('destination_id','Chegando em: ', array => select_routes)|none%]
+		<a href="#new_address" id="destination" class="addr btn" role="button" data-toggle="modal">Novo endereço</a>
+
         [%input_text('start_time_back','Às',
 
             app => '<i class="icon-time"></i>',
@@ -35,7 +40,7 @@
         <span>O carro será estacionado em: </span>
         [%input_text('parking_name','Nome para o local')|none%]
         [%input_text('parking_address','Endereço')|none%]
-        <input type="hidden" name= "lat_lng">
+        <input type="hidden" name= "lat_lng" id="elm_lat_lng">
         <div class="control-group ">
             <label class="control-label"></label>
             <div class="text controls">
@@ -49,30 +54,62 @@
 			[%FOREACH i IN [1..7]%]
 			<input type="hidden" name="dow_[%i%]"/>
 			[%END%]
-			<div class="btn-group" id="btn_semana" data-toggle="buttons-checkbox">
-				<button type="button" data-changeval-name="dow_1" data-changeval-valuehc="active" title="Domingo" class="btn">D</button>
-				<button type="button" data-changeval-name="dow_2" data-changeval-valuehc="active" title="Segunda" class="btn u">S</button>
-				<button type="button" data-changeval-name="dow_3" data-changeval-valuehc="active" title="Terça" class="btn u">T</button>
-				<button type="button" data-changeval-name="dow_4" data-changeval-valuehc="active" title="Quarta" class="btn u">Q</button>
-				<button type="button" data-changeval-name="dow_5" data-changeval-valuehc="active" title="Quinta" class="btn u">Q</button>
-				<button type="button" data-changeval-name="dow_6" data-changeval-valuehc="active" title="Sexta" class="btn u">S</button>
-				<button type="button" data-changeval-name="dow_7" data-changeval-valuehc="active" title="Sábado" class="btn">S</button>
+
+			<div id="btn_semana" data-toggle="buttons-checkbox">
+
+                <label class="checkbox inline" for="d">
+                    <input type="checkbox" data-changeval-name="dow_1" data-changeval-valuehc="active" title="Domingo" id="d"/>
+                    Domingo
+                </label>
+                <label class="checkbox inline" for="s">
+                    <input class="checkbox inline" type="checkbox" data-changeval-name="dow_2" data-changeval-valuehc="active" title="Segunda-feira" id="s"/>
+                    Segunda-feira
+                </label>
+                <label class="checkbox inline" for="t">
+                    <input type="checkbox" data-changeval-name="dow_3" data-changeval-valuehc="active" title="Terça-feira" id="t"/>
+                    Terça-feira
+                </label>
+                <label class="checkbox inline" for="q">
+                    <input type="checkbox" data-changeval-name="dow_4" data-changeval-valuehc="active" title="Quarta-feira" id="q"/>
+                    Quarta-feira
+                </label>
+                <label class="checkbox inline" for="qui">
+                    <input type="checkbox" data-changeval-name="dow_5" data-changeval-valuehc="active" title="Quinta-feira" id="qui"/>
+                    Quinta-feira
+                </label>
+                <label class="checkbox inline" for="s">
+                    <input class="checkbox inline" type="checkbox" data-changeval-name="dow_6" data-changeval-valuehc="active" title="Sexta-feira" id="s"/>
+                    Sexta-feira
+                </label>
+                <label class="checkbox inline" for="sab">
+                    <input type="checkbox" data-changeval-name="dow_7" data-changeval-valuehc="active" title="Sábado" id="sab"/>
+                    Sábado
+                </label>
 			</div>
 
-			<button type="button" data-send-click="#btn_semana .u:not(.active)" class="btn btn-info">Marcar dias úteis</button>
 		</div>
 	</div>
 
-		<div class="form-actions">
-				<button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
-				[%IF !NO_TITLE%]
-				[%href = c.uri_for_action('/user/route/index')%]
-				<a href="[%href%]" class="btn">Voltar para lista de rotas</a>
-				[%END%]
-			</div>
-		</fieldset>
-
+    <div class="form-actions">
+            <button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
+            [%IF !NO_TITLE%]
+            [%href = c.uri_for_action('/user/route/index')%]
+            <a href="[%href%]" class="btn">Voltar para lista de rotas</a>
+            [%END%]
+    </div>
+</fieldset>
 	</div>
 	</form>
 </div>
 
+<div id="new_address" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Novo endereço</h3>
+  </div>
+      <div class="modal-body">
+
+    [%INCLUDE 'user/dashboard/parts/new_address.tt' NO_TITLE=>1%]
+    </div>
+
+</div>

@@ -1,10 +1,9 @@
-$( document ).ready(function() {
+function re_mask(){
     $('.date').mask('99/99/9999');
     $('.phone').mask('(99) 9999-9999');
     $('.postal_code').mask('99999-999');
     $('.cpf').mask('999.999.999-99');
     $('#elm_car_plate').mask('aaa-9999');
-
     $('.mobile_phone').focusout(function(){
         var phone, element;
         element = $(this);
@@ -16,5 +15,8 @@ $( document ).ready(function() {
             element.mask("(99) 9999-9999?9");
         }
     }).trigger('focusout');
+}
 
+$( document ).ready(function() {
+    re_mask();
 });

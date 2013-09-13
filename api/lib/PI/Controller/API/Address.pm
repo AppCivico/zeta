@@ -120,7 +120,6 @@ sub list_POST {
     my ( $self, $c ) = @_;
 
     my $s = $c->req->params;
-    use DDP; p $s;
     my $address = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 
     $self->status_created(

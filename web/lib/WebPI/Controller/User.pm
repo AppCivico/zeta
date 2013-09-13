@@ -61,7 +61,10 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
 
     my $dashboard_uri = $c->uri_for_action('/user/dashboard/index');
 
-    if ( $c->stash->{cadastro_incompleto} && $c->req->uri->path ne URI->new($dashboard_uri)->path ) {
+    if (
+        $c->stash->{cadastro_incompleto} && $c->req->uri->path ne URI->new($dashboard_uri)->path
+        && $c->req->uri->path !~ qr|^(/user/route_type/new)$|
+    ) {
         $c->res->redirect($dashboard_uri);
         $c->detach;
     }

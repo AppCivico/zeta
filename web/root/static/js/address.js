@@ -1,4 +1,6 @@
 $( document ).ready(function() {
+    var cep_val;
+
     $('form').on('focus','select,input', function(event) {
         $(event.target).parents('.controls:first').find('.hint-inline').show();
     });
@@ -21,7 +23,7 @@ $( document ).ready(function() {
         get_address($('.postal_code'));
     }
 
-    var cep_val;
+
     $('.postal_code').click(function(){
         cep_val = $(this).val();
     });
@@ -65,6 +67,7 @@ function get_address( $me ) {
 
                 } else {
                     addr_format = result.address.replace(/\s+- de.+a.+/, '');
+                    addr_format = result.address.replace(/\s+- até.+/, '');
                     $('#elm_address').val(addr_format);
                     $('#elm_neighborhood').val(result.neighborhood);
                     $('#elm_state_id').val(result.state_id);
