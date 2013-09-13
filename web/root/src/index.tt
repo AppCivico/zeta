@@ -5,7 +5,14 @@
 	<div class="span4 text bg-dark">
 		<div class="contents">
 			<h3 class="shadow">Ganhe até R$ 1.000,00 por mês!</h3>
-			<p class="lead shadow">Para fazer o cadastro, clique no botão abaixo!</p>
+			<br />
+			<p class="lead shadow">Estamos construindo uma grande rede de publicidade em automóveis por todo o Brasil.
+			<br /><br />
+			Para participar, basta usar o seu carro sem sair da rotina.
+			</p>
+			<p class="saiba-mais">
+				<a href="/sobre"><i class="icon-arrow-right"></i> Saiba mais</a>
+			</p>
 			<a class="button" href="/cadastro">Quero me cadastrar!</a>
 		</div>
 	</div>

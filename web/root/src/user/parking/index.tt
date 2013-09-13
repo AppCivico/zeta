@@ -13,22 +13,30 @@
 	</tr>
 	</thead>
 	<tbody>
-	[%FOREACH v IN vehicle_parking %]
-	<tr>
-		<th>[%v.name%]</th>
-		<td>[%v.entry_time%]</td>
-		<td>[%v.departure_time%]</td>
-		<td>
-		[%href = c.uri_for_action('/user/parking/edit', [v.id])%]
-		<a href="[%href%]" class="edit"><i class="icon-pencil"></i> editar</a>
-		[%href = c.uri_for_action('/user/form/vehicleparking/process_delete', [v.id])%]
-		<a class="del" href="[%href%]" data-confirm="Deseja realmente remover?"><i class="icon-trash"></i> excluir</a>
-		</td>
-	</tr>
+	[%IF vehicle_parking.size <= 0 %]
+		<tr>
+			<td class="center" colspan="10">
+				Nenhum registro encontrado
+			</td>
+		</tr>
+	[%ELSE%]
+		[%FOREACH v IN vehicle_parking %]
+		<tr>
+			<th>[%v.name%]</th>
+			<td>[%v.entry_time%]</td>
+			<td>[%v.departure_time%]</td>
+			<td>
+			[%href = c.uri_for_action('/user/parking/edit', [v.id])%]
+			<a href="[%href%]" class="edit"><i class="icon-pencil"></i> editar</a>
+			[%href = c.uri_for_action('/user/form/vehicleparking/process_delete', [v.id])%]
+			<a class="del" href="[%href%]" data-confirm="Deseja realmente remover?"><i class="icon-trash"></i> remover</a>
+			</td>
+		</tr>
+		[%END%]
 	[%END%]
 	</tbody>
 	</table>
 
 	[%href = c.uri_for_action('/user/parking/add')%]
-	<a class="btn" href="[%href%]">Adicionar um novo estacionamento</a></div>
+	<a class="btn" href="[%href%]"><i class="icon-plus"></i> Adicionar um novo estacionamento</a></div>
 

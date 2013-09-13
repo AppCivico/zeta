@@ -16,7 +16,7 @@
 			  [%input_text('email','E-mail', { pre => '@' })|none%]
 
 			  <div class="form-actions">
-				<button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+				<button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
 			  </div>
 			</fieldset>
 		  </form>

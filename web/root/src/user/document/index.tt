@@ -12,24 +12,30 @@
 	</tr>
 	</thead>
 	<tbody>
-	[%FOREACH d IN documents %]
-	<tr>
-		<th>[%class_name_conf.${d.class_name}%]</th>
-		[%IF d.validated_at%]
-			<td>[%d.validated_at%]</td>
-		[%ELSE%]
-			<td>Em aprovação</td>
+	[%IF documents.size <= 0 %]
+		<tr>
+			<td colspan="10" class="center">Nenhum documento cadastrado</td>
+		</tr>
+	[%ELSE%]
+		[%FOREACH d IN documents %]
+		<tr>
+			<th>[%class_name_conf.${d.class_name}%]</th>
+			[%IF d.validated_at%]
+				<td>[%d.validated_at%]</td>
+			[%ELSE%]
+				<td>Em aprovação</td>
+			[%END%]
+			<td>[%d.private_path%]</td>
+			<td style="min-width: 70px;">
+			[%href = c.uri_for_action('/user/form/document/process_delete', [d.id])%]
+			<a class="del" href="[%href%]" data-confirm="Deseja realmente remover?"><i class="icon-trash"></i>&nbsp;remover</a>
+			</td>
+		</tr>
 		[%END%]
-		<td>[%d.private_path%]</td>
-		<td>
-		[%href = c.uri_for_action('/user/form/document/process_delete', [d.id])%]
-		<a class="del" href="[%href%]" data-confirm="Deseja realmente remover?"><i class="icon-trash"></i> remover</a>
-		</td>
-	</tr>
 	[%END%]
 	</tbody>
 	</table>
 
 	[%href = c.uri_for_action('/user/document/add')%]
-	<a class="btn" href="[%href%]">Adicionar um novo documento</a></div>
+	<a class="btn" href="[%href%]"><i class="icon-plus"></i> Adicionar um novo documento</a></div>
 

@@ -3,6 +3,4 @@
         <p></p>
     </div>
 
-	<div class="row page-content">
-		[%INCLUDE 'user/parking/add.tt' NO_TITLE=>1%]
-	</div>
+	[%INCLUDE 'user/parking/add.tt' NO_TITLE=>1%]

@@ -32,6 +32,15 @@ a{
 a:hover{
 	color: #666;
 }
+
+.center{
+	text-align: center;
+}
+
+.hide{
+	display: none;
+}
+
 .menu-top{
 	list-style: none;
 }
@@ -92,7 +101,8 @@ a:hover{
 
 .panel-home .text h3{
 	margin-top: 0;
-	line-height: 1em;
+	font-size: 1.9em;
+	line-height: 1.1em;
 }
 .panel-home .text .contents{
 	padding: 20px;
@@ -109,6 +119,10 @@ a:hover{
 .panel-home .video iframe{
 	width: 100%;
 	height: 434px;
+}
+.panel-home .saiba-mais a{
+	font-size: 1.3em;
+	color: #faffa4;
 }
 
 .partners{
@@ -218,4 +232,107 @@ legend{
 	background-color: #333;
     background-color: rgba(255,255,255,.3);
 	padding: 20px 30px;
+}
+
+.map-parking,
+.map-route{
+	border: 5px solid #fff;
+}
+dl.profile dd{
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	line-height: 1.5em;
+}
+
+.cnh-hint{
+	border: 3px solid #fff;
+	display: none;
+	position: relative;
+	margin-left: 20px;
+	width: 350px;
+	height: 242px;
+	background: url('/static/img/cnh.jpg') no-repeat center center;
+}
+.cnh-arrow{
+	position: absolute;
+	bottom: 2px;
+}
+.cnh-arrow2{
+	position: absolute;
+	bottom: 2px;
+}
+.cnh-arrow.cnh{
+	left: 140px;
+}
+.cnh-arrow.validade{
+	left: 210px;
+}
+.cnh-arrow2.data{
+	right: 90px;
+}
+.cnh-arrow.hide,
+.cnh-arrow2.hide{
+	display: none;
+}
+.body-style-select{
+	background-color: #fff;
+	text-align: center;
+	border: 1px solid #e0e0e0;
+	border-radius: 5px;
+
+}
+.body-style-select ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.body-style-select ul li{
+	width: 120px;
+	margin: 0;
+	text-align: center;
+	display: inline-block;
+	padding: 5px 2px;
+}
+.body-style-select ul li .image{
+	margin: 0 auto;
+	width: 75px;
+	height: 30px;
+	background-image: url('/static/img/car_body_styles.png');
+	background-repeat: none;
+}
+.body-style-select ul li .text{
+	font-size: 0.9em;
+}
+.body-style-select ul li input{
+	margin-bottom: 4px;
+}
+.body-style-select ul li.body-style-1 .image{	
+	background-position: 0 0;
+}
+.body-style-select ul li.body-style-2 .image{
+	background-position: -75px 0;
+}
+.body-style-select ul li.body-style-3 .image{
+	background-position: -150px 0;
+}
+.body-style-select ul li.body-style-4 .image{
+	background-position: -225px 0;
+}
+.body-style-select ul li.body-style-5 .image{
+	background-position: -300px 0;
+}
+.body-style-select ul li.body-style-6 .image{
+	background-position: 0 -30px;
+}
+.body-style-select ul li.body-style-7 .image{
+	background-position: -75px -30px;
+}
+.body-style-select ul li.body-style-8 .image{
+	background-position: -150px -30px;
+}
+.body-style-select ul li.body-style-9 .image{
+	background-position: -225px -30px;
+}
+.body-style-select ul li.body-style-10 .image{
+	background-position: -300px -30px;
 }
