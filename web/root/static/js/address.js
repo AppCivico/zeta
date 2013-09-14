@@ -19,8 +19,12 @@ $( document ).ready(function() {
         }
     });
 
-    if ($('.postal_code').val()) {
+    if($('.postal_code').val()) {
         get_address($('.postal_code'));
+    } else {
+        if($('#elm_state_id').val() != '') {
+            get_cities($('#elm_state_id').val());
+        }
     }
 
 

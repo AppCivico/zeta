@@ -1,4 +1,4 @@
-function re_mask(){
+function re_mask() {
     $('.date').mask('99/99/9999');
     $('.phone').mask('(99) 9999-9999');
     $('.postal_code').mask('99999-999');
@@ -28,10 +28,10 @@ $( document ).ready(function() {
 			});
 			$("#elm_vehicle_body_style_id").after($(body_style_ui));
 			$("#elm_vehicle_body_style_id").hide();
-		
+
 			$(".body-style-select ul li input").change(function(e){
 				$("#elm_vehicle_body_style_id").val($(this).val());
 			});
-		
+
 	}
 });

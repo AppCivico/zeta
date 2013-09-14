@@ -40,6 +40,7 @@
         <span>O carro será estacionado em: </span>
         [%input_text('parking_name','Nome para o local')|none%]
         [%input_text('parking_address','Endereço')|none%]
+        [%select_field('vehicle_parking_type_id','Tipo de estacionamento: ', array => select_parking_types)|none%]
         <input type="hidden" name= "lat_lng" id="elm_lat_lng">
         <div class="control-group ">
             <label class="control-label"></label>

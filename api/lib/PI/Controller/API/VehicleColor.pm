@@ -14,6 +14,10 @@ __PACKAGE__->config(
     create_roles => [qw/superadmin user/],
     delete_roles => [qw/superadmin user/],
 
+    search_ok => {
+        order => 'Str'
+    }
+
 );
 
 with 'PI::TraitFor::Controller::DefaultCRUD';

@@ -16,17 +16,11 @@
         <fieldset>
             <legend>Informações pessoais</legend>
 
-            [%input_text('name','Nome completo', req=>1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
+            [%input_text('name','Nome completo', req=>1)|none%]
 
-            [%input_text('cpf','CPF', classes => ['span3', 'cpf'], req=>1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
+            [%input_text('cpf','CPF', classes => ['span3', 'cpf'], req=>1)|none%]
 
-            [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'], req=>1, birth_date => 1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
+            [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'], req=>1, birth_date => 1)|none%]
 
             [%select_field('marital_state', 'Estado civil',  array => [
                 ['C','Casado (a)'],
@@ -40,7 +34,7 @@
 
         <fieldset>
             <legend>Informações do condutor</legend>
-			
+
 			<div class="pull-left">
 				[%input_text('cnh_code','Código CNH', req=>1, only_digits => 1, check_length => 1
 				)|none%]
@@ -73,36 +67,22 @@
                 [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'])|none%]
             </div>
 
-            [%input_text('address','Logradouro', classes => ['span3', 'clear_addr'],
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
-            [%input_text('number','Número', classes => ['span3', 'clear_addr'],
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
-            [%input_text('complement','Complemento', classes => ['span3', 'clear_addr'],
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
-            [%input_text('neighborhood','Bairro', classes => ['span3', 'clear_addr'],
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
+            [%input_text('address','Logradouro', classes => ['span3', 'clear_addr'])|none%]
+            [%input_text('number','Número', classes => ['span3', 'clear_addr'])|none%]
+            [%input_text('complement','Complemento', classes => ['span3', 'clear_addr'])|none%]
+            [%input_text('neighborhood','Bairro', classes => ['span3', 'clear_addr'])|none%]
 
         </fieldset>
 
         <fieldset>
             <legend>Informações de contato</legend>
             <p>Sempre que necessário, entraremos em contato com você através destas informações</p>
-            [%input_text('email','E-mail', value => email, req=>1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
+            [%input_text('email','E-mail', value => email, req=>1)|none%]
             [%input_text('email_confirm','Email novamente',  type => 'text', req=>1)|none%]
 
-            [%input_text('telephone_number','Telefone', classes => ['span3', 'phone'], req=>1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
+            [%input_text('telephone_number','Telefone', classes => ['span3', 'phone'], req=>1)|none%]
 
-            [%input_text('mobile_number','Celular', classes => ['span3', 'mobile_phone'], req=>1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
-            )|none%]
+            [%input_text('mobile_number','Celular', classes => ['span3', 'mobile_phone'], req=>1)|none%]
 
         </fieldset>
 
@@ -110,7 +90,7 @@
             <legend>Informações da conta</legend>
             <p>Após esta etapa, você irá precisar desta senha para acessar seu perfil</p>
             [%input_text('password','Senha', type => 'password', req=>1,
-                input_append => '<span class="hide hint-inline">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>'
+                input_append => '<span class="hide hint-inline">A senha deve ter, pelo menos, 5 caracteres.</span>'
             )|none%]
             [%input_text('password_confirm','Senha novamente',  type => 'password', req=>1)|none%]
 
