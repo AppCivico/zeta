@@ -67,7 +67,8 @@ var $maps = function(){
         geocoder.geocode({'latLng': latlng}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
-                    $('#elm_address').val(results[1].formatted_address);
+                    /*todo: tornar generico */
+                    $('#elm_parking_address').val(results[1].formatted_address);
                 } else {
                     alert('Endereço não encontrado.');
                 }

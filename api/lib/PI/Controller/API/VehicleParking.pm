@@ -38,16 +38,17 @@ sub result_GET {
         $c,
         entity => {
             (
+                map { $_ => ( $vehicle_parking->$_ ? $vehicle_parking->$_->hms : undef ) }
+                  qw/arrival_time departure_time/
+            ),
+            (
                 map { $_ => $vehicle_parking->$_ }
                   qw/
                   id
-                  arrival_time
-                  departure_time
                   vehicle_id
                   name
                   /
             ),
-            ( map { $_ => $vehicle_parking->$_->datetime } qw/created_at/ ),
             type => {
                 ( map { $_ => $vehicle_parking->vehicle_parking_type->$_ } qw /id name/ )
             },

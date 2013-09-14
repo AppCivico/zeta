@@ -27,7 +27,7 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 neighborhood => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 postal_code => {

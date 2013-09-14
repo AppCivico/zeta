@@ -38,12 +38,14 @@ sub result_GET {
         $c,
         entity => {
             (
+                map { $_ => ( $vehicle_route->$_ ? $vehicle_route->$_->hms : undef ) }
+                  qw/start_time_gone start_time_back/
+            ),
+            (
                 map { $_ => $vehicle_route->$_ }
                   qw/
                   id
                   name
-                  start_time_gone
-                  start_time_back
                   days_of_week
                   /
             ),
