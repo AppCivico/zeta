@@ -1,6 +1,31 @@
 <div class="page-header bg-dark">
 	<h3>Contato</h3>
+	<p>Preencha o formulário abaixo para entrar em contato</p>
 </div>
 <div class="row page-content">
-	info info info info info
+	<form class="form-horizontal" method="post" action="/form/contact">
+	<fieldset>
+        [%input_text('name','Nome completo', req=>1)|none%]
+        [%input_text('email','Email', req=>1)|none%]
+		[%input_text('telephone_number','Telefone', classes => ['span3', 'phone'], req=>1)|none%]
+		[%select_field('motive', 'Motivo do contato',  array => [
+			['Dúvida','Dúvida'],
+			['Sugestão','Sugestão'],
+			['Crítica','Crítica'],
+			['Parcerias','Parcerias'],
+			['Outros','Outros'],
+		], req=>1)|none%]
+		<div class="control-group ">
+			<label class="control-label" for="elm_comment">Comentário</label>
+			<div class="controls">
+				<div class="">
+					<textarea id="elm_comment" name="comment" class="span3" rows="3" cols="40"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-success" data-loading-text="Processando...">Enviar</button>
+			<button type="reset" class="btn">Limpar formulário</button>
+		</div>
+    </fieldset>
 </div>
