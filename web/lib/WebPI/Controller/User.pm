@@ -13,7 +13,21 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
     }
 
     my $api = $c->model('API');
+    my $form = $c->model('Form');
+
     $api->stash_result( $c, [ 'drivers', $c->user->driver->{id} ], stash => 'driver' );
+
+    my $fields = ['birth_date', 'cnh_validity', 'first_driver_license'];
+
+    $form->format_date_to_human(
+        $c->stash->{driver},
+        @$fields
+    );
+
+    $form->format_cpf_to_human(
+        $c->stash->{driver},
+        'cpf'
+    );
 
     $api->stash_result(
         $c,

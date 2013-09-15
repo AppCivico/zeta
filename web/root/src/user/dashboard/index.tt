@@ -9,11 +9,12 @@
 		<dt>Status</dt>
 		<dd>Carro fora de campanha</dd>
 
+		<!--
 		<dt>Status do dispositivo</dt>
 		<dd>instalado</dd>
-
+        -->
 		<dt>Veículo</dt>
-		<dd>[%vehicles.0.model.name%] - [%vehicles.0.model.id%]</dd>
+		<dd>[%vehicles.0.brand.name%] - [%vehicles.0.model.name%]</dd>
 		</dl>
 	</div>
 [%END%]
