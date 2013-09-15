@@ -21,7 +21,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
     }
 
     my @dow = @{ $c->stash->{vehicle_route_obj}{days_of_week} || [] };
-    $c->stash->{dow}{$_} = 'active' for @dow;
+    $c->stash->{dow}{$_} = 'checked="checked"' for @dow;
 
 }
 
