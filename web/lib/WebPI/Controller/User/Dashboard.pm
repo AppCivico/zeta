@@ -22,6 +22,12 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
         $c->stash->{cadastro_incompleto} = 1;
         $c->stash->{main_view}           = 'parts/new_route.tt';
 
+
+        my $controller = $c->controller('User::Route');
+
+        $controller->add( $c );
+
+
     }
     elsif ( @{ $c->stash->{vehicle_parking} || [] } == 0 ) {
 
@@ -47,7 +53,7 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
 
     $api->stash_result( $c, 'vehicle_brands' );
     $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
-
+=pod
     $api->stash_result(
         $c,
         'vehicle_route_types',
@@ -58,6 +64,7 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
     );
 
     $c->stash->{select_routes} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_route_types} } ];
+=cut
 
     $api->stash_result(
         $c,
