@@ -25,8 +25,13 @@ sub process : Chained('base') : PathPart('') : Args(0) {
 
     my $api = $c->model('API');
 
-    my ($street) = $c->req->params->{parking_address} =~ /[^\d]*/g;
-    my ($number) = $c->req->params->{parking_address} =~ /[\d]+/g;
+    my ($number) = $c->req->params->{parking_address} =~ /\,\s*([\d]+)/g;
+
+    my $street = $c->req->params->{parking_address};
+    $street =~ s/\,\s*$number//;
+    $street =~ s/ - .+$//;
+
+    $number = 's/n' unless $number;
 
     my $address = {
         'address' => $street,

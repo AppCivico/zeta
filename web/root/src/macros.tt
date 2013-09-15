@@ -113,8 +113,9 @@ IF (opt.req); opt.classes.push('required'); END;
 
         SET this_value = item.0;
         SET this_name = item.1;
+        SET extratags = item.2;
 
-      %]<option value="[% this_value | html %]" [% IF this_value == opt.value %]selected="selected"[% END %]>[% (this_name) %]</option>
+      %]<option [%IF extratags%][%FOREACH xx IN extratags.keys%]data-[%xx%]="[% extratags.$xx %]" [%END%][%END%] value="[% this_value | html %]" [% IF this_value == opt.value %]selected="selected"[% END %]>[% (this_name) %]</option>
    [% END %]
   </select>
   [%IF form_error.$name%]<span class="help-inline">[%IF form_error.$name == 'invalid'%]Valor inválido[%ELSE%]Este campo não pode ser vazio[%END%]</span>[%END%]

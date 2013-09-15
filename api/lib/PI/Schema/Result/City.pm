@@ -119,6 +119,21 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 addresses
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::Address>
+
+=cut
+
+__PACKAGE__->has_many(
+  "addresses",
+  "PI::Schema::Result::Address",
+  { "foreign.city_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 cep_caches
 
 Type: has_many
@@ -250,8 +265,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-07 16:57:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:F0Q9etLO9mfb4Vh6JN75tw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-15 16:39:23
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:K3k11zoJr3BbhqSKMQjYYA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
