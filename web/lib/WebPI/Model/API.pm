@@ -152,6 +152,7 @@ sub stash_result {
         p $obj;
     }
 
+    return 1;
 }
 
 sub get_result {
