@@ -35,6 +35,16 @@ sub edit : Chained('object') : PathPart('') : Args(0) {
 
 sub add : Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
+
+    if (exists $c->req->params->{dest_time} && $c->req->params->{dest_time} =~ /^[0-9]{4}$/){
+        $c->stash->{orig_time} = $c->req->params->{dest_time};
+        substr($c->stash->{orig_time}, 2, 0) = ':';
+
+        $c->stash->{orig_id} = $c->req->params->{destino};
+    }
+
+    $c->stash->{step} = $c->stash->{orig_id} ? 2 : 1;
+
 }
 
 __PACKAGE__->meta->make_immutable;

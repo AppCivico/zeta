@@ -143,6 +143,10 @@ $( document ).ready(function() {
 
     if($('#elm_parking_address').length) {
 
+        if($('#elm_parking_address').val().length > 0) {
+            $maps.codeAddress('#elm_lat_lng', '#elm_parking_address');
+        }
+
         $('#elm_parking_address').on('blur', function() {
             $maps.codeAddress('#elm_lat_lng', $(this));
         });

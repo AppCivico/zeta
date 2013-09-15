@@ -10,17 +10,17 @@
 </div>
 [%END%]
 <div class="row page-steps">
-	<div class="step one">
+	<div class="step one [% IF !(step == 1) %]disabled[%END%]">
 		<div class="marker">1</div>
 		<div class="text">Passo 1</div>
 	</div>
 	<div class="divider"></div>
-	<div class="step two disabled">
+	<div class="step two [% IF !(step == 2) %]disabled[%END%] ">
 		<div class="marker">2</div>
 		<div class="text">Passo 2</div>
 	</div>
 	<div class="divider"></div>
-	<div class="step three disabled">
+	<div class="step three [% IF !(step == 3) %]disabled[%END%]">
 		<div class="marker">3</div>
 		<div class="text">Passo 3</div>
 	</div>
@@ -35,8 +35,9 @@
 	<input type="hidden" name="origem" value="[%c.req.params.origem%]"/>
 	<input type="hidden" name="dest_time" value="[%c.req.params.dest_time%]"/>
 	<input type="hidden" name="destino" value="[%c.req.params.destino%]"/>
+	<input type="hidden" name="rotas" value="[%c.req.params.rotas%]"/>
 
-		[%select_field('origin_id','Saindo de: ', array => select_routes)|none%]
+		[%select_field('origin_id','Saindo de: ', array => select_routes, value => orig_id)|none%]
         <div class="control-group ">
             <label class="control-label"></label>
             <div class="text controls">
@@ -48,7 +49,8 @@
             app => '<i class="icon-time"></i>',
             classes => ['span1','timepicker-me'],
             divclass=> 'bootstrap-timepicker',
-            extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
+            extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"',
+            value => orig_time
         )|none%]
 
 		[%select_field('destination_id','Chegando em: ', array => select_routes)|none%]
