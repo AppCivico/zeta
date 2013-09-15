@@ -18,7 +18,7 @@ __PACKAGE__->config(
     delete_roles => [qw/superadmin user/],
 
     search_ok => {
-        user_id => 'Int',
+        "address.user_id" => 'Int',
         order   => 'Str'
     }
 

@@ -52,10 +52,11 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
         $c,
         'vehicle_route_types',
         params => {
-            user_id => $c->user->id,
+            "address.user_id" => $c->user->id,
             order   => 'name'
         }
     );
+
     $c->stash->{select_routes} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_route_types} } ];
 
     $api->stash_result(

@@ -61,7 +61,7 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
             $c,
             'vehicle_route_types',
             params => {
-                user_id => $c->user->id,
+               "address.user_id"  => $c->user->id,
                 order   => 'name'
             }
         );

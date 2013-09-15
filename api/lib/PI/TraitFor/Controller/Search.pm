@@ -43,6 +43,11 @@ around list_GET => sub {
         delete $may_search{order};
     }
 
+    foreach my $k (keys %may_search) {
+        if($k !~ /\./) {
+            $may_search{"me.$k"} = delete $may_search{$k};
+        }
+    }
     $c->stash->{collection} = $c->stash->{collection}->search( {%may_search}, {%order} )
       if %may_search;
 
