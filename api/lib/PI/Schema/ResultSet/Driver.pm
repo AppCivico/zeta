@@ -97,7 +97,8 @@ sub verifiers_specs {
                     required   => 1,
                     type       => DataStr,
                     post_check => sub {
-                        my $r = shift;
+                        my $r   = shift;
+                        my $now = DateTime->now();
 
                         if ( $r->get_value('birth_date') ) {
                             my $birth_date =
@@ -105,7 +106,16 @@ sub verifiers_specs {
                             my $first_license =
                               eval { DateTime::Format::Pg->parse_datetime( $r->get_value('first_driver_license') ) };
 
-                            if ( DateTime->compare( $first_license, $birth_date ) > 0 ) {
+                            my $ins = DateTime->compare( $first_license, $now );
+
+                            if (
+                                DateTime->compare( $first_license, $birth_date ) > 0
+                                &&
+                                (
+                                    DateTime->compare( $first_license, $now ) == 0
+                                    ||  DateTime->compare( $first_license, $now ) == -1
+                                )
+                               ) {
                                 my $interval = eval { $first_license->subtract_datetime($birth_date) };
                                 return 1 if $interval->years >= 18;
                             }

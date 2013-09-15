@@ -27,15 +27,23 @@ sub process : Chained('base') : PathPart('check_email') : Args(0) {
     }
     else {
 
-        if ($c->stash->{check_email}{user}){
+        if ( $c->stash->{check_email}{user} ) {
 
-            $c->detach( '/form/redirect_ok', [ \'/login', {}, 'Olá, ' . $c->stash->{check_email}{user}{name} . '! Você já tem uma conta, faça o login para continuar!' ] );
+            $c->detach(
+                '/form/redirect_ok',
+                [
+                    \'/login',
+                    {},
+                    'Olá, '
+                      . $c->stash->{check_email}{user}{name}
+                      . '! Você já tem uma conta, faça o login para continuar!'
+                ]
+            );
 
-        }else{
+        }
+        else {
 
-            $c->detach( '/form/redirect_ok', [ '/cadastro/cadastro', {}, '',
-                email => $c->req->params->{email}
-            ] );
+            $c->detach( '/form/redirect_ok', [ '/cadastro/cadastro', {}, '', email => $c->req->params->{email} ] );
 
         }
 

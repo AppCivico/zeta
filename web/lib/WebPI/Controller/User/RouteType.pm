@@ -7,7 +7,7 @@ BEGIN { extends 'Catalyst::Controller' }
 sub base : Chained('/user/base') : PathPart('route_type') : CaptureArgs(0) {
 }
 
-sub add: Chained('base') : PathPart('new') : Args(0) {
+sub add : Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
 
     $c->stash->{without_wrapper} = 1 if exists $c->req->params->{no_wrapper};

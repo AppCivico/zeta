@@ -14,7 +14,6 @@ sub base : Chained('/root') : PathPart('tracker-manager') : CaptureArgs(0) {
 
     my $api = $c->model('API');
 
-
     if ( $c->req->method eq 'POST' ) {
         return;
     }

@@ -12,11 +12,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
     my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
-    $api->stash_result(
-        $c,
-        ['documents', $id],
-        stash => 'document_obj'
-    );
+    $api->stash_result( $c, [ 'documents', $id ], stash => 'document_obj' );
 
     $c->detach( '/form/not_found', [] ) if $c->stash->{document_obj}{error};
 }
@@ -34,16 +30,16 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     );
 
     $c->stash->{class_name_conf} = {
-        foto_carro              => 'Foto do carro',
-        registro_cnh            => 'Registro de cnh',
-        comprovante_residencia  => 'Comprovante de residência'
+        foto_carro             => 'Foto do carro',
+        registro_cnh           => 'Registro de cnh',
+        comprovante_residencia => 'Comprovante de residência'
     };
 }
 
-sub edit: Chained('object') : PathPart('') : Args(0) {
+sub edit : Chained('object') : PathPart('') : Args(0) {
 }
 
-sub add: Chained('base') : PathPart('new') : Args(0) {
+sub add : Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
 }
 

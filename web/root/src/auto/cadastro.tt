@@ -66,6 +66,7 @@
             <div id="cities">
                 [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'])|none%]
             </div>
+            <input type="hidden" id="city_aux" name="city_aux"/>
 
             [%input_text('address','Logradouro', classes => ['span3', 'clear_addr'])|none%]
             [%input_text('number','Número', classes => ['span3', 'clear_addr'])|none%]

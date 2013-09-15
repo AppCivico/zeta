@@ -14,19 +14,18 @@ sub process : Chained('base') : PathPart('document') : Args(0) {
     my $api = $c->model('API');
     my $p   = $c->req->params;
 
-    foreach my $class (qw/registro_cnh comprovante_residencia foto_carro/){
+    foreach my $class (qw/registro_cnh comprovante_residencia foto_carro/) {
         my $upload = $c->req->upload($class);
         next unless $upload;
 
         $api->stash_result(
-            $c, [ 'documents' ],
+            $c,
+            ['documents'],
             method => 'UPLOAD',
             body   => [
-                class_name  => $class,
-                ( $class eq 'foto_carro' ? (
-                    vehicle_id => $c->stash->{vehicle_id}
-                ) : () ),
-                file        => [ $upload->tempname ]
+                class_name => $class,
+                ( $class eq 'foto_carro' ? ( vehicle_id => $c->stash->{vehicle_id} ) : () ),
+                file => [ $upload->tempname ]
             ]
         );
     }
@@ -43,7 +42,7 @@ sub process : Chained('base') : PathPart('document') : Args(0) {
 }
 
 sub process_edit : Chained('base') : PathPart('documents') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
@@ -62,14 +61,11 @@ sub process_edit : Chained('base') : PathPart('documents') : Args(1) {
 }
 
 sub process_delete : Chained('base') : PathPart('remove_documents') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
-    $api->stash_result(
-        $c, [ 'documents', $id ],
-        method => 'DELETE'
-    );
+    $api->stash_result( $c, [ 'documents', $id ], method => 'DELETE' );
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );

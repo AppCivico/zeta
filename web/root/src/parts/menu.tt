@@ -5,7 +5,7 @@
 			<ul class="menu-top">
 				<li class="[% IF "/${c_req_path}" == '/' %]active[%END%] odd"><a href="/" class="white shadow"><i class="icon-home"></i></a></li>
 				[%IF !c.user%]
-					<li class="[% IF "/${c_req_path}" == '/participar' %]active[%END%] even"><a href="/participar" class="white shadow">Participar</a></li>
+					<li class="[% IF "/${c_req_path}" == '/participar' %]active[%END%] even"><a href="/cadastro" class="white shadow">Participar</a></li>
 					<li class="[% IF "/${c_req_path}" == '/login' %]active[%END%] odd"><a href="/login" class="white shadow">Login</a></li>
 					<li class="[% IF "/${c_req_path}" == '/faq' %]active[%END%] even"><a href="/faq" class="white shadow">Perguntas Frequentes</a></li>
 					<li class="[% IF "/${c_req_path}" == '/contato' %]active[%END%] odd"><a href="/contato" class="white shadow">Contato</a></li>

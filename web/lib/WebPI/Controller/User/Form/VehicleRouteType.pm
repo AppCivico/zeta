@@ -11,38 +11,35 @@ sub base : Chained('/user/form/base') : PathPart('') : CaptureArgs(0) {
 sub process : Chained('base') : PathPart('vehicle_route_types') : Args(0) {
     my ( $self, $c ) = @_;
 
-    my $api     = $c->model('API');
-    my $form    = $c->model('Form');
-    my $params  = { %{ $c->req->params } };
+    my $api    = $c->model('API');
+    my $form   = $c->model('Form');
+    my $params = { %{ $c->req->params } };
 
-
-    $form->only_number(
-        $params,
-        'postal_code'
-    );
+    $form->only_number( $params, 'postal_code' );
 
     my $address = {
-        'address' => $params->{address},
-        'number' => $params->{number},
-        'postal_code' => $params->{postal_code}?$params->{postal_code}:undef,
+        'address'      => $params->{address},
+        'number'       => $params->{number},
+        'postal_code'  => $params->{postal_code} ? $params->{postal_code} : undef,
         'neighborhood' => $params->{neighborhood},
-        'complement' => $params->{complement}?$params->{complement}:undef,
-        user_id => $c->user->id
+        'complement'   => $params->{complement} ? $params->{complement} : undef,
+        user_id        => $c->user->id
     };
 
     $api->stash_result(
-        $c, [ 'addresses'],
-        stash => 'added_address',
+        $c, ['addresses'],
+        stash  => 'added_address',
         method => 'POST',
         body   => $address
     );
     $api->stash_result(
-        $c, [ 'vehicle_route_types'],
+        $c,
+        ['vehicle_route_types'],
         method => 'POST',
-        stash => 'route_types',
+        stash  => 'route_types',
         body   => {
-            'name'      => $c->req->params->{route_type_name},
-            address_id  => $c->stash->{added_address}{id}
+            'name'     => $c->req->params->{route_type_name},
+            address_id => $c->stash->{added_address}{id}
         }
     );
 
@@ -57,10 +54,15 @@ sub process : Chained('base') : PathPart('vehicle_route_types') : Args(0) {
             }
         );
 
-        $c->res->redirect( $c->uri_for_action('/user/routetype/add', {
-            mid        => $mid,
-            no_wrapper => 1
-        }));
+        $c->res->redirect(
+            $c->uri_for_action(
+                '/user/routetype/add',
+                {
+                    mid        => $mid,
+                    no_wrapper => 1
+                }
+            )
+        );
 
         $c->detach;
 
@@ -69,17 +71,21 @@ sub process : Chained('base') : PathPart('vehicle_route_types') : Args(0) {
         $c->response->content_type('application/json');
         $c->res->headers->header( 'charset' => 'utf-8' );
 
-        $c->res->body( encode_json ( {
-            address    => $c->stash->{added_address},
-            route_type => $c->stash->{route_types},
-        } ) );
+        $c->res->body(
+            encode_json(
+                {
+                    address    => $c->stash->{added_address},
+                    route_type => $c->stash->{route_types},
+                }
+            )
+        );
 
         $c->detach;
     }
 }
 
 sub process_edit : Chained('base') : PathPart('vehicle_routes') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
@@ -98,14 +104,11 @@ sub process_edit : Chained('base') : PathPart('vehicle_routes') : Args(1) {
 }
 
 sub process_delete : Chained('base') : PathPart('remove_vehicle_routes') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
-    $api->stash_result(
-        $c, [ 'vehicle_routes', $id ],
-        method => 'DELETE'
-    );
+    $api->stash_result( $c, [ 'vehicle_routes', $id ], method => 'DELETE' );
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );

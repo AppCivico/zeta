@@ -9,7 +9,6 @@ use Encode;
 use DateTime;
 use JSON::XS;
 
-
 has my_config => (
     is  => 'rw',
     isa => 'HashRef',
@@ -31,8 +30,8 @@ faz uma requisicao GET para listagens e carrega o retorno na stash
 
 =cut
 
-
 use HTTP::Request::Common;
+
 sub stash_result {
     my ( $self, $c, $endpoint, %opts ) = @_;
 
@@ -48,7 +47,7 @@ sub stash_result {
     my @headers = $self->_generate_headers($c);
 
     if ( exists $opts{body} && ref $opts{body} eq 'HASH' ) {
-        $opts{body} = {%{$opts{body}}};
+        $opts{body} = { %{ $opts{body} } };
 
         while ( my ( $k, $v ) = each %{ $opts{body} } ) {
             $v = '' unless defined $v;
@@ -59,16 +58,16 @@ sub stash_result {
     my $method = lc( $opts{method} || 'GET' );
 
     my $res;
-    if ($method eq 'upload'){
+    if ( $method eq 'upload' ) {
         $res = eval {
-            my $req = POST $url,
-            @headers,
-            Content_Type => 'form-data',
-            Content      => $opts{body};
+            my $req = POST $url, @headers,
+              Content_Type => 'form-data',
+              Content      => $opts{body};
 
             $self->furl->request($req);
         };
-    }else{
+    }
+    else {
         $res = eval {
             $self->_do_http_req(
                 method  => $method,
@@ -232,6 +231,5 @@ sub furl {
         timeout => 100
     );
 }
-
 
 1;

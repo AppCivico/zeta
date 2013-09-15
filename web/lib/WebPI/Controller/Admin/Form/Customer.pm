@@ -12,11 +12,11 @@ sub base : Chained('/admin/form/base') : PathPart('') : CaptureArgs(0) {
 sub process : Chained('base') : PathPart('customer') : Args(0) {
     my ( $self, $c ) = @_;
 
-    my $api     = $c->model('API');
-    my $params  = $c->req->params;
+    my $api    = $c->model('API');
+    my $params = $c->req->params;
 
-     $api->stash_result(
-        $c, [ 'customers'],
+    $api->stash_result(
+        $c, ['customers'],
         method => 'POST',
         body   => $params
     );
@@ -32,12 +32,12 @@ sub process : Chained('base') : PathPart('customer') : Args(0) {
 }
 
 sub process_edit : Chained('base') : PathPart('customer') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
     $api->stash_result(
-        $c, [ 'customers', $id],
+        $c, [ 'customers', $id ],
         method => 'PUT',
         body   => $c->req->params
     );
@@ -51,14 +51,11 @@ sub process_edit : Chained('base') : PathPart('customer') : Args(1) {
 }
 
 sub process_delete : Chained('base') : PathPart('remove_customer') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
-    $api->stash_result(
-        $c, [ 'trackers', $id ],
-        method => 'DELETE'
-    );
+    $api->stash_result( $c, [ 'trackers', $id ], method => 'DELETE' );
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
