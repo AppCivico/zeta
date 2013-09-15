@@ -5,7 +5,7 @@ use namespace::autoclean;
 BEGIN { extends 'Catalyst::Controller' }
 
 sub base : Chained('/user/base') : PathPart('vehicle') : CaptureArgs(0) {
-    my ($self, $c) = @_;
+    my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
 
@@ -27,11 +27,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 
     my $api = $c->model('API');
 
-    $api->stash_result(
-        $c,
-        ['vehicles', $id],
-        stash => 'vehicle_obj'
-    );
+    $api->stash_result( $c, [ 'vehicles', $id ], stash => 'vehicle_obj' );
 
     $c->detach( '/form/not_found', [] ) if $c->stash->{vehicle_obj}{error};
 }
@@ -40,7 +36,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
 }
 
-sub edit: Chained('object') : PathPart('') : Args(0) {
+sub edit : Chained('object') : PathPart('') : Args(0) {
 }
 
 __PACKAGE__->meta->make_immutable;

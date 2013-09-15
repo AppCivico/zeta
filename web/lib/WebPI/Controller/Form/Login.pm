@@ -28,13 +28,15 @@ sub login : Chained('base') : PathPart('login') : Args(0) {
 }
 
 sub after_login {
-    my ($self, $c) = @_;
+    my ( $self, $c ) = @_;
     my $url = \'/';
     if ( grep { /^user$/ } $c->user->roles ) {
         $url = '/user/dashboard/index';
-    }elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
+    }
+    elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
         $url = '/trackermanager/dashboard/index';
-    } elsif (grep {/^admin$/} $c->user->roles) {
+    }
+    elsif ( grep { /^admin$/ } $c->user->roles ) {
         $url = '/admin/dashboard/index';
     }
 

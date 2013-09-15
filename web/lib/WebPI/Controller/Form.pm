@@ -33,8 +33,8 @@ sub redirect_ok : Private {
 
 }
 
-sub not_found: Private {
-    my ( $self, $c) = @_;
+sub not_found : Private {
+    my ( $self, $c ) = @_;
 
     $c->stash->{template} = 'not_found.tt';
 }

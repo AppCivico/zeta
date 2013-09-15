@@ -11,21 +11,15 @@ sub base : Chained('/user/form/base') : PathPart('vehicle') : CaptureArgs(0) {
 sub process : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
 
-    my $api = $c->model('API');
+    my $api  = $c->model('API');
     my $form = $c->model('Form');
 
-    my $params = {
-        %{ $c->req->params },
-        driver_id => $c->stash->{driver}{id}
-    };
+    my $params = { %{ $c->req->params }, driver_id => $c->stash->{driver}{id} };
 
-    $form->format_car_plate(
-        $params,
-        'car_plate'
-    );
+    $form->format_car_plate( $params, 'car_plate' );
 
     $api->stash_result(
-        $c, [ 'vehicles' ],
+        $c, ['vehicles'],
         method => 'POST',
         body   => $params
     );
@@ -39,7 +33,7 @@ sub process : Chained('base') : PathPart('') : Args(0) {
 }
 
 sub process_edit : Chained('base') : PathPart('') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
@@ -56,8 +50,6 @@ sub process_edit : Chained('base') : PathPart('') : Args(1) {
         $c->detach( '/form/redirect_ok', [ '/user/vehicle/index', {}, 'Alterado com sucesso!' ] );
     }
 }
-
-
 
 __PACKAGE__->meta->make_immutable;
 

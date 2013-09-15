@@ -1,7 +1,6 @@
 package PI::Controller::API::CheckEmail;
 
 use Moose;
-use WWW::Correios::CEP;
 use Text2URI;
 use JSON::XS;
 my $url_parser = Text2URI->new;

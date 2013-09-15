@@ -11,11 +11,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
     my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
-    $api->stash_result(
-        $c,
-        ['customers', $id],
-        stash => 'customer_obj'
-    );
+    $api->stash_result( $c, [ 'customers', $id ], stash => 'customer_obj' );
 
     $c->detach( '/form/not_found', [] ) if $c->stash->{customer_obj}{error};
 }
@@ -24,16 +20,13 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
     my $api = $c->model('API');
 
-    $api->stash_result(
-        $c,
-        ['customers']
-    );
+    $api->stash_result( $c, ['customers'] );
 }
 
-sub edit: Chained('object') : PathPart('') : Args(0) {
+sub edit : Chained('object') : PathPart('') : Args(0) {
 }
 
-sub add: Chained('base') : PathPart('new') : Args(0) {
+sub add : Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
 }
 

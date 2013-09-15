@@ -1,4 +1,4 @@
-perltidy version 20121207 log file on a linux system, OLD_PERL_VERSION=5.016002
+perltidy version 20130717 log file on a linux system, OLD_PERL_VERSION=5.016003
 Configuration and command line parameters for this run:
 -bar -it=4 -l
 To find error messages search for 'WARNING' with your editor
@@ -11,7 +11,7 @@ ci = levels of continuation indentation; bk = 1 if in BLOCK, 0 if not.
 in:out indent c b  nesting   code + messages; (messages begin with >>>)
 lines  levels i k            (code begins with one '.' per indent level)
 ------  ----- - - --------   -------------------------------------------
-L8:7     i0:0 0 1            >>>Last line
+L7:7     i0:0 0 1            >>>Last line
 
 No indentation disagreement seen
 

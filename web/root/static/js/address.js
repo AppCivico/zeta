@@ -20,20 +20,20 @@ $( document ).ready(function() {
     });
 
     if($('.postal_code').val()) {
-        get_address($('.postal_code'));
+        get_address($('.postal_code'), true);
     } else {
         if($('#elm_state_id').val() != '') {
             get_cities($('#elm_state_id').val());
         }
     }
 
-
     $('.postal_code').click(function(){
         cep_val = $(this).val();
     });
+
 });
 
-function get_address( $me ) {
+function get_address( $me, no_focus ) {
     var cep = $me.val().replace('_', '');
     $('#cep_not_found').hide();
 
@@ -72,6 +72,7 @@ function get_address( $me ) {
                 } else {
                     addr_format = result.address.replace(/\s+- de.+a.+/, '');
                     addr_format = result.address.replace(/\s+- até.+/, '');
+                    addr_format = result.address.replace(/\s+- lado.+/, '');
                     $('#elm_address').val(addr_format);
                     $('#elm_neighborhood').val(result.neighborhood);
                     $('#elm_state_id').val(result.state_id);
@@ -81,8 +82,10 @@ function get_address( $me ) {
                     } else {
                         $('#elm_city_id').append('<option value='+result.city_id+'>'+result.location+'</option>').val(result.city_id);
                     }
-
-                    $('#elm_number').focus();
+                    $("#city_aux").val(result.city_id);
+                    if(!no_focus) {
+                        $('#elm_number').focus();
+                    }
 
                 }
             },
@@ -131,6 +134,10 @@ function get_cities(state_id, city_id) {
             if(city_id) {
                 $('#elm_city_id').val(city_id);
             }
+
+            $('#elm_city_id').on('change', function(){
+                $('#city_aux').val($(this).val());
+            });
         }
     });
 }

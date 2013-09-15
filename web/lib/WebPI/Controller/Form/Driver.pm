@@ -13,33 +13,23 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
     my $param = { %{ $c->req->params } };
 
-    my $api = $c->model('API');
+    my $api  = $c->model('API');
     my $form = $c->model('Form');
 
-    $form->format_date(
-        $param,
-        'first_driver_license',
-        'cnh_validity',
-        'birth_date'
-    );
+    $form->format_date( $param, 'first_driver_license', 'cnh_validity', 'birth_date' );
 
-    $form->only_number(
-        $param,
-        'telephone_number',
-        'mobile_number',
-        'postal_code',
-        'cpf'
-    );
+    $form->only_number( $param, 'telephone_number', 'mobile_number', 'postal_code', 'cpf' );
 
     $api->stash_result(
         $c, 'drivers',
         method => 'POST',
-        stash => 'driver',
+        stash  => 'driver',
         body   => $param
     );
 
     my $x = $c->stash;
-    use DDP; p $x;
+    use DDP;
+    p $x;
 
     if ( !$c->stash->{driver}{error} ) {
 
@@ -55,28 +45,29 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
         $api->stash_result(
             $c, 'addresses',
             method => 'POST',
-            stash => 'address',
+            stash  => 'address',
             body   => $address
         );
 
         if ( !$c->stash->{error} ) {
 
             my $route_type = {
-                'name' => 'Casa',
+                'name'       => 'Casa',
                 'address_id' => $c->stash->{address}{id}
             };
 
             $api->stash_result(
                 $c, 'vehicle_route_types',
                 method => 'POST',
-                stash => 'vehicle_route_type',
+                stash  => 'vehicle_route_type',
                 body   => $route_type
             );
 
             $c->detach('/form/login/login');
         }
 
-    } else {
+    }
+    else {
         $c->stash->{error}      = $c->stash->{driver}{error};
         $c->stash->{form_error} = $c->stash->{driver}{form_error};
 

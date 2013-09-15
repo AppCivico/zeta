@@ -11,11 +11,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
     my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
-    $api->stash_result(
-        $c,
-        ['trackers', $id],
-        stash => 'tracker_obj'
-    );
+    $api->stash_result( $c, [ 'trackers', $id ], stash => 'tracker_obj' );
 
     $c->detach( '/form/not_found', [] ) if $c->stash->{tracker_obj}{error};
 }
@@ -24,20 +20,17 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
     my $api = $c->model('API');
 
-    $api->stash_result(
-        $c,
-        ['trackers']
-    );
+    $api->stash_result( $c, ['trackers'] );
 }
 
-sub edit: Chained('object') : PathPart('') : Args(0) {
+sub edit : Chained('object') : PathPart('') : Args(0) {
 }
 
-sub add: Chained('base') : PathPart('new') : Args(0) {
+sub add : Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
 }
 
-sub activate: Chained('base') : PathPart('activate'): Args(0) {
+sub activate : Chained('base') : PathPart('activate') : Args(0) {
     my ( $self, $c ) = @_;
 }
 

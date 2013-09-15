@@ -46,19 +46,21 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     @{ $c->stash }{ keys %$status_msg } = values %$status_msg if ref $status_msg eq 'HASH';
     @{ $c->stash }{ keys %$error_msg }  = values %$error_msg  if ref $error_msg eq 'HASH';
 
-    my ($class, $action) = ($c->action->class, $c->action->name);
+    my ( $class, $action ) = ( $c->action->class, $c->action->name );
     $class =~ s/^WebPI::Controller:://;
     $class =~ s/::/-/g;
 
     $c->stash->{body_class} = lc "$class $class-$action";
 
-    if ($c->user){
+    if ( $c->user ) {
         if ( grep { /^user$/ } $c->user->roles ) {
-        $c->stash->{role_controller} = 'user';
-        }elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
-        $c->stash->{role_controller} = 'trackermanager';
-        }elsif ( grep { /^admin$/ } $c->user->roles ) {
-        $c->stash->{role_controller} = 'admin';
+            $c->stash->{role_controller} = 'user';
+        }
+        elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
+            $c->stash->{role_controller} = 'trackermanager';
+        }
+        elsif ( grep { /^admin$/ } $c->user->roles ) {
+            $c->stash->{role_controller} = 'admin';
         }
 
     }
@@ -76,7 +78,7 @@ sub default : Path {
     $self->root($c);
     my $maybe_view = join '/', @{ $c->req->arguments };
 
-    if ($c->user && $maybe_view =~ /^(participar)$/){
+    if ( $c->user && $maybe_view =~ /^(participar)$/ ) {
         $c->detach( 'Form::Login' => 'after_login' );
     }
     my $output;
@@ -117,9 +119,10 @@ Attempt to render a view, if needed.
 sub end : ActionClass('RenderView') {
     my ( $self, $c ) = @_;
 
-    if ($c->debug){
+    if ( $c->debug ) {
         my $x = $c->stash;
-        use DDP; p $x;
+        use DDP;
+        p $x;
     }
 }
 

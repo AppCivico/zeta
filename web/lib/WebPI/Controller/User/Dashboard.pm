@@ -14,17 +14,19 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
     if ( @{ $c->stash->{vehicles} } == 0 ) {
 
         $c->stash->{cadastro_incompleto} = 1;
-        $c->stash->{main_view} = 'parts/new_vehicle.tt';
+        $c->stash->{main_view}           = 'parts/new_vehicle.tt';
 
-    }elsif ( @{ $c->stash->{vehicle_routes} ||[] } == 0 ) {
-
-        $c->stash->{cadastro_incompleto} = 1;
-        $c->stash->{main_view} = 'parts/new_route.tt';
-
-    }elsif ( @{ $c->stash->{vehicle_parking} ||[] } == 0 ) {
+    }
+    elsif ( @{ $c->stash->{vehicle_routes} || [] } == 0 ) {
 
         $c->stash->{cadastro_incompleto} = 1;
-        $c->stash->{main_view} = 'parts/new_parking.tt';
+        $c->stash->{main_view}           = 'parts/new_route.tt';
+
+    }
+    elsif ( @{ $c->stash->{vehicle_parking} || [] } == 0 ) {
+
+        $c->stash->{cadastro_incompleto} = 1;
+        $c->stash->{main_view}           = 'parts/new_parking.tt';
 
     }
 
@@ -49,7 +51,7 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
     $api->stash_result(
         $c,
         'vehicle_route_types',
-          params => {
+        params => {
             user_id => $c->user->id,
             order   => 'name'
         }

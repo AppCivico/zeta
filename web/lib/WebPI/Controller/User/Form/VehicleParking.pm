@@ -7,7 +7,7 @@ BEGIN { extends 'Catalyst::Controller' }
 sub base : Chained('/user/form/base') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
-    for my $field (qw /departure_time entry_time/){
+    for my $field (qw /departure_time entry_time/) {
         $c->req->params->{$field} .= ':00';
     }
     $c->req->params->{is_street} ||= 0;
@@ -19,12 +19,9 @@ sub process : Chained('base') : PathPart('vehicle_parking') : Args(0) {
 
     my $api = $c->model('API');
 
-    my $params = {
-        %{$c->req->params},
-        vehicle_id => $c->stash->{vehicles}[0]{id}
-    };
+    my $params = { %{ $c->req->params }, vehicle_id => $c->stash->{vehicles}[0]{id} };
     $api->stash_result(
-        $c, [ 'vehicle_parking'],
+        $c, ['vehicle_parking'],
         method => 'POST',
         body   => $params
     );
@@ -35,18 +32,21 @@ sub process : Chained('base') : PathPart('vehicle_parking') : Args(0) {
 
     }
     else {
-        $c->detach( '/form/redirect_ok', [
-            $c->req->params->{redirect_to_dashboard}
+        $c->detach(
+            '/form/redirect_ok',
+            [
+                $c->req->params->{redirect_to_dashboard}
                 ? '/user/dashboard/index'
                 : '/user/parking/index'
 
-        , {}, 'Cadastrado com sucesso!' ] );
+                , {}, 'Cadastrado com sucesso!'
+            ]
+        );
     }
 }
 
-
 sub process_edit : Chained('base') : PathPart('vehicle_parking') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
@@ -65,14 +65,11 @@ sub process_edit : Chained('base') : PathPart('vehicle_parking') : Args(1) {
 }
 
 sub process_delete : Chained('base') : PathPart('remove_vehicle_parking') : Args(1) {
-    my ( $self, $c, $id) = @_;
+    my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
-    $api->stash_result(
-        $c, [ 'vehicle_parking', $id ],
-        method => 'DELETE'
-    );
+    $api->stash_result( $c, [ 'vehicle_parking', $id ], method => 'DELETE' );
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
