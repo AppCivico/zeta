@@ -62,6 +62,12 @@ __PACKAGE__->config(
         minify      => 1,
         stash_var   => 'assets'
     },
+    'View::TT' => {
+        expose_methods => [
+            'days_of_week_human',
+            'hour_human'
+        ]
+    }
 
 );
 

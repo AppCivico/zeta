@@ -45,6 +45,28 @@ sub add : Chained('base') : PathPart('new') : Args(0) {
 
     $c->stash->{step} = $c->stash->{orig_id} ? 2 : 1;
 
+    if (exists $c->req->params->{finalizado}) {
+        my $api = $c->model('API');
+
+        my @routes;
+        my %chosen = map { $_ => 1 } split /-/, $c->req->params->{rotas};
+        foreach my $r (@{$c->stash->{vehicle_routes}}) {
+            push @routes, $r if exists $chosen{$r->{id}};
+        }
+        $c->stash->{routes} = \@routes;
+
+        $api->stash_result(
+            $c, [ 'vehicle_routes',  ],
+            stash => 'vehicle_route_list'
+        );
+
+        $c->stash->{step} = 3;
+        $c->stash->{finalizado} = 1;
+
+    } elsif ($c->stash->{step} == 2) {
+        $c->stash->{cadastro_incompleto} = 1;
+    }
+
 }
 
 __PACKAGE__->meta->make_immutable;

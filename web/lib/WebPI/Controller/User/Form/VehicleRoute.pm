@@ -57,7 +57,8 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         body   => $parking
     );
 
-    my $count = @{ $c->stash->{vehicle_routes} } + 1;
+    my $lastr = $c->stash->{vehicle_routes}[-1];
+    my $count = $lastr ? do {$lastr->{name} =~ /(\d+)/ ; $1+1} : 1;
     my $name  = "Rota $count";
 
     $api->stash_result(
@@ -94,29 +95,26 @@ sub process : Chained('base') : PathPart('') : Args(0) {
 
         push @rotas, $c->stash->{id};
 
+        my $uri;
 
         if($query_origin == $destination) {
-            $c->detach(
-                '/form/redirect_ok',
-                [
-                    $c->req->params->{redirect_to_dashboard}
-                    ? '/user/dashboard/index'
-                    : '/user/route/index'
 
-                    , {}, 'Cadastrado com sucesso!'
-                ]
-            );
+            $uri = $c->uri_for_action('/user/route/add', {
+                'rotas'     => join ('-', @rotas),
+                'finalizado' => 1
+            }) ;
+
         } else {
 
-            my $uri = $c->uri_for_action('/user/route/add', {
+            $uri = $c->uri_for_action('/user/route/add', {
                 'origem'    => $query_origin,
                 'destino'   => $destination,
                 'dest_time' => $dest_time,
                 'rotas'     => join '-', @rotas
             }) ;
-
-            $c->res->redirect( $uri->as_string );
         }
+
+        $c->res->redirect( $uri->as_string );
 
     }
 }
