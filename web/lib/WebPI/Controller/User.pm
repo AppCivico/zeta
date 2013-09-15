@@ -65,7 +65,21 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
                 order   => 'name'
             }
         );
-        $c->stash->{select_routes} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_route_types} } ];
+        $c->stash->{select_routes} = [
+            map {
+
+                [ $_->{id}, "$_->{name}: ${\$_->{address}{address}}, ${\$_->{address}{number}}, ${\$_->{address}{neighborhood}}, ${\$_->{address}{postal_code}}",
+                {
+                    address      => $_->{address}{address},
+                    number       => $_->{address}{number},
+                    neighborhood => $_->{address}{neighborhood},
+                    postal_code  => $_->{address}{postal_code},
+                    complement   => $_->{address}{complement},
+                    city_id      => $_->{address}{city_id},
+                    address_id   => $_->{address}{id},
+                }
+            ] } @{ $c->stash->{vehicle_route_types} }
+        ];
 
         $api->stash_result(
             $c,
