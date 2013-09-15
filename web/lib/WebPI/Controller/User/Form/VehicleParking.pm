@@ -19,7 +19,7 @@ sub process : Chained('base') : PathPart('vehicle_parking') : Args(0) {
 
     my $api = $c->model('API');
 
-    my $params = { %{ $c->req->params }, vehicle_id => $c->stash->{vehicles}[0]{id} };
+    my $params = { %{ $c->req->params }, user_id => $c->user->id };
     $api->stash_result(
         $c, ['vehicle_parking'],
         method => 'POST',
