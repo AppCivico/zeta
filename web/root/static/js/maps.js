@@ -25,7 +25,7 @@ var $maps = function(){
                 addMarker(event.latLng);
                 reverseCode(event.latLng);
 
-                $("#elm_lat_lng").val(event.latLng.mb+','+event.latLng.nb);
+                $("#elm_lat_lng").val(event.latLng.toString());
             });
         }
     }
@@ -68,6 +68,7 @@ var $maps = function(){
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
                     /*todo: tornar generico */
+                    console.log(results[1]);
                     $('#elm_parking_address').val(results[1].formatted_address);
                 } else {
                     alert('Endereço não encontrado.');

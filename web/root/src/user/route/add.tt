@@ -32,6 +32,10 @@
 	[%IF NO_TITLE%]
 	<input type="hidden" name="redirect_to_dashboard" value="1"/>
 	[%END%]
+	<input type="hidden" name="origem" value="[%c.req.params.origem%]"/>
+	<input type="hidden" name="dest_time" value="[%c.req.params.dest_time%]"/>
+	<input type="hidden" name="destino" value="[%c.req.params.destino%]"/>
+
 		[%select_field('origin_id','Saindo de: ', array => select_routes)|none%]
         <div class="control-group ">
             <label class="control-label"></label>

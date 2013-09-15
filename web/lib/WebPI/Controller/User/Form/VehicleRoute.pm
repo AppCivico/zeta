@@ -82,16 +82,34 @@ sub process : Chained('base') : PathPart('') : Args(0) {
 
     }
     else {
-        $c->detach(
-            '/form/redirect_ok',
-            [
-                $c->req->params->{redirect_to_dashboard}
-                ? '/user/dashboard/index'
-                : '/user/route/index'
+        my $origin_saved        = $c->req->params->{origin_id};
+        my $query_origin        = $c->req->params->{origem} ? $c->req->params->{origem} : $origin_saved;
 
-                , {}, 'Cadastrado com sucesso!'
-            ]
-        );
+        my $destination         = $c->req->params->{destination_id};
+        my $dest_time           = $c->req->params->{start_time_back};
+
+        if($query_origin == $destination) {
+            $c->detach(
+                '/form/redirect_ok',
+                [
+                    $c->req->params->{redirect_to_dashboard}
+                    ? '/user/dashboard/index'
+                    : '/user/route/index'
+
+                    , {}, 'Cadastrado com sucesso!'
+                ]
+            );
+        } else {
+
+            my $uri = $c->uri_for_action('/user/route/add', {
+                'origem'    => $query_origin,
+                'destino'   => $destination,
+                'dest_time' => $dest_time,
+            }) ;
+
+            $c->res->redirect( $uri->as_string );
+        }
+
     }
 }
 
