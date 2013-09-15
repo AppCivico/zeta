@@ -9,6 +9,22 @@
 	<h3>Adicionar nova rota</h3>
 </div>
 [%END%]
+<div class="row page-steps">
+	<div class="step one">
+		<div class="marker">1</div>
+		<div class="text">Passo 1</div>
+	</div>
+	<div class="divider"></div>
+	<div class="step two disabled">
+		<div class="marker">2</div>
+		<div class="text">Passo 2</div>
+	</div>
+	<div class="divider"></div>
+	<div class="step three disabled">
+		<div class="marker">3</div>
+		<div class="text">Passo 3</div>
+	</div>
+</div>
 <div class="row page-content">
 	<form class="form-horizontal" method="post" action="/user/form/vehicle_routes">
 	<div class="tab-pane active" id="tab1">
@@ -17,7 +33,12 @@
 	<input type="hidden" name="redirect_to_dashboard" value="1"/>
 	[%END%]
 		[%select_field('origin_id','Saindo de: ', array => select_routes)|none%]
-		<a href="#new_address" id="origin" class="addr btn" role="button" data-toggle="modal">Novo endereço</a>
+        <div class="control-group ">
+            <label class="control-label"></label>
+            <div class="text controls">
+				<a href="#new_address" id="origin" class="addr btn btn-modal" role="button" data-toggle="modal"><i class="icon-plus"></i> Novo local</a>
+            </div>
+        </div>
 
 		[%input_text('start_time_gone','Às',
             app => '<i class="icon-time"></i>',
@@ -27,7 +48,12 @@
         )|none%]
 
 		[%select_field('destination_id','Chegando em: ', array => select_routes)|none%]
-		<a href="#new_address" id="destination" class="addr btn" role="button" data-toggle="modal">Novo endereço</a>
+        <div class="control-group ">
+            <label class="control-label"></label>
+            <div class="text controls">
+				<a href="#new_address" id="destination" class="addr btn btn-modal" role="button" data-toggle="modal"><i class="icon-plus"></i> Novo local</a>
+            </div>
+        </div>
 
         [%input_text('start_time_back','Às',
 
@@ -37,7 +63,7 @@
             extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
         )|none%]
 
-        <span>O carro será estacionado em: </span>
+        <div class="subtitle">O carro será estacionado em:</div>
         [%input_text('parking_name','Nome para o local')|none%]
         [%input_text('parking_address','Endereço')|none%]
         [%select_field('vehicle_parking_type_id','Tipo de estacionamento: ', array => select_parking_types)|none%]
@@ -45,49 +71,46 @@
         <div class="control-group ">
             <label class="control-label"></label>
             <div class="text controls">
-                <div id="map_canvas" style="width:300px; height:300px"></div>
+                <div id="map_canvas" style="width:300px; height:300px" class="map-route"></div>
             </div>
         </div>
 
-	<p>Clique sobre os dias da semana que você normalmente efetua essa rota</p>
-	<div class="control-group ">
-		<div class="controls">
-			[%FOREACH i IN [1..7]%]
-			<input type="hidden" name="dow_[%i%]" [%IF body.${"dow_$i"} %]value=1[%END%]/>
-			[%END%]
+	<div class="subtitle center">Clique sobre os dias da semana que você normalmente efetua essa rota</div>
+	<div class="center">
+		[%FOREACH i IN [1..7]%]
+		<input type="hidden" name="dow_[%i%]"/>
+		[%END%]
 
-			<div id="btn_semana" data-toggle="buttons-checkbox">
+		<div id="btn_semana" data-toggle="buttons-checkbox">
 
-                <label class="checkbox" for="d">
-                    <input type="checkbox" data-changeval-name="dow_1" [%IF body.dow_1 %]checked="checked"[%END%] data-changeval-method="checked" title="Domingo" id="d"/>
-                    Domingo
-                </label>
-                <label class="checkbox" for="s">
-                    <input class="checkbox" type="checkbox" [%IF body.dow_2 %]checked="checked"[%END%] data-changeval-name="dow_2" data-changeval-method="checked" title="Segunda-feira" id="s"/>
-                    Segunda-feira
-                </label>
-                <label class="checkbox" for="t">
-                    <input type="checkbox" data-changeval-name="dow_3" [%IF body.dow_3 %]checked="checked"[%END%] data-changeval-method="checked" title="Terça-feira" id="t"/>
-                    Terça-feira
-                </label>
-                <label class="checkbox" for="q">
-                    <input type="checkbox" data-changeval-name="dow_4" [%IF body.dow_4 %]checked="checked"[%END%] data-changeval-method="checked" title="Quarta-feira" id="q"/>
-                    Quarta-feira
-                </label>
-                <label class="checkbox" for="qui">
-                    <input type="checkbox" data-changeval-name="dow_5" [%IF body.dow_5 %]checked="checked"[%END%] data-changeval-method="checked" title="Quinta-feira" id="qui"/>
-                    Quinta-feira
-                </label>
-                <label class="checkbox" for="sx">
-                    <input class="checkbox" type="checkbox" [%IF body.dow_6 %]checked="checked"[%END%] data-changeval-name="dow_6" data-changeval-method="checked" title="Sexta-feira" id="sx"/>
-                    Sexta-feira
-                </label>
-                <label class="checkbox" for="sab">
-                    <input type="checkbox" data-changeval-name="dow_7" [%IF body.dow_7 %]checked="checked"[%END%] data-changeval-method="checked" title="Sábado" id="sab"/>
-                    Sábado
-                </label>
-			</div>
-
+			<label class="checkbox inline" for="d">
+				<input type="checkbox" data-changeval-name="dow_1" data-changeval-valuehc="active" title="Domingo" id="d"/>
+				Domingo
+			</label>
+			<label class="checkbox inline" for="s">
+				<input class="checkbox inline" type="checkbox" data-changeval-name="dow_2" data-changeval-valuehc="active" title="Segunda-feira" id="s"/>
+				Segunda-feira
+			</label>
+			<label class="checkbox inline" for="t">
+				<input type="checkbox" data-changeval-name="dow_3" data-changeval-valuehc="active" title="Terça-feira" id="t"/>
+				Terça-feira
+			</label>
+			<label class="checkbox inline" for="q">
+				<input type="checkbox" data-changeval-name="dow_4" data-changeval-valuehc="active" title="Quarta-feira" id="q"/>
+				Quarta-feira
+			</label>
+			<label class="checkbox inline" for="qui">
+				<input type="checkbox" data-changeval-name="dow_5" data-changeval-valuehc="active" title="Quinta-feira" id="qui"/>
+				Quinta-feira
+			</label>
+			<label class="checkbox inline" for="s">
+				<input class="checkbox inline" type="checkbox" data-changeval-name="dow_6" data-changeval-valuehc="active" title="Sexta-feira" id="s"/>
+				Sexta-feira
+			</label>
+			<label class="checkbox inline" for="sab">
+				<input type="checkbox" data-changeval-name="dow_7" data-changeval-valuehc="active" title="Sábado" id="sab"/>
+				Sábado
+			</label>
 		</div>
 	</div>
     <div class="form-actions">

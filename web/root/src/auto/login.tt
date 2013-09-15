@@ -3,7 +3,7 @@
 
     <div class="page-header bg-dark">
         <h1>Entrar</h1>
-        <p></p>
+        <p>Informe seu e-mail e senha de acesso</p>
     </div>
 
 	<div class="tab-pane active page-content" id="login">
