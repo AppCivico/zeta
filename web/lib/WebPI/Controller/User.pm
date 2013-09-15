@@ -46,7 +46,7 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
             $c,
             ['vehicle_parking'],
             params => {
-                vehicle_id => $vehicle_id
+                user_id => $c->user->id
             }
         );
         $api->stash_result(

@@ -78,37 +78,37 @@
 	<div class="subtitle center">Clique sobre os dias da semana que você normalmente efetua essa rota</div>
 	<div class="center">
 		[%FOREACH i IN [1..7]%]
-		<input type="hidden" name="dow_[%i%]"/>
+		<input type="hidden" name="dow_[%i%]" [%IF body.${"dow_$i"}%]value="1"[%END%]/>
 		[%END%]
 
 		<div id="btn_semana" data-toggle="buttons-checkbox">
 
 			<label class="checkbox inline" for="d">
-				<input type="checkbox" data-changeval-name="dow_1" data-changeval-valuehc="active" title="Domingo" id="d"/>
+				<input type="checkbox" data-changeval-name="dow_1" data-changeval-method="checked" [%IF body.dow_1%]checked="checked"[%END%] title="Domingo" id="d"/>
 				Domingo
 			</label>
 			<label class="checkbox inline" for="s">
-				<input class="checkbox inline" type="checkbox" data-changeval-name="dow_2" data-changeval-valuehc="active" title="Segunda-feira" id="s"/>
+				<input class="checkbox inline" type="checkbox" data-changeval-name="dow_2" data-changeval-method="checked" [%IF body.dow_2%]checked="checked"[%END%] title="Segunda-feira" id="s"/>
 				Segunda-feira
 			</label>
 			<label class="checkbox inline" for="t">
-				<input type="checkbox" data-changeval-name="dow_3" data-changeval-valuehc="active" title="Terça-feira" id="t"/>
+				<input type="checkbox" data-changeval-name="dow_3" data-changeval-method="checked" [%IF body.dow_3%]checked="checked"[%END%] title="Terça-feira" id="t"/>
 				Terça-feira
 			</label>
 			<label class="checkbox inline" for="q">
-				<input type="checkbox" data-changeval-name="dow_4" data-changeval-valuehc="active" title="Quarta-feira" id="q"/>
+				<input type="checkbox" data-changeval-name="dow_4" data-changeval-method="checked" [%IF body.dow_4%]checked="checked"[%END%] title="Quarta-feira" id="q"/>
 				Quarta-feira
 			</label>
 			<label class="checkbox inline" for="qui">
-				<input type="checkbox" data-changeval-name="dow_5" data-changeval-valuehc="active" title="Quinta-feira" id="qui"/>
+				<input type="checkbox" data-changeval-name="dow_5" data-changeval-method="checked" [%IF body.dow_5%]checked="checked"[%END%] title="Quinta-feira" id="qui"/>
 				Quinta-feira
 			</label>
-			<label class="checkbox inline" for="s">
-				<input class="checkbox inline" type="checkbox" data-changeval-name="dow_6" data-changeval-valuehc="active" title="Sexta-feira" id="s"/>
+			<label class="checkbox inline" for="sex">
+				<input class="checkbox inline" type="checkbox" data-changeval-name="dow_6" data-changeval-method="checked" [%IF body.dow_6%]checked="checked"[%END%] title="Sexta-feira" id="sex"/>
 				Sexta-feira
 			</label>
 			<label class="checkbox inline" for="sab">
-				<input type="checkbox" data-changeval-name="dow_7" data-changeval-valuehc="active" title="Sábado" id="sab"/>
+				<input type="checkbox" data-changeval-name="dow_7" data-changeval-method="checked" [%IF body.dow_7%]checked="checked"[%END%] title="Sábado" id="sab"/>
 				Sábado
 			</label>
 		</div>
