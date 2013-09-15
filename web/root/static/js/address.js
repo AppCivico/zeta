@@ -72,6 +72,7 @@ function get_address( $me ) {
                 } else {
                     addr_format = result.address.replace(/\s+- de.+a.+/, '');
                     addr_format = result.address.replace(/\s+- até.+/, '');
+                    addr_format = result.address.replace(/\s+- lado.+/, '');
                     $('#elm_address').val(addr_format);
                     $('#elm_neighborhood').val(result.neighborhood);
                     $('#elm_state_id').val(result.state_id);
