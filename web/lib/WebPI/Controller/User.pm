@@ -42,6 +42,45 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
                 vehicle_id => $vehicle_id
             }
         );
+
+        $api->stash_result(
+        $c,
+        'vehicle_route_types',
+          params => {
+            user_id => $c->user->id,
+            order   => 'name'
+        }
+    );
+        $c->stash->{select_routes} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_route_types} } ];
+
+        $api->stash_result(
+            $c,
+            'vehicle_parking_types',
+            params => {
+                order => 'name'
+            }
+        );
+        $c->stash->{select_parking_types} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_parking_types} } ];
+
+
+    $api->stash_result( $c, 'states' );
+    $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+
+    $api->stash_result(
+        $c,
+        'vehicle_colors',
+        params => {
+            order => 'name'
+        }
+    );
+    $c->stash->{select_colors} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_colors} } ];
+
+    $api->stash_result( $c, 'vehicle_body_styles' );
+    $c->stash->{select_body_styles} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_body_styles} } ];
+
+    $api->stash_result( $c, 'vehicle_brands' );
+    $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
+
     }
     $c->stash->{vehicle_id} = $vehicle_id;
 

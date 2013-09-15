@@ -20,13 +20,13 @@
 			<input type="hidden" name="dow_[%i%]" [%IF dow.$i %]value="1"[%END%]/>
 			[%END%]
 			<div class="btn-group" id="btn_semana" data-toggle="buttons-checkbox">
-				<button type="button" data-changeval-name="dow_1" data-changeval-valuehc="active" title="Domingo" class="btn [%dow.1%]">D</button>
-				<button type="button" data-changeval-name="dow_2" data-changeval-valuehc="active" title="Segunda" class="btn u [%dow.2%]">S</button>
-				<button type="button" data-changeval-name="dow_3" data-changeval-valuehc="active" title="Terça" class="btn u [%dow.3%]">T</button>
-				<button type="button" data-changeval-name="dow_4" data-changeval-valuehc="active" title="Quarta" class="btn u [%dow.4%]">Q</button>
-				<button type="button" data-changeval-name="dow_5" data-changeval-valuehc="active" title="Quinta" class="btn u [%dow.5%]">Q</button>
-				<button type="button" data-changeval-name="dow_6" data-changeval-valuehc="active" title="Sexta" class="btn u [%dow.6%]">S</button>
-				<button type="button" data-changeval-name="dow_7" data-changeval-valuehc="active" title="Sábado" class="btn [%dow.7%]">S</button>
+				<button type="button" data-changeval-name="dow_1" data-changeval-method="checked" title="Domingo" class="btn [%dow.1%]">D</button>
+				<button type="button" data-changeval-name="dow_2" data-changeval-method="checked" title="Segunda" class="btn u [%dow.2%]">S</button>
+				<button type="button" data-changeval-name="dow_3" data-changeval-method="checked" title="Terça" class="btn u [%dow.3%]">T</button>
+				<button type="button" data-changeval-name="dow_4" data-changeval-method="checked" title="Quarta" class="btn u [%dow.4%]">Q</button>
+				<button type="button" data-changeval-name="dow_5" data-changeval-method="checked" title="Quinta" class="btn u [%dow.5%]">Q</button>
+				<button type="button" data-changeval-name="dow_6" data-changeval-method="checked" title="Sexta" class="btn u [%dow.6%]">S</button>
+				<button type="button" data-changeval-name="dow_7" data-changeval-method="checked" title="Sábado" class="btn [%dow.7%]">S</button>
 			</div>
 
 			<button type="button" data-send-click="#btn_semana .u:not(.active)" class="btn btn-info">Marcar dias úteis</button>

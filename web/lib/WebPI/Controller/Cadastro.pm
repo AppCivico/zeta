@@ -63,7 +63,7 @@ sub get_address : Chained('base') : PathPart('get_address') {
         'postal_code'
     );
 
-    my $result = $api->stash_result(
+    my $result = $api->get_result(
         $c, ['cep'],
         params  => $params
     );
