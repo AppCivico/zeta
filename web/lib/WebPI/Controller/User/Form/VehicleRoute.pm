@@ -51,30 +51,14 @@ sub process : Chained('base') : PathPart('vehicle_routes') : Args(0) {
          address_id              => $c->stash->{parking_address}{id}
      };
 
-#       $api->stash_result(
-#           $c, [ 'vehicle_parking'],
-#           stash => 'vehicle_parking',
-#           method => 'POST',
-#           body   => $parking
-#       );
+       $api->stash_result(
+           $c, [ 'vehicle_parking'],
+           stash => 'vehicle_parking2',
+           method => 'POST',
+           body   => $parking
+       );
 
-     $api->stash_result (
-        $c, ['vehicle_routes'],
-        method => 'GET',
-        stash => 'route_count',
-        params => {
-            'vehicle_id' => $c->stash->{vehicles}[0]{id}
-        }
-     );
-
-    my @st = $c->stash->{route_count};
-    my $count = 0;
-
-    foreach my $iten ( $c->stash->{route_count} ) {
-        $count
-    }
-
-    $count++;
+     my $count =  @{ $c->stash->{vehicle_routes} } + 1;
     my $name = "Rota $count";
 
      $api->stash_result(
@@ -82,7 +66,7 @@ sub process : Chained('base') : PathPart('vehicle_routes') : Args(0) {
          method => 'POST',
          body   => {
             vehicle_id => $c->stash->{vehicles}[0]{id},
-            vehicle_parking_id => 1,
+            vehicle_parking_id => $c->stash->{vehicle_parking2}{id},
             origin_id => $c->req->params->{origin_id},
             destination_id => $c->req->params->{destination_id},
             'start_time_gone' => $c->req->params->{start_time_gone},

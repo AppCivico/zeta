@@ -43,7 +43,7 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
             }
         );
 
-         $api->stash_result(
+        $api->stash_result(
         $c,
         'vehicle_route_types',
           params => {
