@@ -18,7 +18,7 @@ __PACKAGE__->config(
     delete_roles => [qw/superadmin user/],
 
     search_ok => {
-        vehicle_id => 'Int',
+        user_id => 'Int',
     }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -38,15 +38,14 @@ sub result_GET {
         $c,
         entity => {
             (
-                map { $_ => ( $vehicle_parking->$_ ? $vehicle_parking->$_->hms : undef ) }
-                  qw/arrival_time departure_time/
-            ),
-            (
                 map { $_ => $vehicle_parking->$_ }
                   qw/
                   id
-                  vehicle_id
+                  user_id
                   name
+                  vehicle_parking_type_id
+                  arrival_time
+                  departure_time
                   /
             ),
             type => {
@@ -88,7 +87,7 @@ sub result_PUT {
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_parking->id ] )->as_string,
-        entity => { vehicle_id => $vehicle_parking->vehicle_id, id => $vehicle_parking->id }
+        entity => { user_id => $vehicle_parking->user_id, id => $vehicle_parking->id }
       ),
       $c->detach
       if $vehicle_parking;
@@ -113,13 +112,12 @@ sub list_GET {
                               id
                               arrival_time
                               departure_time
-                              vehicle_id
                               created_at
-                              vehicle_id
+                              user_id
                               name
+                              vehicle_parking_type_id
                               /
                         ),
-                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
                         type => {
                             ( map { $_ => $r->{vehicle_parking_type}{$_} } qw /id name/ )
                         },
@@ -136,7 +134,8 @@ sub list_GET {
                                     user_id
                                     /
                                 )
-                        }
+                        },
+                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
                       }
                 } $c->stash->{collection}->as_hashref->all
             ]

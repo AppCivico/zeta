@@ -38,7 +38,7 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
-                vehicle_id => {
+                user_id => {
                     required    => 1,
                     type        => 'Int'
                 }

@@ -59,12 +59,6 @@ __PACKAGE__->table("vehicle_parking");
   data_type: 'time'
   is_nullable: 1
 
-=head2 vehicle_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
 =head2 created_at
 
   data_type: 'timestamp'
@@ -89,6 +83,12 @@ __PACKAGE__->table("vehicle_parking");
   is_foreign_key: 1
   is_nullable: 1
 
+=head2 user_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -103,8 +103,6 @@ __PACKAGE__->add_columns(
   { data_type => "time", is_nullable => 1 },
   "departure_time",
   { data_type => "time", is_nullable => 1 },
-  "vehicle_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -118,6 +116,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "vehicle_parking_type_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "user_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -163,18 +163,18 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
-=head2 vehicle
+=head2 user
 
 Type: belongs_to
 
-Related object: L<PI::Schema::Result::Vehicle>
+Related object: L<PI::Schema::Result::User>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "vehicle",
-  "PI::Schema::Result::Vehicle",
-  { id => "vehicle_id" },
+  "user",
+  "PI::Schema::Result::User",
+  { id => "user_id" },
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
@@ -214,8 +214,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-13 19:52:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:izCAxQOhG7KFiIw10myvsw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-15 12:14:52
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:H3y2pGc2CKRXszuDSoY4dQ
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -250,6 +250,10 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
+                user_id => {
+                    required => 0,
+                    type     => 'Int',
+                }
             }
         ),
     };

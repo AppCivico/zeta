@@ -4,7 +4,7 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/user/form/base') : PathPart('') : CaptureArgs(0) {
+sub base : Chained('/user/form/base') : PathPart('vehicle_routes') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
     for my $field (qw /start_time_gone start_time_back/) {
@@ -20,7 +20,7 @@ sub base : Chained('/user/form/base') : PathPart('') : CaptureArgs(0) {
 
 }
 
-sub process : Chained('base') : PathPart('vehicle_routes') : Args(0) {
+sub process : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
@@ -45,7 +45,7 @@ sub process : Chained('base') : PathPart('vehicle_routes') : Args(0) {
     my $parking = {
         'arrival_time'          => $c->req->params->{start_time_gone},
         'name'                  => $c->req->params->{parking_name},
-        vehicle_id              => $c->stash->{vehicles}[0]{id},
+        user_id                 => $c->user->id,
         vehicle_parking_type_id => $c->req->params->{vehicle_parking_type_id},
         address_id              => $c->stash->{parking_address}{id}
     };
@@ -95,10 +95,48 @@ sub process : Chained('base') : PathPart('vehicle_routes') : Args(0) {
     }
 }
 
-sub process_edit : Chained('base') : PathPart('vehicle_routes') : Args(1) {
+sub process_edit_obj : Chained('base') : PathPart('') : CaptureArgs(1) {
     my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, [ 'vehicle_routes', $id ],
+        method  => 'GET',
+        stash   => 'vehicle_route_get'
+    );
+
+    my ($street) = $c->req->params->{parking_address} =~ /[^\d]*/g;
+    my ($number) = $c->req->params->{parking_address} =~ /[\d]+/g;
+
+    my $address = {
+        'address' => $street,
+        'number'  => $number,
+        'lat_lng' => $c->req->params->{lat_lng},
+    };
+
+    $api->stash_result(
+        $c, ['addresses', $c->stash->{vehicle_route_get}{vehicle_parking}{address}{id}],
+        stash  => 'parking_address',
+        method => 'PUT',
+        body   => $address
+    );
+
+    my $parking = {
+        'arrival_time'          => $c->req->params->{start_time_gone},
+        'name'                  => $c->req->params->{parking_name},
+        vehicle_parking_type_id => $c->req->params->{vehicle_parking_type_id},
+    };
+
+
+    $api->stash_result(
+        $c, ['vehicle_parking', $c->stash->{vehicle_route_get}{vehicle_parking}{id}],
+        stash  => 'vehicle_parking_route',
+        method => 'PUT',
+        body   => $parking
+    );
+
+    my $time = $c->req->params->{start_time_back};
 
     $api->stash_result(
         $c, [ 'vehicle_routes', $id ],
@@ -106,10 +144,14 @@ sub process_edit : Chained('base') : PathPart('vehicle_routes') : Args(1) {
         body   => $c->req->params
     );
 
+}
+
+sub process_edit : Chained('process_edit_obj') : PathPart('') : Args(0) {
+    my ($self, $c) = @_;
+
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
-    }
-    else {
+    } else {
         $c->detach( '/form/redirect_ok', [ '/user/route/index', {}, 'Alterado com sucesso!' ] );
     }
 }

@@ -10,7 +10,11 @@ __PACKAGE__->config(
     result     => 'DB::VehicleRoute',
     object_key => 'vehicle_route',
     result_attr => {
-        prefetch => [{'origin'=>'address'}, {'destination'=>'address'}]
+        prefetch => [
+            {'origin'=>'address'},
+            {'destination'=>'address'},
+            {'vehicle_parking' => 'address'}
+        ]
     },
 
     update_roles => [qw/superadmin user/],
@@ -70,6 +74,27 @@ sub result_GET {
 
                 address => {
                     map { $_ => $vehicle_route->origin->address->$_ }
+                        qw/
+                        id
+                        address
+                        number
+                        neighborhood
+                        postal_code
+                        lat_lng
+                        user_id
+                        /
+                }
+            },
+            vehicle_parking => {
+                ( map { $_ => $vehicle_route->vehicle_parking->$_ }
+                    qw/
+                    id
+                    name
+                    vehicle_parking_type_id
+                    / ),
+
+                address => {
+                    map { $_ => $vehicle_route->vehicle_parking->address->$_ }
                         qw/
                         id
                         address
@@ -155,6 +180,28 @@ sub list_GET {
 
                             address => {
                                 map { $_ => $r->{destination}{address}{$_} }
+                                    qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    lat_lng
+                                    user_id
+                                    /
+                            }
+                        },
+                        vehicle_parking => {
+                            ( map { $_ => $r->{vehicle_parking}{$_} }
+                                qw/
+                                id
+                                name
+                                vehicle_parking_type_id
+                                /
+                            ),
+
+                            address => {
+                                map { $_ => $r->{vehicle_parking}{address}{$_} }
                                     qw/
                                     id
                                     address

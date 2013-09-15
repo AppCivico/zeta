@@ -415,21 +415,6 @@ __PACKAGE__->belongs_to(
   },
 );
 
-=head2 vehicle_parkings
-
-Type: has_many
-
-Related object: L<PI::Schema::Result::VehicleParking>
-
-=cut
-
-__PACKAGE__->has_many(
-  "vehicle_parkings",
-  "PI::Schema::Result::VehicleParking",
-  { "foreign.vehicle_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
 =head2 vehicle_routes
 
 Type: has_many
@@ -476,8 +461,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-08 01:47:27
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JWfUa45skfqWoQag1AEdOA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-15 12:14:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RmVcyUORTBalJJ+kougpjw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

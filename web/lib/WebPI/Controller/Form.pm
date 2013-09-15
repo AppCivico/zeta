@@ -16,20 +16,21 @@ sub redirect_ok : Private {
     my $method = ref $path eq 'SCALAR' ? 'uri_for' : 'uri_for_action';
     $path = ref $path eq 'SCALAR' ? $$path : $path;
 
-    $c->res->redirect(
-        $c->$method(
-            $path,
-            ( $method eq 'uri_for_action' ? ( $c->req->captures ) : () ),
-            {
-                ( ref $params eq 'HASH' ? %$params : () ),
-                mid => $c->set_status_msg(
-                    {
-                        %args, status_msg => $msg
-                    }
-                )
-            }
-        )
+    my $a = $c->$method(
+        $path,
+        #( $method eq 'uri_for_action' ? ( $c->req->captures ) : () ),
+        {
+            ( ref $params eq 'HASH' ? %$params : () ),
+            mid => $c->set_status_msg(
+                {
+                    %args, status_msg => $msg
+                }
+            )
+        }
     );
+    die "uri not found" unless $a;
+
+    $c->res->redirect($a);
 
 }
 
