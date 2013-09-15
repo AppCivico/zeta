@@ -2,19 +2,26 @@
 	[%INCLUDE "user/dashboard/$main_view"%]
 [%ELSE%]
 	<div class="page-header bg-dark">
-		<h3>Status da sua conta</h3>
+		<h3>Seu cadastro</h3>
 	</div>
 	<div class="row page-content">
+
+        <p>Agora já temos os principais dados sobre você.</p>
+
+        <p>Você sempre pode alterar suas rotas utilizando o menu localizado na esquerda, clicando em "Minhas Rotas".</p>
+
+        <p>Entraremos em contato com você via e-mail assim que uma campanha com seu perfil for encontrada.</p>
+
+		<!--
 		<dl>
 		<dt>Status</dt>
 		<dd>Carro fora de campanha</dd>
 
-		<!--
 		<dt>Status do dispositivo</dt>
 		<dd>instalado</dd>
-        -->
 		<dt>Veículo</dt>
 		<dd>[%vehicles.0.brand.name%] - [%vehicles.0.model.name%]</dd>
 		</dl>
+        -->
 	</div>
 [%END%]

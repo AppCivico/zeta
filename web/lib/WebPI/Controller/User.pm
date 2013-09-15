@@ -119,7 +119,7 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
     $c->stash->{template_wrapper} = 'user';
 
     if (   @{ $c->stash->{vehicles} || [] } == 0
-        || @{ $c->stash->{vehicle_parking} || [] } == 0 ) {
+        || @{ $c->stash->{vehicle_routes} || [] } == 0 ) {
         $c->stash->{cadastro_incompleto} = 1;
     }
 
