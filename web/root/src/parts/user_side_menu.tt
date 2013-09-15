@@ -11,20 +11,17 @@
         [%href = c.uri_for_action('/user/vehicle/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-truck icon-white"></i> Meu carro</a></li>
 
-        [%href = c.uri_for_action('/user/parking/index')%]
-        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-map-marker icon-white"></i> Estacionamentos</a></li>
-
         [%href = c.uri_for_action('/user/route/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-random icon-white"></i> Minhas rotas</a></li>
 
-
         [%href = c.uri_for_action('/user/document/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-file icon-white"></i> Meus documentos</a></li>
-
+		<!--//
         <li class="nav-header">Sua conta</li>
         <li><a href="#"><i class="icon-envelope icon-white"></i> Convites</a></li>
         <li><a href="#"><i class="icon-dollar icon-white"></i> Pagamentos</a></li>
         <li><a href="#"><i class="icon-folder-open icon-white"></i> Contratos</a></li>
         <li><a href="#"><i class="icon-exclamation-sign icon-white"></i> Alertas recebidos</a></li>
+		//-->
         [%END%]
     </ul>

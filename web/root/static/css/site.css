@@ -202,12 +202,13 @@ legend{
 	margin-top: 20px;
 }
 .footer .copy{
+	clear: both;
 	font-size: 0.9em;
 }
 
 .menu-footer{
 	list-style: none;
-	display: inline-block;
+	float: left;
 	margin-right: 50px;
 	margin-bottom: 40px;
 }

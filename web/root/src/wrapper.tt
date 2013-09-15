@@ -46,7 +46,8 @@
 			[%END%]
 		</ul>
 		<ul class="menu-footer">
-			<li class="title">Sobre</li>
+			<li class="title">Saiba mais</li>
+			<li class="item"><a href="/sobre">Sobre</a></li>
 			<li class="item"><a href="/faq">Perguntas Frequentes</a></li>
 			<li class="item"><a href="/contato">Contato</a></li>
 		</ul>

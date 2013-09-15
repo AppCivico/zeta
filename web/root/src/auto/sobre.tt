@@ -1,5 +1,6 @@
 <div class="page-header bg-dark">
 	<h3>Seja um parceiro da PUBLICIDADE INTELIGENTE</h3>
+	<p>Um novo jeito de fazer publicidade</p>
 </div>
 <div class="row page-content">
 
@@ -65,6 +66,10 @@ Gostou da ideia?<br /><br />
 		<br /><br />
 
 		<a class="button" href="/cadastro">Faça seu cadastro</a>
+		
+		<br /><br /><br />
+		
+		<strong>Dúvidas?</strong> Saiba quais são as perguntas mais frequentes <a href="/faq">clicando aqui</a>.
 	</div>
 
 </div>

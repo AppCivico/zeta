@@ -1,6 +1,7 @@
 [%-CALL assets.include("js/faq.js")%]
 <div class="page-header bg-dark">
 	<h3>Perguntas frequentes</h3>
+	<p>Dúvidas? Saiba quais são as perguntas mais frequentes aqui</p>
 </div>
 <div class="row page-content">
 
