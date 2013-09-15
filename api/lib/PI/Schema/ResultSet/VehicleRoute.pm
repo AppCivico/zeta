@@ -42,6 +42,10 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
+                vehicle_parking_id => {
+                    required => 1,
+                    type     => 'Int',
+                },
                 days_of_week => {
                     required   => 0,
                     type       => 'Str',

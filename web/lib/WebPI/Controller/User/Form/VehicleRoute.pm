@@ -53,12 +53,12 @@ sub process : Chained('base') : PathPart('vehicle_routes') : Args(0) {
 
        $api->stash_result(
            $c, [ 'vehicle_parking'],
-           stash => 'vehicle_parking2',
+           stash => 'vehicle_parking_route',
            method => 'POST',
            body   => $parking
        );
 
-     my $count =  @{ $c->stash->{vehicle_routes} } + 1;
+    my $count =  @{ $c->stash->{vehicle_routes} } + 1;
     my $name = "Rota $count";
 
      $api->stash_result(
@@ -66,7 +66,7 @@ sub process : Chained('base') : PathPart('vehicle_routes') : Args(0) {
          method => 'POST',
          body   => {
             vehicle_id => $c->stash->{vehicles}[0]{id},
-            vehicle_parking_id => $c->stash->{vehicle_parking2}{id},
+            vehicle_parking_id => $c->stash->{vehicle_parking_route}{id},
             origin_id => $c->req->params->{origin_id},
             destination_id => $c->req->params->{destination_id},
             'start_time_gone' => $c->req->params->{start_time_gone},
