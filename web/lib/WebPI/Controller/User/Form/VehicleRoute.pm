@@ -86,7 +86,14 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         my $query_origin        = $c->req->params->{origem} ? $c->req->params->{origem} : $origin_saved;
 
         my $destination         = $c->req->params->{destination_id};
-        my $dest_time           = $c->req->params->{start_time_back};
+        my $dest_time           = substr ($c->req->params->{start_time_back},0,5);
+        $dest_time =~ s/://;
+
+        $c->req->params->{rotas} ||= '';
+        my @rotas = split /-/, $c->req->params->{rotas};
+
+        push @rotas, $c->stash->{id};
+
 
         if($query_origin == $destination) {
             $c->detach(
@@ -105,6 +112,7 @@ sub process : Chained('base') : PathPart('') : Args(0) {
                 'origem'    => $query_origin,
                 'destino'   => $destination,
                 'dest_time' => $dest_time,
+                'rotas'     => join '-', @rotas
             }) ;
 
             $c->res->redirect( $uri->as_string );
