@@ -10,6 +10,15 @@ $( document ).ready(function() {
             setTimeout(function(){
                 $elm.val( $me.hasClass($me.attr('data-changeval-valuehc')) ? 1 : 0 );
             });
+        }else if ($me.attr('data-changeval-method')){
+
+            setTimeout(function(){
+                if ($me.attr('data-changeval-method') == 'checked'){
+                    $elm.val( $me.is(':checked') ? 1 : 0 );
+                }else{
+                    $elm.val( $me[$me.attr('data-changeval-method')] ? 1 : 0 );
+                }
+            });
         }
     });
 
