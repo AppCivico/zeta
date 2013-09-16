@@ -11,6 +11,7 @@ sub process : Chained('base') : PathPart('contact') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api    = $c->model('API');
+
     #todo fazer uma action para realmente enviar o email
     $c->detach( '/form/redirect_ok', [ \'/contato', {}, 'Mensagem enviada com sucesso!' ] );
 }
