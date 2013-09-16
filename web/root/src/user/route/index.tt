@@ -23,8 +23,8 @@
 		[%FOREACH v IN vehicle_routes %]
 		<tr>
 			<th>[%v.name%]</th>
-			<td>[%v.start_time_gone%]</td>
-			<td>[%v.start_time_back%]</td>
+			<td>[%hour_human(v.start_time_gone)%]</td>
+			<td>[%hour_human(v.start_time_back)%]</td>
 			<td>
 			[%href = c.uri_for_action('/user/route/edit', [v.id])%]
 			<a href="[%href%]" class="edit"><i class="icon-pencil"></i> editar</a>
