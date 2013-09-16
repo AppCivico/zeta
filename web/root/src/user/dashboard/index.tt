@@ -6,11 +6,16 @@
 	</div>
 	<div class="row page-content">
 
-        <p>Agora já temos os principais dados sobre você.</p>
+		<div class="span6">
+			<p>Parabéns! Agora já temos os principais dados sobre você.</p>
 
-        <p>Você sempre pode alterar suas rotas utilizando o menu localizado na esquerda, clicando em "Minhas Rotas".</p>
+			<p>Você pode alterar suas rotas a qualquer momento, utilizando o menu localizado na esquerda, clicando em "Minhas Rotas".</p>
 
-        <p>Entraremos em contato com você via e-mail assim que uma campanha com seu perfil for encontrada.</p>
+			<p>Entraremos em contato com você via e-mail assim que uma campanha com seu perfil for encontrada!</p>
+		</div>
+		<div class="span2">
+			<img src="/static/img/personagens/04.png" border="0">
+		</div>
 
 		<!--
 		<dl>
