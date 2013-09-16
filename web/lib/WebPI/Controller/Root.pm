@@ -81,11 +81,12 @@ sub default : Path {
     if ( $c->user && $maybe_view =~ /^(participar)$/ ) {
         $c->detach( 'Form::Login' => 'after_login' );
     }
+
     my $output;
     eval {
         $c->stash->{body_class} .= ' ' . $maybe_view;
         $c->stash->{body_class} =~ s/\//-/g;
-        $output = $c->view('TT')->render( $c, "auto/$maybe_view.tt" );
+        $output = $c->view('TT')->render( $c, "auto/$maybe_view.tt", $c->stash );
     };
     if ( $@ && $@ =~ /not found$/ ) {
         $c->response->body('Page not found');
