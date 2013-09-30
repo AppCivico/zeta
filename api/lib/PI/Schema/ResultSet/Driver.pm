@@ -160,21 +160,13 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
+                validation_key => {
+                    required => 0,
+                    type     => 'Str',
+                },
                 password => {
                     required  => 1,
                     type      => 'Str',
-                    dependent => {
-                        password_confirm => {
-                            required => 1,
-                            type     => 'Str',
-                        },
-                    },
-                    post_check => sub {
-                        my $r = shift;
-                        return 1
-                          if ( $r->get_value('password') eq $r->get_value('password_confirm')
-                            && length $r->get_value('password') >= 5 );
-                    },
                 },
                 email => {
                     required  => 1,
@@ -212,7 +204,8 @@ sub action_specs {
                 {
                     email    => lc delete $values{email},
                     name     => "$values{name}",
-                    password => delete $values{password}
+                    password => delete $values{password},
+                    active   => 0
                 }
             );
             $user->set_roles( { name => 'user' } );

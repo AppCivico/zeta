@@ -22,7 +22,6 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Str',
                 },
-
                 password => {
                     required  => 1,
                     type      => 'Str',
@@ -37,12 +36,10 @@ sub verifiers_specs {
                         return $r->get_value('password') eq $r->get_value('password_confirm');
                     },
                 },
-
                 role => {
                     required => 1,
                     type     => 'Str',
                 },
-
                 email => {
                     required   => 1,
                     type       => EmailAddress,
@@ -52,10 +49,8 @@ sub verifiers_specs {
                         return 1;
                       }
                 },
-
             },
         ),
-
         login => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
@@ -69,7 +64,6 @@ sub verifiers_specs {
                 },
             }
         ),
-
         check_email => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
@@ -79,7 +73,6 @@ sub verifiers_specs {
                 }
             }
         ),
-
     };
 }
 

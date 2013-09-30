@@ -36,7 +36,7 @@
             <legend>Informações do condutor</legend>
 
 			<div class="pull-left">
-				[%input_text('cnh_code','Código CNH', req=>1, only_digits => 1, check_length => 1
+				[%input_text('cnh_code','Nº de registro da CNH', req=>1, only_digits => 1, check_length => 1
 				)|none%]
 				[%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'], req=>1, date => 1
 				)|none%]
@@ -88,13 +88,6 @@
         </fieldset>
 
         <fieldset>
-            <legend>Informações da conta</legend>
-            <p>Após esta etapa, você irá precisar desta senha para acessar seu perfil</p>
-            [%input_text('password','Senha', type => 'password', req=>1,
-                input_append => '<span class="hide hint-inline">A senha deve ter, pelo menos, 5 caracteres.</span>'
-            )|none%]
-            [%input_text('password_confirm','Senha novamente',  type => 'password', req=>1)|none%]
-
             <div class="form-actions">
                 <button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
                 <button type="reset" class="btn">Limpar formulário</button>

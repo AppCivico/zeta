@@ -298,8 +298,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-15 12:14:51
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SJmtJQvMnbgmBf8DtooQ6Q
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-23 16:28:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:n+BzE96jvvEco7LPZH7d0g
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 
@@ -364,14 +364,27 @@ sub verifiers_specs {
                       }
                 },
                 password => {
-                    required => 0,
-                    type     => 'Str',
+                    required  => 0,
+                    type      => 'Str',
+                    dependent => {
+                        password_confirm => {
+                            required => 1,
+                            type     => 'Str',
+                        },
+                    },
+                    post_check => sub {
+                        my $r = shift;
+                        return 1
+                        if ( $r->get_value('password') eq $r->get_value('password_confirm')
+                            && length $r->get_value('password') >= 5 );
+                    },
                 },
-
+                active => {
+                    required => 0,
+                    type     => 'Bool'
+                },
             },
         ),
-
-
     };
 }
 
@@ -380,7 +393,7 @@ sub action_specs {
     return {
         update => sub {
             my %values = shift->valid_values;
-
+            delete $values{password_confirm};
             not defined $values{$_} and delete $values{$_} for keys %values;
 
             my $new_role = delete $values{role};

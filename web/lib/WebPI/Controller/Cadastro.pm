@@ -104,6 +104,14 @@ sub get_vehicle_models : Chained('base') : PathPart('get_vehicle_models') : Args
     );
 }
 
+sub registration_successfully : Chained('base') : PathPart('registration_successfully') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    $c->stash(
+        template => 'user/account/success.tt'
+    );
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

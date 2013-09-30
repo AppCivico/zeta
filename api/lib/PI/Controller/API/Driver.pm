@@ -1,6 +1,8 @@
 package PI::Controller::API::Driver;
 
 use Moose;
+use PI::EmailQueue;
+use MIME::Base64;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -8,7 +10,10 @@ __PACKAGE__->config(
     default => 'application/json',
 
     result      => 'DB::Driver',
-    result_cond => { 'user.active' => 1 },
+#     result_cond => { 'user.active' => 1 },
+    search_ok => {
+        validation_key => 'Str'
+    },
     result_attr => { prefetch => 'user' },
     object_key  => 'driver',
 
@@ -29,12 +34,12 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $driver = $c->stash->{driver};
-
     my %attrs = $driver->get_inflated_columns;
     $self->status_ok(
         $c,
         entity => {
-            email => $driver->user->email,
+            email   => $driver->user->email,
+            user_id => $driver->user->id,
             (
                 map { $_ => ( $driver->$_ ? $driver->$_->datetime : undef ) }
                   qw/birth_date first_driver_license cnh_validity/
@@ -106,10 +111,9 @@ sub list_GET {
                               telephone_number
                               /
                         ),
-
-                        email => $r->{user}{email},
-
-                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
+                        email   => $r->{user}{email},
+                        user_id => $r->{user}{id},
+                        url     => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
                 } $c->stash->{collection}->as_hashref->all
             ]
@@ -120,7 +124,21 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $driver = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    my $config  = PI->config;
+    my $driver  = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+
+    my $email_model = $c->model('EmailQueue');
+
+    my $validation_link =
+        $config->{domain}{default}.'/driver/validate_email?email='.$c->req->params->{email}.'&key='.encode_base64 ($driver->validation_key);
+
+    $email_model->add(
+        email   =>  $c->req->params->{email},
+        name    =>  $driver->name,
+        content => 'Valide o seu cadastro pelo link '.$validation_link,
+        subject => 'Publicidade Inteligente - Validação de cadastro',
+        template => 'test'
+    );
 
     $self->status_created(
         $c,

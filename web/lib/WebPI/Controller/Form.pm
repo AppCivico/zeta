@@ -34,6 +34,27 @@ sub redirect_ok : Private {
 
 }
 
+sub redirect_ok2 : Private {
+    my ( $self, $c, $path, $cap, $params, $msg, %args ) = @_;
+
+    my $a = $c->uri_for_action(
+        $path,
+        $cap,
+        {
+            ( ref $params eq 'HASH' ? %$params : () ),
+            mid => $c->set_status_msg(
+                {
+                    %args, status_msg => $msg
+                }
+            )
+        }
+    );
+    die "uri not found" unless $a;
+
+    $c->res->redirect($a);
+
+}
+
 sub not_found : Private {
     my ( $self, $c ) = @_;
 

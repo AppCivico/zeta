@@ -11,8 +11,8 @@
         <div id="vehicle_model">
             [%select_field('vehicle_model_id', 'Modelo', req=>1, array => select_models, value => vehicle_obj.vehicle_model_id)|none%]
         </div>
-        [%input_text('model_year','Ano do modelo', value => vehicle_obj.model_year)|none%]
-        [%input_text('manufacture_year','Ano de fabricação', value => vehicle_obj.manufacture_year)|none%]
+        [%input_text('model_year','Ano do modelo', array => vehicle_years, value => vehicle_obj.model_year)|none%]
+        [%input_text('manufacture_year','Ano de fabricação', array => vehicle_years, value => vehicle_obj.manufacture_year)|none%]
         [%select_field('vehicle_color_id','Cor',  array => select_colors, value => vehicle_obj.vehicle_color_id)|none%]
         [%select_field('vehicle_body_style_id','Carroceria',
         req=>1, array => select_body_styles, value => vehicle_obj.vehicle_body_style_id)|none%]
@@ -37,7 +37,7 @@
             ['5','5'],
         ], value => vehicle_obj.doors_number)|none%]
 
-        [%input_text('km','Quilometragem', value => vehicle_obj.km)|none%]
+        [%input_text('km','Quilometragem atual', value => vehicle_obj.km)|none%]
 
 
        [%select_field('fuel_type', 'Combustivel', req=>1,  array => [

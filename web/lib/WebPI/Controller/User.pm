@@ -109,6 +109,20 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
 
         $api->stash_result( $c, 'vehicle_brands' );
         $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
+    my $year = DateTime->now;
+    my $first_year = $year->year -3;
+    my @year_range;
+    my %vehicle_years;
+
+    $year_range[0] = $first_year;
+    $vehicle_years{$year_range[0]} =  $first_year;
+
+    for (my $i = 1; $i < 6; $i++) {
+        $year_range[$i] = $year_range[$i-1]+1;
+        $vehicle_years{$year_range[$i]} = $year_range[$i];
+    }
+
+    $c->stash->{vehicle_years} = [ map { [ $_, $vehicle_years{$_} ] } sort keys %vehicle_years ];
 
     }
     $c->stash->{vehicle_id} = $vehicle_id;

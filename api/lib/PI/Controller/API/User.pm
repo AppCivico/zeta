@@ -8,10 +8,9 @@ __PACKAGE__->config(
     default => 'application/json',
 
     result      => 'DB::User',
-    result_cond => { active => 1 },
     object_key  => 'user',
 
-    update_roles => [qw/superadmin/],
+    update_roles => [qw/superadmin webapi/],
     create_roles => [qw/superadmin/],
     delete_roles => [qw/superadmin/],
 
@@ -34,7 +33,7 @@ sub result_GET {
         entity => {
             roles => [ map { $_->name } $user->roles ],
 
-            map { $_ => $attrs{$_}, } qw(id name email)
+            map { $_ => $attrs{$_}, } qw(id name email active)
         }
     );
 }
@@ -49,7 +48,11 @@ sub result_PUT {
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $user->id ] )->as_string,
-        entity => { name => $user->name, id => $user->id }
+        entity => {
+            name    => $user->name,
+            id      => $user->id,
+            email   => $user->email
+        }
       ),
       $c->detach
       if $user;
@@ -79,7 +82,7 @@ sub list_GET {
                 map {
                     my $r = $_;
                     +{
-                        ( map { $_ => $r->{$_} } qw/id name email/ ),
+                        ( map { $_ => $r->{$_} } qw/id name email active/ ),
 
                         roles => [ map { $r->{role}{name} } @{ $r->{user_roles} } ],
 

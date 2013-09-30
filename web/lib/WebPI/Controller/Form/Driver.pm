@@ -1,7 +1,9 @@
 package WebPI::Controller::Form::Driver;
 use Moose;
 use namespace::autoclean;
+use Digest::SHA1 qw(sha1 sha1_hex sha1_base64);
 use utf8;
+
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -19,6 +21,9 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
     $form->format_date( $param, 'first_driver_license', 'cnh_validity', 'birth_date' );
 
     $form->only_number( $param, 'telephone_number', 'mobile_number', 'postal_code', 'cpf' );
+
+    $param->{validation_key} = sha1_hex($param->{email}.$param->{nome});
+    $param->{password} = $param->{validation_key};
 
     $api->stash_result(
         $c, 'drivers',
@@ -63,7 +68,7 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
                 body   => $route_type
             );
 
-            $c->detach('/form/login/login');
+            $c->detach('/cadastro/registration_successfully');
         }
 
     }
@@ -73,6 +78,38 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
         $c->detach( '/form/redirect_error', [] );
     }
+}
+
+sub process_password : Chained('base') : PathPart('driver/process_password') : Args(1) {
+    my ( $self, $c, $user_id ) = @_;
+
+    my $api = $c->model('API');
+
+    my $params = $c->req->params;
+
+    $api->stash_result(
+        $c, [ 'users',  $user_id],
+        stash => 'user_pass',
+        method => 'PUT',
+        body   => {
+            'password'          => $params->{password},
+            'password_confirm'  => $params->{confirm_password},
+            'active'            => 1
+        }
+    );
+    use DDP; p $params;
+    $params->{email} = $c->stash->{user_pass}{email};
+    my $err = $c->stash->{user_pass};
+    use DDP; p $params; p $err;
+#      exit;
+     if ( $c->stash->{user_pass}{error} ) {
+        $c->stash->{error}      = $c->stash->{user_pass}{error};
+        $c->stash->{form_error} = $c->stash->{user_pass}{form_error};
+
+        $c->detach( '/form/redirect_error', [] );
+     }
+
+     $c->forward('/form/login/login', $params);
 }
 
 __PACKAGE__->meta->make_immutable;
