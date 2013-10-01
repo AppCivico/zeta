@@ -48,8 +48,36 @@ var $new_add = function(){
                         get_address($('.postal_code'));
                     }
                 }
+            }
+        });
 
+        return false;
+    };
 
+    return {
+        initialize: initialize
+    };
+}();
+
+var $load_parking = function(){
+
+    var initialize = function (ctx) {
+
+        $select = $('#' + ctx);
+        $select.on('change', {}, _on_change);
+    },
+    _on_change = function(){
+        $id = $select.val();
+
+        $.ajax({
+            url: '/user/form/vehicle_route_types/load_parking',
+            data: {id: $id},
+            dataType: 'json',
+            success: function(result) {
+                console.log(result);
+            },
+            error: function(err) {
+                console.log(err);
             }
         });
 
@@ -74,4 +102,6 @@ $( document ).ready(function() {
         $('#btn_save').button('reset');
         $('.clear_addr_rt').val('');
     });
+
+    $load_parking.initialize('elm_destination_id');
 });

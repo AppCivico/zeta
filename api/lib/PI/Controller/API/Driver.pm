@@ -3,6 +3,7 @@ package PI::Controller::API::Driver;
 use Moose;
 use PI::EmailQueue;
 use MIME::Base64;
+use utf8;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 

@@ -23,6 +23,10 @@ sub verifiers_specs {
                 address_id => {
                     required    => 1,
                     type        => 'Int',
+                },
+                vehicle_parking_id => {
+                    required    => 0,
+                    type        => 'Int',
                 }
             }
         )

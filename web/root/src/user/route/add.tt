@@ -51,7 +51,6 @@
             classes => ['span1','timepicker-me'],
             divclass=> 'bootstrap-timepicker',
             extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"',
-            value => orig_time
         )|none%]
 
 		[%select_field('destination_id','Chegando em: ', array => select_routes)|none%]

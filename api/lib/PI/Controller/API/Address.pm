@@ -47,6 +47,7 @@ sub result_GET {
                   postal_code
                   lat_lng
                   user_id
+                  city_id
                   /
             ),
             user => {
@@ -104,6 +105,7 @@ sub list_GET {
                                 postal_code
                                 lat_lng
                                 user_id
+                                city_id
                               /
                         ),
                         type => {

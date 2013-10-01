@@ -10,7 +10,11 @@ __PACKAGE__->config(
     result     => 'DB::VehicleRouteType',
     object_key => 'vehicle_route_type',
     result_attr => {
-        prefetch => ['address']
+        prefetch =>
+        [
+            'address',
+            {'vehicle_parking' => 'address'}
+        ]
     },
 
     update_roles => [qw/superadmin user/],
@@ -19,7 +23,7 @@ __PACKAGE__->config(
 
     search_ok => {
         "address.user_id" => 'Int',
-        order   => 'Str'
+#         order   => 'Str'
     }
 
 );
@@ -45,7 +49,6 @@ sub result_GET {
                   id
                   name
                   address_id
-                  user_id
                   /
             ),
             address => {
@@ -62,6 +65,26 @@ sub result_GET {
                       /
                 ),
             },
+            vehicle_parking => {
+                ( map { $_ => $vehicle_route_type->vehicle_parking->$_ }
+                    qw/
+                    id
+                    name
+                    vehicle_parking_type_id
+                    / ),
+                address => {
+                    map { $_ => $vehicle_route_type->vehicle_parking->address->$_ }
+                        qw/
+                        id
+                        address
+                        number
+                        neighborhood
+                        postal_code
+                        lat_lng
+                        user_id
+                        /
+                }
+            }
         }
     );
 
@@ -110,7 +133,6 @@ sub list_GET {
                               id
                               name
                               address_id
-                              user_id
                               /
                         ),
                         address => {
@@ -126,6 +148,28 @@ sub list_GET {
                                 user_id
                                 /
                             ),
+                        },
+                        vehicle_parking => {
+                            ( map { $_ => $r->{vehicle_parking}{$_} }
+                                qw/
+                                id
+                                name
+                                vehicle_parking_type_id
+                                /
+                            ),
+
+                            address => {
+                                map { $_ => $r->{vehicle_parking}{address}{$_} }
+                                    qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    lat_lng
+                                    user_id
+                                    /
+                            }
                         },
                     }
                 } $c->stash->{collection}->as_hashref->all

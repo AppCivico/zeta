@@ -20,14 +20,38 @@ db_transaction {
         postal_code     => '01310000'
       ];
 
+     #criar novo tipo de estacionamento
+    rest_post '/vehicle_parking_types',
+      name  => 'criar novo tipo de estacionamento',
+      list  => 1,
+      stash => 'vehicle_parking_type',
+      [
+        name => 'Galpão fechado'
+      ];
+
+    #criar novo estacionamento
+    rest_post '/vehicle_parking',
+      name  => 'criar estacionamento veiculos',
+      list  => 1,
+      stash => 'vehicle_parking',
+      [
+        arrival_time            => '09:00:00',
+        departure_time          => '18:00:00',
+        address_id              => stash 'address.id',
+        name                    => 'Casa',
+        user_id                 => 1,
+        vehicle_parking_type_id => stash 'vehicle_parking_type.id',
+      ];
+
     #criar novo profile de rota
     rest_post '/vehicle_route_types',
       name  => 'criar tipo de rota de veiculos',
       list  => 1,
       stash => 'vehicle_route_type',
       [
-        name => 'Casa',
-        address_id => stash 'address.id'
+        name                => 'Casa',
+        address_id          => stash 'address.id',
+        vehicle_parking_id  => stash 'vehicle_parking.id'
       ];
 
     stash_test 'vehicle_route_type.get', sub {

@@ -44,7 +44,8 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
             'neighborhood' => $param->{neighborhood},
             'postal_code'  => $param->{postal_code},
             'complement'   => $param->{complement},
-            user_id        => $c->stash->{driver}{user_id}
+            user_id        => $c->stash->{driver}{user_id},
+            city_id        => $param->{city_id}
         };
 
         $api->stash_result(
@@ -56,9 +57,22 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
         if ( !$c->stash->{error} ) {
 
+            $api->stash_result (
+                $c, 'vehicle_parking',
+                method => 'POST',
+                stash  => 'vehicle_parking',
+                body   => {
+                    'name'                  => 'Casa',
+                    address_id              => $c->stash->{address}{id},
+                    user_id                 => $c->stash->{driver}{user_id},
+                    vehicle_parking_type_id => 1
+                }
+            );
+
             my $route_type = {
-                'name'       => 'Casa',
-                'address_id' => $c->stash->{address}{id}
+                'name'              => 'Casa',
+                address_id          => $c->stash->{address}{id},
+                vehicle_parking_id  => $c->stash->{vehicle_parking}{id},
             };
 
             $api->stash_result(
@@ -68,16 +82,18 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
                 body   => $route_type
             );
 
+
+
             $c->detach('/cadastro/registration_successfully');
         }
 
-    }
-    else {
+    } else {
         $c->stash->{error}      = $c->stash->{driver}{error};
         $c->stash->{form_error} = $c->stash->{driver}{form_error};
 
         $c->detach( '/form/redirect_error', [] );
     }
+
 }
 
 sub process_password : Chained('base') : PathPart('driver/process_password') : Args(1) {

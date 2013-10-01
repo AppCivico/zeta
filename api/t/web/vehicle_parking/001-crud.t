@@ -131,7 +131,7 @@ db_transaction {
         name                    => 'Carrefour',
         vehicle_parking_type_id => stash 'vehicle_parking_type.id'
       ];
-#     dumpstash;
+
     stash_test 'vehicle_parking.get', sub {
         my ($me) = @_;
 

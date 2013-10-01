@@ -14,7 +14,7 @@ __PACKAGE__->config(
     },
 
     update_roles => [qw/superadmin user/],
-    create_roles => [qw/superadmin user/],
+    create_roles => [qw/superadmin user webapi/],
     delete_roles => [qw/superadmin user/],
 
     search_ok => {
@@ -87,7 +87,11 @@ sub result_PUT {
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_parking->id ] )->as_string,
-        entity => { user_id => $vehicle_parking->user_id, id => $vehicle_parking->id }
+        entity => {
+            id          => $vehicle_parking->id,
+            user_id     => $vehicle_parking->user_id,
+            address_id  => $vehicle_parking->address_id
+        }
       ),
       $c->detach
       if $vehicle_parking;
