@@ -54,24 +54,6 @@ db_transaction {
         vehicle_brand_id => stash 'vehicle_brand.id'
       ];
 
-    #criar nova cor de veiculo
-    rest_post '/vehicle_colors',
-      name  => 'criar cor de veículo',
-      list  => 1,
-      stash => 'vehicle_color',
-      [
-        name => 'Teste Gold',
-      ];
-
-    #criar nova carroceria de veiculo
-    rest_post '/vehicle_body_styles',
-      name  => 'criar carroceria de veículo',
-      list  => 1,
-      stash => 'vehicle_body_style',
-      [
-        name => 'Teste sedan',
-      ];
-
     #criar novo veiculo
     rest_post '/vehicles',
       name  => 'criar veículos',
@@ -85,9 +67,9 @@ db_transaction {
         vehicle_model_id        => stash 'vehicle_model.id',
         model_year              => '2009',
         vehicle_brand_id        => stash 'vehicle_brand.id',
-        vehicle_body_style_id   => stash 'vehicle_body_style.id',
+        vehicle_body_style_id   => 1,
         km                      => 41000,
-        vehicle_color_id        => stash 'vehicle_color.id',
+        vehicle_color_id        => 1,
         fuel_type               => 'flex',
         observations            => 'teste',
         driver_id               => stash 'driver.id',
@@ -109,15 +91,6 @@ db_transaction {
         postal_code     => '05319000'
       ];
 
-    #criar novo tipo de estacionamento
-    rest_post '/vehicle_parking_types',
-      name  => 'criar novo tipo de estacionamento',
-      list  => 1,
-      stash => 'vehicle_parking_type',
-      [
-        name => 'Galpão fechado'
-      ];
-
     #criar novo estacionamento
     rest_post '/vehicle_parking',
       name  => 'criar estacionamento veiculos',
@@ -126,10 +99,10 @@ db_transaction {
       [
         arrival_time            => '09:00:00',
         departure_time          => '18:00:00',
-        vehicle_id              => stash 'vehicle.id',
         address_id              => stash 'address.id',
         name                    => 'Carrefour',
-        vehicle_parking_type_id => stash 'vehicle_parking_type.id'
+        user_id                 => 1,
+        vehicle_parking_type_id => 1,
       ];
 
     stash_test 'vehicle_parking.get', sub {
@@ -144,10 +117,6 @@ db_transaction {
         ok( $me = delete $me->{vehicle_parking}, 'vehicle_parking list exists' );
 
         is( @$me, 1, '1 vehicle_parking' );
-
-        $me = [ sort { $a->{id} cmp $b->{id} } @$me ];
-
-        is( $me->[0]{vehicle_id}, stash 'vehicle.id', 'listing ok' );
     };
 
     rest_put stash 'vehicle_parking.url',
@@ -158,7 +127,7 @@ db_transaction {
         vehicle_id              => stash 'vehicle.id',
         address_id              => stash 'address.id',
         name                    => 'Carrefour',
-        vehicle_parking_type_id => stash 'vehicle_parking_type.id'
+        vehicle_parking_type_id => 1
       ];
 
     rest_reload 'vehicle_parking';
