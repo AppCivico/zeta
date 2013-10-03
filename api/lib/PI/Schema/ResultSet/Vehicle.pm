@@ -23,12 +23,22 @@ sub verifiers_specs {
                     type       => 'Str',
                     post_check => sub {
                         my $r = shift;
-                        return 0
-                          if $self->resultset('Vehicle')->search(
-                            {
-                                renavam => $r->get_value('renavam'),
-                            }
-                          )->count;
+
+                        if (
+                            $self->resultset('Vehicle')->search(
+                                {
+                                    renavam => $r->get_value('renavam'),
+                                }
+                            )->count
+                           ||
+                            (
+                                length $r->get_value('renavam') < 9
+                                ||
+                                length $r->get_value('renavam') > 11
+                            )
+                        ) {
+                            return 0;
+                        }
 
                         return 1;
                       }

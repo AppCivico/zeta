@@ -54,8 +54,11 @@ sub process {
                 ForceArray => 1
             );
 
-            my ( $y, $m, $d, $h, $i, $s )   = $data->{happened} =~ m/^(\d{4})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})$/;
-            my $date = "$y-$m-$d $h:$i:$s";
+            my $date;
+            if($data->{happened}){
+                my ( $y, $m, $d, $h, $i, $s )   = $data->{happened} =~ m/^(\d{4})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})$/;
+                $date = "$y-$m-$d $h:$i:$s";
+            }
 
             eval {
                 $tracking_manager->add(
@@ -68,7 +71,9 @@ sub process {
             };
 
             if ( $@ ) {
-#                 insere no erro
+
+                my $error = encode_json( { message => $@ } );
+                $tracking_manager->add_error($error);
             } else {
                 $stomp->ack( { frame => $frame } );
             }

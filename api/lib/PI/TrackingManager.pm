@@ -20,12 +20,13 @@ sub add {
 
     die 'invalid object type' if ref $message ne 'PI::TrackingManager::Message';
 
-    my $tracker_data    = $self->schema->resultset('Tracker')->search({code => $self->tracker_code, status => 1})->next;
-    my $vehicle_tracker = $self->schema->resultset('VehicleTracker');
+    my $tracker_data    = $self->schema->resultset('Tracker')->search({code => $message->tracker_code, status => 1})->next;
 
     if (!$tracker_data) {
-        die "Tracker code not found.\n code: $self->tracker_code\n";
+        die "Tracker code not found.\n code: $message->tracker_code\n";
     }
+
+    my $vehicle_tracker = $self->schema->resultset('VehicleTracker');
 
     $vehicle_tracker->create({
         tracker_id  => $tracker_data->id,

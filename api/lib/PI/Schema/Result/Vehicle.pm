@@ -484,12 +484,21 @@ sub verifiers_specs {
                     post_check => sub {
                         my $r = shift;
 
-                        my $invalid = $self->resultset('Vehicle')->search( {
-                            renavam => $r->get_value('renavam'),
-                            id      => { '!=' => $self->id }
-                        } )->count;
-
-                        return 0 if $invalid;
+                        if (
+                            $self->resultset('Vehicle')->search(
+                                {
+                                    renavam => $r->get_value('renavam'),
+                                }
+                            )->count
+                           ||
+                            (
+                                length $r->get_value('renavam') < 9
+                                ||
+                                length $r->get_value('renavam') > 11
+                            )
+                        ) {
+                            return 0;
+                        }
 
                         return 1;
                       }
