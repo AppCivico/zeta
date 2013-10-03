@@ -8,12 +8,12 @@ use lib "$Bin/../../lib";
 
 use Test::More;
 
+use_ok('PI::Redis');
 use_ok('PI::EmailQueue');
 
-ok(my $mail =  PI::EmailQueue->new( queue_key => 'test', host => 'localhost:6379'), 'sucesso ao instanciar');
+ok(my $redis =  PI::Redis->new(), 'sucesso ao instanciar Redis Manager');
 
-
-$mail->redis->del('test');
+$redis->redis->del('test');
 
 my $mail_info = {
   email     => 'gian@aware.com.br',
@@ -21,11 +21,12 @@ my $mail_info = {
   content   => 'Email de teste',
   template  => 'vazio',
   subject   => 'Teste',
+  queue_key => 'test'
 };
 
-is($mail->add(%$mail_info), 1, 'registro adicionado na fila');
+is(PI::EmailQueue->add(%$mail_info), 1, 'registro adicionado na fila');
 
-my $email = decode_json($mail->redis->lpop('test'));
+my $email = decode_json($redis->redis->lpop('test'));
 
 is($email->{email}, 'gian@aware.com.br', 'Registro recuperado com sucesso');
 

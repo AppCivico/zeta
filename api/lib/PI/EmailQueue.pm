@@ -1,44 +1,17 @@
 package PI::EmailQueue;
-use Moose;
+use PI::Redis;
 use JSON::XS;
-use Redis;
+use Moose;
 
-has host => (
-    is          => 'ro',
-    isa         => 'Str',
-    required    => 1
+has schema => (
+    is  => 'rw',
+    isa => 'PI::Schema',
 );
-
-has queue_key => (
-    is          => 'rw',
-    isa         => 'Str',
-    default     => 'email'
-);
-
-has redis => (
-    is      => 'ro',
-    isa     => 'Redis',
-    lazy    => 1,
-    builder => '_build_redis'
-);
-
-sub _build_redis {
-    my $self = shift;
-
-    my @a =
-    (
-        reconnect   => 60,
-        every       => 5000,
-        server      => $self->host,
-        name        => $self->queue_key
-    );
-
-    return Redis->new(@a);
-}
 
 sub add {
     my ( $self, %params) = @_;
-    my $cliente_redis = $self->redis;
+
+    my $cliente_redis = PI::Redis->new();
 
     my %email_p;
 
@@ -55,7 +28,7 @@ sub add {
 
     my $email = encode_json(\%email_p);
 
-    eval { $cliente_redis->rpush( $self->queue_key =>  $email) };
+    eval { $cliente_redis->redis->rpush( $params{queue_key} =>  $email) };
 
     die $@ if $@;
 
@@ -65,10 +38,13 @@ sub add {
 sub add_error {
     my ( $self, $error) = @_;
 
-    my $cliente_redis = $self->redis;
+    my $cliente_redis = PI::Redis->new();
 
-    eval { $cliente_redis->rpush( $self->queue_key =>  $error) };
+    $cliente_redis->queue_key ('error');
 
+    eval { $cliente_redis->redis->rpush('error' => $error) };
+
+    $cliente_redis->queue_key ('email');
     die $@ if $@;
 
     print "Erro adicionado a fila\n";

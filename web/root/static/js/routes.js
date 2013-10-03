@@ -70,14 +70,27 @@ var $load_parking = function(){
         $id = $select.val();
 
         $.ajax({
-            url: '/user/form/vehicle_route_types/load_parking',
+            url: '/user/route_type/load_parking',
             data: {id: $id},
             dataType: 'json',
             success: function(result) {
-                console.log(result);
+                if(result.vehicle_parking != 0) {
+                    $('#elm_parking_name').val(result.name);
+                    $('#elm_parking_address').val(result.address);
+                    $('#elm_vehicle_parking_type_id').val(result.vehicle_parking_type);
+                    $('#elm_lat_lng').val(result.lat_lng);
+                    $('form').append('<input type=hidden name=vehicle_parking class=parking value='+result.vehicle_parking+'>');
+
+                } else {
+                    $('.parking').val('');
+                }
             },
             error: function(err) {
-                console.log(err);
+                alert('Não foi possível carregar o estacionamento.');
+                $('.parking').val('');
+            },
+            complete: function() {
+                $maps.codeAddress('#elm_lat_lng', '#elm_parking_address');
             }
         });
 

@@ -65,6 +65,7 @@ var $maps = function(){
 
     function reverseCode(latlng) {
         geocoder.geocode({'latLng': latlng}, function(results, status) {
+            alert('Chegou');
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
                     /*todo: tornar generico */
@@ -129,8 +130,8 @@ var $maps = function(){
     return {
         initialize: initialize,
         codeAddress: codeAddress,
-        calcRoute: calcRoute
-
+        calcRoute: calcRoute,
+        reverseCode: reverseCode
     };
 }();
 

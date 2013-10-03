@@ -2,17 +2,23 @@ use lib './lib';
 use utf8;
 use strict;
 use PI::Schema;
-use PI::EmailQueue;
+use PI::Redis;
 use Email::Sender::Simple qw(sendmail);
 use JSON::XS;
+
+package PI;
+use Catalyst qw( ConfigLoader  );
+
+__PACKAGE__->setup();
+
+package main;
 
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
 use Catalyst::Test q(PI);
 
 my $config          = PI->config;
-my $redis_conf      = exists $config->{redis} ? $config->{redis} : { host => 'localhost:6379', queue_key => 'error' };
-my $redis           = PI::EmailQueue->new( %{ $redis_conf } );
+my $redis           = PI::Redis->new();
 my $transport_class = 'Email::Sender::Transport::' . $config->{email}{transport}{class};
 
 eval("use $transport_class");

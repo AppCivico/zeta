@@ -17,9 +17,6 @@ __PACKAGE__->config(
     create_roles => [qw/superadmin user webapi/],
     delete_roles => [qw/superadmin user/],
 
-    search_ok => {
-        user_id => 'Int',
-    }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
 
@@ -41,11 +38,8 @@ sub result_GET {
                 map { $_ => $vehicle_parking->$_ }
                   qw/
                   id
-                  user_id
                   name
                   vehicle_parking_type_id
-                  arrival_time
-                  departure_time
                   /
             ),
             type => {
@@ -89,8 +83,7 @@ sub result_PUT {
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_parking->id ] )->as_string,
         entity => {
             id          => $vehicle_parking->id,
-            user_id     => $vehicle_parking->user_id,
-            address_id  => $vehicle_parking->address_id
+            address_id  => $vehicle_parking->address_id,
         }
       ),
       $c->detach
@@ -114,10 +107,7 @@ sub list_GET {
                             map { $_ => $r->{$_} }
                               qw/
                               id
-                              arrival_time
-                              departure_time
                               created_at
-                              user_id
                               name
                               vehicle_parking_type_id
                               /
