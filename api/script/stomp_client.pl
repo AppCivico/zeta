@@ -38,7 +38,8 @@ sub process {
    $stomp->subscribe({
         destination             => $queue_name,
         'ack'                   => 'client',
-        'activemq.prefetchSize' => 1
+        'activemq.prefetchSize' => 1,
+        'activemq.retroactive'  => 0
     });
 
     my $xml_parser = XML::LibXML::Simple->new();
@@ -48,7 +49,7 @@ sub process {
     eval {
         while (1) {
             my $frame = $stomp->receive_frame;
-
+            warn $frame->body;
             my $data = $xml_parser->XMLin(
                 $frame->body,
                 ForceArray => 1
@@ -71,7 +72,6 @@ sub process {
             };
 
             if ( $@ ) {
-
                 my $error = encode_json( { message => $@ } );
                 $tracking_manager->add_error($error);
             } else {
