@@ -40,14 +40,12 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         user_id   => $c->user->id
     };
 
-    if ( exists $c->req->params->{vehicle_parking_id}  && $c->req->params->{vehicle_parking_id} ) {
-
+    if ( exists $c->req->params->{vehicle_parking}  && $c->req->params->{vehicle_parking} ) {
         $api->stash_result(
-            $c, ['vehicle_parking', $c->req->params->{vehicle_parking_id}],
+            $c, ['vehicle_parking', $c->req->params->{vehicle_parking}],
             method => 'PUT',
             stash  => 'vehicle_parking_route',
             body   => {
-                'arrival_time'          => $c->req->params->{start_time_gone},
                 'name'                  => $c->req->params->{parking_name},
                 vehicle_parking_type_id => $c->req->params->{vehicle_parking_type_id},
             }
@@ -74,9 +72,7 @@ sub process : Chained('base') : PathPart('') : Args(0) {
             stash  => 'vehicle_parking_route',
             method => 'POST',
             body   => {
-                'arrival_time'          => $c->req->params->{start_time_gone},
                 'name'                  => $c->req->params->{parking_name},
-                user_id                 => $c->user->id,
                 vehicle_parking_type_id => $c->req->params->{vehicle_parking_type_id},
                 address_id              => $c->stash->{parking_address}{id}
             }

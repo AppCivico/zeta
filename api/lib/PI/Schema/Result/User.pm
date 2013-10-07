@@ -283,8 +283,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:21:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pZROQ0Giy7VV6KYNwxTZKQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:20:43
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Z49B9qcm4DkmCmzNoz/mRQ
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 
@@ -390,7 +390,6 @@ sub action_specs {
 
     };
 }
-
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

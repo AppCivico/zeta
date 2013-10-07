@@ -40,6 +40,16 @@ sub result_GET {
 
     my $vehicle_route_type = $c->stash->{vehicle_route_type};
 
+    my @addr_cols = qw/
+        id
+        address
+        number
+        neighborhood
+        postal_code
+        lat_lng
+        user_id/;
+
+
     $self->status_ok(
         $c,
         entity => {
@@ -51,43 +61,23 @@ sub result_GET {
                   address_id
                   /
             ),
-            address => {
+            (address => $vehicle_route_type->address ? {
                 (
-                    map { $_ => $vehicle_route_type->address->$_ }
-                      qw/
-                      id
-                      address
-                      number
-                      neighborhood
-                      postal_code
-                      lat_lng
-                      user_id
-                      /
+                    map { $_ => $vehicle_route_type->address->$_ } @addr_cols
                 ),
-            },
-            vehicle_parking => {
-                ( map { $_ => $vehicle_route_type->vehicle_parking->$_ }
-                    qw/
-                    id
-                    name
-                    vehicle_parking_type_id
-                    / ),
+            } : undef),
+
+            (vehicle_parking => $vehicle_route_type->vehicle_parking ? {
+
+                (map { $_ => $vehicle_route_type->vehicle_parking->$_ } qw/id name vehicle_parking_type_id/),
+
                 address => {
-                    map { $_ => $vehicle_route_type->vehicle_parking->address->$_ }
-                        qw/
-                        id
-                        address
-                        number
-                        neighborhood
-                        postal_code
-                        lat_lng
-                        user_id
-                        /
+                    (map { $_ => $vehicle_route_type->vehicle_parking->address->$_ } @addr_cols),
                 }
-            }
+
+            } : undef),
         }
     );
-
 }
 
 sub result_DELETE {

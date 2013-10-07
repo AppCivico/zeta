@@ -18,14 +18,6 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                arrival_time=> {
-                    required => 0,
-                    type     => TimeStr,
-                },
-                departure_time=> {
-                    required => 0,
-                    type     => TimeStr,
-                },
                 address_id=> {
                     required => 1,
                     type     => 'Int',
@@ -37,10 +29,6 @@ sub verifiers_specs {
                 vehicle_parking_type_id=> {
                     required => 1,
                     type     => 'Int',
-                },
-                user_id => {
-                    required    => 1,
-                    type        => 'Int'
                 }
             }
         )

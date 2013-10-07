@@ -19,7 +19,7 @@ var $maps = function(){
 
         map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
-        if(!$('#elm_origin').length) {
+        if(!$('#elm_origin').length && !$('#vehicle_tracker_vehicle').length) {
             google.maps.event.addListener(map, 'click', function(event) {
                 clearOverlays();
                 addMarker(event.latLng);
@@ -129,9 +129,67 @@ var $maps = function(){
     return {
         initialize: initialize,
         codeAddress: codeAddress,
-        calcRoute: calcRoute
-
+        calcRoute: calcRoute,
+        reverseCode: reverseCode,
+        getPoints: getPoints
     };
+
+    function printPolyline(positions) {
+        if (!positions) {
+            return false;
+        }
+
+        var path = [];
+        var latLngBounds = new google.maps.LatLngBounds();
+
+        for( var i = 0; i < positions.vehicle_trackers.length; i++ ) {
+            path.push(new google.maps.LatLng(positions.vehicle_trackers[i].lat, positions.vehicle_trackers[i].lng));
+
+            latLngBounds.extend(path[i]);
+            // Place the marker
+
+            new google.maps.Marker({
+                map: map,
+                position: path[i],
+                title: "Point " + (i + 1)
+            });
+        }
+
+        // Creates the polyline object
+        var polyline = new google.maps.Polyline({
+            map: map,
+            path: path,
+            strokeColor: '#0000FF',
+            strokeOpacity: 0.7,
+            strokeWeight: 1
+        });
+        map.fitBounds(latLngBounds);
+    }
+
+    function getPoints(form_data) {
+        var path = [];
+
+        $.ajax({
+            url: "/user/vehicle_tracker/get_positions",
+            data:form_data,
+            dataType: 'json',
+            success: function(result) {
+                if(result.vehicle_trackers.length > 0) {
+                    printPolyline(result);
+                } else {
+                    $('#empty_tracker').show();
+                }
+//                     console.log(result);
+            },
+            error: function(err) {
+                alert(err);
+            },
+            complete: function(){
+                $('#search_track').button('reset');
+            }
+        });
+
+    }
 }();
 
 $( document ).ready(function() {
@@ -174,5 +232,12 @@ $( document ).ready(function() {
             $maps.calcRoute();
         }
     });
+
+    if($('#form_tracker').length) {
+       $('#form_tracker').on('submit', function() {
+            event.preventDefault();
+            $maps.getPoints($(this).serialize());
+       });
+    }
 
 });

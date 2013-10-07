@@ -191,9 +191,8 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:21:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AmIUu69QJ2p+JwQfXX8gbA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:20:43
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vmmMOIavV2wQzkDQk3hHIw
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -208,14 +207,6 @@ sub verifiers_specs {
         update => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                arrival_time=> {
-                    required => 0,
-                    type     => TimeStr,
-                },
-                departure_time=> {
-                    required => 0,
-                    type     => TimeStr,
-                },
                 address_id=> {
                     required => 0,
                     type     => 'Int',
@@ -225,10 +216,6 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 vehicle_parking_type_id=> {
-                    required => 0,
-                    type     => 'Int',
-                },
-                user_id => {
                     required => 0,
                     type     => 'Int',
                 }

@@ -16,6 +16,7 @@ __PACKAGE__->config(
 
     search_ok => {
         vehicle_id => 'Int',
+        order      => 'Str'
     }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -85,6 +86,19 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 sub list_GET {
     my ( $self, $c ) = @_;
 
+    my $rs = $c->stash->{collection};
+
+    if ($c->req->params->{date}) {
+        $rs = $rs->search({
+            track_event => {
+                -between => [
+                $c->req->params->{date}.' 00:00:00',
+                $c->req->params->{date}.' 23:59:59'
+                ],
+            }
+        });
+    }
+
     $self->status_ok(
         $c,
         entity => {
@@ -106,7 +120,7 @@ sub list_GET {
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       },
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->as_hashref->all
             ]
         }
     );

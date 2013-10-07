@@ -14,13 +14,9 @@ has 'emailinstance' => (
 sub initialize_after_setup {
     my ( $self, $app ) = @_;
 
-    my $conf = exists $app->config->{redis} ? $app->config->{redis} : {
-        host => 'localhost:6379',
-    };
     $self->emailinstance(
         PI::EmailQueue->new(
-            schema => $app->model('DB')->schema,
-            %$conf
+            schema => $app->model('DB')->schema
         )
     );
 }

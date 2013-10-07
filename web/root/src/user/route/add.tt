@@ -70,10 +70,10 @@
         )|none%]
 
         <div class="subtitle">O carro será estacionado em:</div>
-        [%input_text('parking_name','Nome para o local')|none%]
-        [%input_text('parking_address','Endereço')|none%]
-        [%select_field('vehicle_parking_type_id','Tipo de estacionamento: ', array => select_parking_types)|none%]
-        <input type="hidden" name= "lat_lng" id="elm_lat_lng">
+        [%input_text('parking_name','Nome para o local', classes => ['span3', 'parking'])|none%]
+        [%input_text('parking_address','Endereço', classes => ['span3', 'parking'])|none%]
+        [%select_field('vehicle_parking_type_id','Tipo de estacionamento: ', array => select_parking_types, classes => ['span3', 'parking'])|none%]
+        <input type="hidden" name= "lat_lng" id="elm_lat_lng" class="parking">
         <div class="control-group ">
             <label class="control-label"></label>
             <div class="text controls">
