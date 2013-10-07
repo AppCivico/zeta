@@ -267,21 +267,6 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 vehicle_parkings
-
-Type: has_many
-
-Related object: L<PI::Schema::Result::VehicleParking>
-
-=cut
-
-__PACKAGE__->has_many(
-  "vehicle_parkings",
-  "PI::Schema::Result::VehicleParking",
-  { "foreign.user_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
 =head2 vehicle_tokens
 
 Type: has_many
@@ -298,8 +283,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-23 16:28:02
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:n+BzE96jvvEco7LPZH7d0g
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:21:00
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pZROQ0Giy7VV6KYNwxTZKQ
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 

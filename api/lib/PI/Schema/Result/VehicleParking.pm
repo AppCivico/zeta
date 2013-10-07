@@ -49,16 +49,6 @@ __PACKAGE__->table("vehicle_parking");
   is_nullable: 0
   sequence: 'vehicle_parking_id_seq'
 
-=head2 arrival_time
-
-  data_type: 'time'
-  is_nullable: 1
-
-=head2 departure_time
-
-  data_type: 'time'
-  is_nullable: 1
-
 =head2 created_at
 
   data_type: 'timestamp'
@@ -83,12 +73,6 @@ __PACKAGE__->table("vehicle_parking");
   is_foreign_key: 1
   is_nullable: 1
 
-=head2 user_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -99,10 +83,6 @@ __PACKAGE__->add_columns(
     is_nullable       => 0,
     sequence          => "vehicle_parking_id_seq",
   },
-  "arrival_time",
-  { data_type => "time", is_nullable => 1 },
-  "departure_time",
-  { data_type => "time", is_nullable => 1 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -116,8 +96,6 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "vehicle_parking_type_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
-  "user_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -160,21 +138,6 @@ __PACKAGE__->belongs_to(
   "address",
   "PI::Schema::Result::Address",
   { id => "address_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
-);
-
-=head2 user
-
-Type: belongs_to
-
-Related object: L<PI::Schema::Result::User>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "user",
-  "PI::Schema::Result::User",
-  { id => "user_id" },
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
@@ -229,8 +192,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-01 11:35:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HU/8GfWZzljseqT4EDdLXQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:21:00
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AmIUu69QJ2p+JwQfXX8gbA
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
