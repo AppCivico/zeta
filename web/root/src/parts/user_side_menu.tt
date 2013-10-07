@@ -15,7 +15,7 @@
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-random icon-white"></i> Minhas rotas</a></li>
 
         [%href = c.uri_for_action('/user/vehicletracker/index')%]
-        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-random icon-white"></i> Histórico de deslocamento</a></li>
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-road icon-white"></i> Histórico de deslocamento</a></li>
 
 		<!--//
         [%href = c.uri_for_action('/user/document/index')%]

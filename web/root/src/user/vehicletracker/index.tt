@@ -15,29 +15,22 @@
     </form>
     <div id="map_canvas" style="width:800px; height:300px" class="map-route"></div>
 
-	<!--<table class="table table-striped">
-
-	<thead>
-	<tr>
-		<th>Fabricante</th>
-		<th>Modelo</th>
-		<th>Ano do modelo</th>
-		<th>Ano de fabricação</th>
-		<th>Cor</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-		<td>[%vehicles.0.brand.name%]</td>
-		<td>[%vehicles.0.model.name%]</td>
-		<td>[%vehicles.0.model_year%]</td>
-		<td>[%vehicles.0.manufacture_year%] </td>
-		<td>[%vehicles.0.color.name%]</td>
-		<td>
-		[%href = c.uri_for_action('/user/vehicle/edit', [vehicles.0.id])%]
-		<a class="edit" href="[%href%]" class="edit"><i class="icon-pencil"></i> editar</a>
-		</td>
-	</tr>
-	</tbody>
-	</table>-->
+	<table class="table table-striped table-tracker-info">
+        <br /><br />
+        <thead>
+        <tr>
+            <th>Estatísticas de deslocamento</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Velocidade Média</td>
+            <td>30 KM/h</td>
+        </tr>
+            <tr>
+            <td>Distância percorrida</td>
+            <td>20 KM</td>
+        </tr>
+        </tbody>
+	</table>
 </div>

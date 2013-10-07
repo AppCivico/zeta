@@ -9,6 +9,7 @@ use Net::Stomp;
 use JSON::XS;
 use XML::LibXML::Simple;
 use PI::TrackingManager;
+use PI::TrackingManager::Message;
 
 package PI;
 use Catalyst qw( ConfigLoader  );
@@ -55,6 +56,8 @@ sub process {
                 ForceArray => 1
             );
 
+            next if $data->{class} ne 'com.sensorlogic.device.report.LocationReport';
+
             my $date;
             if($data->{happened}){
                 my ( $y, $m, $d, $h, $i, $s )   = $data->{happened} =~ m/^(\d{4})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})$/;
@@ -62,18 +65,23 @@ sub process {
             }
 
             eval {
-                $tracking_manager->add(
-                    tracker_code    => $data->{deviceIdentifier},
-                    latitude        => $data->{latitude},
-                    longitude       => $data->{longitude},
-                    speed           => $data->{speed},
-                    track_event     => $date,
+                my $tracking_message = PI::TrackingManager::Message->new(
+                    {
+                        tracker_code    => $data->{deviceIdentifier},
+                        latitude        => $data->{latitude},
+                        longitude       => $data->{longitude},
+                        speed           => $data->{speed},
+                        track_event     => $date,
+                    }
                 );
+
+                $tracking_manager->add($tracking_message);
             };
 
             if ( $@ ) {
                 my $error = encode_json( { message => $@ } );
                 $tracking_manager->add_error($error);
+                next;
             } else {
                 $stomp->ack( { frame => $frame } );
             }

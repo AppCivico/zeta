@@ -234,7 +234,7 @@ $( document ).ready(function() {
     });
 
     if($('#form_tracker').length) {
-       $('#form_tracker').on('submit', function(){
+       $('#form_tracker').on('submit', function() {
             event.preventDefault();
             $maps.getPoints($(this).serialize());
        });

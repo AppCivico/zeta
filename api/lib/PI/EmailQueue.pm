@@ -27,7 +27,7 @@ sub add {
     $email_p{subject} = $params{subject};
 
     my $email = encode_json(\%email_p);
-
+    use DDP; p %params;
     eval { $cliente_redis->redis->rpush( $params{queue_key} =>  $email) };
 
     die $@ if $@;

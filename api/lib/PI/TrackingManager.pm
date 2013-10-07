@@ -9,7 +9,7 @@ has schema => (
 );
 
 sub add {
-    my ( $self, @message ) = shift;
+    my ( $self, @message ) = @_;
     my $message;
 
     if ( @message == 1 ) {
@@ -20,7 +20,13 @@ sub add {
 
     die 'invalid object type' if ref $message ne 'PI::TrackingManager::Message';
 
-    my $tracker_data    = $self->schema->resultset('Tracker')->search({code => $message->tracker_code, status => 1})->next;
+    my $tracker_data = $self->schema->resultset('Tracker')->search({code => $message->tracker_code, status => 1})->next;
+
+    use DDP;
+    p $tracker_data;
+    my $code = $message->tracker_code;
+    p $code;
+
 
     if (!$tracker_data) {
         die "Tracker code not found.\n code: $message->tracker_code\n";

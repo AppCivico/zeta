@@ -136,9 +136,10 @@ sub list_POST {
     $email_model->add(
         email   =>  $c->req->params->{email},
         name    =>  $driver->name,
-        content => 'Valide o seu cadastro pelo link '.$validation_link,
+        content => 'Para dar continuidade ao cadastro, acesso este link'.$validation_link,
         subject => 'Publicidade Inteligente - Validação de cadastro',
-        template => 'test'
+        template => 'test',
+        queue_key => 'email'
     );
 
     $self->status_created(
