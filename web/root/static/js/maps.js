@@ -121,7 +121,6 @@ var $maps = function(){
                 clearOverlays();
                 directionsDisplay.setDirections(result);
                 directionsDisplay.setMap(map);
-                console.log(markersArray);
             }
         });
     }
@@ -144,15 +143,37 @@ var $maps = function(){
 
         for( var i = 0; i < positions.vehicle_trackers.length; i++ ) {
             path.push(new google.maps.LatLng(positions.vehicle_trackers[i].lat, positions.vehicle_trackers[i].lng));
-
             latLngBounds.extend(path[i]);
-            // Place the marker
 
-            new google.maps.Marker({
+            var $date;
+            var $hour;
+            if(positions.vehicle_trackers[i].track_event.length) {
+                console.log(positions.vehicle_trackers[i].track_event);
+                $date = positions.vehicle_trackers[i].track_event.split(' ');
+                $hour = $date[1].substr(0,5);
+                $date = $date[0].substr(8,2)+'/'+$date[0].substr(5,2)+'/'+$date[0].substr(0,4);
+            }
+
+
+            var marker = new google.maps.Marker({
                 map: map,
                 position: path[i],
-                title: "Point " + (i + 1)
+                title: "Point " + (i + 1),
+                icon: '/static/img/1381172153_Map-Marker-Marker-Outside-Azure.png',
+                info: 'Data: '+$date
+                      +'<br /> Hora: '+$hour
+                      +'<br />Velocidade :'+positions.vehicle_trackers[i].speed+' Km/h'
             });
+
+            var infowindow = new google.maps.InfoWindow(), marker;
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infowindow.setContent(this.info);
+                    infowindow.open(map, marker);
+                }
+            })(marker));
+
+
         }
 
         // Creates the polyline object
@@ -161,7 +182,7 @@ var $maps = function(){
             path: path,
             strokeColor: '#0000FF',
             strokeOpacity: 0.7,
-            strokeWeight: 1
+            strokeWeight: 5
         });
         map.fitBounds(latLngBounds);
     }

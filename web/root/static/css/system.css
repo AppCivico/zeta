@@ -29,3 +29,23 @@ select, .input-loading {
 #elm_car_plate {
     text-transform: uppercase;
 }
+
+#x-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+#x-container .x-dummy {
+    padding-top: 50%; /* 4:3 aspect ratio */
+}
+
+#x-container .x-element {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: silver /* show me! */
+
+}
