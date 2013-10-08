@@ -108,7 +108,38 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<tracker_code_vehicle_id_key>
+
+=over 4
+
+=item * L</code>
+
+=item * L</vehicle_id>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("tracker_code_vehicle_id_key", ["code", "vehicle_id"]);
+
 =head1 RELATIONS
+
+=head2 vehicle_tracker_events
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleTrackerEvent>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_tracker_events",
+  "PI::Schema::Result::VehicleTrackerEvent",
+  { "foreign.tracker_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
 
 =head2 vehicle_trackers
 
@@ -126,8 +157,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-12 11:34:51
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:xQpD3hJzzMq9PsG20tvplQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-07 15:49:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hAy2A2iYwwD52h3PT3MDyQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

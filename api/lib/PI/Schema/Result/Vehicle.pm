@@ -445,6 +445,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 vehicle_tracker_events
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleTrackerEvent>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_tracker_events",
+  "PI::Schema::Result::VehicleTrackerEvent",
+  { "foreign.vehicle_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 vehicle_trackers
 
 Type: has_many
@@ -461,8 +476,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-15 12:14:51
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RmVcyUORTBalJJ+kougpjw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-07 15:49:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N6uJcYYC5F+s7VsMBP78Jw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

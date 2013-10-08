@@ -5,6 +5,7 @@ var $maps = function(){
     var markersArray = [];
     var directionsDisplay;
     var directionsService = new google.maps.DirectionsService();
+    var polyline;
 
     function initialize() {
         var latlng        = new google.maps.LatLng(-23.5505233,-46.63429819999999); //praça da sé
@@ -138,7 +139,10 @@ var $maps = function(){
             return false;
         }
 
+        clearOverlays();
+
         var path = [];
+        path.length = 0;
         var latLngBounds = new google.maps.LatLngBounds();
 
         for( var i = 0; i < positions.vehicle_trackers.length; i++ ) {
@@ -148,12 +152,10 @@ var $maps = function(){
             var $date;
             var $hour;
             if(positions.vehicle_trackers[i].track_event.length) {
-                console.log(positions.vehicle_trackers[i].track_event);
                 $date = positions.vehicle_trackers[i].track_event.split(' ');
                 $hour = $date[1].substr(0,5);
                 $date = $date[0].substr(8,2)+'/'+$date[0].substr(5,2)+'/'+$date[0].substr(0,4);
             }
-
 
             var marker = new google.maps.Marker({
                 map: map,
@@ -165,6 +167,8 @@ var $maps = function(){
                       +'<br />Velocidade :'+positions.vehicle_trackers[i].speed+' Km/h'
             });
 
+            markersArray.push(marker);
+
             var infowindow = new google.maps.InfoWindow(), marker;
             google.maps.event.addListener(marker, 'click', (function(marker, i) {
                 return function() {
@@ -173,29 +177,31 @@ var $maps = function(){
                 }
             })(marker));
 
-
         }
 
-        // Creates the polyline object
-        var polyline = new google.maps.Polyline({
+        if (polyline) {
+            polyline.setMap(null);
+        }
+
+        polyline = new google.maps.Polyline( {
             map: map,
             path: path,
             strokeColor: '#0000FF',
             strokeOpacity: 0.7,
-            strokeWeight: 5
-        });
+            strokeWeight: 5,
+        } );
+
         map.fitBounds(latLngBounds);
     }
 
     function getPoints(form_data) {
-        var path = [];
-
         $.ajax({
             url: "/user/vehicle_tracker/get_positions",
             data:form_data,
             dataType: 'json',
             success: function(result) {
                 if(result.vehicle_trackers.length > 0) {
+                    $('#empty_tracker').hide();
                     printPolyline(result);
                 } else {
                     $('#empty_tracker').show();
@@ -255,7 +261,15 @@ $( document ).ready(function() {
     });
 
     if($('#form_tracker').length) {
-       $('#form_tracker').on('submit', function() {
+        var $date = new Date();
+
+        $date = $date.getDate()+'/'+($date.getMonth()+1)+'/'+$date.getFullYear();
+        $('#elm_date').val($date);
+
+
+        $maps.getPoints($('#form_tracker').serialize());
+
+;       $('#form_tracker').on('submit', function() {
             event.preventDefault();
             $maps.getPoints($(this).serialize());
        });

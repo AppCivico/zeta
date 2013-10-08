@@ -41,6 +41,10 @@ sub verifiers_specs {
                 vehicle_id => {
                     required => 1,
                     type     => 'Int',
+                },
+                transaction => {
+                    required => 0,
+                    type     => 'Str',
                 }
             }
         )

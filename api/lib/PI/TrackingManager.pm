@@ -2,6 +2,7 @@ package PI::TrackingManager;
 use Moose;
 use PI::Redis;
 use PI::TrackingManager::Message;
+use JSON::XS;
 
 has schema => (
     is  => 'rw',
@@ -22,12 +23,6 @@ sub add {
 
     my $tracker_data = $self->schema->resultset('Tracker')->search({code => $message->tracker_code, status => 1})->next;
 
-    use DDP;
-    p $tracker_data;
-    my $code = $message->tracker_code;
-    p $code;
-
-
     if (!$tracker_data) {
         die "Tracker code not found.\n code: $message->tracker_code\n";
     }
@@ -40,7 +35,8 @@ sub add {
         track_event => $message->track_event,
         lat         => $message->latitude,
         lng         => $message->longitude,
-        speed       => $message->speed
+        speed       => $message->speed,
+        transaction => $message->transaction
     });
 
 }
@@ -57,6 +53,35 @@ sub add_error {
     print "Erro adicionado a fila\n";
 
     return 1;
+}
+
+sub add_event {
+    my ( $self, @message ) = @_;
+    my $message;
+
+    if ( @message == 1 ) {
+        $message = $message[0];
+    } else {
+        $message = PI::TrackingManager::Message->new(@message);
+    }
+
+    die 'invalid object type' if ref $message ne 'PI::TrackingManager::Message';
+
+    my $tracker_data = $self->schema->resultset('Tracker')->search({code => $message->tracker_code, status => 1})->next;
+
+    if (!$tracker_data) {
+        die "Tracker code not found.\n code: $message->tracker_code\n";
+    }
+
+    my $vehicle_tracker_event = $self->schema->resultset('VehicleTrackerEvent');
+
+    $vehicle_tracker_event->create({
+        tracker_id          => $tracker_data->id,
+        vehicle_id          => $tracker_data->vehicle_id,
+        track_event         => $message->track_event,
+        event_information   => encode_json($message->event_information),
+        transaction         => $message->transaction
+    });
 }
 
 1;

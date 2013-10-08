@@ -50,42 +50,59 @@ sub process {
     eval {
         while (1) {
             my $frame = $stomp->receive_frame;
-            warn $frame->body;
+
             my $data = $xml_parser->XMLin(
                 $frame->body,
                 ForceArray => 1
             );
 
-            next if $data->{class} ne 'com.sensorlogic.device.report.LocationReport';
-
             my $date;
-            if($data->{happened}){
+            if($data->{happened}) {
                 my ( $y, $m, $d, $h, $i, $s )   = $data->{happened} =~ m/^(\d{4})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})$/;
                 $date = "$y-$m-$d $h:$i:$s";
             }
 
-            eval {
-                my $tracking_message = PI::TrackingManager::Message->new(
-                    {
-                        tracker_code    => $data->{deviceIdentifier},
-                        latitude        => $data->{latitude},
-                        longitude       => $data->{longitude},
-                        speed           => $data->{speed},
-                        track_event     => $date,
-                    }
-                );
+            if ( $data->{class} ne 'com.sensorlogic.device.report.LocationReport' ) {
+                eval {
+                    my $tracking_message = PI::TrackingManager::Message->new(
+                        {
+                            tracker_code        => $data->{deviceIdentifier},
+                            event_information   => {
+                                'property'      => $data->{property} ? $data->{property} : undef,
+                                'event_type'    => $data->{eventType} ? $data->{eventType} : undef,
+                                'report_type'   => $data->{reportType} ? $data->{reportType} : undef,
+                            },
+                            track_event         => $date,
+                            transaction         => $data->{transaction}
+                        }
+                    );
 
-                $tracking_manager->add($tracking_message);
-            };
+                    $tracking_manager->add_event($tracking_message);
+                };
+            } else {
+                eval {
+                    my $tracking_message = PI::TrackingManager::Message->new(
+                        {
+                            tracker_code    => $data->{deviceIdentifier},
+                            latitude        => $data->{latitude},
+                            longitude       => $data->{longitude},
+                            speed           => $data->{speed},
+                            track_event     => $date,
+                            transaction     => $data->{transaction}
+                        }
+                    );
+
+                    $tracking_manager->add($tracking_message);
+                };
+            }
 
             if ( $@ ) {
                 my $error = encode_json( { message => $@ } );
                 $tracking_manager->add_error($error);
-                next;
-            } else {
-                $stomp->ack( { frame => $frame } );
+
             }
 
+            $stomp->ack( { frame => $frame } );
         }
     };
 

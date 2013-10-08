@@ -34,4 +34,8 @@ $( document ).ready(function() {
 			$("#elm_vehicle_body_style_id").val($(this).val());
 		});
 	}
+
+	if($('.datepicker').length){
+        $('.datepicker').datepicker({language:'pt-BR', format:'dd/mm/yyyy'});
+	}
 });

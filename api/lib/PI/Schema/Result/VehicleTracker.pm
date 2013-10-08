@@ -88,6 +88,11 @@ __PACKAGE__->table("vehicle_tracker");
   is_nullable: 0
   original: {default_value => \"now()"}
 
+=head2 transaction
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -117,6 +122,8 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
+  "transaction",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -164,8 +171,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hcIqRr/Sxy0ZHRFvU5lA3A
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-07 15:52:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Lvyqi72yEemcioiDsxxOxQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -200,6 +207,10 @@ sub verifiers_specs {
                 speed => {
                     required => 0,
                     type     => 'Num',
+                },
+                transaction => {
+                    required => 0,
+                    type     => 'Str',
                 }
             }
         ),
