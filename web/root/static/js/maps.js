@@ -136,6 +136,8 @@ var $maps = function(){
 
     function printPolyline(positions) {
         if (!positions) {
+            clearPolyline();
+            clearOverlays();
             return false;
         }
 
@@ -160,8 +162,7 @@ var $maps = function(){
             var marker = new google.maps.Marker({
                 map: map,
                 position: path[i],
-                title: "Point " + (i + 1),
-                icon: '/static/img/1381172153_Map-Marker-Marker-Outside-Azure.png',
+                icon: '/static/img/invisible.png',
                 info: 'Data: '+$date
                       +'<br /> Hora: '+$hour
                       +'<br />Velocidade :'+positions.vehicle_trackers[i].speed+' Km/h'
@@ -170,7 +171,7 @@ var $maps = function(){
             markersArray.push(marker);
 
             var infowindow = new google.maps.InfoWindow(), marker;
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
                 return function() {
                     infowindow.setContent(this.info);
                     infowindow.open(map, marker);
@@ -179,19 +180,23 @@ var $maps = function(){
 
         }
 
-        if (polyline) {
-            polyline.setMap(null);
-        }
+        clearPolyline();
 
         polyline = new google.maps.Polyline( {
             map: map,
             path: path,
             strokeColor: '#0000FF',
             strokeOpacity: 0.7,
-            strokeWeight: 5,
+            strokeWeight: 10,
         } );
 
         map.fitBounds(latLngBounds);
+    }
+
+    function clearPolyline() {
+        if (polyline) {
+            polyline.setMap(null);
+        }
     }
 
     function getPoints(form_data) {
@@ -204,9 +209,9 @@ var $maps = function(){
                     $('#empty_tracker').hide();
                     printPolyline(result);
                 } else {
+                    printPolyline(false);
                     $('#empty_tracker').show();
                 }
-//                     console.log(result);
             },
             error: function(err) {
                 alert(err);

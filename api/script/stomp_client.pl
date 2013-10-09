@@ -49,16 +49,16 @@ sub process {
 
     eval {
         while (1) {
-            my $frame = $stomp->receive_frame;
-
-            my $data = $xml_parser->XMLin(
+            my $frame   = $stomp->receive_frame;
+#             warn $frame->body;
+            my $data    = $xml_parser->XMLin(
                 $frame->body,
                 ForceArray => 1
             );
 
             my $date;
             if($data->{happened}) {
-                my ( $y, $m, $d, $h, $i, $s )   = $data->{happened} =~ m/^(\d{4})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})$/;
+                my ( $y, $m, $d, $h, $i, $s ) = $data->{happened} =~ m/^(\d{4})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})(\d{1,2})$/;
                 $date = "$y-$m-$d $h:$i:$s";
             }
 
@@ -79,6 +79,7 @@ sub process {
 
                     $tracking_manager->add_event($tracking_message);
                 };
+
             } else {
                 eval {
                     my $tracking_message = PI::TrackingManager::Message->new(
@@ -99,7 +100,6 @@ sub process {
             if ( $@ ) {
                 my $error = encode_json( { message => $@ } );
                 $tracking_manager->add_error($error);
-
             }
 
             $stomp->ack( { frame => $frame } );

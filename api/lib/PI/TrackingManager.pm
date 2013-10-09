@@ -39,6 +39,17 @@ sub add {
         transaction => $message->transaction
     });
 
+    my $statis_data = {
+        vehicle_id  => $tracker_data->vehicle_id,
+        track_event => $message->track_event,
+        lat         => $message->latitude,
+        lng         => $message->longitude,
+        speed       => $message->speed,
+    };
+
+    eval { $self->build_statistic_queue($statis_data); } ;
+
+    use DDP; p $@ if $@;
 }
 
 sub add_error {
@@ -75,13 +86,26 @@ sub add_event {
 
     my $vehicle_tracker_event = $self->schema->resultset('VehicleTrackerEvent');
 
-    $vehicle_tracker_event->create({
-        tracker_id          => $tracker_data->id,
-        vehicle_id          => $tracker_data->vehicle_id,
-        track_event         => $message->track_event,
-        event_information   => encode_json($message->event_information),
-        transaction         => $message->transaction
-    });
+    $vehicle_tracker_event->create(
+        {
+            tracker_id          => $tracker_data->id,
+            vehicle_id          => $tracker_data->vehicle_id,
+            track_event         => $message->track_event,
+            event_information   => encode_json($message->event_information),
+            transaction         => $message->transaction
+        }
+    );
+}
+
+sub build_statistic_queue {
+    my ( $self, $params ) = @_;
+
+    die 'empty data' if !$params;
+
+    my $redis   = PI::Redis->new();
+    my $data    = encode_json($params);
+
+    $redis->redis->rpush( 'vehicle_statistics'  =>  $data) ;
 }
 
 1;

@@ -134,12 +134,12 @@ sub list_POST {
         $config->{domain}{default}.'/driver/validate_email?email='.$c->req->params->{email}.'&key='.encode_base64 ($driver->validation_key);
 
     $email_model->add(
-        email   =>  $c->req->params->{email},
-        name    =>  $driver->name,
-        content => 'Para dar continuidade ao cadastro, acesso este link'.$validation_link,
-        subject => 'Publicidade Inteligente - Validação de cadastro',
-        template => 'test',
-        queue_key => 'email'
+        email       =>  $c->req->params->{email},
+        name        =>  $driver->name,
+        content     =>  $validation_link,
+        subject     =>  'Publicidade Inteligente - Validação de cadastro',
+        template    =>  'register_validation.tt',
+        queue_key   =>  'email'
     );
 
     $self->status_created(

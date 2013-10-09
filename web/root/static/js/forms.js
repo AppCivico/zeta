@@ -1,5 +1,6 @@
 function re_mask() {
     $('.date').mask('99/99/9999');
+    $('.datepicker').mask('99/99/9999');
     $('.phone').mask('(99) 9999-9999');
     $('.postal_code').mask('99999-999');
     $('.cpf').mask('999.999.999-99');
