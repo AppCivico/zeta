@@ -29,7 +29,7 @@ die $@ if $@;
 
 &send_emails;
 
-sub  send_emails {
+sub send_emails {
     print "Aguardando itens na fila \n";
     my $transport = $transport_class->new( %{ $config->{email}{transport}{opts} } );
 
@@ -38,39 +38,39 @@ sub  send_emails {
         INTERPOLATE  => 1,
         POST_CHOMP   => 1,
         EVAL_PERL    => 1,
-        ENCODING => 'utf-8'
+        ENCODING     => 'utf-8'
     );
 
-    while ( 1 ) {
-        my ($list, $iten) = $redis->redis->blpop('email',0);
+    while (1) {
+        my ( $list, $iten ) = $redis->redis->blpop( 'email', 0 );
 
         $iten = decode_json($iten);
 
         eval {
             my $str_template = '';
-            my $vars = {
-              content => $iten->{content}
-            };
+            my $vars = { content => $iten->{content} };
 
-            eval { $template->process($iten->{template}, $vars, \$str_template) || die $template->error(); };
-            use DDP; p $@ if $@;
+            eval { $template->process( $iten->{template}, $vars, \$str_template ) || die $template->error(); };
+            use DDP;
+            p $@ if $@;
 
             my $email = Email::Simple->create(
-                    header => [
-                        To      => $iten->{email},
-                        From    => 'gian@aware.com.br',
-                        Subject => $iten->{subject},
-                        Charset => 'UTF-8'
-                    ],
-                    body => $str_template
-                );
+                header => [
+                    To      => $iten->{email},
+                    From    => 'gian@aware.com.br',
+                    Subject => $iten->{subject},
+                    Charset => 'UTF-8'
+                ],
+                body => $str_template
+            );
 
-            sendmail($email, { transport => $transport });
+            sendmail( $email, { transport => $transport } );
         };
 
-        if ( $@ ) {
-            &error_queue( $@, $iten->{email} )
-        } else {
+        if ($@) {
+            &error_queue( $@, $iten->{email} );
+        }
+        else {
             print "Email enviado a $iten->{email}\n";
         }
 
@@ -78,11 +78,11 @@ sub  send_emails {
 }
 
 sub error_queue {
-    my ( @params ) = @_;
+    my (@params) = @_;
 
     my $error = {
-      'message'     => $params[0]->message ? $params[0]->message : undef,
-      'recipients'  => $params[1] ? $params[1] : undef
+        'message'    => $params[0]->message ? $params[0]->message : undef,
+        'recipients' => $params[1]          ? $params[1]          : undef
     };
 
     PI::EmailQueue->add_error( encode_json($error) );

@@ -7,8 +7,8 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result     => 'DB::Address',
-    object_key => 'address',
+    result      => 'DB::Address',
+    object_key  => 'address',
     result_attr => {
         prefetch => ['user']
     },
@@ -50,9 +50,7 @@ sub result_GET {
                   city_id
                   /
             ),
-            user => {
-                ( map { $_ => $address->user->$_ } qw/id name/ ),
-            },
+            user => { ( map { $_ => $address->user->$_ } qw/id name/ ), },
         }
     );
 
@@ -98,20 +96,18 @@ sub list_GET {
                         (
                             map { $_ => $r->{$_} }
                               qw/
-                                id
-                                address
-                                number
-                                neighborhood
-                                postal_code
-                                lat_lng
-                                user_id
-                                city_id
+                              id
+                              address
+                              number
+                              neighborhood
+                              postal_code
+                              lat_lng
+                              user_id
+                              city_id
                               /
                         ),
-                        type => {
-                            ( map { $_ => $r->{user}{$_} } qw/id name/ ),
-                        },
-                    }
+                        type => { ( map { $_ => $r->{user}{$_} } qw/id name/ ), },
+                      }
                 } $c->stash->{collection}->as_hashref->all
             ]
         }

@@ -32,7 +32,7 @@ has event_information => (
     isa => 'HashRef'
 );
 
-has transaction =>(
+has transaction => (
     is  => 'rw',
     isa => 'Str'
 );

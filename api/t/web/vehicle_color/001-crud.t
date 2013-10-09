@@ -13,9 +13,7 @@ db_transaction {
       name  => 'criar cor de veículo',
       list  => 1,
       stash => 'vehicle_color',
-      [
-        name => 'Preto',
-      ];
+      [ name => 'Preto', ];
 
     stash_test 'vehicle_color.get', sub {
         my ($me) = @_;
@@ -37,9 +35,7 @@ db_transaction {
 
     rest_put stash 'vehicle_color.url',
       name => 'atualizar cor de veiculo',
-      [
-        name => 'Prata'
-      ];
+      [ name => 'Prata' ];
 
     rest_reload 'vehicle_color';
 

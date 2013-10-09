@@ -26,33 +26,34 @@ die $@ if $@;
 
 &send_emails;
 
-sub  send_emails {
+sub send_emails {
 
     print "Aguardando itens na fila \n";
     my $transport = $transport_class->new( %{ $config->{email}{transport}{opts} } );
 
-    while ( 1 ) {
-        my ($list, $iten) = $redis->redis->blpop('error', 0);
+    while (1) {
+        my ( $list, $iten ) = $redis->redis->blpop( 'error', 0 );
 
         eval {
             $iten = decode_json($iten);
 
             my $email = Email::Simple->create(
-                    header => [
-                        To      =>  $config->{email}{error_recipient},
-                        From    => 'gian@aware.com.br',
-                        Subject => 'Erro ao enviar email',
-                        Charset => 'UTF-8'
-                    ],
-                    body => "Destinatário: $iten->{recipients}\nMensagem: $iten->{message}",
-                );
+                header => [
+                    To      => $config->{email}{error_recipient},
+                    From    => 'gian@aware.com.br',
+                    Subject => 'Erro ao enviar email',
+                    Charset => 'UTF-8'
+                ],
+                body => "Destinatário: $iten->{recipients}\nMensagem: $iten->{message}",
+            );
 
-            sendmail($email, { transport => $transport });
+            sendmail( $email, { transport => $transport } );
         };
 
-        if ( $@ ) {
-            &error_queue( $@, $iten->{email} )
-        } else {
+        if ($@) {
+            &error_queue( $@, $iten->{email} );
+        }
+        else {
             print "Email de erro enviado a $config->{email}{error_recipient}\n";
         }
     }

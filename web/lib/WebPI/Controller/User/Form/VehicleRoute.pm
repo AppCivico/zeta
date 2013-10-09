@@ -40,9 +40,10 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         user_id   => $c->user->id
     };
 
-    if ( exists $c->req->params->{vehicle_parking}  && $c->req->params->{vehicle_parking} ) {
+    if ( exists $c->req->params->{vehicle_parking} && $c->req->params->{vehicle_parking} ) {
         $api->stash_result(
-            $c, ['vehicle_parking', $c->req->params->{vehicle_parking}],
+            $c,
+            [ 'vehicle_parking', $c->req->params->{vehicle_parking} ],
             method => 'PUT',
             stash  => 'vehicle_parking_route',
             body   => {
@@ -52,13 +53,14 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         );
 
         $api->stash_result(
-            $c, ['addresses', $c->stash->{vehicle_parking_route}{address_id}],
+            $c, [ 'addresses', $c->stash->{vehicle_parking_route}{address_id} ],
             stash  => 'parking_address',
             method => 'PUT',
             body   => $address
         );
 
-    } else {
+    }
+    else {
 
         $api->stash_result(
             $c, ['addresses'],
@@ -68,7 +70,8 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         );
 
         $api->stash_result(
-            $c, ['vehicle_parking'],
+            $c,
+            ['vehicle_parking'],
             stash  => 'vehicle_parking_route',
             method => 'POST',
             body   => {
@@ -79,7 +82,8 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         );
 
         $api->stash_result(
-            $c, ['vehicle_route_types', $c->req->params->{destination_id}],
+            $c,
+            [ 'vehicle_route_types', $c->req->params->{destination_id} ],
             stash  => 'updated_route_type',
             method => 'PUT',
             body   => {
@@ -90,7 +94,7 @@ sub process : Chained('base') : PathPart('') : Args(0) {
     }
 
     my $lastr = $c->stash->{vehicle_routes}[-1];
-    my $count = $lastr ? do {$lastr->{name} =~ /(\d+)/ ; $1+1} : 1;
+    my $count = $lastr ? do { $lastr->{name} =~ /(\d+)/; $1 + 1 } : 1;
     my $name  = "Rota $count";
 
     $api->stash_result(
@@ -115,11 +119,11 @@ sub process : Chained('base') : PathPart('') : Args(0) {
 
     }
     else {
-        my $origin_saved        = $c->req->params->{origin_id};
-        my $query_origin        = $c->req->params->{origem} ? $c->req->params->{origem} : $origin_saved;
+        my $origin_saved = $c->req->params->{origin_id};
+        my $query_origin = $c->req->params->{origem} ? $c->req->params->{origem} : $origin_saved;
 
-        my $destination         = $c->req->params->{destination_id};
-        my $dest_time           = substr ($c->req->params->{start_time_back},0,5);
+        my $destination = $c->req->params->{destination_id};
+        my $dest_time = substr( $c->req->params->{start_time_back}, 0, 5 );
         $dest_time =~ s/://;
 
         $c->req->params->{rotas} ||= '';
@@ -129,21 +133,29 @@ sub process : Chained('base') : PathPart('') : Args(0) {
 
         my $uri;
 
-        if($query_origin == $destination) {
+        if ( $query_origin == $destination ) {
 
-            $uri = $c->uri_for_action('/user/route/add', {
-                'rotas'     => join ('-', @rotas),
-                'finalizado' => 1
-            }) ;
+            $uri = $c->uri_for_action(
+                '/user/route/add',
+                {
+                    'rotas'      => join( '-', @rotas ),
+                    'finalizado' => 1
+                }
+            );
 
-        } else {
+        }
+        else {
 
-            $uri = $c->uri_for_action('/user/route/add', {
-                'origem'    => $query_origin,
-                'destino'   => $destination,
-                'dest_time' => $dest_time,
-                'rotas'     => join '-', @rotas
-            }) ;
+            $uri = $c->uri_for_action(
+                '/user/route/add',
+                {
+                    'origem'    => $query_origin,
+                    'destino'   => $destination,
+                    'dest_time' => $dest_time,
+                    'rotas'     => join '-',
+                    @rotas
+                }
+            );
         }
 
         $c->res->redirect( $uri->as_string );
@@ -158,8 +170,8 @@ sub process_edit_obj : Chained('base') : PathPart('') : CaptureArgs(1) {
 
     $api->stash_result(
         $c, [ 'vehicle_routes', $id ],
-        method  => 'GET',
-        stash   => 'vehicle_route_get'
+        method => 'GET',
+        stash  => 'vehicle_route_get'
     );
 
     my ($street) = $c->req->params->{parking_address} =~ /[^\d]*/g;
@@ -172,7 +184,7 @@ sub process_edit_obj : Chained('base') : PathPart('') : CaptureArgs(1) {
     };
 
     $api->stash_result(
-        $c, ['addresses', $c->stash->{vehicle_route_get}{vehicle_parking}{address}{id}],
+        $c, [ 'addresses', $c->stash->{vehicle_route_get}{vehicle_parking}{address}{id} ],
         stash  => 'parking_address',
         method => 'PUT',
         body   => $address
@@ -184,9 +196,8 @@ sub process_edit_obj : Chained('base') : PathPart('') : CaptureArgs(1) {
         vehicle_parking_type_id => $c->req->params->{vehicle_parking_type_id},
     };
 
-
     $api->stash_result(
-        $c, ['vehicle_parking', $c->stash->{vehicle_route_get}{vehicle_parking}{id}],
+        $c, [ 'vehicle_parking', $c->stash->{vehicle_route_get}{vehicle_parking}{id} ],
         stash  => 'vehicle_parking_route',
         method => 'PUT',
         body   => $parking
@@ -203,11 +214,12 @@ sub process_edit_obj : Chained('base') : PathPart('') : CaptureArgs(1) {
 }
 
 sub process_edit : Chained('process_edit_obj') : PathPart('') : Args(0) {
-    my ($self, $c) = @_;
+    my ( $self, $c ) = @_;
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
-    } else {
+    }
+    else {
         $c->detach( '/form/redirect_ok', [ '/user/route/index', {}, 'Alterado com sucesso!' ] );
     }
 }

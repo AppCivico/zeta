@@ -35,9 +35,11 @@ sub result_GET {
             eval {
                 my $ua = LWP::UserAgent->new;
 
-                my $cepper = new WWW::Correios::CEP({
-                    require_tests => []
-                });
+                my $cepper = new WWW::Correios::CEP(
+                    {
+                        require_tests => []
+                    }
+                );
 
                 my $new_address = $cepper->find( $c->req->params->{postal_code} );
                 alarm(0);

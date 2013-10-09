@@ -13,9 +13,7 @@ db_transaction {
       name  => 'criar carroceria de veículo',
       list  => 1,
       stash => 'vehicle_body_style',
-      [
-        name => 'Hatch',
-      ];
+      [ name => 'Hatch', ];
 
     stash_test 'vehicle_body_style.get', sub {
         my ($me) = @_;
@@ -37,9 +35,7 @@ db_transaction {
 
     rest_put stash 'vehicle_body_style.url',
       name => 'atualizar carroceria de veiculo',
-      [
-        name => 'Conversível'
-      ];
+      [ name => 'Conversível' ];
 
     rest_reload 'vehicle_body_style';
 

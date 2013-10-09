@@ -37,12 +37,10 @@ db_transaction {
 
     #criar nova marca
     rest_post '/vehicle_brands',
-        name  => 'criar marca de veículo',
-        list  => 1,
-        stash => 'vehicle_brand',
-        [
-            name => 'teste',
-        ];
+      name  => 'criar marca de veículo',
+      list  => 1,
+      stash => 'vehicle_brand',
+      [ name => 'teste', ];
 
     #criar novo modelo de veiculo
     rest_post '/vehicle_models',
@@ -50,7 +48,7 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_model',
       [
-        name => 'TesteCar',
+        name             => 'TesteCar',
         vehicle_brand_id => stash 'vehicle_brand.id'
       ];
 
@@ -60,22 +58,22 @@ db_transaction {
       list  => 1,
       stash => 'vehicle',
       [
-        renavam                 => '123456789',
-        car_plate               => 'LPI2672',
-        doors_number            => '5',
-        manufacture_year        => '2009',
-        vehicle_model_id        => stash 'vehicle_model.id',
-        model_year              => '2009',
-        vehicle_brand_id        => stash 'vehicle_brand.id',
-        vehicle_body_style_id   => 1,
-        km                      => 41000,
-        vehicle_color_id        => 1,
-        fuel_type               => 'flex',
-        observations            => 'teste',
-        driver_id               => stash 'driver.id',
-        vehicle_owner_id        => stash 'vehicle_owner.id',
-        state_id                => 1,
-        city_id                 => 1
+        renavam               => '123456789',
+        car_plate             => 'LPI2672',
+        doors_number          => '5',
+        manufacture_year      => '2009',
+        vehicle_model_id      => stash 'vehicle_model.id',
+        model_year            => '2009',
+        vehicle_brand_id      => stash 'vehicle_brand.id',
+        vehicle_body_style_id => 1,
+        km                    => 41000,
+        vehicle_color_id      => 1,
+        fuel_type             => 'flex',
+        observations          => 'teste',
+        driver_id             => stash 'driver.id',
+        vehicle_owner_id      => stash 'vehicle_owner.id',
+        state_id              => 1,
+        city_id               => 1
       ];
 
     #criar novo endereço destino
@@ -84,11 +82,11 @@ db_transaction {
       list  => 1,
       stash => 'address',
       [
-        address         => 'Av. Queiroz Filho',
-        number          => '1500',
-        neighborhood    => 'Vila Hamburguesa',
-        user_id         => 1,
-        postal_code     => '05319000'
+        address      => 'Av. Queiroz Filho',
+        number       => '1500',
+        neighborhood => 'Vila Hamburguesa',
+        user_id      => 1,
+        postal_code  => '05319000'
       ];
 
     #criar novo estacionamento

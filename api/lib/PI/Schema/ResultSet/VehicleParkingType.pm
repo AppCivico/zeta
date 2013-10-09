@@ -18,7 +18,7 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                name=> {
+                name => {
                     required => 1,
                     type     => 'Str',
                 }

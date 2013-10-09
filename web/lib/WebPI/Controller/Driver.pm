@@ -25,15 +25,15 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 sub validate_email : Chained('base') : PathPart('validate_email') : Args(0) {
     my ( $self, $c ) = @_;
 
-    my $api     = $c->model('API');
-    my $params  = $c->req->params;
+    my $api    = $c->model('API');
+    my $params = $c->req->params;
 
     $api->stash_result(
         $c,
         ['drivers'],
-        stash => 'validate_email',
+        stash  => 'validate_email',
         params => {
-            validation_key => decode_base64($params->{key})
+            validation_key => decode_base64( $params->{key} )
         }
     );
 
@@ -44,7 +44,8 @@ sub validate_email : Chained('base') : PathPart('validate_email') : Args(0) {
         $c->detach( '/form/redirect_error', [] );
     }
 
-    $c->detach( '/form/redirect_ok2', [ '/driver/add_password', [$driver->{id}], {}, 'Bem vindo, ' . $driver->{name} ] );
+    $c->detach( '/form/redirect_ok2',
+        [ '/driver/add_password', [ $driver->{id} ], {}, 'Bem vindo, ' . $driver->{name} ] );
 }
 
 sub add_password : Chained('object') : PathPart('add_password') : Args(0) {

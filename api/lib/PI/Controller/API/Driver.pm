@@ -10,8 +10,9 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result      => 'DB::Driver',
-#     result_cond => { 'user.active' => 1 },
+    result => 'DB::Driver',
+
+    #     result_cond => { 'user.active' => 1 },
     search_ok => {
         validation_key => 'Str'
     },
@@ -35,7 +36,7 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $driver = $c->stash->{driver};
-    my %attrs = $driver->get_inflated_columns;
+    my %attrs  = $driver->get_inflated_columns;
     $self->status_ok(
         $c,
         entity => {
@@ -125,29 +126,32 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $config  = PI->config;
-    my $driver  = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    my $config = PI->config;
+    my $driver = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 
     my $email_model = $c->model('EmailQueue');
 
     my $validation_link =
-        $config->{domain}{default}.'/driver/validate_email?email='.$c->req->params->{email}.'&key='.encode_base64 ($driver->validation_key);
+        $config->{domain}{default}
+      . '/driver/validate_email?email='
+      . $c->req->params->{email} . '&key='
+      . encode_base64( $driver->validation_key );
 
     $email_model->add(
-        email       =>  $c->req->params->{email},
-        name        =>  $driver->name,
-        content     =>  $validation_link,
-        subject     =>  'Publicidade Inteligente - Validação de cadastro',
-        template    =>  'register_validation.tt',
-        queue_key   =>  'email'
+        email     => $c->req->params->{email},
+        name      => $driver->name,
+        content   => $validation_link,
+        subject   => 'Publicidade Inteligente - Validação de cadastro',
+        template  => 'register_validation.tt',
+        queue_key => 'email'
     );
 
     $self->status_created(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $driver->id ] )->as_string,
         entity => {
-            name => $driver->name,
-            id   => $driver->id,
+            name    => $driver->name,
+            id      => $driver->id,
             user_id => $driver->user_id
         }
     );

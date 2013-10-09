@@ -37,12 +37,10 @@ db_transaction {
 
     #criar nova marca
     rest_post '/vehicle_brands',
-        name  => 'criar marca de veículo',
-        list  => 1,
-        stash => 'vehicle_brand',
-        [
-            name => 'renault',
-        ];
+      name  => 'criar marca de veículo',
+      list  => 1,
+      stash => 'vehicle_brand',
+      [ name => 'renault', ];
 
     #criar novo modelo de veiculo
     rest_post '/vehicle_models',
@@ -50,7 +48,7 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_model',
       [
-        name => 'Clio',
+        name             => 'Clio',
         vehicle_brand_id => stash 'vehicle_brand.id'
       ];
 
@@ -59,18 +57,14 @@ db_transaction {
       name  => 'criar cor de veículo',
       list  => 1,
       stash => 'vehicle_color',
-      [
-        name => 'Preto',
-      ];
+      [ name => 'Preto', ];
 
     #criar nova carroceria de veiculo
     rest_post '/vehicle_body_styles',
       name  => 'criar carroceria de veículo',
       list  => 1,
       stash => 'vehicle_body_style',
-      [
-        name => 'Hatch',
-      ];
+      [ name => 'Hatch', ];
 
     #criar novo veiculo
     rest_post '/vehicles',
@@ -78,22 +72,22 @@ db_transaction {
       list  => 1,
       stash => 'vehicle',
       [
-        renavam                 => '123456789',
-        car_plate               => 'LPI2672',
-        doors_number            => '5',
-        manufacture_year        => '2009',
-        vehicle_model_id        => stash 'vehicle_model.id',
-        model_year              => '2009',
-        vehicle_brand_id        => stash 'vehicle_brand.id',
-        vehicle_body_style_id   => stash 'vehicle_body_style.id',
-        km                      => 41000,
-        vehicle_color_id        => stash 'vehicle_color.id',
-        fuel_type               => 'flex',
-        observations            => 'teste',
-        driver_id               => stash 'driver.id',
-        vehicle_owner_id        => stash 'vehicle_owner.id',
-        state_id                => 1,
-        city_id                 => 1
+        renavam               => '123456789',
+        car_plate             => 'LPI2672',
+        doors_number          => '5',
+        manufacture_year      => '2009',
+        vehicle_model_id      => stash 'vehicle_model.id',
+        model_year            => '2009',
+        vehicle_brand_id      => stash 'vehicle_brand.id',
+        vehicle_body_style_id => stash 'vehicle_body_style.id',
+        km                    => 41000,
+        vehicle_color_id      => stash 'vehicle_color.id',
+        fuel_type             => 'flex',
+        observations          => 'teste',
+        driver_id             => stash 'driver.id',
+        vehicle_owner_id      => stash 'vehicle_owner.id',
+        state_id              => 1,
+        city_id               => 1
       ];
 
     stash_test 'vehicle.get', sub {
@@ -130,22 +124,22 @@ db_transaction {
     rest_put stash 'vehicle.url',
       name => 'atualizar veiculo',
       [
-        renavam                 => '987654321',
-        car_plate               => 'BUA2609',
-        doors_number            => '5',
-        manufacture_year        => '1995',
-        vehicle_model_id        => stash 'vehicle_model.id',
-        model_year              => '1996',
-        vehicle_brand_id        => stash 'vehicle_brand.id',
-        vehicle_body_style_id   => stash 'vehicle_body_style_id.id',
-        km                      => 70000,
-        vehicle_color_id        => stash 'vehicle_color.id',
-        fuel_type               => 'flex',
-        observations            => 'teste',
-        driver_id               => stash 'driver.id',
-        vehicle_owner_id        => stash 'vehicle_owner.id',
-        state_id                => 1,
-        city_id                 => 1
+        renavam               => '987654321',
+        car_plate             => 'BUA2609',
+        doors_number          => '5',
+        manufacture_year      => '1995',
+        vehicle_model_id      => stash 'vehicle_model.id',
+        model_year            => '1996',
+        vehicle_brand_id      => stash 'vehicle_brand.id',
+        vehicle_body_style_id => stash 'vehicle_body_style_id.id',
+        km                    => 70000,
+        vehicle_color_id      => stash 'vehicle_color.id',
+        fuel_type             => 'flex',
+        observations          => 'teste',
+        driver_id             => stash 'driver.id',
+        vehicle_owner_id      => stash 'vehicle_owner.id',
+        state_id              => 1,
+        city_id               => 1
       ];
 
     rest_reload 'vehicle';

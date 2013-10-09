@@ -15,29 +15,33 @@ sub add {
 
     if ( @message == 1 ) {
         $message = $message[0];
-    } else {
+    }
+    else {
         $message = PI::TrackingManager::Message->new(@message);
     }
 
     die 'invalid object type' if ref $message ne 'PI::TrackingManager::Message';
 
-    my $tracker_data = $self->schema->resultset('Tracker')->search({code => $message->tracker_code, status => 1})->next;
+    my $tracker_data =
+      $self->schema->resultset('Tracker')->search( { code => $message->tracker_code, status => 1 } )->next;
 
-    if (!$tracker_data) {
+    if ( !$tracker_data ) {
         die "Tracker code not found.\n code: $message->tracker_code\n";
     }
 
     my $vehicle_tracker = $self->schema->resultset('VehicleTracker');
 
-    $vehicle_tracker->create({
-        tracker_id  => $tracker_data->id,
-        vehicle_id  => $tracker_data->vehicle_id,
-        track_event => $message->track_event,
-        lat         => $message->latitude,
-        lng         => $message->longitude,
-        speed       => $message->speed,
-        transaction => $message->transaction
-    });
+    $vehicle_tracker->create(
+        {
+            tracker_id  => $tracker_data->id,
+            vehicle_id  => $tracker_data->vehicle_id,
+            track_event => $message->track_event,
+            lat         => $message->latitude,
+            lng         => $message->longitude,
+            speed       => $message->speed,
+            transaction => $message->transaction
+        }
+    );
 
     my $statis_data = {
         vehicle_id  => $tracker_data->vehicle_id,
@@ -47,17 +51,18 @@ sub add {
         speed       => $message->speed,
     };
 
-    eval { $self->build_statistic_queue($statis_data); } ;
+    eval { $self->build_statistic_queue($statis_data); };
 
-    use DDP; p $@ if $@;
+    use DDP;
+    p $@ if $@;
 }
 
 sub add_error {
-    my ( $self, $error) = @_;
+    my ( $self, $error ) = @_;
 
     my $cliente_redis = PI::Redis->new();
 
-    eval { $cliente_redis->redis->rpush( 'tracker_error' =>  $error) };
+    eval { $cliente_redis->redis->rpush( 'tracker_error' => $error ) };
 
     die $@ if $@;
 
@@ -72,15 +77,17 @@ sub add_event {
 
     if ( @message == 1 ) {
         $message = $message[0];
-    } else {
+    }
+    else {
         $message = PI::TrackingManager::Message->new(@message);
     }
 
     die 'invalid object type' if ref $message ne 'PI::TrackingManager::Message';
 
-    my $tracker_data = $self->schema->resultset('Tracker')->search({code => $message->tracker_code, status => 1})->next;
+    my $tracker_data =
+      $self->schema->resultset('Tracker')->search( { code => $message->tracker_code, status => 1 } )->next;
 
-    if (!$tracker_data) {
+    if ( !$tracker_data ) {
         die "Tracker code not found.\n code: $message->tracker_code\n";
     }
 
@@ -88,11 +95,11 @@ sub add_event {
 
     $vehicle_tracker_event->create(
         {
-            tracker_id          => $tracker_data->id,
-            vehicle_id          => $tracker_data->vehicle_id,
-            track_event         => $message->track_event,
-            event_information   => encode_json($message->event_information),
-            transaction         => $message->transaction
+            tracker_id        => $tracker_data->id,
+            vehicle_id        => $tracker_data->vehicle_id,
+            track_event       => $message->track_event,
+            event_information => encode_json( $message->event_information ),
+            transaction       => $message->transaction
         }
     );
 }
@@ -102,10 +109,10 @@ sub build_statistic_queue {
 
     die 'empty data' if !$params;
 
-    my $redis   = PI::Redis->new();
-    my $data    = encode_json($params);
+    my $redis = PI::Redis->new();
+    my $data  = encode_json($params);
 
-    $redis->redis->rpush( 'vehicle_statistics'  =>  $data) ;
+    $redis->redis->rpush( 'vehicle_statistics' => $data );
 }
 
 1;

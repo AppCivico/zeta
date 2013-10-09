@@ -30,13 +30,9 @@ sub verifiers_specs {
                                     renavam => $r->get_value('renavam'),
                                 }
                             )->count
-                           ||
-                            (
-                                length $r->get_value('renavam') < 9
-                                ||
-                                length $r->get_value('renavam') > 11
-                            )
-                        ) {
+                            || (   length $r->get_value('renavam') < 9
+                                || length $r->get_value('renavam') > 11 )
+                          ) {
                             return 0;
                         }
 
@@ -44,17 +40,17 @@ sub verifiers_specs {
                       }
                 },
                 car_plate => {
-                    required => 1,
-                    type     => 'Str',
+                    required   => 1,
+                    type       => 'Str',
                     post_check => sub {
-                        my $r       = shift;
-                        my $plate   = $r->get_value('car_plate');
+                        my $r     = shift;
+                        my $plate = $r->get_value('car_plate');
 
-                        return 0 unless
-                            $plate =~ /^[a-zA-Z]{3}\d{4}$/;
+                        return 0
+                          unless $plate =~ /^[a-zA-Z]{3}\d{4}$/;
 
                         return 1;
-                    }
+                      }
                 },
                 doors_number => {
                     required => 1,

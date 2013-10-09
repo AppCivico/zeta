@@ -16,10 +16,10 @@ __PACKAGE__->setup();
 
 package main;
 
-my $schema              = PI->model('DB')->schema;
-my $coder               = JSON::XS->new;
-my $tracking_manager    = PI::TrackingManager->new( { schema => $schema } );
-my $redis               = PI::Redis->new();
+my $schema           = PI->model('DB')->schema;
+my $coder            = JSON::XS->new;
+my $tracking_manager = PI::TrackingManager->new( { schema => $schema } );
+my $redis            = PI::Redis->new();
 
 &process;
 
@@ -30,17 +30,18 @@ sub process {
 
     eval {
         while (1) {
-            my ($list, $iten) = $redis->redis->blpop('vehicle_statistics',0);
+            my ( $list, $iten ) = $redis->redis->blpop( 'vehicle_statistics', 0 );
 
-            push(@itens, $iten);
+            push( @itens, $iten );
 
-            if (!$iten) {
-                $tracking_manager
+            if ( !$iten ) {
+                $tracking_manager;
             }
         }
 
     };
 
-    use DDP; p $@ if $@;
+    use DDP;
+    p $@ if $@;
 
 }

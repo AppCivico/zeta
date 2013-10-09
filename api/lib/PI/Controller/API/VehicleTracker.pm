@@ -88,15 +88,14 @@ sub list_GET {
 
     my $rs = $c->stash->{collection};
 
-    if ($c->req->params->{date}) {
-        $rs = $rs->search({
-            track_event => {
-                -between => [
-                $c->req->params->{date}.' 00:00:00',
-                $c->req->params->{date}.' 23:59:59'
-                ],
+    if ( $c->req->params->{date} ) {
+        $rs = $rs->search(
+            {
+                track_event => {
+                    -between => [ $c->req->params->{date} . ' 00:00:00', $c->req->params->{date} . ' 23:59:59' ],
+                }
             }
-        });
+        );
     }
 
     $self->status_ok(

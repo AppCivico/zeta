@@ -21,11 +21,11 @@ sub format_date_to_human {
     my ( $self, $ref, @fields ) = @_;
 
     foreach my $f (@fields) {
-        my $date            = $ref->{$f};
-        my @date_sp         = split('T', $date);
+        my $date = $ref->{$f};
+        my @date_sp = split( 'T', $date );
 
-        my ( $y, $m, $d )   = $date_sp[0] =~ m/^(\d{4})-(\d{1,2})-(\d{1,2})$/;
-        $ref->{$f}          = "$d/$m/$y";
+        my ( $y, $m, $d ) = $date_sp[0] =~ m/^(\d{4})-(\d{1,2})-(\d{1,2})$/;
+        $ref->{$f} = "$d/$m/$y";
     }
 
 }
@@ -36,7 +36,7 @@ sub format_cpf_to_human {
     foreach my $f (@fields) {
         my $cpf = $ref->{$f};
 
-        my ( $u, $d, $t, $q )   = $cpf =~ m/^(\d{3})(\d{3})(\d{3})(\d{2})$/;
+        my ( $u, $d, $t, $q ) = $cpf =~ m/^(\d{3})(\d{3})(\d{3})(\d{2})$/;
         $ref->{$f} = "$u.$d.$t-$q";
     }
 }

@@ -18,6 +18,7 @@ sub redirect_ok : Private {
 
     my $a = $c->$method(
         $path,
+
         #( $method eq 'uri_for_action' ? ( $c->req->captures ) : () ),
         {
             ( ref $params eq 'HASH' ? %$params : () ),
@@ -38,8 +39,7 @@ sub redirect_ok2 : Private {
     my ( $self, $c, $path, $cap, $params, $msg, %args ) = @_;
 
     my $a = $c->uri_for_action(
-        $path,
-        $cap,
+        $path, $cap,
         {
             ( ref $params eq 'HASH' ? %$params : () ),
             mid => $c->set_status_msg(

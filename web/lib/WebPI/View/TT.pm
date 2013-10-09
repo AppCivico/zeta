@@ -23,7 +23,7 @@ __PACKAGE__->config(
 );
 
 sub days_of_week_human {
-    my ($self, $c, $dow) = @_;
+    my ( $self, $c, $dow ) = @_;
 
     my $str = join '', sort @$dow;
 
@@ -33,15 +33,15 @@ sub days_of_week_human {
 
     my $week = {
         1 => 'Domingo',
-        2 =>  'Segunda-feira',
-        3 =>  'Terça-feira',
-        4 =>  'Quarta-feira',
-        5 =>  'Quinta-feira',
-        6 =>  'Sexta-feira',
-        7 =>  'Sábado',
+        2 => 'Segunda-feira',
+        3 => 'Terça-feira',
+        4 => 'Quarta-feira',
+        5 => 'Quinta-feira',
+        6 => 'Sexta-feira',
+        7 => 'Sábado',
     };
 
-    my $x =  join ', ', map { $week->{$_} } sort @$dow;
+    my $x = join ', ', map { $week->{$_} } sort @$dow;
 
     $x =~ s/^(.+)\,\s(.+)$/$1 e $2/;
 
@@ -49,9 +49,9 @@ sub days_of_week_human {
 }
 
 sub hour_human {
-    my ($self, $c, $time) = @_;
+    my ( $self, $c, $time ) = @_;
 
-    my $h = substr($time,0, 5);
+    my $h = substr( $time, 0, 5 );
     $h =~ s/:/h/;
 
     return $h;

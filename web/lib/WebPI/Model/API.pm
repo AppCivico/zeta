@@ -147,8 +147,9 @@ sub stash_result {
     @{$ref}{ keys %$obj } = values %$obj;
 
     if ( $c->debug ) {
-    #    use DDP;
-     #   p $obj;
+
+        #    use DDP;
+        #   p $obj;
     }
 
     return 1;

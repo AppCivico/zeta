@@ -7,8 +7,8 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result      => 'DB::User',
-    object_key  => 'user',
+    result     => 'DB::User',
+    object_key => 'user',
 
     update_roles => [qw/superadmin webapi/],
     create_roles => [qw/superadmin/],
@@ -49,9 +49,9 @@ sub result_PUT {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $user->id ] )->as_string,
         entity => {
-            name    => $user->name,
-            id      => $user->id,
-            email   => $user->email
+            name  => $user->name,
+            id    => $user->id,
+            email => $user->email
         }
       ),
       $c->detach

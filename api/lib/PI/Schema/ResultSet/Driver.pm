@@ -110,12 +110,9 @@ sub verifiers_specs {
 
                             if (
                                 DateTime->compare( $first_license, $birth_date ) > 0
-                                &&
-                                (
-                                    DateTime->compare( $first_license, $now ) == 0
-                                    ||  DateTime->compare( $first_license, $now ) == -1
-                                )
-                               ) {
+                                && (   DateTime->compare( $first_license, $now ) == 0
+                                    || DateTime->compare( $first_license, $now ) == -1 )
+                              ) {
                                 my $interval = eval { $first_license->subtract_datetime($birth_date) };
                                 return 1 if $interval->years >= 18;
                             }
@@ -165,8 +162,8 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 password => {
-                    required  => 1,
-                    type      => 'Str',
+                    required => 1,
+                    type     => 'Str',
                 },
                 email => {
                     required  => 1,

@@ -16,7 +16,7 @@ __PACKAGE__->config(
 
     search_ok => {
         order => 'Str'
-    }
+      }
 
 );
 
