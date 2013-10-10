@@ -59,10 +59,13 @@ sub send_emails {
                     To      => $iten->{email},
                     From    => 'gian@aware.com.br',
                     Subject => $iten->{subject},
-                    Charset => 'UTF-8'
+                    Charset => 'UTF-8',
+
                 ],
                 body => $str_template
             );
+
+            $email->header_set('Content-Type' => 'text/html;charset=utf-8');
 
             sendmail( $email, { transport => $transport } );
         };
