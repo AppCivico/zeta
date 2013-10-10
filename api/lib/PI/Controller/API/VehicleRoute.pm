@@ -139,84 +139,105 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 sub list_GET {
     my ( $self, $c ) = @_;
 
-    $self->status_ok(
-        $c,
-        entity => {
-            vehicle_routes => [
-                map {
-                    my $r = $_;
-                    +{
-                        (
-                            map { $_ => $r->{$_} }
-                              qw/
-                              id
-                              name
-                              start_time_gone
-                              start_time_back
-                              vehicle_id
-                              days_of_week
-                              /
-                        ),
-                        origin => {
-                            ( map { $_ => $r->{origin}{$_} } qw/id name/ ),
+    if ( $c->req->params->{check_dow} ) {
+        my $rs = $c->model('DB::VehicleRoute');
 
-                            address => {
-                                map { $_ => $r->{origin}{address}{$_} }
-                                  qw/
-                                  id
-                                  address
-                                  number
-                                  neighborhood
-                                  postal_code
-                                  lat_lng
-                                  user_id
-                                  /
-                            }
-                        },
-                        destination => {
-                            ( map { $_ => $r->{destination}{$_} } qw/id name/ ),
+        my $data = $rs->search(
+            { vehicle_id => $c->req->params->{vehicle_id} },
+            {
+                columns     => ['days_of_week'],
+                group_by    => ['days_of_week']
+            }
+        )->next;
 
-                            address => {
-                                map { $_ => $r->{destination}{address}{$_} }
-                                  qw/
-                                  id
-                                  address
-                                  number
-                                  neighborhood
-                                  postal_code
-                                  lat_lng
-                                  user_id
-                                  /
-                            }
-                        },
-                        vehicle_parking => {
+        $self->status_ok(
+            $c,
+            entity => {
+                dow => $data->days_of_week
+            }
+        );
+
+    } else {
+
+        $self->status_ok(
+            $c,
+            entity => {
+                vehicle_routes => [
+                    map {
+                        my $r = $_;
+                        +{
                             (
-                                map { $_ => $r->{vehicle_parking}{$_} }
-                                  qw/
-                                  id
-                                  name
-                                  vehicle_parking_type_id
-                                  /
+                                map { $_ => $r->{$_} }
+                                qw/
+                                id
+                                name
+                                start_time_gone
+                                start_time_back
+                                vehicle_id
+                                days_of_week
+                                /
                             ),
+                            origin => {
+                                ( map { $_ => $r->{origin}{$_} } qw/id name/ ),
 
-                            address => {
-                                map { $_ => $r->{vehicle_parking}{address}{$_} }
-                                  qw/
-                                  id
-                                  address
-                                  number
-                                  neighborhood
-                                  postal_code
-                                  lat_lng
-                                  user_id
-                                  /
-                            }
-                        },
-                      }
-                } $c->stash->{collection}->as_hashref->all
-            ]
-        }
-    );
+                                address => {
+                                    map { $_ => $r->{origin}{address}{$_} }
+                                    qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    lat_lng
+                                    user_id
+                                    /
+                                }
+                            },
+                            destination => {
+                                ( map { $_ => $r->{destination}{$_} } qw/id name/ ),
+
+                                address => {
+                                    map { $_ => $r->{destination}{address}{$_} }
+                                    qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    lat_lng
+                                    user_id
+                                    /
+                                }
+                            },
+                            vehicle_parking => {
+                                (
+                                    map { $_ => $r->{vehicle_parking}{$_} }
+                                    qw/
+                                    id
+                                    name
+                                    vehicle_parking_type_id
+                                    /
+                                ),
+
+                                address => {
+                                    map { $_ => $r->{vehicle_parking}{address}{$_} }
+                                    qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    lat_lng
+                                    user_id
+                                    /
+                                }
+                            },
+                        }
+                    } $c->stash->{collection}->as_hashref->all
+                ]
+            }
+        );
+    }
 }
 
 sub list_POST {
