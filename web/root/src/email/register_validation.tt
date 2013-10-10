@@ -35,13 +35,13 @@
               <tr>
                 <td style="background-color: #FAFAFA; text-align: left;" bgcolor="#FAFAFA" width="634">
 					<p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666;">
-						Seu cadastro está quase concluído!
+						Seu cadastro está quase concluído!<br/ ><br/ >
 
-						Para nos certificarmos que o email informado é válido, acesse o link abaixo, ou copie e cole no navegador.
+						Para validar o seu cadastro, acesse o link abaixo, ou copie e cole no seu navegador.
 
 					</p>
 					<div style="background-color: #FFFFFF; text-align: left;padding: 5px 10px;">
-						<p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666;">
+						<p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666; background-color: #FFFFFF; padding: 10px;">
 							<a href="http://[%content%]" target="_blank">http://[%content%]</a>
 						</p>
 					</div>
