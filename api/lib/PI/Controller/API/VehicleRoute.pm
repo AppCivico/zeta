@@ -1,5 +1,5 @@
 package PI::Controller::API::VehicleRoute;
-
+use utf8;
 use Moose;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
@@ -140,20 +140,19 @@ sub list_GET {
     my ( $self, $c ) = @_;
 
     if ( $c->req->params->{check_dow} ) {
-        my $rs = $c->model('DB::VehicleRoute');
+        my $rs = $c->model('DB::ViewDaysOfWeek');
 
-        my $data = $rs->search(
-            { vehicle_id => $c->req->params->{vehicle_id} },
+        my $data = $rs->search_rs(
+            undef,
             {
-                columns     => ['days_of_week'],
-                group_by    => ['days_of_week']
+                bind  => [ $c->req->params->{vehicle_id}, $c->req->params->{vehicle_id} ],
             }
         )->next;
 
         $self->status_ok(
             $c,
             entity => {
-                dow => $data->days_of_week
+                dow => $data->get_column('dow')
             }
         );
 
