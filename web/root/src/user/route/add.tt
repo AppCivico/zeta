@@ -142,26 +142,31 @@
 	</div>
 	
     [%IF empty_days%]
-        <h4>Atenção!</h4>
-        Notamos que os seguintes dias não possuem nenhum roteiro associado.
-        <ul>
-        [%FOREACH day IN empty_days%]
-            <li>
-                [%day%]
-            </li>
-        [%END%]
-        </ul>
+	<div class="rounding5px warning-box yellow-alpha">
+		<h4>Atenção</h4>
+		Notamos que os seguintes dias não possuem nenhum roteiro associado.
+		<ul>
+		[%FOREACH day IN empty_days%]
+			<li>
+				[%day%]
+			</li>
+		[%END%]
+		</ul>
 
-        Lembramos que quanto mais detalhadas as informações, melhores podem ser os rendimentos.
-        <div class="offset5">
-            [%href = c.uri_for_action('/user/route/add', {dow => empty_days_id.join('-') })%]
-            <a class="btn" href="[%href%]"><i class="icon-plus"></i>Completar rotas</a>
-        </div>
+		Lembramos que quanto mais detalhadas as informações, melhores podem ser os rendimentos.
+		<br /><br />
+		[%href = c.uri_for_action('/user/route/add', {dow => empty_days_id.join('-') })%]
+		
+		<div>
+			<a class="btn" href="[%href%]"><i class="icon-plus"></i> Completar rotas</a>
+		</div>
+		<div class="clear"></div>
+	</div>
     [%END%]
 
 
     <div class="offset5 form-actions">
-        <a href="[%c.uri_for_action("/$role_controller/dashboard/index")%]" class="btn">Finalizar</a>
+        <a href="[%c.uri_for_action("/$role_controller/dashboard/index")%]" class="btn btn-success">Finalizar</a>
     </div>
 
 [%END%]
