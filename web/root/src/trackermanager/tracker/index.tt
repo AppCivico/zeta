@@ -1,5 +1,12 @@
 <h2>Lista de rastreadores</h2>
 
+<form class="form-horizontal" action="/tracker-manager/tracker">
+    [%input_text('search','Busca')|none%]
+    <input type="radio" name="search_type" value="code" checked="checked">Código do rastreador</input>
+    <input type="radio" name="search_type" value="vehicle_id">Id do veículo</input>
+    <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Pesquisar</button>
+</form>
+
 <table class="table table-striped">
 
 <thead>
@@ -15,8 +22,12 @@
 <tr>
     <th>[%r.id%]</th>
     <td>[%r.code%]</td>
-    <td>[%r.created_at%]</td>
-    <td>[%r.status%]</td>
+    <td>[% format_date_to_human(r.created_at) %]</td>
+    [%IF r.status == 1%]
+        <td>Ativo</td>
+    [%ELSE%]
+        <td>Inativo</td>
+    [%END%]
     <td>
         [%href = c.uri_for_action('/trackermanager/tracker/edit', [r.id])%]
         <a href="[%href%]">editar</a>

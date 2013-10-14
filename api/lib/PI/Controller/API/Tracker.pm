@@ -15,7 +15,8 @@ __PACKAGE__->config(
     delete_roles => [qw/superadmin admin-tracker/],
 
     search_ok => {
-        vehicle_id => 'Int',
+        vehicle_id  => 'Int',
+        code        => 'Str'
     }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';

@@ -69,13 +69,26 @@ sub check_token : Chained('base') : PathPart('check_token') : Args(0) {
     my ( $self, $c ) = @_;
     my $api = $c->model('API');
 
-    my $result = $api->stash_result( $c, ['vehicle_token_check'], params => $c->req->params );
+    $api->stash_result(
+        $c, ['vehicle_token_check'],
+        stash => 'vehicle_token_check',
+        params => $c->req->params
+    );
+
+    my $result = $c->stash->{vehicle_token_check};
 
     if ( $result->{error} ) {
         $c->stash( error => $result->{error} );
     }
 
-    $api->stash_result( $c, ['trackers'], params => { available => 1 } );
+    $api->stash_result(
+        $c, ['trackers'],
+        stash => 'available_trackers',
+        params => { available => 1 }
+    );
+
+    my $at = $c->stash->{available_trackers};
+    use DDP; p $at;
 
     $c->stash(
         without_wrapper => 1,

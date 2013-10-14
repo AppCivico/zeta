@@ -20,7 +20,24 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
     my $api = $c->model('API');
 
-    $api->stash_result( $c, ['trackers'] );
+    my %params;
+
+    if( $c->req->params->{search_type} eq 'vehicle_id' && $c->req->params->{search}) {
+
+        $params{vehicle_id} = $c->req->params->{search};
+
+    } elsif ( $c->req->params->{search_type} eq 'code' && $c->req->params->{search}) {
+
+        $params{code} = $c->req->params->{search};
+
+    }
+
+    $api->stash_result(
+        $c, ['trackers'],
+        params => {
+            %params
+        }
+    );
 }
 
 sub edit : Chained('object') : PathPart('') : Args(0) {

@@ -10,8 +10,8 @@
 
     [%input_text('code','Código', value => tracker_obj.code)|none%]
     [%select_field('status', 'Status', value => tracker_obj.status  array => [
-        ['ativo','Ativo'],
-        ['inativo','Inativo']
+        [1,'Ativo'],
+        [0,'Inativo']
         ])|none%]
 
         <div class="form-actions">
