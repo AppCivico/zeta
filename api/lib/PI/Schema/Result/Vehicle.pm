@@ -494,24 +494,19 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 renavam => {
-                    required => 0,
-                    type     => 'Str',
+                    required   => 1,
+                    type       => 'Str',
                     post_check => sub {
                         my $r = shift;
 
                         if (
-                            $self->resultset('Vehicle')->search(
-                                {
+                            $self->resultset('Vehicle')->search({
                                     renavam => $r->get_value('renavam'),
-                                }
-                            )->count
-                           ||
-                            (
-                                length $r->get_value('renavam') < 9
-                                ||
-                                length $r->get_value('renavam') > 11
-                            )
-                        ) {
+                                    id      => {'<>' => $self->id},
+                                })->count
+                            || (   length $r->get_value('renavam') < 9
+                            || length $r->get_value('renavam') > 11 )
+                          ) {
                             return 0;
                         }
 

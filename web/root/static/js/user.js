@@ -70,9 +70,9 @@ $( document ).ready(function() {
         get_cities($('#elm_state_id').val(), city_id);
     }
 
-    var $model_aux = $('#vehicle_model_aux');
-    if( $model_aux.length && $model_aux.val() ) {
-        filter_vehicle($("#elm_vehicle_brand_id").val(), $model_aux.val());
+    var $brand_id = $("#elm_vehicle_brand_id");
+    if( $brand_id.length && $brand_id.val() ) {
+        filter_vehicle($brand_id.val());
     }
 
     $("#elm_vehicle_brand_id").change(function (){
@@ -81,7 +81,7 @@ $( document ).ready(function() {
 
 });
 
-function filter_vehicle(brand_id, vehicle_model_id) {
+function filter_vehicle(brand_id) {
 
     if(!brand_id) {
         return false;
@@ -106,9 +106,14 @@ function filter_vehicle(brand_id, vehicle_model_id) {
             $me.removeClass('input-loading');
             $me.addClass('required');
 
-            if(vehicle_model_id) {
-                $('#elm_vehicle_model_id').val($('#vehicle_model_aux').val());
+            var $model_aux = $('#vehicle_model_aux');
+            if($model_aux.length && $model_aux.val()) {
+                $('#elm_vehicle_model_id').val($model_aux.val());
             }
+
+            $("#elm_vehicle_model_id").on('change', function(){
+                $("#vehicle_model_aux").val($(this).val());
+            });
         }
     });
 }

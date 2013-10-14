@@ -12,6 +12,7 @@
 			<div id="vehicle_model">
                 [%select_field('vehicle_model_id', 'Modelo', req=>1, array => select_models)|none%]
 			</div>
+			<input type="hidden" id="vehicle_model_aux" value="[%vehicle_obj.vehicle_model_id%]">
             [%select_field('model_year','Ano do modelo', array => vehicle_years, req=>1)|none%]
             [%select_field('manufacture_year','Ano de fabricação', array => vehicle_years, req=>1)|none%]
             [%select_field('vehicle_color_id','Cor', req=>1, array => select_colors)|none%]
