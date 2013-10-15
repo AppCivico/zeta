@@ -71,6 +71,7 @@ sub result_GET {
                 brand      => { ( map { $_ => $vehicle->vehicle_brand->$_ } qw/name/ ), },
                 body_style => { ( map { $_ => $vehicle->vehicle_body_style->$_ } qw/name/ ), },
                 ( map { $_ => ( $vehicle->$_ ? $vehicle->$_->datetime : undef ) } qw/created_at/ ),
+                token_id   => $token->id,
             }
         );
 

@@ -12,6 +12,7 @@
     [%select_field('status', 'Status',  array => [
         [1,'Ativo'],
         [0,'Inativo']
+        [2, 'Vinculado']
         ])|none%]
 
         <div class="form-actions">

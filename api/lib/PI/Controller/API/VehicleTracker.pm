@@ -89,7 +89,6 @@ sub list_GET {
     my $rs = $c->stash->{collection};
 
     if ( $c->req->params->{date} ) {
-
         $rs = $rs->search(
             {
                 track_event => {
@@ -97,10 +96,6 @@ sub list_GET {
                 }
             }
         );
-
-    } elsif ( $c->req->params->{available} ) {
-
-        $rs = $rs->search({ vehicle_id => {'=', undef} }); #está passando status textual, troquei pra boolean
     }
 
     $self->status_ok(

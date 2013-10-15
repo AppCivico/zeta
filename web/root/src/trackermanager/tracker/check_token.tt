@@ -26,6 +26,8 @@
         </table>
     <h3>Confirmação</h3>
     [%select_field('tracker', 'Rastreador',  array => trackers)|none%]
+    <input type="hidden" name="token_id" value="[%result.token_id%]">
+    <input type="hidden" name="vehicle_id" value="[%result.id%]">
     <button type="submit" class="btn btn-primary">Ativar rastreador para esse carro</button>
 [%ELSE%]
     <p>Informações inválidas</p>

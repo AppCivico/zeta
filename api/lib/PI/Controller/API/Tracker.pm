@@ -84,7 +84,8 @@ sub list_GET {
     if ( $c->req->params->{available} ) {
         $rs = $rs->search(
             {
-                status => 'ativo'
+                status      => 1,
+                vehicle_id  => {'=', undef}
             }
         );
     }

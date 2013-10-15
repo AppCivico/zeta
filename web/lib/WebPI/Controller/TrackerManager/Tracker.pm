@@ -22,14 +22,16 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 
     my %params;
 
-    if( $c->req->params->{search_type} eq 'vehicle_id' && $c->req->params->{search}) {
+    if( exists $c->req->params->{search} ) {
+        if( $c->req->params->{search_type} eq 'vehicle_id' && $c->req->params->{search}) {
 
-        $params{vehicle_id} = $c->req->params->{search};
+            $params{vehicle_id} = $c->req->params->{search};
 
-    } elsif ( $c->req->params->{search_type} eq 'code' && $c->req->params->{search}) {
+        } elsif ( $c->req->params->{search_type} eq 'code' && $c->req->params->{search}) {
 
-        $params{code} = $c->req->params->{search};
+            $params{code} = $c->req->params->{search};
 
+        }
     }
 
     $api->stash_result(
@@ -41,6 +43,20 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 }
 
 sub edit : Chained('object') : PathPart('') : Args(0) {
+    my ($self, $c) = @_;
+
+    my $t_obj   = $c->stash->{tracker_obj};
+    my $api     = $c->model('API');
+
+    $api->stash_result(
+        $c, ['vehicles', $t_obj->{vehicle_id}],
+        stash => 'associated_car',
+    );
+
+    $api->stash_result(
+        $c, ['drivers', $c->stash->{associated_car}{driver_id}],
+        stash => 'associated_driver',
+    );
 }
 
 sub add : Chained('base') : PathPart('new') : Args(0) {
