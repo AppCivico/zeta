@@ -8,6 +8,19 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 
+    #criar novo endereço origem
+    rest_post '/addresses',
+      name  => 'criar novo endereço origem',
+      list  => 1,
+      stash => 'address_orig',
+      [
+        address      => 'Av. Paulista',
+        number       => '568',
+        neighborhood => 'Bela Vista',
+        user_id      => 1,
+        postal_code  => '01310000'
+      ];
+
     rest_post '/customers',
       name  => 'criar cliente',
       list  => 1,
@@ -22,15 +35,10 @@ db_transaction {
         phone                  => '551111111111',
         mobile_phone           => '5511111111111',
         secondary_phone        => '5511111111144',
-        postal_code            => '07190050',
-        address                => 'Rua desembargador eliseu',
-        number                 => '59',
-        neighborhood           => 'Brooklyn',
-        complement             => 'apartamento 45',
-        city_id                => 1,
-        state_id               => 1,
+        address_id                => stash 'address.id',
         password               => 'teste',
-        password_confirm       => 'teste'
+        password_confirm       => 'teste',
+        user_id                => 1
       ];
 
     stash_test 'customer.get', sub {
@@ -64,13 +72,7 @@ db_transaction {
         phone                  => '5511111112111',
         mobile_phone           => '55111111112111',
         secondary_phone        => '55111111111244',
-        postal_code            => '07190052',
-        address                => 'Avenida Paulista',
-        number                 => '58',
-        neighborhood           => 'Bela Vista',
-        complement             => 'apartamento 10',
-        city_id                => 1,
-        state_id               => 1,
+        address_id             => stash 'address.id',
         password               => 'teste2',
         password_confirm       => 'teste2'
       ];

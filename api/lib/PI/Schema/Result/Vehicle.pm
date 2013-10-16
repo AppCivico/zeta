@@ -365,6 +365,21 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 vehicle_displacement_statistics
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleDisplacementStatistic>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_displacement_statistics",
+  "PI::Schema::Result::VehicleDisplacementStatistic",
+  { "foreign.vehicle_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 vehicle_invitations
 
 Type: has_many
@@ -476,8 +491,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-07 15:49:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:N6uJcYYC5F+s7VsMBP78Jw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-15 18:47:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:t9Sd8GAh+xcGwGnxkjvisw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

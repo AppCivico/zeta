@@ -16,6 +16,10 @@ function re_mask() {
             element.mask("(99) 9999-9999?9");
         }
     }).trigger('focusout');
+
+    if($('#elm_cnpj').length) {
+        $('#elm_cnpj').mask('99.999.999/9999-99');
+    }
 }
 
 $( document ).ready(function() {

@@ -94,48 +94,17 @@ __PACKAGE__->table("customer");
   data_type: 'text'
   is_nullable: 1
 
-=head2 postal_code
-
-  data_type: 'integer'
-  is_nullable: 0
-
-=head2 address
-
-  data_type: 'text'
-  is_nullable: 0
-
-=head2 number
-
-  data_type: 'text'
-  is_nullable: 0
-
-=head2 neighborhood
-
-  data_type: 'text'
-  is_nullable: 0
-
-=head2 complement
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 city_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
-=head2 state_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
 =head2 user_id
 
   data_type: 'integer'
   is_foreign_key: 1
-  is_nullable: 0
+  is_nullable: 1
+
+=head2 address_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
 
 =cut
 
@@ -165,22 +134,10 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 0 },
   "secondary_phone",
   { data_type => "text", is_nullable => 1 },
-  "postal_code",
-  { data_type => "integer", is_nullable => 0 },
-  "address",
-  { data_type => "text", is_nullable => 0 },
-  "number",
-  { data_type => "text", is_nullable => 0 },
-  "neighborhood",
-  { data_type => "text", is_nullable => 0 },
-  "complement",
-  { data_type => "text", is_nullable => 1 },
-  "city_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "state_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "user_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "address_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -197,6 +154,26 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 address
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::Address>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "address",
+  "PI::Schema::Result::Address",
+  { id => "address_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
 =head2 campaigns
 
 Type: has_many
@@ -210,21 +187,6 @@ __PACKAGE__->has_many(
   "PI::Schema::Result::Campaign",
   { "foreign.customer_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 city
-
-Type: belongs_to
-
-Related object: L<PI::Schema::Result::City>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "city",
-  "PI::Schema::Result::City",
-  { id => "city_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
 =head2 contracts
@@ -272,21 +234,6 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 state
-
-Type: belongs_to
-
-Related object: L<PI::Schema::Result::State>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "state",
-  "PI::Schema::Result::State",
-  { id => "state_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
-);
-
 =head2 user
 
 Type: belongs_to
@@ -299,12 +246,17 @@ __PACKAGE__->belongs_to(
   "user",
   "PI::Schema::Result::User",
   { id => "user_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 18:27:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:giJauyyHnhKLujZA2nDV8w
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-15 19:52:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sy3kA+9LLazuM85tGcGDiw
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -355,48 +307,29 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Str',
                 },
-                postal_code=> {
+                address_id => {
                     required => 0,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
-                address=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                number=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                neighborhood=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                complement=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                city_id=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                state_id=> {
-                    required => 0,
-                    type     => 'Str',
-                },
-                password => {
-                    required  => 1,
-                    type      => 'Str',
-                    dependent => {
-                        password_confirm => {
-                            required => 1,
-                            type     => 'Str',
-                        },
-                    },
-                    post_check => sub {
-                        my $r = shift;
-                        return $r->get_value('password') eq $r->get_value('password_confirm');
-                    },
-                },
+#                 password => {
+#                     required  => 0,
+#                     type      => 'Str',
+#                     dependent => {
+#                         password_confirm => {
+#                             required => 0,
+#                             type     => 'Str',
+#                         },
+#                     },
+#                     post_check => sub {
+#                         my $r = shift;
+#
+#                         if (!$r->get_value('password')) {
+#                             return 1;
+#                         }
+#
+#                         return $r->get_value('password') eq $r->get_value('password_confirm');
+#                     },
+#                 },
             }
         ),
     };
@@ -414,11 +347,12 @@ sub action_specs {
             not defined $values{$_} and delete $values{$_} for keys %values;
 
             my $user_rs = $self->resultset('User');
-            my $user    = $user_rs->update(
-                {
-                    password => delete $values{password}
-                }
-            );
+
+            if( $values{password} ) {
+                my $user = $user_rs->update({
+                        password => delete $values{password}
+                    });
+            }
 
             my $customer = $self->update( \%values );
 

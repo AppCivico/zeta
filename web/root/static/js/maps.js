@@ -214,7 +214,7 @@ var $maps = function(){
                 }
             },
             error: function(err) {
-                alert(err);
+                console.log(err);
             },
             complete: function(){
                 $('#search_track').button('reset');

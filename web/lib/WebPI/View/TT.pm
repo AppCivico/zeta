@@ -68,6 +68,15 @@ sub format_date_to_human {
     return $h_date;
 }
 
+sub format_cnpj_to_human {
+    my ( $self, $ref, $cnpj ) = @_;
+
+    my ( $a, $b, $c, $d, $e ) = $cnpj =~ m/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/;
+
+    return "$a.$b.$c/$d-$e";
+}
+
+
 =head1 NAME
 
 WebPI::View::TT - TT View for WebPI

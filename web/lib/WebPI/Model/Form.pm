@@ -41,13 +41,23 @@ sub format_cpf_to_human {
     }
 }
 
+sub format_cnpj_to_human {
+    my ( $self, $ref, @fields ) = @_;
+
+    foreach my $f (@fields) {
+        my $cpf = $ref->{$f};
+
+        my ( $a, $b, $c, $d, $e ) = $cpf =~ m/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/;
+        $ref->{$f} = "$a.$b.$c/$d-$e";
+    }
+}
+
 sub only_number {
     my ( $self, $ref, @fields ) = @_;
 
     foreach my $f (@fields) {
         $ref->{$f} =~ s/[^\d]//g;
     }
-
 }
 
 sub format_car_plate {

@@ -126,6 +126,21 @@ __PACKAGE__->add_unique_constraint("tracker_code_vehicle_id_key", ["code", "vehi
 
 =head1 RELATIONS
 
+=head2 vehicle_displacement_statistics
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleDisplacementStatistic>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_displacement_statistics",
+  "PI::Schema::Result::VehicleDisplacementStatistic",
+  { "foreign.tracker_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 vehicle_tracker_events
 
 Type: has_many
@@ -157,8 +172,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-07 15:49:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hAy2A2iYwwD52h3PT3MDyQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-15 18:47:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:XGJKREgAKew6b+/JYPUjww
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
