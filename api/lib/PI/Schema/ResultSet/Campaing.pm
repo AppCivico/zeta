@@ -1,4 +1,4 @@
-package PI::Schema::ResultSet::Customer;
+package PI::Schema::ResultSet::Campaign;
 use namespace::autoclean;
 
 use utf8;
