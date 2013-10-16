@@ -9,7 +9,7 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 db_transaction {
 
     #criar novo driver
-     rest_post '/drivers',
+    rest_post '/drivers',
       name  => 'criar motorista',
       list  => 1,
       stash => 'driver',
@@ -37,12 +37,10 @@ db_transaction {
 
     #criar nova marca
     rest_post '/vehicle_brands',
-        name  => 'criar marca de veículo',
-        list  => 1,
-        stash => 'vehicle_brand',
-        [
-            name => 'teste',
-        ];
+      name  => 'criar marca de veículo',
+      list  => 1,
+      stash => 'vehicle_brand',
+      [ name => 'teste', ];
 
     #criar novo modelo de veiculo
     rest_post '/vehicle_models',
@@ -50,7 +48,7 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_model',
       [
-        name => 'TesteCar',
+        name             => 'TesteCar',
         vehicle_brand_id => stash 'vehicle_brand.id'
       ];
 
@@ -59,41 +57,37 @@ db_transaction {
       name  => 'criar cor de veículo',
       list  => 1,
       stash => 'vehicle_color',
-      [
-        name => 'Teste Gold',
-      ];
+      [ name => 'Teste Gold', ];
 
     #criar nova carroceria de veiculo
     rest_post '/vehicle_body_styles',
       name  => 'criar carroceria de veículo',
       list  => 1,
       stash => 'vehicle_body_style',
-      [
-        name => 'Teste sedan',
-      ];
+      [ name => 'Teste sedan', ];
 
-     #criar novo veiculo
+    #criar novo veiculo
     rest_post '/vehicles',
       name  => 'criar veículos',
       list  => 1,
       stash => 'vehicle',
       [
-        renavam                 => '123456789',
-        car_plate               => 'LPI2672',
-        doors_number            => '5',
-        manufacture_year        => '2009',
-        vehicle_model_id        => stash 'vehicle_model.id',
-        model_year              => '2009',
-        vehicle_brand_id        => stash 'vehicle_brand.id',
-        vehicle_body_style_id   => stash 'vehicle_body_style.id',
-        km                      => 41000,
-        vehicle_color_id        => stash 'vehicle_color.id',
-        fuel_type               => 'flex',
-        observations            => 'teste',
-        driver_id               => stash 'driver.id',
-        vehicle_owner_id        => stash 'vehicle_owner.id',
-        state_id                => 1,
-        city_id                 => 1
+        renavam               => '123456789',
+        car_plate             => 'LPI2672',
+        doors_number          => '5',
+        manufacture_year      => '2009',
+        vehicle_model_id      => stash 'vehicle_model.id',
+        model_year            => '2009',
+        vehicle_brand_id      => stash 'vehicle_brand.id',
+        vehicle_body_style_id => stash 'vehicle_body_style.id',
+        km                    => 41000,
+        vehicle_color_id      => stash 'vehicle_color.id',
+        fuel_type             => 'flex',
+        observations          => 'teste',
+        driver_id             => stash 'driver.id',
+        vehicle_owner_id      => stash 'vehicle_owner.id',
+        state_id              => 1,
+        city_id               => 1
       ];
 
     #criar novo endereço origem
@@ -102,11 +96,11 @@ db_transaction {
       list  => 1,
       stash => 'address_orig',
       [
-        address         => 'Av. Paulista',
-        number          => '568',
-        neighborhood    => 'Bela Vista',
-        user_id         => 1,
-        postal_code     => '01310000'
+        address      => 'Av. Paulista',
+        number       => '568',
+        neighborhood => 'Bela Vista',
+        user_id      => 1,
+        postal_code  => '01310000'
       ];
 
     #criar novo profile de rota origem
@@ -115,7 +109,7 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_route_type_orig',
       [
-        name => 'Casa',
+        name       => 'Casa',
         address_id => stash 'address_orig.id'
       ];
 
@@ -125,11 +119,11 @@ db_transaction {
       list  => 1,
       stash => 'address_destino',
       [
-        address         => 'Av. Queiroz Filho',
-        number          => '1700',
-        neighborhood    => 'Vila Hamburguesa',
-        user_id         => 1,
-        postal_code     => '05319000'
+        address      => 'Av. Queiroz Filho',
+        number       => '1700',
+        neighborhood => 'Vila Hamburguesa',
+        user_id      => 1,
+        postal_code  => '05319000'
       ];
 
     #criar novo profile de rota de destino
@@ -138,7 +132,7 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_route_type_destino',
       [
-        name => 'Trabalho',
+        name       => 'Trabalho',
         address_id => stash 'address_destino.id'
       ];
 
@@ -148,13 +142,13 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_route',
       [
-        name                => 'Rota teste 1',
-        start_time_gone     => '08:00:00',
-        start_time_back     => '18:00:00',
-        origin_id           => stash 'vehicle_route_type_orig.id',
-        destination_id      => stash 'vehicle_route_type_destino.id',
-        vehicle_id          => stash 'vehicle.id',
-        days_of_week        => '1,2,3,4,5,6,7'
+        name            => 'Rota teste 1',
+        start_time_gone => '08:00:00',
+        start_time_back => '18:00:00',
+        origin_id       => stash 'vehicle_route_type_orig.id',
+        destination_id  => stash 'vehicle_route_type_destino.id',
+        vehicle_id      => stash 'vehicle.id',
+        days_of_week    => '1,2,3,4,5,6,7'
       ];
 
     stash_test 'vehicle_route.get', sub {
@@ -178,13 +172,13 @@ db_transaction {
     rest_put stash 'vehicle_route.url',
       name => 'atualizar rota',
       [
-        name                => 'Rota teste 2',
-        start_time_gone     => '18:00:00',
-        start_time_back     => '20:00:00',
-        origin_id           => stash 'vehicle_route_type_destino.id',
-        destination_id      => stash 'vehicle_route_type_orig.id',
-        vehicle_id          => stash 'vehicle.id',
-        days_of_week        => '1,2,3,4,5,6,7'
+        name            => 'Rota teste 2',
+        start_time_gone => '18:00:00',
+        start_time_back => '20:00:00',
+        origin_id       => stash 'vehicle_route_type_destino.id',
+        destination_id  => stash 'vehicle_route_type_orig.id',
+        vehicle_id      => stash 'vehicle.id',
+        days_of_week    => '1,2,3,4,5,6,7'
       ];
 
     rest_reload 'vehicle_route';

@@ -24,10 +24,19 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 }
 
 sub edit : Chained('object') : PathPart('') : Args(0) {
+    my ( $self, $c )    = @_;
+    my $api             = $c->model('API');
+
+    $api->stash_result( $c, 'states' );
+    $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 }
 
 sub add : Chained('base') : PathPart('new') : Args(0) {
-    my ( $self, $c ) = @_;
+    my ( $self, $c )    = @_;
+    my $api             = $c->model('API');
+
+    $api->stash_result( $c, 'states' );
+    $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 }
 
 __PACKAGE__->meta->make_immutable;

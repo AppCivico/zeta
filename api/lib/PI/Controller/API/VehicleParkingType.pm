@@ -16,7 +16,7 @@ __PACKAGE__->config(
 
     search_ok => {
         order => 'Str',
-    }
+      }
 
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -31,16 +31,16 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $vehicle_parking_type = $c->stash->{vehicle_parking_type};
-    my %attrs   = $vehicle_parking_type->get_inflated_columns;
+    my %attrs                = $vehicle_parking_type->get_inflated_columns;
     $self->status_ok(
         $c,
         entity => {
             (
                 map { $_ => $attrs{$_}, }
-                    qw/
-                    id
-                    name
-                    /
+                  qw/
+                  id
+                  name
+                  /
             ),
         }
     );
@@ -101,8 +101,7 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $vehicle_parking_type = $c->stash->{collection}
-      ->execute( $c, for => 'create', with => $c->req->params );
+    my $vehicle_parking_type = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 
     $self->status_created(
         $c,

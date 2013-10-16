@@ -15,9 +15,9 @@ __PACKAGE__->config(
     delete_roles => [qw/superadmin user/],
 
     search_ok => {
-        vehicle_brand_id    => 'Int',
-        order               => 'Str'
-    }
+        vehicle_brand_id => 'Int',
+        order            => 'Str'
+      }
 
 );
 

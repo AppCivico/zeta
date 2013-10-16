@@ -12,22 +12,16 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
         $c->detach( '/form/redirect_error', [] );
     }
 
-    my $api = $c->model('API');
+    my $api  = $c->model('API');
     my $form = $c->model('Form');
 
     $api->stash_result( $c, [ 'drivers', $c->user->driver->{id} ], stash => 'driver' );
 
-    my $fields = ['birth_date', 'cnh_validity', 'first_driver_license'];
+    my $fields = [ 'birth_date', 'cnh_validity', 'first_driver_license' ];
 
-    $form->format_date_to_human(
-        $c->stash->{driver},
-        @$fields
-    );
+    $form->format_date_to_human( $c->stash->{driver}, @$fields );
 
-    $form->format_cpf_to_human(
-        $c->stash->{driver},
-        'cpf'
-    );
+    $form->format_cpf_to_human( $c->stash->{driver}, 'cpf' );
 
     $api->stash_result(
         $c,
@@ -54,7 +48,7 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
             ['vehicle_routes'],
             params => {
                 vehicle_id => $vehicle_id,
-                order => 'name'
+                order      => 'name'
             }
         );
 
@@ -62,24 +56,27 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
             $c,
             'vehicle_route_types',
             params => {
-               "address.user_id"  => $c->user->id,
-                order   => 'name'
+                "address.user_id" => $c->user->id,
+                order             => 'name'
             }
         );
         $c->stash->{select_routes} = [
             map {
 
-                [ $_->{id}, "$_->{name}: ${\$_->{address}{address}}, ${\$_->{address}{number}}, ${\$_->{address}{neighborhood}}, ${\$_->{address}{postal_code}}",
-                {
-                    address      => $_->{address}{address},
-                    number       => $_->{address}{number},
-                    neighborhood => $_->{address}{neighborhood},
-                    postal_code  => $_->{address}{postal_code},
-                    complement   => $_->{address}{complement},
-                    city_id      => $_->{address}{city_id},
-                    address_id   => $_->{address}{id},
-                }
-            ] } @{ $c->stash->{vehicle_route_types} }
+                [
+                    $_->{id},
+"$_->{name}: ${\$_->{address}{address}}, ${\$_->{address}{number}}, ${\$_->{address}{neighborhood}}, ${\$_->{address}{postal_code}}",
+                    {
+                        address      => $_->{address}{address},
+                        number       => $_->{address}{number},
+                        neighborhood => $_->{address}{neighborhood},
+                        postal_code  => $_->{address}{postal_code},
+                        complement   => $_->{address}{complement},
+                        city_id      => $_->{address}{city_id},
+                        address_id   => $_->{address}{id},
+                    }
+                ]
+            } @{ $c->stash->{vehicle_route_types} }
         ];
 
         $api->stash_result(
@@ -109,20 +106,20 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
 
         $api->stash_result( $c, 'vehicle_brands' );
         $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
-    my $year = DateTime->now;
-    my $first_year = $year->year -3;
-    my @year_range;
-    my %vehicle_years;
+        my $year       = DateTime->now;
+        my $first_year = $year->year - 3;
+        my @year_range;
+        my %vehicle_years;
 
-    $year_range[0] = $first_year;
-    $vehicle_years{$year_range[0]} =  $first_year;
+        $year_range[0] = $first_year;
+        $vehicle_years{ $year_range[0] } = $first_year;
 
-    for (my $i = 1; $i < 6; $i++) {
-        $year_range[$i] = $year_range[$i-1]+1;
-        $vehicle_years{$year_range[$i]} = $year_range[$i];
-    }
+        for ( my $i = 1 ; $i < 6 ; $i++ ) {
+            $year_range[$i] = $year_range[ $i - 1 ] + 1;
+            $vehicle_years{ $year_range[$i] } = $year_range[$i];
+        }
 
-    $c->stash->{vehicle_years} = [ map { [ $_, $vehicle_years{$_} ] } sort keys %vehicle_years ];
+        $c->stash->{vehicle_years} = [ map { [ $_, $vehicle_years{$_} ] } sort keys %vehicle_years ];
 
     }
     $c->stash->{vehicle_id} = $vehicle_id;

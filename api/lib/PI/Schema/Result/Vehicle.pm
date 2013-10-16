@@ -365,6 +365,21 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 vehicle_displacement_statistics
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleDisplacementStatistic>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_displacement_statistics",
+  "PI::Schema::Result::VehicleDisplacementStatistic",
+  { "foreign.vehicle_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 vehicle_invitations
 
 Type: has_many
@@ -445,6 +460,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 vehicle_tracker_events
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleTrackerEvent>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_tracker_events",
+  "PI::Schema::Result::VehicleTrackerEvent",
+  { "foreign.vehicle_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 vehicle_trackers
 
 Type: has_many
@@ -461,8 +491,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-15 12:14:51
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RmVcyUORTBalJJ+kougpjw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-15 18:47:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:t9Sd8GAh+xcGwGnxkjvisw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -479,24 +509,19 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 renavam => {
-                    required => 0,
-                    type     => 'Str',
+                    required   => 1,
+                    type       => 'Str',
                     post_check => sub {
                         my $r = shift;
 
                         if (
-                            $self->resultset('Vehicle')->search(
-                                {
+                            $self->resultset('Vehicle')->search({
                                     renavam => $r->get_value('renavam'),
-                                }
-                            )->count
-                           ||
-                            (
-                                length $r->get_value('renavam') < 9
-                                ||
-                                length $r->get_value('renavam') > 11
-                            )
-                        ) {
+                                    id      => {'<>' => $self->id},
+                                })->count
+                            || (   length $r->get_value('renavam') < 9
+                            || length $r->get_value('renavam') > 11 )
+                          ) {
                             return 0;
                         }
 

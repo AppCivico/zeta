@@ -168,21 +168,6 @@ __PACKAGE__->belongs_to(
   },
 );
 
-=head2 customers
-
-Type: has_many
-
-Related object: L<PI::Schema::Result::Customer>
-
-=cut
-
-__PACKAGE__->has_many(
-  "customers",
-  "PI::Schema::Result::Customer",
-  { "foreign.state_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
 =head2 vehicles
 
 Type: has_many
@@ -199,8 +184,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-07 16:57:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:T+d+0NTQKgec2V5S4LEyuA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-15 18:47:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RMBVPlumS9+VlSWa5M+oaQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

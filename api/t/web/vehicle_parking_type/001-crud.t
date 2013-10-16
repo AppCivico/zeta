@@ -13,16 +13,13 @@ db_transaction {
       name  => 'criar novo tipo de estacionamento',
       list  => 1,
       stash => 'vehicle_parking_type',
-      [
-        name => 'Galpão fechado'
-      ];
+      [ name => 'Galpão fechado' ];
 
     stash_test 'vehicle_parking_type.get', sub {
         my ($me) = @_;
 
         is( $me->{id}, stash 'vehicle_parking_type.id', 'get has the same id!' );
     };
-
 
     stash_test 'vehicle_parking_type.list', sub {
         my ($me) = @_;
@@ -38,9 +35,7 @@ db_transaction {
 
     rest_put stash 'vehicle_parking_type.url',
       name => 'atualizar estacionamento',
-      [
-        name => 'Rua / Avenida'
-      ];
+      [ name => 'Rua / Avenida' ];
 
     rest_reload 'vehicle_parking_type';
 

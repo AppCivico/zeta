@@ -25,31 +25,30 @@ sub load_parking : Chained('base') : PathPart('load_parking') : Args(0) {
 
     my $id = $c->req->params->{id};
 
-    $api->stash_result(
-        $c, [ 'vehicle_route_types', $id],
-        stash => 'load_parking',
-    );
+    $api->stash_result( $c, [ 'vehicle_route_types', $id ], stash => 'load_parking', );
 
     if ( $c->stash->{error} ) {
 
         $c->detach( '/form/redirect_error', [] );
 
-    } elsif ( $c->stash->{load_parking}{vehicle_parking}{id} ) {
+    }
+    elsif ( $c->stash->{load_parking}{vehicle_parking}{id} ) {
 
         $c->res->body(
             encode_json(
                 {
-                    vehicle_parking         => $c->stash->{load_parking}{vehicle_parking}{id},
-                    name                    => $c->stash->{load_parking}{vehicle_parking}{name},
-                    address                 => $c->stash->{load_parking}{vehicle_parking}{address}{address},
-                    number                  => $c->stash->{load_parking}{vehicle_parking}{address}{number},
-                    lat_lng                 => $c->stash->{load_parking}{vehicle_parking}{address}{lat_lng},
-                    vehicle_parking_type    => $c->stash->{load_parking}{vehicle_parking}{vehicle_parking_type_id},
+                    vehicle_parking      => $c->stash->{load_parking}{vehicle_parking}{id},
+                    name                 => $c->stash->{load_parking}{vehicle_parking}{name},
+                    address              => $c->stash->{load_parking}{vehicle_parking}{address}{address},
+                    number               => $c->stash->{load_parking}{vehicle_parking}{address}{number},
+                    lat_lng              => $c->stash->{load_parking}{vehicle_parking}{address}{lat_lng},
+                    vehicle_parking_type => $c->stash->{load_parking}{vehicle_parking}{vehicle_parking_type_id},
                 }
             )
         );
 
-    } else {
+    }
+    else {
         $c->res->body( encode_json( { vehicle_parking => 0 } ) );
     }
 

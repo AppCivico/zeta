@@ -1,13 +1,33 @@
-
 [%IF !result.error%]
     <h3>Verificação</h3>
-        [%input_text('brand_name','Montadora', value => result.brand_name)|none%]
-        [%input_text('model','Modelo', value => result.model)|none%]
-        [%input_text('manufacture_year','Ano', value => result.manufacture_year)|none%]
-        [%input_text('vehicle_id', '', value=>result.id, type=>'hidden')%]
-        [%input_text('token_id', '', value=>result.token_id, type=>'hidden')%]
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>
+                        Marca: [%vehicle_token_check.brand.name%]
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Modelo: [%vehicle_token_check.model.name%]
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Placa: [%vehicle_token_check.car_plate%]
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Ano: [%vehicle_token_check.manufacture_year%]
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     <h3>Confirmação</h3>
     [%select_field('tracker', 'Rastreador',  array => trackers)|none%]
+    <input type="hidden" name="token_id" value="[%result.token_id%]">
+    <input type="hidden" name="vehicle_id" value="[%result.id%]">
     <button type="submit" class="btn btn-primary">Ativar rastreador para esse carro</button>
 [%ELSE%]
     <p>Informações inválidas</p>

@@ -15,7 +15,8 @@ __PACKAGE__->config(
     delete_roles => [qw/superadmin admin-tracker/],
 
     search_ok => {
-        vehicle_id => 'Int',
+        vehicle_id  => 'Int',
+        code        => 'Str'
     }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -83,7 +84,8 @@ sub list_GET {
     if ( $c->req->params->{available} ) {
         $rs = $rs->search(
             {
-                status => 'ativo'
+                status      => 1,
+                vehicle_id  => {'=', undef}
             }
         );
     }

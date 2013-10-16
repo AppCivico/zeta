@@ -17,8 +17,8 @@ sub index : Chained('base') : PathPart('index') : Args(0) {
 sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
     my ( $self, $c ) = @_;
 
-    my $api     = $c->model('API');
-    my $form    = $c->model('Form');
+    my $api  = $c->model('API');
+    my $form = $c->model('Form');
 
     my $params = { %{ $c->req->params } };
     $form->format_date( $params, 'date' );
@@ -26,19 +26,20 @@ sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
     $api->stash_result(
         $c,
         ['vehicle_trackers'],
-        stash => 'vehicle_trackers',
+        stash  => 'vehicle_trackers',
         params => {
-            vehicle_id  => $params->{vehicle_id},
-            date        => $params->{date},
-            order       => 'track_event'
+            vehicle_id => $params->{vehicle_id},
+            date       => $params->{date},
+            order      => 'track_event'
         }
     );
 
     $c->res->header( 'content-type', 'application/json;charset=UTF-8' );
 
-    if( $c->stash->{vehicle_trackers} ) {
-        $c->res->body(encode_json($c->stash->{vehicle_trackers}));
-    } else {
+    if ( $c->stash->{vehicle_trackers} ) {
+        $c->res->body( encode_json( $c->stash->{vehicle_trackers} ) );
+    }
+    else {
         $c->res->body(0);
     }
 }

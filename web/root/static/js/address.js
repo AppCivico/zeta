@@ -108,7 +108,7 @@ function reset_button() {
 
 }
 
-function get_cities(state_id, city_id) {
+function get_cities(state_id) {
     var $me = $('#elm_city_id');
 
     if(!state_id) {
@@ -131,8 +131,9 @@ function get_cities(state_id, city_id) {
         complete: function() {
             $me.removeClass('input-loading');
             $me.addClass('required');
-            if(city_id) {
-                $('#elm_city_id').val(city_id);
+
+            if($('#city_aux').val()) {
+                $('#elm_city_id').val($('#city_aux').val());
             }
 
             $('#elm_city_id').on('change', function(){

@@ -7,15 +7,15 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result     => 'DB::Address',
-    object_key => 'address',
+    result      => 'DB::Address',
+    object_key  => 'address',
     result_attr => {
         prefetch => ['user']
     },
 
-    update_roles => [qw/superadmin user/],
-    create_roles => [qw/superadmin user webapi/],
-    delete_roles => [qw/superadmin user/],
+    update_roles => [qw/superadmin user admin/],
+    create_roles => [qw/superadmin user webapi admin/],
+    delete_roles => [qw/superadmin user admin/],
 
     search_ok => {
         user_id => 'Int',
@@ -44,15 +44,13 @@ sub result_GET {
                   address
                   number
                   neighborhood
-                  postal_code
                   lat_lng
                   user_id
                   city_id
                   /
             ),
-            user => {
-                ( map { $_ => $address->user->$_ } qw/id name/ ),
-            },
+            postal_code => $address->{postal_code} ? sprintf("%08d", $address->{postal_code}) : undef,
+            user => { ( map { $_ => $address->user->$_ } qw/id name/ ), },
         }
     );
 
@@ -98,20 +96,19 @@ sub list_GET {
                         (
                             map { $_ => $r->{$_} }
                               qw/
-                                id
-                                address
-                                number
-                                neighborhood
-                                postal_code
-                                lat_lng
-                                user_id
-                                city_id
+                              id
+                              address
+                              number
+                              neighborhood
+                              postal_code
+                              lat_lng
+                              user_id
+                              city_id
                               /
                         ),
-                        type => {
-                            ( map { $_ => $r->{user}{$_} } qw/id name/ ),
-                        },
-                    }
+                        postal_code => $r->{postal_code} ? sprintf("%08d", $r->{postal_code}) : undef,
+                        type => { ( map { $_ => $r->{user}{$_} } qw/id name/ ), },
+                      }
                 } $c->stash->{collection}->as_hashref->all
             ]
         }

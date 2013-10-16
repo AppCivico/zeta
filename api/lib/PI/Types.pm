@@ -38,7 +38,8 @@ subtype RenavamStr, as Str, where {
 }, message { "$_ documento inválido   " };
 
 coerce RenavamStr, from Str, via {
-    PI::Data::Renavam->new($_); return $_;
+    PI::Data::Renavam->new($_);
+    return $_;
 };
 
 1;

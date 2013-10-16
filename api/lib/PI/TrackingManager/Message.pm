@@ -27,5 +27,14 @@ has track_event => (
     isa => DataStr
 );
 
+has event_information => (
+    is  => 'rw',
+    isa => 'HashRef'
+);
+
+has transaction => (
+    is  => 'rw',
+    isa => 'Str'
+);
 
 1;

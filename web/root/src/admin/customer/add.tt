@@ -1,31 +1,39 @@
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/address.js")%]
 [%IF !NO_TITLE%]
 <h2>Adicionar novo cliente</h2>
 [%END%]
 <form class="form-horizontal" method="post" action="/admin/form/customer">
 <div class="tab-pane active" id="tab1">
-    <fieldset>
-[%IF NO_TITLE%]
-<input type="hidden" name="redirect_to_dashboard" value="1"/>
-[%END%]
+<fieldset>
+    [%IF NO_TITLE%]
+        <input type="hidden" name="redirect_to_dashboard" value="1"/>
+    [%END%]
 
-    [%input_text('fancy_name','Nome fantasia')|none%]
-    [%input_text('corporate_name','Razão social')|none%]
-    [%input_text('cnpj','CNPJ')|none%]
-    [%input_text('state_registration','Inscrição estadual')|none%]
-    [%input_text('municipal_registration','Incrição municipal')|none%]
-    [%input_text('email','Email')|none%]
-    [%input_text('password','Senha')|none%]
-    [%input_text('password_confirm','Confirmar senha')|none%]
-    [%input_text('phone','Telefone')|none%]
-    [%input_text('mobile_phone','Celular')|none%]
-    [%input_text('secondary_phone','Telefone secundário')|none%]
-    [%input_text('postal_code','CEP')|none%]
-    [%input_text('address','Endereço')|none%]
-    [%input_text('number','Número')|none%]
-    [%input_text('complement','Complemento')|none%]
-    [%input_text('neighborhood','Bairro')|none%]
-    [%select_field('state_id', 'Estado',  array => estate)|none%]
-    [%select_field('city_id', 'Cidade',  array => city)|none%]
+        [%input_text('fancy_name','Nome fantasia')|none%]
+        [%input_text('corporate_name','Razão social')|none%]
+        [%input_text('cnpj','CNPJ')|none%]
+        [%input_text('state_registration','Inscrição estadual')|none%]
+        [%input_text('municipal_registration','Incrição municipal')|none%]
+        [%input_text('email','Email')|none%]
+        [%input_text('password', 'Senha', { type => 'password' })|none%]
+        [%input_text('password_confirm', 'Confirmar senha', { type => 'password'})|none%]
+        [%input_text('phone','Telefone', classes => ['span3', 'phone'])|none%]
+        [%input_text('mobile_phone','Celular', classes => ['span3', 'mobile_phone'])|none%]
+        [%input_text('secondary_phone','Telefone secundário', classes => ['span3', 'mobile_phone'])|none%]
+        [%input_text('postal_code','CEP', classes => ['span3', 'postal_code', 'clear_addr_rt'],
+            input_append => '<span id="cep_not_found" class="hide">CEP não encontrado</span>'
+        )|none%]
+
+        [%select_field('state_id', 'Estado',  array => select_states, classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
+        <div id="cities">
+            [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
+        </div>
+
+        [%input_text('address','Logradouro', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
+        [%input_text('number','Número', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
+        [%input_text('complement','Complemento', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
+        [%input_text('neighborhood','Bairro', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>

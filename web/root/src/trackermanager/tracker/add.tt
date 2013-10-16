@@ -10,8 +10,9 @@
 
     [%input_text('code','Código')|none%]
     [%select_field('status', 'Status',  array => [
-        ['ativo','Ativo'],
-        ['inativo','Inativo']
+        [1,'Ativo'],
+        [0,'Inativo']
+        [2, 'Vinculado']
         ])|none%]
 
         <div class="form-actions">

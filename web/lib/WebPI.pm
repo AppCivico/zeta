@@ -63,11 +63,14 @@ __PACKAGE__->config(
         stash_var   => 'assets'
     },
     'View::TT' => {
-        expose_methods => [
+        expose_methods =>
+        [
             'days_of_week_human',
-            'hour_human'
+            'hour_human',
+            'format_date_to_human',
+            'format_cnpj_to_human'
         ]
-    }
+      }
 
 );
 

@@ -7,10 +7,10 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result     => 'DB::VehicleParking',
-    object_key => 'vehicle_parking',
+    result      => 'DB::VehicleParking',
+    object_key  => 'vehicle_parking',
     result_attr => {
-        prefetch => ['vehicle_parking_type', 'address']
+        prefetch => [ 'vehicle_parking_type', 'address' ]
     },
 
     update_roles => [qw/superadmin user/],
@@ -42,22 +42,20 @@ sub result_GET {
                   vehicle_parking_type_id
                   /
             ),
-            type => {
-                ( map { $_ => $vehicle_parking->vehicle_parking_type->$_ } qw /id name/ )
-            },
+            type => { ( map { $_ => $vehicle_parking->vehicle_parking_type->$_ } qw /id name/ ) },
             address => {
-                    (
+                (
                     map { $_ => $vehicle_parking->address->$_ }
-                        qw/
-                        id
-                        address
-                        number
-                        neighborhood
-                        postal_code
-                        lat_lng
-                        user_id
-                        /
-                    )
+                      qw/
+                      id
+                      address
+                      number
+                      neighborhood
+                      postal_code
+                      lat_lng
+                      user_id
+                      /
+                )
             }
         }
     );
@@ -82,8 +80,8 @@ sub result_PUT {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_parking->id ] )->as_string,
         entity => {
-            id          => $vehicle_parking->id,
-            address_id  => $vehicle_parking->address_id,
+            id         => $vehicle_parking->id,
+            address_id => $vehicle_parking->address_id,
         }
       ),
       $c->detach
@@ -112,22 +110,20 @@ sub list_GET {
                               vehicle_parking_type_id
                               /
                         ),
-                        type => {
-                            ( map { $_ => $r->{vehicle_parking_type}{$_} } qw /id name/ )
-                        },
+                        type => { ( map { $_ => $r->{vehicle_parking_type}{$_} } qw /id name/ ) },
                         address => {
-                                (
+                            (
                                 map { $_ => $r->{address}{$_} }
-                                    qw/
-                                    id
-                                    address
-                                    number
-                                    neighborhood
-                                    postal_code
-                                    lat_lng
-                                    user_id
-                                    /
-                                )
+                                  qw/
+                                  id
+                                  address
+                                  number
+                                  neighborhood
+                                  postal_code
+                                  lat_lng
+                                  user_id
+                                  /
+                            )
                         },
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
                       }

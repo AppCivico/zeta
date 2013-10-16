@@ -7,27 +7,26 @@ use PI::Test::Further;
 api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
+
     #criar novo endereço
     rest_post '/addresses',
       name  => 'criar novo endereço',
       list  => 1,
       stash => 'address',
       [
-        address         => 'Av. Paulista',
-        number          => '568',
-        neighborhood    => 'Bela Vista',
-        user_id         => 1,
-        postal_code     => '01310000'
+        address      => 'Av. Paulista',
+        number       => '568',
+        neighborhood => 'Bela Vista',
+        user_id      => 1,
+        postal_code  => '01310000'
       ];
 
-     #criar novo tipo de estacionamento
+    #criar novo tipo de estacionamento
     rest_post '/vehicle_parking_types',
       name  => 'criar novo tipo de estacionamento',
       list  => 1,
       stash => 'vehicle_parking_type',
-      [
-        name => 'Galpão fechado'
-      ];
+      [ name => 'Galpão fechado' ];
 
     #criar novo estacionamento
     rest_post '/vehicle_parking',
@@ -49,9 +48,9 @@ db_transaction {
       list  => 1,
       stash => 'vehicle_route_type',
       [
-        name                => 'Casa',
-        address_id          => stash 'address.id',
-        vehicle_parking_id  => stash 'vehicle_parking.id'
+        name               => 'Casa',
+        address_id         => stash 'address.id',
+        vehicle_parking_id => stash 'vehicle_parking.id'
       ];
 
     stash_test 'vehicle_route_type.get', sub {
@@ -74,9 +73,7 @@ db_transaction {
 
     rest_put stash 'vehicle_route_type.url',
       name => 'atualizar rota',
-      [
-        name => 'Trabalho',
-      ];
+      [ name => 'Trabalho', ];
 
     rest_reload 'vehicle_route_type';
 

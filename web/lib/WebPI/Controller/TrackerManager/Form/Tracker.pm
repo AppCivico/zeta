@@ -36,6 +36,12 @@ sub process_edit : Chained('base') : PathPart('tracker') : Args(1) {
 
     my $api = $c->model('API');
 
+    my $p = $c->req->params;
+
+    if ($c->req->params->{status} == 1) {
+        $c->req->params->{vehicle_id} = undef if exists $c->req->params->{vehicle_id};
+    }
+
     $api->stash_result(
         $c, [ 'trackers', $id ],
         method => 'PUT',
@@ -69,13 +75,22 @@ sub check_token : Chained('base') : PathPart('check_token') : Args(0) {
     my ( $self, $c ) = @_;
     my $api = $c->model('API');
 
-    my $result = $api->stash_result( $c, ['vehicle_token_check'], params => $c->req->params );
+    $api->stash_result(
+        $c, ['vehicle_token_check'],
+        stash   => 'vehicle_token_check',
+        params  => $c->req->params
+    );
+
+    my $result = $c->stash->{vehicle_token_check};
 
     if ( $result->{error} ) {
         $c->stash( error => $result->{error} );
     }
 
-    $api->stash_result( $c, ['trackers'], params => { available => 1 } );
+    $api->stash_result(
+        $c, ['trackers'],
+        params => { available => 1 }
+    );
 
     $c->stash(
         without_wrapper => 1,
@@ -91,7 +106,7 @@ sub process_activation : Chained('base') : PathPart('activation') Args(0) {
 
     my $params = $c->req->params;
 
-    $params->{status} = 'vinculado';
+    $params->{status} = 2;
 
     $api->stash_result(
         $c, [ 'trackers', $params->{tracker} ],

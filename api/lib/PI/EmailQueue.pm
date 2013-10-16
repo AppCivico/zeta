@@ -9,7 +9,7 @@ has schema => (
 );
 
 sub add {
-    my ( $self, %params) = @_;
+    my ( $self, %params ) = @_;
 
     my $cliente_redis = PI::Redis->new();
 
@@ -26,9 +26,9 @@ sub add {
     die 'subject required' if !exists $params{subject};
     $email_p{subject} = $params{subject};
 
-    my $email = encode_json(\%email_p);
-    use DDP; p %params;
-    eval { $cliente_redis->redis->rpush( $params{queue_key} =>  $email) };
+    my $email = encode_json( \%email_p );
+
+    eval { $cliente_redis->redis->rpush( $params{queue_key} => $email ) };
 
     die $@ if $@;
 
@@ -36,15 +36,15 @@ sub add {
 }
 
 sub add_error {
-    my ( $self, $error) = @_;
+    my ( $self, $error ) = @_;
 
     my $cliente_redis = PI::Redis->new();
 
-    $cliente_redis->queue_key ('error');
+    $cliente_redis->queue_key('error');
 
-    eval { $cliente_redis->redis->rpush('error' => $error) };
+    eval { $cliente_redis->redis->rpush( 'error' => $error ) };
 
-    $cliente_redis->queue_key ('email');
+    $cliente_redis->queue_key('email');
     die $@ if $@;
 
     print "Erro adicionado a fila\n";

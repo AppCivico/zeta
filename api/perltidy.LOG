@@ -11,15 +11,14 @@ ci = levels of continuation indentation; bk = 1 if in BLOCK, 0 if not.
 in:out indent c b  nesting   code + messages; (messages begin with >>>)
 lines  levels i k            (code begins with one '.' per indent level)
 ------  ----- - - --------   -------------------------------------------
-L50:38   i2:2 0 0 {[         ..'mobile_provider'      => 'test',
-L100:100 i1:1 0 1 {          .#criar log de rota de veículo
-L151:151 i1:1 0 1 {          .rest_delete stash 'vehicle_tracker ....
-L165:165 i0:0 0 1            >>>Last line
+L50:46   i1:1 1 1 {          .stash => 'vehicle_route_type',
+L100:97  i2:2 0 1 {{         ..is( @$me, 0, '0 vehicle_route_typ ....
+L104:101 i0:0 0 1            >>>Last line
 
 No indentation disagreement seen
 
 No lines exceeded 120 characters
-  Maximum output line length was 82 at line 123
+  Maximum output line length was 88 at line 65
 Suggest including 'use warnings;'
 Suggest including 'use strict;'
 Converged.  Output for iteration 2 same as for iter 1.

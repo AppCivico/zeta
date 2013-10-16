@@ -4,7 +4,6 @@ use namespace::autoclean;
 use Digest::SHA1 qw(sha1 sha1_hex sha1_base64);
 use utf8;
 
-
 BEGIN { extends 'Catalyst::Controller' }
 
 sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) {
@@ -22,8 +21,8 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
     $form->only_number( $param, 'telephone_number', 'mobile_number', 'postal_code', 'cpf' );
 
-    $param->{validation_key} = sha1_hex($param->{email}.$param->{nome});
-    $param->{password} = $param->{validation_key};
+    $param->{validation_key} = sha1_hex( $param->{email} . $param->{nome} );
+    $param->{password}       = $param->{validation_key};
 
     $api->stash_result(
         $c, 'drivers',
@@ -57,8 +56,9 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
         if ( !$c->stash->{error} ) {
 
-            $api->stash_result (
-                $c, 'vehicle_parking',
+            $api->stash_result(
+                $c,
+                'vehicle_parking',
                 method => 'POST',
                 stash  => 'vehicle_parking',
                 body   => {
@@ -70,9 +70,9 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
             );
 
             my $route_type = {
-                'name'              => 'Casa',
-                address_id          => $c->stash->{address}{id},
-                vehicle_parking_id  => $c->stash->{vehicle_parking}{id},
+                'name'             => 'Casa',
+                address_id         => $c->stash->{address}{id},
+                vehicle_parking_id => $c->stash->{vehicle_parking}{id},
             };
 
             $api->stash_result(
@@ -82,12 +82,11 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
                 body   => $route_type
             );
 
-
-
             $c->detach('/cadastro/registration_successfully');
         }
 
-    } else {
+    }
+    else {
         $c->stash->{error}      = $c->stash->{driver}{error};
         $c->stash->{form_error} = $c->stash->{driver}{form_error};
 
@@ -104,28 +103,33 @@ sub process_password : Chained('base') : PathPart('driver/process_password') : A
     my $params = $c->req->params;
 
     $api->stash_result(
-        $c, [ 'users',  $user_id],
-        stash => 'user_pass',
+        $c,
+        [ 'users', $user_id ],
+        stash  => 'user_pass',
         method => 'PUT',
         body   => {
-            'password'          => $params->{password},
-            'password_confirm'  => $params->{confirm_password},
-            'active'            => 1
+            'password'         => $params->{password},
+            'password_confirm' => $params->{confirm_password},
+            'active'           => 1
         }
     );
-    use DDP; p $params;
+    use DDP;
+    p $params;
     $params->{email} = $c->stash->{user_pass}{email};
     my $err = $c->stash->{user_pass};
-    use DDP; p $params; p $err;
-#      exit;
-     if ( $c->stash->{user_pass}{error} ) {
+    use DDP;
+    p $params;
+    p $err;
+
+    #      exit;
+    if ( $c->stash->{user_pass}{error} ) {
         $c->stash->{error}      = $c->stash->{user_pass}{error};
         $c->stash->{form_error} = $c->stash->{user_pass}{form_error};
 
         $c->detach( '/form/redirect_error', [] );
-     }
+    }
 
-     $c->forward('/form/login/login', $params);
+    $c->forward( '/form/login/login', $params );
 }
 
 __PACKAGE__->meta->make_immutable;

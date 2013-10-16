@@ -7,8 +7,8 @@ use Moose;
 our $AUTOLOAD;
 
 has 'emailinstance' => (
-  is => 'rw',
-  isa => 'PI::EmailQueue',
+    is  => 'rw',
+    isa => 'PI::EmailQueue',
 );
 
 sub initialize_after_setup {

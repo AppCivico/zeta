@@ -1,5 +1,6 @@
 function re_mask() {
     $('.date').mask('99/99/9999');
+    $('.datepicker').mask('99/99/9999');
     $('.phone').mask('(99) 9999-9999');
     $('.postal_code').mask('99999-999');
     $('.cpf').mask('999.999.999-99');
@@ -15,6 +16,10 @@ function re_mask() {
             element.mask("(99) 9999-9999?9");
         }
     }).trigger('focusout');
+
+    if($('#elm_cnpj').length) {
+        $('#elm_cnpj').mask('99.999.999/9999-99');
+    }
 }
 
 $( document ).ready(function() {
@@ -33,5 +38,9 @@ $( document ).ready(function() {
 		$(".body-style-select ul li input").change(function(e){
 			$("#elm_vehicle_body_style_id").val($(this).val());
 		});
+	}
+
+	if($('.datepicker').length){
+        $('.datepicker').datepicker({language:'pt-BR', format:'dd/mm/yyyy'});
 	}
 });

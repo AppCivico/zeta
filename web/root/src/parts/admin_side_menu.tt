@@ -1,16 +1,14 @@
-<div class="well sidebar-nav" style="width: 168px" data-spy="affix" data-offset-top="0">
+<div class="well sidebar-nav" style="width: 130px" data-spy="affix" data-offset-top="0">
     <ul class="nav nav-list">
-        [%href = c.uri_for_action('/admin/dashboard/index')%]
-        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]">Dashboard</a></li>
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="/admin/dashboard">Dashboard</a></li>
 
         <li class="nav-header">Clientes</li>
-        [%href = c.uri_for_action('/admin/customer/index')%]
-        <li><a href="[%href%]"><i class="icon-user"></i>Listar</a></li>
-        [%href = c.uri_for_action('/admin/customer/add')%]
-        <li><a href="[%href%]"><i class="icon-user"></i>Cadastrar</a></li>
-
+        <li><a href="/admin/customer"><i class="icon-user"></i>Listar</a></li>
+        <li><a href="/admin/customer/new"><i class="icon-user"></i>Cadastrar</a></li>
+        <li class="nav-header">Campanhas</li>
+        <li><a href="/admin/customer"><i class="icon-user"></i>Listar</a></li>
         <li class="nav-header">Outros</li>
         <li><a href="/contato">Contato</a></li>
-        <li><a href="[%c.uri_for('/logout')%]">Sair</a></li>
+        <li><a href="/logout">Sair</a></li>
     </ul>
 </div>

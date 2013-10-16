@@ -1,6 +1,7 @@
 package WebPI::Controller::User::Route;
 use Moose;
 use namespace::autoclean;
+use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -36,34 +37,63 @@ sub edit : Chained('object') : PathPart('') : Args(0) {
 sub add : Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
 
-    if (exists $c->req->params->{dest_time} && $c->req->params->{dest_time} =~ /^[0-9]{4}$/){
+    if ( exists $c->req->params->{dest_time} && $c->req->params->{dest_time} =~ /^[0-9]{4}$/ ) {
         $c->stash->{orig_time} = $c->req->params->{dest_time};
-        substr($c->stash->{orig_time}, 2, 0) = ':';
+        substr( $c->stash->{orig_time}, 2, 0 ) = ':';
 
         $c->stash->{orig_id} = $c->req->params->{destino};
     }
 
+    if ( exists $c->req->params->{dow} ) {
+        $c->stash->{dow} = $c->req->params->{dow};
+    }
+
     $c->stash->{step} = $c->stash->{orig_id} ? 2 : 1;
 
-    if (exists $c->req->params->{finalizado}) {
+    if ( exists $c->req->params->{finalizado} ) {
         my $api = $c->model('API');
 
         my @routes;
         my %chosen = map { $_ => 1 } split /-/, $c->req->params->{rotas};
-        foreach my $r (@{$c->stash->{vehicle_routes}}) {
-            push @routes, $r if exists $chosen{$r->{id}};
+        foreach my $r ( @{ $c->stash->{vehicle_routes} } ) {
+            push @routes, $r if exists $chosen{ $r->{id} };
         }
         $c->stash->{routes} = \@routes;
 
         $api->stash_result(
-            $c, [ 'vehicle_routes',  ],
-            stash => 'vehicle_route_list'
+            $c, [ 'vehicle_routes', ],
+            stash => 'filled_dow',
+            params => {
+                check_dow   => 1,
+                vehicle_id  => $c->stash->{vehicles}[0]{id}
+            }
         );
+        my $v = $c->stash->{vehicles}[0]{id};
+        my $d = $c->stash->{filled_dow};
+        use DDP; p $d; p $v;
 
-        $c->stash->{step} = 3;
+        my $week = {
+            1 => 'Domingo',
+            2 => 'Segunda-feira',
+            3 => 'Terça-feira',
+            4 => 'Quarta-feira',
+            5 => 'Quinta-feira',
+            6 => 'Sexta-feira',
+            7 => 'Sábado',
+        };
+
+        my %used        = map { $_ => 1 } @{$c->stash->{filled_dow}{dow}};
+        my @not_used    = grep{ !exists $used{$_} } 1..7;
+
+        $c->stash->{empty_days} = [map { $week->{$_} } @not_used];
+        $c->stash->{empty_days_id} = \@not_used;
+
+        $api->stash_result( $c, [ 'vehicle_routes', ], stash => 'vehicle_route_list' );
+
+        $c->stash->{step}       = 3;
         $c->stash->{finalizado} = 1;
-
-    } elsif ($c->stash->{step} == 2) {
+    }
+    elsif ( $c->stash->{step} == 2 ) {
         $c->stash->{cadastro_incompleto} = 1;
     }
 

@@ -1,7 +1,8 @@
 package WebPI::Controller::User::Document;
 use Moose;
-use namespace::autoclean;
 use utf8;
+use namespace::autoclean;
+use Config::General;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -19,6 +20,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 
 sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
+
     my $api = $c->model('API');
 
     $api->stash_result(
@@ -34,6 +36,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         registro_cnh           => 'Registro de cnh',
         comprovante_residencia => 'Comprovante de residência'
     };
+
 }
 
 sub edit : Chained('object') : PathPart('') : Args(0) {

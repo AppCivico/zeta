@@ -10,11 +10,11 @@ __PACKAGE__->config(
     result      => 'DB::Customer',
     object_key  => 'customer',
     result_cond => { 'user.active' => 1 },
-    result_attr => { prefetch => 'user' },
+    result_attr => { prefetch => [ 'user', 'address' ] },
 
-    update_roles => [qw/superadmin/],
-    create_roles => [qw/superadmin/],
-    delete_roles => [qw/superadmin/],
+    update_roles => [qw/superadmin admin/],
+    create_roles => [qw/superadmin admin/],
+    delete_roles => [qw/superadmin admin/],
 
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -34,27 +34,36 @@ sub result_GET {
     $self->status_ok(
         $c,
         entity => {
-            map { $_ => $attrs{$_}, }
-              qw(
-              id
-              fancy_name
-              corporate_name
-              email
-              cnpj
-              state_registration
-              municipal_registration
-              phone
-              mobile_phone
-              secondary_phone
-              postal_code
-              address
-              number
-              neighborhood
-              complement
-              city_id
-              state_id
-              user_id
-              )
+            (
+                map { $_ => $attrs{$_}, }
+                qw(
+                id
+                fancy_name
+                corporate_name
+                email
+                cnpj
+                state_registration
+                municipal_registration
+                phone
+                mobile_phone
+                secondary_phone
+                address_id
+                )
+             ),
+            address => {
+                (
+                    map { $_ => $customer->address->$_ }
+                        qw/
+                        address
+                        number
+                        neighborhood
+                        complement
+                        city_id
+                        user_id
+                        /
+                ),
+                postal_code => $customer->address->postal_code ? sprintf("%08d", $customer->address->postal_code) : undef
+            },
         }
     );
 }
@@ -108,16 +117,23 @@ sub list_GET {
                               phone
                               mobile_phone
                               secondary_phone
-                              postal_code
-                              address
-                              number
-                              neighborhood
-                              complement
-                              city_id
-                              state_id
-                              user_id
+                              address_id
                               /
                         ),
+                        address => {
+                            (
+                                map { $_ => $r->{customer}{address}{$_} }
+                                qw/
+                                address
+                                number
+                                neighborhood
+                                complement
+                                city_id
+                                user_id
+                                /
+                            ),
+                            postal_code => $r->{customer}{address}{postal_code} ? sprintf("%08d", $r->{customer}{address}{postal_code}) : undef
+                        },
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
                 } $c->stash->{collection}->as_hashref->all

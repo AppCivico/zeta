@@ -79,7 +79,14 @@ var $load_parking = function(){
                     $('#elm_parking_address').val(result.address);
                     $('#elm_vehicle_parking_type_id').val(result.vehicle_parking_type);
                     $('#elm_lat_lng').val(result.lat_lng);
-                    $('form').append('<input type=hidden name=vehicle_parking class=parking value='+result.vehicle_parking+'>');
+
+                    var $parking_aux = $('#parking_aux');
+                    if($parking_aux.length) {
+                        $parking_aux.val(result.vehicle_parking);
+                    } else {
+                        $('form').append('<input id=parking_aux type=hidden name=vehicle_parking class=parking value='+result.vehicle_parking+'>');
+                    }
+
 
                 } else {
                     $('.parking').val('');
@@ -115,6 +122,7 @@ $( document ).ready(function() {
         $('#btn_save').button('reset');
         $('.clear_addr_rt').val('');
     });
+
 
     $load_parking.initialize('elm_destination_id');
 });

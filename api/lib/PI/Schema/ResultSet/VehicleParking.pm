@@ -18,15 +18,15 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                address_id=> {
+                address_id => {
                     required => 1,
                     type     => 'Int',
                 },
-                name=> {
+                name => {
                     required => 1,
                     type     => 'Str',
                 },
-                vehicle_parking_type_id=> {
+                vehicle_parking_type_id => {
                     required => 1,
                     type     => 'Int',
                 }

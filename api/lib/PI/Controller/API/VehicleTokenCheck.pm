@@ -10,6 +10,10 @@ __PACKAGE__->config(
     default => 'application/json',
 
     result => 'DB::Vehicle',
+    result_attr => {
+        prefetch =>
+            [ 'vehicle_model', 'vehicle_brand', 'vehicle_color', 'vehicle_body_style' ]
+    },
 
 );
 with 'PI::TraitFor::Controller::AutoBase';
@@ -40,18 +44,37 @@ sub result_GET {
         $self->status_ok(
             $c,
             entity => {
-                token_id => $token->id,
                 (
-                    map { $_ => $vehicle->$_, }
-                      qw/
-                      id
-                      model
-                      brand_name
-                      manufacture_year
-                      /
+                    map { $_ => $vehicle->$_ }
+                    qw(
+                    id
+                    renavam
+                    car_plate
+                    doors_number
+                    manufacture_year
+                    vehicle_model_id
+                    model_year
+                    vehicle_brand_id
+                    vehicle_body_style_id
+                    km
+                    vehicle_color_id
+                    fuel_type
+                    observations
+                    vehicle_owner_id
+                    driver_id
+                    state_id
+                    city_id
+                    )
                 ),
+                model      => { ( map { $_ => $vehicle->vehicle_model->$_ } qw/name/ ), },
+                color      => { ( map { $_ => $vehicle->vehicle_color->$_ } qw/name/ ), },
+                brand      => { ( map { $_ => $vehicle->vehicle_brand->$_ } qw/name/ ), },
+                body_style => { ( map { $_ => $vehicle->vehicle_body_style->$_ } qw/name/ ), },
+                ( map { $_ => ( $vehicle->$_ ? $vehicle->$_->datetime : undef ) } qw/created_at/ ),
+                token_id   => $token->id,
             }
         );
+
     };
 
     if ( $@ && ref $@ eq 'HASH' ) {

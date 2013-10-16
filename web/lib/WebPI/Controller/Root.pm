@@ -120,7 +120,7 @@ Attempt to render a view, if needed.
 sub end : ActionClass('RenderView') {
     my ( $self, $c ) = @_;
 
-    if ( $c->debug && exists $ENV{DUMP_STASH}) {
+    if ( $c->debug && exists $ENV{DUMP_STASH} ) {
         my $x = $c->stash;
         use DDP;
         p $x;
