@@ -42,62 +42,65 @@ db_transaction {
         user_id                => 1
       ];
 
-    stash_test 'customer.get', sub {
+    rest_post '/campaigns',
+    name  => 'criar campanha',
+    list  => 1,
+    stash => 'campaign',
+      [
+        valid_from      => '2013-10-16 00:00:00',
+        valid_to        => '2013-10-16 23:59:59',
+        customer_id     => stash 'customer.id',
+        status          => 1,
+        activated_at    => '2013-10-16 18:30:30',
+      ];
+
+    stash_test 'campaign.get', sub {
         my ($me) = @_;
 
         is( $me->{id},    stash 'customer.id', 'get has the same id!' );
-        is( $me->{email}, 'foo@bar.com.br',    'email ok!' );
+        is( $me->{valid_from}, '2013-10-16 00:00:00', 'valid date ok!' );
     };
 
-    stash_test 'customer.list', sub {
+    stash_test 'campaign.list', sub {
         my ($me) = @_;
 
-        ok( $me = delete $me->{customers}, 'customer list exists' );
+        ok( $me = delete $me->{campaigns}, 'campaign list exists' );
 
-        is( @$me, 1, '1 customer' );
+        is( @$me, 1, '1 campaign' );
 
-        $me = [ sort { $a->{id} <=> $b->{id} } @$me ];
-
-        is( $me->[0]{email}, 'foo@bar.com.br', 'listing ok' );
+        is( $me->{valid_from}, '2013-10-16 00:00:00', 'listing ok' );
     };
 
-    rest_put stash 'customer.url',
-      name => 'atualizar cliente',
+    rest_put stash 'campaign.url',
+      name => 'atualizar campanha',
       [
-        fancy_name             => 'Foo Bar2',
-        corporate_name         => 'Foo Bar2 LTDA.',
-        email                  => 'foo@bar2.com.br',
-        cnpj                   => '021.925.0001/25',
-        state_registration     => '123acbd21',
-        municipal_registration => 'muni121221',
-        phone                  => '5511111112111',
-        mobile_phone           => '55111111112111',
-        secondary_phone        => '55111111111244',
-        address_id             => stash 'address.id',
-        password               => 'teste2',
-        password_confirm       => 'teste2'
+        valid_from      => '2013-10-17 00:00:00',
+        valid_to        => '2013-10-17 23:59:59',
+        customer_id     => stash 'customer.id',
+        status          => 1,
+        activated_at    => '2013-10-17 18:30:30',
       ];
 
-    rest_reload 'customer';
+    rest_reload 'campaign';
 
-    stash_test 'customer.get', sub {
+    stash_test 'campaign.get', sub {
         my ($me) = @_;
 
-        is( $me->{email}, 'foo@bar2.com.br', 'email updated!' );
+        is( $me->{valid_from}, '2013-10-17 00:00:00', 'valid_from updated ok' );
     };
 
-    rest_delete stash 'customer.url';
+    rest_delete stash 'campaign.url';
 
-    rest_reload 'customer', 404;
+    rest_reload 'campaign', 404;
 
-    rest_reload_list 'customer';
+    rest_reload_list 'campaign';
 
-    stash_test 'customer.list', sub {
+    stash_test 'campaign.list', sub {
         my ($me) = @_;
 
-        ok( $me = delete $me->{customers}, 'customers list exists' );
+        ok( $me = delete $me->{campaigns}, 'campaigns list exists' );
 
-        is( @$me, 0, '0 customer' );
+        is( @$me, 0, '0 campaign' );
     };
 
 };

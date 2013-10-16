@@ -100,7 +100,7 @@ db_transaction {
         number       => '568',
         neighborhood => 'Bela Vista',
         user_id      => 1,
-        postal_code  => '01310000'
+        postal_code  => '01310000',
       ];
 
     #criar novo profile de rota origem
