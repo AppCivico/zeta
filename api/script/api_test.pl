@@ -59,6 +59,5 @@ my $response = $coder->decode( $req->content );
 use DDP;
 my $lat  = $response->{body}->{locationReports}->{resultSet}->[0]->{latitude};
 my $long = $response->{body}->{locationReports}->{resultSet}->[0]->{longitude};
-
 print $url;
 print $lat. '  ---  ' . $long . "\n";

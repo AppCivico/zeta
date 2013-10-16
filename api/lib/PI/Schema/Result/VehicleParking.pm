@@ -191,7 +191,6 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-
 # Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:20:43
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vmmMOIavV2wQzkDQk3hHIw
 with 'PI::Role::Verification';
