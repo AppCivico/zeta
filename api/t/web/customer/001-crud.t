@@ -12,7 +12,7 @@ db_transaction {
     rest_post '/addresses',
       name  => 'criar novo endereço origem',
       list  => 1,
-      stash => 'address_orig',
+      stash => 'address',
       [
         address      => 'Av. Paulista',
         number       => '568',

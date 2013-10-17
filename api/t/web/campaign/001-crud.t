@@ -57,8 +57,8 @@ db_transaction {
     stash_test 'campaign.get', sub {
         my ($me) = @_;
 
-        is( $me->{id},    stash 'customer.id', 'get has the same id!' );
-        is( $me->{valid_from}, '2013-10-16 00:00:00', 'valid date ok!' );
+        is( $me->{id},    stash 'campaign.id', 'get has the same id!' );
+        is( $me->{valid_from}, '2013-10-16T00:00:00', 'valid date ok!' );
     };
 
     stash_test 'campaign.list', sub {
@@ -68,7 +68,7 @@ db_transaction {
 
         is( @$me, 1, '1 campaign' );
 
-        is( $me->{valid_from}, '2013-10-16 00:00:00', 'listing ok' );
+        is( $me->[0]{valid_from}, '2013-10-16 00:00:00', 'listing ok' );
     };
 
     rest_put stash 'campaign.url',
@@ -86,7 +86,7 @@ db_transaction {
     stash_test 'campaign.get', sub {
         my ($me) = @_;
 
-        is( $me->{valid_from}, '2013-10-17 00:00:00', 'valid_from updated ok' );
+        is( $me->{valid_from}, '2013-10-17T00:00:00', 'valid_from updated ok' );
     };
 
     rest_delete stash 'campaign.url';

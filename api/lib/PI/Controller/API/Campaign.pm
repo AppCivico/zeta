@@ -79,7 +79,10 @@ sub result_PUT {
 
 sub result_DELETE {
     my ( $self, $c ) = @_;
+
     my $campaign = $c->stash->{campaign};
+
+    $campaign->delete;
 
     $self->status_no_content($c);
 }
