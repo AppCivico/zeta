@@ -10,9 +10,9 @@ db_transaction {
 
     #criar novo endereço
     rest_post '/addresses',
-      name  => 'criar novo endereço origem',
+      name  => 'criar novo endereço',
       list  => 1,
-      stash => 'address_orig',
+      stash => 'address',
       [
         address      => 'Av. Paulista',
         number       => '568',
@@ -36,7 +36,7 @@ db_transaction {
         phone                  => '551111111111',
         mobile_phone           => '5511111111111',
         secondary_phone        => '5511111111144',
-        address_id                => stash 'address.id',
+        address_id             => stash 'address.id',
         password               => 'teste',
         password_confirm       => 'teste',
         user_id                => 1
