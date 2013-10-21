@@ -68,9 +68,6 @@ sub add : Chained('base') : PathPart('new') : Args(0) {
                 vehicle_id  => $c->stash->{vehicles}[0]{id}
             }
         );
-        my $v = $c->stash->{vehicles}[0]{id};
-        my $d = $c->stash->{filled_dow};
-        use DDP; p $d; p $v;
 
         my $week = {
             1 => 'Domingo',

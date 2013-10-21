@@ -11,7 +11,7 @@
     [%input_text('code','Código')|none%]
     [%select_field('status', 'Status',  array => [
         [1,'Ativo'],
-        [0,'Inativo']
+        [0,'Inativo'],
         [2, 'Vinculado']
         ])|none%]
 

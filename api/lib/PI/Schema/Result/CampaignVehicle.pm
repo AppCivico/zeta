@@ -61,11 +61,17 @@ __PACKAGE__->table("campaign_vehicle");
   is_foreign_key: 1
   is_nullable: 0
 
-=head2 vehicle_invitation_id
+=head2 created_at
 
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 1
+  data_type: 'timestamp'
+  default_value: current_timestamp
+  is_nullable: 0
+  original: {default_value => \"now()"}
+
+=head2 status
+
+  data_type: 'smallint'
+  is_nullable: 0
 
 =cut
 
@@ -81,8 +87,15 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "campaign_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "vehicle_invitation_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "created_at",
+  {
+    data_type     => "timestamp",
+    default_value => \"current_timestamp",
+    is_nullable   => 0,
+    original      => { default_value => \"now()" },
+  },
+  "status",
+  { data_type => "smallint", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -96,6 +109,25 @@ __PACKAGE__->add_columns(
 =cut
 
 __PACKAGE__->set_primary_key("id");
+
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<campaign_vehicle_vehicle_id_campaign_id_key>
+
+=over 4
+
+=item * L</vehicle_id>
+
+=item * L</campaign_id>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint(
+  "campaign_vehicle_vehicle_id_campaign_id_key",
+  ["vehicle_id", "campaign_id"],
+);
 
 =head1 RELATIONS
 
@@ -129,30 +161,55 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
-=head2 vehicle_invitation
 
-Type: belongs_to
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-21 18:01:33
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rTwZTldaqDhqeLViKj0hNg
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
 
-Related object: L<PI::Schema::Result::VehicleInvitation>
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr/;
 
-=cut
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                vehicle_id => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                campaign_id=> {
+                    required => 0,
+                    type     => 'Int',
+                },
+                status => {
+                    required => 0,
+                    type     => 'Int',
+                },
+            }
+        ),
+    };
+}
 
-__PACKAGE__->belongs_to(
-  "vehicle_invitation",
-  "PI::Schema::Result::VehicleInvitation",
-  { id => "vehicle_invitation_id" },
-  {
-    is_deferrable => 0,
-    join_type     => "LEFT",
-    on_delete     => "NO ACTION",
-    on_update     => "NO ACTION",
-  },
-);
+sub action_specs {
+    my $self = shift;
 
+    return {
+        update => sub {
+            my %values = shift->valid_values;
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ieVe2sSc6FCduWyoZf+1sg
+            not defined $values{$_} and delete $values{$_} for keys %values;
 
+            my $campaign_vehicle = $self->update( \%values );
+
+            return $campaign_vehicle;
+        },
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

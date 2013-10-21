@@ -219,21 +219,6 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 invitations
-
-Type: has_many
-
-Related object: L<PI::Schema::Result::Invitation>
-
-=cut
-
-__PACKAGE__->has_many(
-  "invitations",
-  "PI::Schema::Result::Invitation",
-  { "foreign.customer_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
 =head2 user
 
 Type: belongs_to
@@ -255,8 +240,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-15 19:52:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sy3kA+9LLazuM85tGcGDiw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-21 11:42:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:V3OHy5GvKjgMj6E9Y8rsPA
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

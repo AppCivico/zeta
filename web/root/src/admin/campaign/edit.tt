@@ -1,0 +1,56 @@
+[%-CALL assets.include("js/bootstrap-datepicker.js")%]
+[%-CALL assets.include("js/bootstrap-datepicker.pt-BR.js")%]
+[%-CALL assets.include("css/datepicker.css")%]
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/admin.js")%]
+
+[%IF !NO_TITLE%]
+<h2>Adicionar nova campanha</h2>
+[%END%]
+<form class="form-horizontal" method="post" action="/admin/form/campaign/[%campaign_obj.id%]">
+<div class="tab-pane active" id="tab1">
+<fieldset>
+    [%IF NO_TITLE%]
+        <input type="hidden" name="redirect_to_dashboard" value="1"/>
+    [%END%]
+
+        [%input_text('name','Nome', value=>campaign_obj.name)|none%]
+        [%input_text('valid_from','Inicio', classes => ['span3', 'date' ,'datepicker'], value => format_date_to_human(campaign_obj.valid_from))|none%]
+        [%input_text('valid_to','Término', classes => ['span3', 'date','datepicker'], value => format_date_to_human(campaign_obj.valid_to))|none%]
+        [%select_field('status','Status',array => [
+            [1, 'Ativa'],
+            [0,'Inativa']
+        ], value => campaign_obj.status)|none%]
+        <div class="control-group">
+            <label class="control-label">Cliente</label>
+            <div id="customer_name" class="span3">[%campaign_obj.customer.corporate_name%]</div>
+            <input type="hidden" name="customer_id" id="elm_customer">
+            <div class="controls">
+                <a href="#search_customer" id="customer_list" class="addr btn btn-modal span2" role="button" data-toggle="modal"></i>Escolher cliente</a>
+            </div>
+            <div class="controls">
+                <a href="/admin/campaign/list_associated/[%campaign_obj.id%]" id="associated_list" class="addr btn span2" role="button"></i>Listar associados</a>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+            [%IF !NO_TITLE%]
+            [%href = c.uri_for_action('/admin/campaign/index')%]
+            <a href="[%href%]" class="btn btn-right">Voltar para lista de campanhas</a>
+            [%END%]
+        </div>
+    </fieldset>
+
+</div>
+</form>
+
+<div id="search_customer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Clientes</h3>
+    </div>
+    <div class="modal-body" id="modal_body">
+        [%INCLUDE 'admin/campaign/search_customer.tt' NO_TITLE=>1%]
+    </div>
+</div>

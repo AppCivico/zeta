@@ -10,7 +10,7 @@ __PACKAGE__->config(
     result      => 'DB::Campaign',
     object_key  => 'campaign',
 
-    result_attr => { prefetch => [ 'customer' ] },
+    result_attr => { prefetch =>  'customer' },
 
     update_roles => [qw/superadmin admin/],
     create_roles => [qw/superadmin admin/],
@@ -38,6 +38,7 @@ sub result_GET {
                 map { $_ => $attrs{$_}, }
                 qw(
                 id
+                name
                 status
                 customer_id
                 )
@@ -103,6 +104,7 @@ sub list_GET {
                             map { $_ => $r->{$_} }
                               qw/
                                 id
+                                name
                                 status
                                 customer_id
                                 created_at activated_at
@@ -112,7 +114,7 @@ sub list_GET {
                         ),
                         customer => {
                             (
-                                map { $_ => $r->{$_}  }
+                                map { $_ => $r->{customer}{$_}  }
                                     qw/
                                     id
                                     fancy_name
@@ -140,6 +142,7 @@ sub list_POST {
         location => $c->uri_for( $self->action_for('result'), [ $campaign->id ] )->as_string,
         entity => {
             customer_id => $campaign->customer_id,
+            name        => $campaign->name,
             id          => $campaign->id
         }
     );

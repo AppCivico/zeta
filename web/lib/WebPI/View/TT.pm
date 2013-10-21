@@ -60,9 +60,9 @@ sub hour_human {
 sub format_date_to_human {
     my ( $self, $c, $date ) = @_;
 
-    my @date_sp = split( ' ', $date );
 
-    my ( $y, $m, $d ) = $date_sp[0] =~ m/^(\d{4})-(\d{1,2})-(\d{1,2})$/;
+
+    my ( $y, $m, $d ) = $date =~ m/^(\d{4})-(\d{1,2})-(\d{1,2})/;
     my $h_date = "$d/$m/$y";
 
     return $h_date;

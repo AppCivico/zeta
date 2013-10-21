@@ -1,4 +1,4 @@
-package PI::Schema::ResultSet::Campaign;
+package PI::Schema::ResultSet::CampaignVehicle;
 use namespace::autoclean;
 
 use utf8;
@@ -18,31 +18,15 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                name => {
+               vehicle_id => {
                     required => 1,
-                    type     => 'Str',
+                    type     => 'Int',
                 },
-                valid_from=> {
-                    required => 0,
-                    type     => DataStr,
-                },
-                valid_to=> {
-                    required => 0,
-                    type     => DataStr,
+                campaign_id => {
+                    required => 1,
+                    type     => 'Int',
                 },
                 status => {
-                    required => 1,
-                    type     => 'Int',
-                },
-                est_drivers => {
-                    required => 0,
-                    type     => 'Int',
-                },
-                activated_at => {
-                    required => 0,
-                    type     => DataStr,
-                },
-                customer_id => {
                     required => 1,
                     type     => 'Int',
                 },

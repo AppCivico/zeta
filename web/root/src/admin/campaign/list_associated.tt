@@ -1,0 +1,39 @@
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/admin.js")%]
+
+[%IF !NO_TITLE%]
+    <h2>Lista de motoristas selecionados</h2>
+[%END%]
+
+<form class="form-horizontal" method="post" action="/admin/form/process_associated">
+    <div class="tab-pane active" id="tab1">
+    <fieldset>
+        [%IF NO_TITLE%]
+            <input type="hidden" name="redirect_to_dashboard" value="1"/>
+        [%END%]
+        <input type="hidden" name="campaign_id" value="[%campaign_id%]"/>
+        [%IF campaign_vehicles%]
+            <table>
+                [%FOREACH cv IN campaign_vehicles%]
+                    <tr>
+                        <td>[%cv.vehicle.driver.name%]</td>
+                        <td><a href="javascript:;" value="[%cv.vehicle.id%]">Excluir</a></td>
+                    </tr>
+                [%END%]
+            </table>
+        [%ELSE%]
+            <ul style=" list-style-type: none;">
+                <li>Nenhum motorista disponível</li>
+            </ul>
+        [%END%]
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
+            [%IF !NO_TITLE%]
+            <a href="/admin/campaign/[%campaign_id%]" class="btn btn-right">Voltar para edição de campanha</a>
+            [%END%]
+        </div>
+    </fieldset>
+
+    </div>
+</form>

@@ -49,12 +49,6 @@ __PACKAGE__->table("invitation");
   is_nullable: 0
   sequence: 'invitation_id_seq'
 
-=head2 customer_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
 =head2 title
 
   data_type: 'text'
@@ -72,6 +66,12 @@ __PACKAGE__->table("invitation");
   is_nullable: 0
   original: {default_value => \"now()"}
 
+=head2 campaign_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -82,8 +82,6 @@ __PACKAGE__->add_columns(
     is_nullable       => 0,
     sequence          => "invitation_id_seq",
   },
-  "customer_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "title",
   { data_type => "text", is_nullable => 0 },
   "content",
@@ -95,6 +93,8 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
+  "campaign_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -111,24 +111,24 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 customer
+=head2 campaign
 
 Type: belongs_to
 
-Related object: L<PI::Schema::Result::Customer>
+Related object: L<PI::Schema::Result::Campaign>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "customer",
-  "PI::Schema::Result::Customer",
-  { id => "customer_id" },
+  "campaign",
+  "PI::Schema::Result::Campaign",
+  { id => "campaign_id" },
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Hcs9+RLecSa1AKRa/jzoHg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-21 11:42:59
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1v+zTG821BojdcqXNF/z7A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

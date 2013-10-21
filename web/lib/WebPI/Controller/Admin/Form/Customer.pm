@@ -30,7 +30,10 @@ sub process : Chained('base') : PathPart('customer') : Args(0) {
             body   => $params
     );
 
-    if ( $c->stash->{customer}{error} ) {
+    my $st = $c->stash;
+    use DDP; p $st;
+
+    if ( $c->stash->{error} ) {
 
         $c->detach( '/form/redirect_error', [] );
 
@@ -52,7 +55,7 @@ sub process : Chained('base') : PathPart('customer') : Args(0) {
         }
     );
 
-    if ( $c->stash->{customer_address}{error} ) {
+    if ( $c->stash->{error} ) {
 
         $c->detach( '/form/redirect_error', [] );
 
@@ -88,8 +91,6 @@ sub process_edit : Chained('base') : PathPart('customer') : Args(1) {
     );
 
     my $st = $c->stash;
-
-    use DDP; p $st; exit;
 
     $api->stash_result(
         $c, [ 'addresses', $id ],

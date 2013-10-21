@@ -1,0 +1,39 @@
+<h2>Lista de Campanhas</h2>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Cliente</th>
+    <th>Inicio</th>
+    <th>Fim</th>
+    <th>Status</th>
+</tr>
+</thead>
+<tbody>
+    [%FOREACH cs IN campaigns%]
+    <tr>
+        <th>[%cs.id%]</th>
+        <td>[%cs.name%]</td>
+        <td>[%cs.customer.fancy_name%]</td>
+        <td>[%format_date_to_human(cs.valid_from)%]</td>
+        <td>[%format_date_to_human(cs.valid_to)%]</td>
+        <td>
+            [%IF cs.status == 0%]
+                Inativa
+            [%ELSIF cs.status == 1%]
+                Ativa
+            [%END%]
+        </td>
+        <td>
+            <a href="/admin/campaign/[%cs.id%]">editar</a>
+            <a class="del" href="/admin/form/remove_campaign/[%cs.id%]" data-confirm="Deseja realmente remover?">remover</a>
+        </td>
+    </tr>
+    [%END%]
+</tbody>
+</table>
+
+<a class="btn" href="/admin/campaign/new">Adicionar uma nova campanha</a>

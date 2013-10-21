@@ -51,12 +51,12 @@ __PACKAGE__->table("campaign");
 
 =head2 valid_from
 
-  data_type: 'timestamp'
+  data_type: 'date'
   is_nullable: 1
 
 =head2 valid_to
 
-  data_type: 'timestamp'
+  data_type: 'date'
   is_nullable: 1
 
 =head2 status
@@ -67,12 +67,12 @@ __PACKAGE__->table("campaign");
 =head2 est_drivers
 
   data_type: 'integer'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 activated_at
 
   data_type: 'timestamp'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 created_at
 
@@ -87,6 +87,11 @@ __PACKAGE__->table("campaign");
   is_foreign_key: 1
   is_nullable: 1
 
+=head2 name
+
+  data_type: 'text'
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -98,15 +103,15 @@ __PACKAGE__->add_columns(
     sequence          => "campaign_id_seq",
   },
   "valid_from",
-  { data_type => "timestamp", is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
   "valid_to",
-  { data_type => "timestamp", is_nullable => 1 },
+  { data_type => "date", is_nullable => 1 },
   "status",
   { data_type => "smallint", is_nullable => 0 },
   "est_drivers",
-  { data_type => "integer", is_nullable => 0 },
+  { data_type => "integer", is_nullable => 1 },
   "activated_at",
-  { data_type => "timestamp", is_nullable => 0 },
+  { data_type => "timestamp", is_nullable => 1 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -116,6 +121,8 @@ __PACKAGE__->add_columns(
   },
   "customer_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "name",
+  { data_type => "text", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -167,9 +174,24 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head2 invitations
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-07-23 11:21:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:XGm5PlNNnTgDXSzH2zy+rQ
+Type: has_many
+
+Related object: L<PI::Schema::Result::Invitation>
+
+=cut
+
+__PACKAGE__->has_many(
+  "invitations",
+  "PI::Schema::Result::Invitation",
+  { "foreign.campaign_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-21 11:42:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:20p/aUYssLxQaTMkK6r2wA
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -184,6 +206,10 @@ sub verifiers_specs {
         update => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
+                name => {
+                    required => 0,
+                    type     => 'Str',
+                },
                 valid_from=> {
                     required => 0,
                     type     => DataStr,

@@ -14,7 +14,8 @@ __PACKAGE__->config(
 
     #     result_cond => { 'user.active' => 1 },
     search_ok => {
-        validation_key => 'Str'
+        validation_key => 'Str',
+        order          => 'Str'
     },
     result_attr => { prefetch => 'user' },
     object_key  => 'driver',
@@ -113,9 +114,9 @@ sub list_GET {
                               telephone_number
                               /
                         ),
-                        email   => $r->{user}{email},
-                        user_id => $r->{user}{id},
-                        url     => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
+                        email       => $r->{user}{email},
+                        user_id     => $r->{user}{id},
+                        url         => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
                 } $c->stash->{collection}->as_hashref->all
             ]
