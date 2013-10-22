@@ -58,6 +58,9 @@ sub select_associated : Chained('base') : PathPart('select_associated') : Args(0
 
     $api->stash_result(
         $c, 'vehicles',
+        params => {
+            available_user  => 1
+        }
     );
 
     $c->stash->{campaign_id} = $c->req->params->{campaign_id};
@@ -71,11 +74,11 @@ sub list_associated : Chained('base') : PathPart('list_associated') : Args(1) {
     $api->stash_result(
         $c, 'campaign_vehicles',
         params => {
-            campaign_id => $campaign_id
+            campaign_id     => $campaign_id,
         }
     );
 
-    $c->stash->{campaign_id} = $c->req->params->{campaign_id};
+    $c->stash->{campaign_id} = $campaign_id;
 }
 
 __PACKAGE__->meta->make_immutable;

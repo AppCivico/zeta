@@ -117,7 +117,7 @@ sub list_GET {
                               /
                         ),
                         vehicle => {
-                            ( map { $_ => $r->{vehicle}{$_} } qw/id name/ ),
+                            ( map { $_ => $r->{vehicle}{$_} } qw/id/ ),
                             driver => {
                                 (
                                     map { $_ => $r->{vehicle}{driver}{$_} }

@@ -25,9 +25,18 @@
             <label class="control-label">Cliente</label>
             <div id="customer_name" class="span3"></div>
             <input type="hidden" name="customer_id" id="elm_customer"><br /><br />
-            <a href="#search_customer" id="customer_list" class="addr btn btn-modal span2" role="button" data-toggle="modal"></i>Escolher cliente</a>
         </div>
-        [%checkbox('chose_associated', 'Escolher associados para a campanha ao clicar em continuar')|none%]
+       <div class="control-group">
+            <div class="controls">
+                <a href="#search_customer" id="customer_list" class="addr btn btn-modal span2" role="button" data-toggle="modal"></i>Escolher cliente</a>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="chose_associated" class="control-label">Escolher associados para a campanha ao clicar em continuar</label>
+            <div class="controls">
+                [%checkbox('chose_associated')|none%]
+            </div>
+        </div>
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>

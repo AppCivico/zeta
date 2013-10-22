@@ -5,7 +5,7 @@
 [%-CALL assets.include("js/admin.js")%]
 
 [%IF !NO_TITLE%]
-<h2>Adicionar nova campanha</h2>
+<h2>Dados da campanha</h2>
 [%END%]
 <form class="form-horizontal" method="post" action="/admin/form/campaign/[%campaign_obj.id%]">
 <div class="tab-pane active" id="tab1">
@@ -24,14 +24,24 @@
         <div class="control-group">
             <label class="control-label">Cliente</label>
             <div id="customer_name" class="span3">[%campaign_obj.customer.corporate_name%]</div>
+        </div>
+        <div class="control-group">
             <input type="hidden" name="customer_id" id="elm_customer">
             <div class="controls">
                 <a href="#search_customer" id="customer_list" class="addr btn btn-modal span2" role="button" data-toggle="modal"></i>Escolher cliente</a>
             </div>
+        </div>
+        <div class="control-group">
             <div class="controls">
                 <a href="/admin/campaign/list_associated/[%campaign_obj.id%]" id="associated_list" class="addr btn span2" role="button"></i>Listar associados</a>
             </div>
         </div>
+        <div class="control-group">
+            <div class="controls">
+                <a href="/admin/campaign/select_associated?campaign_id=[%campaign_obj.id%]" class="addr btn span2" role="button"></i>Adicionar associados</a>
+            </div>
+        </div>
+
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>

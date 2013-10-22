@@ -30,7 +30,10 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
             body   => $params
     );
 
-    if ( $c->stash->{error} ) {
+    if ( $c->stash->{'campaign'}{error} ) {
+
+        $c->stash->{error} = $c->stash->{'campaign'}{error};
+        $c->stash->{form_error} = $c->stash->{'campaign'}{form_error};
 
         $c->detach( '/form/redirect_error', [] );
 
@@ -124,6 +127,24 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
     }
     else {
         $c->detach( '/form/redirect_ok', [ '/admin/campaign/index', {}, 'Campanha criada com sucesso!' ] );
+    }
+}
+
+sub process_delete_assoc : Chained('base') : PathPart('remove_associated') : Args(0) {
+    my ( $self, $c, $association_id ) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, ['campaign_vehicles', $c->req->params->{id}],
+        method => 'DELETE'
+    );
+
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    }
+    else {
+        $c->detach( '/form/redirect_ok2', [ '/admin/campaign/list_associated',[$c->req->params->{campaign_id}], {}, 'Removido com sucesso!' ] );
     }
 }
 

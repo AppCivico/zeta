@@ -17,7 +17,8 @@
                 [%FOREACH cv IN campaign_vehicles%]
                     <tr>
                         <td>[%cv.vehicle.driver.name%]</td>
-                        <td><a href="javascript:;" value="[%cv.vehicle.id%]">Excluir</a></td>
+
+                        <td><a href="/admin/form/remove_associated?id=[%cv.id%]&campaign_id=[%cv.campaign_id%]">Excluir</a></td>
                     </tr>
                 [%END%]
             </table>
@@ -28,9 +29,8 @@
         [%END%]
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
             [%IF !NO_TITLE%]
-            <a href="/admin/campaign/[%campaign_id%]" class="btn btn-right">Voltar para edição de campanha</a>
+                <a href="/admin/campaign/[%campaign_id%]" class="btn btn-right">Voltar para edição de campanha</a>
             [%END%]
         </div>
     </fieldset>

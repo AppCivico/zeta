@@ -106,6 +106,14 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 sub list_GET {
     my ( $self, $c ) = @_;
 
+    my $rs = $c->stash->{collection};
+
+    if($c->req->params->{available_user}) {
+        $rs = $rs->search({
+            'me.id' => {'not in' => \"(select vehicle_id from campaign_vehicle)"}
+        });
+    }
+
     $self->status_ok(
         $c,
         entity => {
@@ -143,7 +151,7 @@ sub list_GET {
                         body_style => { ( map { $_ => $r->{vehicle_body_style}{$_} } qw/id name/ ), },
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
                       }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->as_hashref->all
             ]
         }
     );
