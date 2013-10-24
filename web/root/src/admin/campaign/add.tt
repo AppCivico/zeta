@@ -19,7 +19,7 @@
         [%input_text('valid_to','Término', classes => ['span3', 'date', 'datepicker'])|none%]
         [%select_field('status','Status',array => [
             [1, 'Ativa'],
-            [0,'Inativa']
+            [2,'Inativa']
         ])|none%]
         <div class="control-group">
             <label class="control-label">Cliente</label>
@@ -29,12 +29,6 @@
        <div class="control-group">
             <div class="controls">
                 <a href="#search_customer" id="customer_list" class="addr btn btn-modal span2" role="button" data-toggle="modal"></i>Escolher cliente</a>
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="chose_associated" class="control-label">Escolher associados para a campanha ao clicar em continuar</label>
-            <div class="controls">
-                [%checkbox('chose_associated')|none%]
             </div>
         </div>
 

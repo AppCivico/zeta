@@ -1,4 +1,4 @@
-package PI::Schema::ResultSet::Campaign;
+package PI::Schema::ResultSet::Invitation;
 use namespace::autoclean;
 
 use utf8;
@@ -18,31 +18,15 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                name => {
+                 title => {
                     required => 1,
                     type     => 'Str',
                 },
-                valid_from=> {
-                    required => 0,
-                    type     => DataStr,
-                },
-                valid_to=> {
-                    required => 0,
-                    type     => DataStr,
-                },
-                status => {
+                content => {
                     required => 1,
-                    type     => 'Int',
+                    type     => 'Str',
                 },
-                est_drivers => {
-                    required => 0,
-                    type     => 'Int',
-                },
-                activated_at => {
-                    required => 0,
-                    type     => DataStr,
-                },
-                customer_id => {
+                campaign_id => {
                     required => 1,
                     type     => 'Int',
                 },
@@ -58,10 +42,10 @@ sub action_specs {
         create => sub {
             my %values = shift->valid_values;
 
-            my $campaign = $self->create( \%values );
+            my $invitation = $self->create( \%values );
 
-            return $campaign;
-        }
+            return $invitation;
+          }
 
     };
 }

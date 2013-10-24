@@ -25,6 +25,18 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 }
 
 sub edit : Chained('object') : PathPart('') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result( $c, ['invitations'],
+        params => {
+            campaign_id => $c->stash->{campaign_obj}{id}
+        }
+    );
+
+    my $s = $c->stash->{campaigns};
+    use DDP; p $s;
 }
 
 sub add : Chained('base') : PathPart('new') : Args(0) {

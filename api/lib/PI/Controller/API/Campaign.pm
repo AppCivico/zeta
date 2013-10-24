@@ -9,7 +9,6 @@ __PACKAGE__->config(
 
     result      => 'DB::Campaign',
     object_key  => 'campaign',
-
     result_attr => { prefetch =>  'customer' },
 
     update_roles => [qw/superadmin admin/],
@@ -83,7 +82,9 @@ sub result_DELETE {
 
     my $campaign = $c->stash->{campaign};
 
-    $campaign->delete;
+    my $vehicles = $c->model('DB::CampaignVehicle')->search({campaign_id => $campaign->id});
+    $vehicles->delete;
+    $campaign->update( { status => 3 } );
 
     $self->status_no_content($c);
 }

@@ -55,54 +55,60 @@ db_transaction {
         activated_at    => '2013-10-16 18:30:30',
       ];
 
-    stash_test 'campaign.get', sub {
-        my ($me) = @_;
-
-        is( $me->{id},    stash 'campaign.id', 'get has the same id!' );
-        is( $me->{valid_from}, '2013-10-16T00:00:00', 'valid date ok!' );
-    };
-
-    stash_test 'campaign.list', sub {
-        my ($me) = @_;
-
-        ok( $me = delete $me->{campaigns}, 'campaign list exists' );
-
-        is( @$me, 1, '1 campaign' );
-
-        is( $me->[0]{valid_from}, '2013-10-16 00:00:00', 'listing ok' );
-    };
-
-    rest_put stash 'campaign.url',
-      name => 'atualizar campanha',
+    rest_post '/invitations',
+    name  => 'criar convite',
+    list  => 1,
+    stash => 'invitation',
       [
-        name            => 'Campanha para teste',
-        valid_from      => '2013-10-17 00:00:00',
-        valid_to        => '2013-10-17 23:59:59',
-        customer_id     => stash 'customer.id',
-        status          => 1,
-        activated_at    => '2013-10-17 18:30:30',
+        title           => 'Convite teste',
+        content         => 'Testando a criacao de convite',
+        campaign_id     => stash 'campaign.id',
       ];
 
-    rest_reload 'campaign';
-
-    stash_test 'campaign.get', sub {
+    stash_test 'invitation.get', sub {
         my ($me) = @_;
 
-        is( $me->{valid_from}, '2013-10-17T00:00:00', 'valid_from updated ok' );
+        is( $me->{id},    stash 'invitation.id', 'get has the same id!' );
+        is( $me->{title}, 'Convite teste', 'title ok!' );
     };
 
-    rest_delete stash 'campaign.url';
-
-    rest_reload 'campaign', 404;
-
-    rest_reload_list 'campaign';
-
-    stash_test 'campaign.list', sub {
+    stash_test 'invitation.list', sub {
         my ($me) = @_;
 
-        ok( $me = delete $me->{campaigns}, 'campaigns list exists' );
+        ok( $me = delete $me->{invitations}, 'invitation list exists' );
 
-        is( @$me, 0, '0 campaign' );
+        is( @$me, 1, '1 invitation' );
+
+        is( $me->[0]{content}, 'Testando a criacao de convite', 'listing ok' );
+    };
+
+    rest_put stash 'invitation.url',
+      name => 'atualizar convite',
+      [
+        title           => 'Convite teste2',
+        content         => 'Testando a criacao de convite2'
+      ];
+
+    rest_reload 'invitation';
+
+    stash_test 'invitation.get', sub {
+        my ($me) = @_;
+
+        is( $me->{title}, 'Convite teste2', 'invitation updated ok' );
+    };
+
+    rest_delete stash 'invitation.url';
+
+    rest_reload 'invitation', 404;
+
+    rest_reload_list 'invitation';
+
+    stash_test 'invitation.list', sub {
+        my ($me) = @_;
+
+        ok( $me = delete $me->{invitations}, 'invitations list exists' );
+
+        is( @$me, 0, '0 invitation' );
     };
 
 };

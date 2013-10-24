@@ -14,7 +14,12 @@ __PACKAGE__->config(
         campaign_id => 'Int',
         order       => 'Str'
     },
-    result_attr => { prefetch => { 'vehicle' => 'driver' } },
+    result_attr => {
+        prefetch =>
+            {
+                'vehicle' =>  { 'driver' => 'user' }
+            }
+    },
     update_roles => [qw/superadmin admin/],
     create_roles => [qw/superadmin admin/],
     delete_roles => [qw/superadmin admin/],
@@ -32,7 +37,6 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $campaign_vehicle = $c->stash->{campaign_vehicle};
-
     my %attrs = $campaign_vehicle->get_inflated_columns;
 
     $self->status_ok(
@@ -58,6 +62,9 @@ sub result_GET {
                           name
                           /
                     ),
+                    user => {
+                        ( map { $_ => $campaign_vehicle->vehicle->driver->user->$_ } qw/id email/ ),
+                    }
                 },
             },
              (
@@ -126,6 +133,9 @@ sub list_GET {
                                     name
                                     /
                                 ),
+                                user => {
+                                    ( map { $_ => $r->{vehicle}{driver}{user}{$_} } qw/id email/ ),
+                                }
                             },
                         },
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string

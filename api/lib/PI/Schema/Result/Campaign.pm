@@ -61,7 +61,8 @@ __PACKAGE__->table("campaign");
 
 =head2 status
 
-  data_type: 'smallint'
+  data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 0
 
 =head2 est_drivers
@@ -107,7 +108,7 @@ __PACKAGE__->add_columns(
   "valid_to",
   { data_type => "date", is_nullable => 1 },
   "status",
-  { data_type => "smallint", is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "est_drivers",
   { data_type => "integer", is_nullable => 1 },
   "activated_at",
@@ -189,9 +190,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 status
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-21 11:42:58
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:20p/aUYssLxQaTMkK6r2wA
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::StatusDescription>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "status",
+  "PI::Schema::Result::StatusDescription",
+  { id => "status" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 11:57:47
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:q7eXPNvNx9jEiJ/A2HROSQ
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

@@ -60,11 +60,6 @@ __PACKAGE__->table("vehicle_invitation");
   data_type: 'integer'
   is_nullable: 0
 
-=head2 status
-
-  data_type: 'boolean'
-  is_nullable: 1
-
 =head2 created_at
 
   data_type: 'timestamp'
@@ -91,8 +86,6 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "invitation_id",
   { data_type => "integer", is_nullable => 0 },
-  "status",
-  { data_type => "boolean", is_nullable => 1 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -134,8 +127,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-21 11:42:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fOK2NIax+GtaxuxkGR67dw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 11:57:47
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NcP1V+AQvguVosNghdHjFA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

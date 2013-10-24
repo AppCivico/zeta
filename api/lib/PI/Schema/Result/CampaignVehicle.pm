@@ -70,7 +70,8 @@ __PACKAGE__->table("campaign_vehicle");
 
 =head2 status
 
-  data_type: 'smallint'
+  data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 0
 
 =cut
@@ -95,7 +96,7 @@ __PACKAGE__->add_columns(
     original      => { default_value => \"now()" },
   },
   "status",
-  { data_type => "smallint", is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -146,6 +147,21 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 status
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::StatusDescription>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "status",
+  "PI::Schema::Result::StatusDescription",
+  { id => "status" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
 =head2 vehicle
 
 Type: belongs_to
@@ -162,8 +178,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-21 18:01:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rTwZTldaqDhqeLViKj0hNg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 11:57:47
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Zy4GhuNdPuBH79vClt6xIA
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

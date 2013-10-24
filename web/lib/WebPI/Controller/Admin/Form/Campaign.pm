@@ -37,7 +37,7 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
 
         $c->detach( '/form/redirect_error', [] );
 
-    } elsif ($params->{chose_associated}) {
+    } else {
 
         my $uri = $c->uri_for_action(
             '/admin/campaign/select_associated',
@@ -47,8 +47,6 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
         );
 
         $c->res->redirect( $uri->as_string );
-    } else {
-        $c->detach( '/form/redirect_ok', [ '/admin/campaign/index', {}, 'Cadastrado com sucesso!' ] );
     }
 
 }
@@ -119,14 +117,23 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
     $api->stash_result(
         $c, 'campaign_vehicles',
         method  => 'POST',
-        params    => {json => encode_json(\@rows)}
+        params    => {
+            json => encode_json(\@rows)
+        }
     );
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
     }
     else {
-        $c->detach( '/form/redirect_ok', [ '/admin/campaign/index', {}, 'Campanha criada com sucesso!' ] );
+        my $uri = $c->uri_for_action(
+            '/admin/invitation/add',
+            {
+                'campaign_id' => $params->{campaign_id}
+            }
+        );
+
+        $c->res->redirect( $uri->as_string );
     }
 }
 
