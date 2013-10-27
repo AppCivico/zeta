@@ -126,9 +126,24 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 vehicle_invitations
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-21 11:42:59
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1v+zTG821BojdcqXNF/z7A
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleInvitation>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_invitations",
+  "PI::Schema::Result::VehicleInvitation",
+  { "foreign.invitation_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 16:54:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:L0jWgCTKEnrjvG414xH3HQ
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

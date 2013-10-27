@@ -20,9 +20,11 @@
         [%href = c.uri_for_action('/user/vehicletracker/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-road icon-white"></i> Histórico de deslocamento</a></li>
 
+        [%href = c.uri_for_action('/user/invitation/index')%]
+        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-envelope icon-white"></i> Convites</a></li>
+
         <!--//
         <li class="nav-header">Sua conta</li>
-        <li><a href="#"><i class="icon-envelope icon-white"></i> Convites</a></li>
         <li><a href="#"><i class="icon-dollar icon-white"></i> Pagamentos</a></li>
         <li><a href="#"><i class="icon-folder-open icon-white"></i> Contratos</a></li>
         <li><a href="#"><i class="icon-exclamation-sign icon-white"></i> Alertas recebidos</a></li>

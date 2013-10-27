@@ -20,7 +20,7 @@ __PACKAGE__->config(
                 'vehicle' =>  { 'driver' => 'user' }
             }
     },
-    update_roles => [qw/superadmin admin/],
+    update_roles => [qw/superadmin admin webapi/],
     create_roles => [qw/superadmin admin/],
     delete_roles => [qw/superadmin admin/],
 );
@@ -78,9 +78,29 @@ sub result_GET {
 sub result_PUT {
     my ( $self, $c ) = @_;
 
-    my $campaign_vehicle = $c->stash->{campaign_vehicle};
+    my $campaign_vehicle;
 
-    $campaign_vehicle->execute( $c, for => 'update', with => $c->req->params );
+    if( $c->req->params->{update_status} ) {
+        $campaign_vehicle = $c->stash->{collection}->search(
+            {
+                'campaign_id' => $c->req->params->{campaign_id},
+                'vehicle_id'  => $c->req->params->{vehicle_id}
+            }
+         )->next;
+
+        $campaign_vehicle->update(
+            {
+                'status' => $c->req->params->{status}
+            }
+        );
+
+    } else {
+
+        $campaign_vehicle = $c->stash->{campaign_vehicle};
+        $campaign_vehicle->execute( $c, for => 'update', with => $c->req->params );
+
+    }
+
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $campaign_vehicle->id ] )->as_string,

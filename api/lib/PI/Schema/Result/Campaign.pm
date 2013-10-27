@@ -93,6 +93,11 @@ __PACKAGE__->table("campaign");
   data_type: 'text'
   is_nullable: 0
 
+=head2 description
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -124,6 +129,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "name",
   { data_type => "text", is_nullable => 0 },
+  "description",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -206,8 +213,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 11:57:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:q7eXPNvNx9jEiJ/A2HROSQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-25 12:17:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GnWLrEW0bVqkykenAV1cSg
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -250,6 +257,10 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
+                description => {
+                    required => 0,
+                    type     => 'Str',
+                }
             }
         ),
     };

@@ -9,7 +9,7 @@ __PACKAGE__->config(
 
     result      => 'DB::Campaign',
     object_key  => 'campaign',
-    result_attr => { prefetch =>  'customer' },
+    result_attr => { prefetch =>  [ 'customer', 'status' ] },
 
     update_roles => [qw/superadmin admin/],
     create_roles => [qw/superadmin admin/],
@@ -38,14 +38,15 @@ sub result_GET {
                 qw(
                 id
                 name
-                status
                 customer_id
+                description
                 )
              ),
              (
                 map { $_ => ( $campaign->$_ ? $campaign->$_->datetime : undef ) }
                 qw/created_at activated_at valid_to valid_from/
             ),
+            status => { ( map { $_ => $campaign->status->$_ } qw /id description/ ) },
             customer => {
                 (
                     map { $_ => $campaign->customer->$_ }
@@ -94,6 +95,12 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    my $rs = $c->stash->{collection};
+
+    if(! exists $c->req->params->{all}) {
+        $rs = $rs->search( {'status' => {'!=' => 3} } );
+    }
+
     $self->status_ok(
         $c,
         entity => {
@@ -106,13 +113,15 @@ sub list_GET {
                               qw/
                                 id
                                 name
-                                status
                                 customer_id
-                                created_at activated_at
+                                created_at
+                                activated_at
                                 valid_to
                                 valid_from
+                                description
                               /
                         ),
+                        status => { ( map { $_ => $r->{status}{$_} } qw /id description/ ) },
                         customer => {
                             (
                                 map { $_ => $r->{customer}{$_}  }
@@ -127,7 +136,7 @@ sub list_GET {
                         },
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->as_hashref->all
             ]
         }
     );

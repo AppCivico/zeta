@@ -34,9 +34,6 @@ sub edit : Chained('object') : PathPart('') : Args(0) {
             campaign_id => $c->stash->{campaign_obj}{id}
         }
     );
-
-    my $s = $c->stash->{campaigns};
-    use DDP; p $s;
 }
 
 sub add : Chained('base') : PathPart('new') : Args(0) {

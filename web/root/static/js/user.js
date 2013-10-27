@@ -79,6 +79,21 @@ $( document ).ready(function() {
         filter_vehicle($(this).val());
     });
 
+    var $confirm_campaign = $('#campaign_confirmation');
+    if($confirm_campaign.length) {
+
+        $confirm_campaign.submit(function(e) {
+
+            if(!($('#accept_campaign').is(':checked'))) {
+                $('#contract_error').show();
+                 $('#confirm_campaign').button('reset');
+
+                e.stopPropagation();
+                return false;
+            }
+        });
+     }
+
 });
 
 function filter_vehicle(brand_id) {

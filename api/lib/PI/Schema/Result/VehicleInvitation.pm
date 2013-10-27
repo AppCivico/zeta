@@ -58,6 +58,7 @@ __PACKAGE__->table("vehicle_invitation");
 =head2 invitation_id
 
   data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 0
 
 =head2 created_at
@@ -85,7 +86,7 @@ __PACKAGE__->add_columns(
   "vehicle_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "invitation_id",
-  { data_type => "integer", is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -111,6 +112,21 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 invitation
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::Invitation>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "invitation",
+  "PI::Schema::Result::Invitation",
+  { id => "invitation_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
 =head2 vehicle
 
 Type: belongs_to
@@ -127,9 +143,54 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 11:57:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NcP1V+AQvguVosNghdHjFA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 16:54:41
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:gs/q1AlFa4+BH6CLHWGS2w
+with 'PI::Role::Verification';
+with 'PI::Role::Verification::TransactionalActions::DBIC';
+with 'PI::Schema::Role::ResultsetFind';
 
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use PI::Types qw /DataStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                vehicle_id => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                invitation_id => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                sent_at => {
+                    required => 0,
+                    type     => DataStr,
+                },
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $vehicle_invitation = $self->update( \%values );
+
+            return $vehicle_invitation;
+        },
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

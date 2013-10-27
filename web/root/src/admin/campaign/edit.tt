@@ -20,11 +20,17 @@
             [%input_text('valid_to','Término', classes => ['span3', 'date','datepicker'], value => format_date_to_human(campaign_obj.valid_to))|none%]
             [%select_field('status','Status',array => [
                 [1, 'Ativa'],
-                [2,'Inativa']
-            ], value => campaign_obj.status)|none%]
+                [2,'Inativa'],
+            ], value => campaign_obj.status.id)|none%]
             <div class="control-group">
                 <label class="control-label">Cliente</label>
                 <div id="customer_name" class="span3">[%campaign_obj.customer.corporate_name%]</div>
+            </div>
+            <div class="control-group">
+                <label for="content" class="control-label">Descrição</label>
+                <div class="controls">
+                    <textarea rows="10" name="description" class="span3">[%campaign_obj.description%]</textarea>
+                </div>
             </div>
             <div class="control-group">
                 <input type="hidden" name="customer_id" id="elm_customer">
