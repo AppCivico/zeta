@@ -112,9 +112,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 instalation_kits
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 11:57:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:20KWeUYlP4XrzLHYQkzFcg
+Type: has_many
+
+Related object: L<PI::Schema::Result::InstalationKit>
+
+=cut
+
+__PACKAGE__->has_many(
+  "instalation_kits",
+  "PI::Schema::Result::InstalationKit",
+  { "foreign.status" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-28 19:29:37
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sesbisnAuRaffoU7nVESRg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

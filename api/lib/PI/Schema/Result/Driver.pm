@@ -274,6 +274,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 instalation_kits
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::InstalationKit>
+
+=cut
+
+__PACKAGE__->has_many(
+  "instalation_kits",
+  "PI::Schema::Result::InstalationKit",
+  { "foreign.driver_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 user
 
 Type: belongs_to
@@ -305,8 +320,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-23 15:25:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5DbBJUQvvR0QqIzH+O8ELg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-28 19:29:37
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PEyf4E50A1txP2SEYZ/CSw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
