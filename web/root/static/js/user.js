@@ -83,16 +83,25 @@ $( document ).ready(function() {
     if($confirm_campaign.length) {
 
         $confirm_campaign.submit(function(e) {
+            if($('#status').val() != 3) {
+                if(!($('#accept_campaign').is(':checked'))) {
+                    $('#contract_error').show();
+                    $('#confirm_campaign').button('reset');
 
-            if(!($('#accept_campaign').is(':checked'))) {
-                $('#contract_error').show();
-                 $('#confirm_campaign').button('reset');
-
-                e.stopPropagation();
-                return false;
+                    e.stopPropagation();
+                    return false;
+                }
             }
         });
-     }
+    }
+
+    var $cancel_campaign = $('#cancel_campaign');
+    if($cancel_campaign.length) {
+        $cancel_campaign.click(function(){
+            $('#status').val(3)
+        });
+    }
+
 
 });
 

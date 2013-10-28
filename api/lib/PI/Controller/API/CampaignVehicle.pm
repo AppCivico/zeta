@@ -12,6 +12,7 @@ __PACKAGE__->config(
     object_key  => 'campaign_vehicle',
     search_ok => {
         campaign_id => 'Int',
+        vehicle_id  => 'Int',
         order       => 'Str'
     },
     result_attr => {
@@ -20,16 +21,20 @@ __PACKAGE__->config(
                 'vehicle' =>  { 'driver' => 'user' }
             }
     },
-    update_roles => [qw/superadmin admin webapi/],
-    create_roles => [qw/superadmin admin/],
-    delete_roles => [qw/superadmin admin/],
+    update_roles => [qw/superadmin admin webapi user/],
+    create_roles => [qw/superadmin admin webapi user/],
+    delete_roles => [qw/superadmin admin webapi user/],
 );
 
 with 'PI::TraitFor::Controller::DefaultCRUD';
 
 sub base : Chained('/api/base') : PathPart('campaign_vehicles') : CaptureArgs(0) { }
 
-sub object : Chained('base') : PathPart('') : CaptureArgs(1) { }
+sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{disable_check_owner} = 1;
+}
 
 sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { }
 

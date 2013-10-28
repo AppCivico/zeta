@@ -16,9 +16,27 @@ sub details : Chained('base') : PathPart('details') : Args(1) {
     my $api = $c->model('API');
 
     $api->stash_result( $c, ['campaigns', $campaign_id ], stash => 'campaign' );
+    $api->stash_result(
+        $c, 'campaign_vehicles',
+        params => {
+            campaign_id => $campaign_id,
+            vehicle_id  => $c->stash->{vehicles}[0]{id}
+        }
+    );
 
-    my $s = $c->stash->{campaign};
-    use DDP; p $s;
+    $api->stash_result(
+        $c, 'documents',
+        params => {
+            user_id => $c->user->id,
+            count   => 1
+        }
+    );
+
+    my $documents_check = scalar @{$c->stash->{documents}} ;
+
+    if($documents_check != 3) {
+        $c->stash->{document_check} = 1;
+    }
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -1,5 +1,6 @@
 package WebPI::Controller::User::Form::Campaign;
 use Moose;
+use utf8;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -8,13 +9,13 @@ sub base : Chained('/user/form/base') : PathPart('campaign') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
 
-sub process : Chained('base') : PathPart('') : Args(0) {
-    my ( $self, $c ) = @_;
+sub process : Chained('base') : PathPart('') : Args(1) {
+    my ( $self, $c, $id ) = @_;
 
     my $api  = $c->model('API');
 
     $api->stash_result(
-        $c, ['campaign_vehicles'],
+        $c, ['campaign_vehicles', $id],
         method  => 'PUT',
         body    => {
             status          => $c->req->params->{status},
@@ -29,13 +30,13 @@ sub process : Chained('base') : PathPart('') : Args(0) {
     }
     else {
         my $message;
-        if( $c->req->params->{status} == 1 ) {
+        if( $c->req->params->{status} =! 3  ) {
            $message = 'Campanha aceita com sucesso';
         } else {
             $message = 'Campanha recusada. Você não participará desta campanha.';
         }
 
-        $c->detach( '/form/redirect_ok', [ '/user/invitation', {}, $message ] );
+        $c->detach( '/form/redirect_ok', [ '/user/invitation/index', {}, $message ] );
     }
 }
 

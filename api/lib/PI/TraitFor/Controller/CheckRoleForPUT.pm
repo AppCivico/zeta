@@ -12,29 +12,35 @@ around result_PUT => sub {
     my ( $c, $id ) = @_;
     my $do_detach = 0;
 
+    my $r = $config->{update_roles};
+    use DDP; p $r;
+    my @z = $c->user->roles;
+    p @z;
     if ( !$c->check_any_user_role( @{ $config->{update_roles} } ) ) {
         $do_detach = 1;
     }
 
-    if (
-           exists $config->{object_key}
-        && $c->stash->{ $config->{object_key} }
-        && (   $c->stash->{ $config->{object_key} }->can('id')
-            || $c->stash->{ $config->{object_key} }->can('user_id')
-            || $c->stash->{ $config->{object_key} }->can('created_by') )
-        && $do_detach
-      ) {
-        my $obj = $c->stash->{ $config->{object_key} };
-        my $obj_id =
-            $obj->can('created_by') ? $obj->created_by
-          : $obj->can('user_id')    ? $obj->user_id
-          :                           $obj->id;
-        my $user_id = $c->user->id;
+    if (!exists $c->stash->{disable_check_owner} ) {
+        if (
+            exists $config->{object_key}
+            && $c->stash->{ $config->{object_key} }
+            && (   $c->stash->{ $config->{object_key} }->can('id')
+                || $c->stash->{ $config->{object_key} }->can('user_id')
+                || $c->stash->{ $config->{object_key} }->can('created_by') )
+            && $do_detach
+        ) {
+            my $obj = $c->stash->{ $config->{object_key} };
+            my $obj_id =
+                $obj->can('created_by') ? $obj->created_by
+            : $obj->can('user_id')    ? $obj->user_id
+            :                           $obj->id;
+            my $user_id = $c->user->id;
 
-        $self->status_forbidden( $c, message => $config->{object_key} . ".invalid [$obj_id!=$user_id]", ), $c->detach
-          if $obj_id != $user_id;
+            $self->status_forbidden( $c, message => $config->{object_key} . ".invalid [$obj_id!=$user_id]", ), $c->detach
+            if $obj_id != $user_id;
 
-        $do_detach = 0;
+            $do_detach = 0;
+        }
     }
 
     if ($do_detach) {

@@ -11,9 +11,9 @@ __PACKAGE__->config(
     object_key  => 'campaign',
     result_attr => { prefetch =>  [ 'customer', 'status' ] },
 
-    update_roles => [qw/superadmin admin/],
-    create_roles => [qw/superadmin admin/],
-    delete_roles => [qw/superadmin admin/],
+    update_roles => [qw/superadmin admin webapi/],
+    create_roles => [qw/superadmin admin webapi/],
+    delete_roles => [qw/superadmin admin webapi/],
 
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';

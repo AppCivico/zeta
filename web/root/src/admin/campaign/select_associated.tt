@@ -21,6 +21,7 @@
                     <li>
                         <input type="checkbox" value="[%v.id%]" name="vehicles" class="check_driver">
                         [%v.driver.name%]
+                        <a href="#">Validar documentos
                     </li>
                 [%END%]
             </ul>
