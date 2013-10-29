@@ -226,7 +226,11 @@ sub action_specs {
         update => sub {
             my %values = shift->valid_values;
 
+
             not defined $values{$_} and delete $values{$_} for keys %values;
+            if (exists $values{validated_by}){
+                $values{validated_at} = \'now()';
+            }
 
             my $document = $self->update( \%values );
 

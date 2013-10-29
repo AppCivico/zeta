@@ -62,6 +62,7 @@ sub result_GET {
               number
               postal_code
               gender
+              documents_validated
               )
         }
     );

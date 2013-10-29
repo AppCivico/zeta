@@ -155,6 +155,12 @@ __PACKAGE__->table("driver");
   extra: {custom_type_name => "gender",list => ["m","f"]}
   is_nullable: 1
 
+=head2 documents_validated
+
+  data_type: 'boolean'
+  default_value: false
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -214,6 +220,8 @@ __PACKAGE__->add_columns(
     extra => { custom_type_name => "gender", list => ["m", "f"] },
     is_nullable => 1,
   },
+  "documents_validated",
+  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -330,6 +338,7 @@ __PACKAGE__->has_many(
   { "foreign.driver_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
+
 
 
 # Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-29 14:26:38

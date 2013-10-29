@@ -11,6 +11,7 @@ with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::InflateAsHashRef';
 
 use Data::Verifier;
+use String::Random;
 
 sub verifiers_specs {
     my $self = shift;
@@ -38,6 +39,7 @@ sub verifiers_specs {
 sub action_specs {
     my $self = shift;
 
+    my $random = new String::Random;
     return {
         create => sub {
             my %values = shift->valid_values;
