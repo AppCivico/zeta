@@ -12,9 +12,6 @@ around result_PUT => sub {
     my ( $c, $id ) = @_;
     my $do_detach = 0;
 
-    my $r = $config->{update_roles};
-    my @z = $c->user->roles;
-    p @z;
     if ( !$c->check_any_user_role( @{ $config->{update_roles} } ) ) {
         $do_detach = 1;
     }

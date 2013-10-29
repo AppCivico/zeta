@@ -62,7 +62,7 @@ sub result_PUT {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $instalation_kit->id ] )->as_string,
         entity => {
-            driver_id => $instalation_kit->driver_id
+            driver_id => $instalation_kit->driver_id,
             id         => $instalation_kit->id
         }
       ),
