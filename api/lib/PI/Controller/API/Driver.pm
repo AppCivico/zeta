@@ -61,6 +61,7 @@ sub result_GET {
               complement
               number
               postal_code
+              documents_validated
               )
         }
     );

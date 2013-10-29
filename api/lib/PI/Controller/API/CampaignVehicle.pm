@@ -155,6 +155,7 @@ sub list_GET {
                                     map { $_ => $r->{vehicle}{driver}{$_} }
                                     qw/
                                     id
+                                    documents_validated
                                     name
                                     /
                                 ),

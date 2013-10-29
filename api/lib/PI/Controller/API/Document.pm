@@ -11,7 +11,7 @@ __PACKAGE__->config(
     result     => 'DB::Document',
     object_key => 'document',
 
-    update_roles => [qw/superadmin user/],
+    update_roles => [qw/superadmin user admin/],
     create_roles => [qw/superadmin user/],
     delete_roles => [qw/superadmin user/],
 
@@ -24,7 +24,11 @@ with 'PI::TraitFor::Controller::DefaultCRUD';
 
 sub base : Chained('/api/base') : PathPart('documents') : CaptureArgs(0) { }
 
-sub object : Chained('base') : PathPart('') : CaptureArgs(1) { }
+sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{disable_check_owner} = 1;
+}
 
 sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { }
 
@@ -67,7 +71,15 @@ sub result_PUT {
 
     my $document = $c->stash->{document};
 
-    $document->execute( $c, for => 'update', with => $c->req->params );
+    my $params = $c->req->params;
+
+    if ( $c->check_any_user_role( 'admin' ) && $c->req->params->{document_valid}) {
+        $params->{validated_by} = $c->user->id;
+    }else{
+        delete $params->{validated_by};
+    }
+
+    $document->execute( $c, for => 'update', with => $params );
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $document->id ] )->as_string,

@@ -149,6 +149,12 @@ __PACKAGE__->table("driver");
   data_type: 'text'
   is_nullable: 1
 
+=head2 documents_validated
+
+  data_type: 'boolean'
+  default_value: false
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -202,6 +208,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "validation_key",
   { data_type => "text", is_nullable => 1 },
+  "documents_validated",
+  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -305,8 +313,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-23 15:25:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5DbBJUQvvR0QqIzH+O8ELg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-29 14:04:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:irghl3QKbUHiIgENzElIvA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
