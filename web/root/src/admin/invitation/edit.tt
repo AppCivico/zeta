@@ -16,9 +16,7 @@
             <div class="control-group">
                 <label for="content" class="control-label">Conteúdo</label>
                 <div class="controls">
-                    <textarea rows="10" name="content" class="span3">
-                        [%invitation_obj.content%]
-                    </textarea>
+                    <textarea rows="10" name="content" class="span3">[%invitation_obj.content%]</textarea>
                 </div>
             </div>
 
