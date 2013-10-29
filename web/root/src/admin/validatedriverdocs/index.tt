@@ -1,0 +1,25 @@
+<h2>Lista de documentos</h2>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+    <th>Documento</th>
+    <th>Validado em</th>
+    <th>Validado por</th>
+    <th>Opções</th>
+</tr>
+</thead>
+<tbody>
+    [%FOREACH cs IN documents%]
+    <tr>
+        <th>[%cs.class_name%]</th>
+        <td>[%format_date_to_human(cs.validated_at)%]</td>
+        <th>[%cs.validated_by%]</th>
+        <td><a href="/patch/to/cuspir/download/fuck">Download</a></td>
+    </tr>
+    [%END%]
+</tbody>
+</table>
+
+<a class="btn" href="/admin/campaign/new">Adicionar uma nova campanha</a>
