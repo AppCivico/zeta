@@ -149,6 +149,12 @@ __PACKAGE__->table("driver");
   data_type: 'text'
   is_nullable: 1
 
+=head2 gender
+
+  data_type: 'enum'
+  extra: {custom_type_name => "gender",list => ["m","f"]}
+  is_nullable: 1
+
 =head2 documents_validated
 
   data_type: 'boolean'
@@ -208,6 +214,12 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "validation_key",
   { data_type => "text", is_nullable => 1 },
+  "gender",
+  {
+    data_type => "enum",
+    extra => { custom_type_name => "gender", list => ["m", "f"] },
+    is_nullable => 1,
+  },
   "documents_validated",
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
 );
@@ -329,9 +341,8 @@ __PACKAGE__->has_many(
 
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-28 19:29:37
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FUCK PEyf4E50A1txP2SEYZ/CFUCLSw
-
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-29 14:26:38
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:IYQn9SeLkrKV/lHvWlHBBQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -469,6 +480,10 @@ sub verifiers_specs {
                 city_id => {
                     required => 0,
                     type     => 'Int',
+                },
+                gender => {
+                    required    => 0,
+                    type        => 'Str'
                 },
                 email => {
                     required   => 0,

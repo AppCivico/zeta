@@ -45,13 +45,6 @@ sub action_specs {
             my %values = shift->valid_values;
 
             my $vehicle_invitation = $self->create( \%values );
-            do {
-                $values{token} = $random->randpattern("ssss");
-                $vehicle_invitation = eval { $self->create( \%values ) };
-
-                die $@ if $@ ;
-
-            } while !$vehicle_invitation;
 
             return $vehicle_invitation;
           }

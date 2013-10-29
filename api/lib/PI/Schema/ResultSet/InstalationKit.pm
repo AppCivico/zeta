@@ -28,10 +28,6 @@ sub verifiers_specs {
                     required => 0,
                     type     => DataStr
                 },
-                token => {
-                    required => 1,
-                    type     => 'Str'
-                },
                 status => {
                     required => 1,
                     type     => 'Int',
@@ -50,31 +46,26 @@ sub verifiers_specs {
 }
 
 sub action_specs {
-    my $self = shift;
+    my $self    = shift;
+    my $random  = new String::Random;
+
     return {
         create => sub {
             my %values = shift->valid_values;
 
-            delete $values{password_confirm};
-            delete $values{email_confirm};
-            my $user_rs = $self->resultset('User');
-            my $user    = $user_rs->create(
-                {
-                    email    => lc delete $values{email},
-                    name     => "$values{name}",
-                    password => delete $values{password},
-                    active   => 0
-                }
-            );
-            $user->set_roles( { name => 'user' } );
-            $values{user_id}    = $user->id;
-            $values{created_by} = 1;
-            my $driver = $self->create( \%values );
+            my $instalation_kit;
+            do {
+                $values{token}      = $random->randpattern("ssss");
+                $instalation_kit    = eval { $self->create( \%values ) };
 
-            return $driver;
-          }
+                die $@ if $@ && "$@" !~ /instalation_kit_driver_id_token_key/;
 
+            } while !$instalation_kit;
+
+            return $instalation_kit;
+        }
     };
+
 }
 
 1;

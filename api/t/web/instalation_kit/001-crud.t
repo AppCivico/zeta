@@ -8,40 +8,31 @@ api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
 
-    #criar novo endereço
-    rest_post '/addresses',
-      name  => 'criar novo endereço',
-      list  => 1,
-      stash => 'driver_address',
-      [
-        address      => 'Av. Paulista',
-        number       => '568',
-        neighborhood => 'Bela Vista',
-        user_id      => 1,
-        postal_code  => '01310000',
-        city_id     => 1
-      ];
-
     #criar novo driver
     rest_post '/drivers',
       name  => 'criar motorista',
       list  => 1,
       stash => 'driver',
       [
-        'name'                 => 'Foo Bar',
-        'birth_date'           => '1970-01-01',
-        'cpf'                  => '71082918270',
-        'first_driver_license' => '1990-01-01',
+        'name'                 => 'Foolish Bar',
+        'birth_date'           => '1972-01-01',
+        email                => 'test5478@yopmail.com',
+        email_confirm        => 'test5478@yopmail.com',
+        'cpf'                  => '88654621400',
+        'first_driver_license' => '1992-01-01',
         'cnh_code'             => '12345678911',
-        'cnh_validity'         => '2014-01-01',
-        'mobile_number'        => '5511123456789',
-        'telephone_number'     => '551112345678',
-        'marital_state'        => 'S',
-        'address'              => stash 'driver_address.id',
+        'cnh_validity'         => '2016-01-01',
+        'mobile_number'        => '551111111111',
+        'telephone_number'     => '551111111111',
+        'marital_state'        => 'D',
+        'address'              => 'foo st2',
+        'neighborhood'         => 'foo bar2',
         password               => '12345',
         password_confirm       => '12345',
-        'email'                => 'sdasdas@asdas.com',
-        'email_confirm'        => 'sdasdas@asdas.com'
+        'complement'           => 'third floor',
+        'number'               => '2',
+        'postal_code'          => '01310002',
+        'city_id'              => 1
       ];
 
     #criar novo endereço
@@ -112,7 +103,7 @@ db_transaction {
     stash_test 'instalation_kit.list', sub {
         my ($me) = @_;
 
-        ok( $me = delete $me->{instalation_kit}, 'instalation_kit list exists' );
+        ok( $me = delete $me->{instalation_kits}, 'instalation_kit list exists' );
 
         is( @$me, 1, '1 instalation_kit' );
 
@@ -130,7 +121,7 @@ db_transaction {
     stash_test 'instalation_kit.list', sub {
         my ($me) = @_;
 
-        ok( $me = delete $me->{instalation_kit}, 'instalation_kit list exists' );
+        ok( $me = delete $me->{instalation_kits}, 'instalation_kit list exists' );
 
         is( @$me, 0, '0 instalation_kits' );
     };

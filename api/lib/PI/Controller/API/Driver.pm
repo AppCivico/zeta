@@ -61,6 +61,7 @@ sub result_GET {
               complement
               number
               postal_code
+              gender
               documents_validated
               )
         }
@@ -113,6 +114,7 @@ sub list_GET {
                               cnh_code
                               mobile_number
                               telephone_number
+                              gender
                               /
                         ),
                         email       => $r->{user}{email},
