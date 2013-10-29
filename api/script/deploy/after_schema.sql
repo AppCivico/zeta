@@ -75,3 +75,40 @@ INSERT INTO state (id, name, uf, country_id, created_by) VALUES
 (27, 'Tocantins', 'TO',1,1);
 
 INSERT INTO "city" (name, state_id, country_id, name_url) VALUES ('São paulo', 1, 1, 'sao-paulo'); -- insert default city
+
+
+
+CREATE OR REPLACE FUNCTION f_driver_documents_validated()
+  RETURNS trigger AS
+$BODY$
+    BEGIN
+
+        IF TG_OP = 'DELETE' THEN
+
+        UPDATE driver
+        SET documents_validated = false
+        WHERE user_id = OLD.user_id;
+
+        RETURN OLD;
+    ELSE
+
+        UPDATE driver
+        SET documents_validated = (
+            ( select count(1) from "document" where user_id = NEW.user_id and class_name = 'registro_cnh' AND validated_at IS NOT NULL )+
+            ( select count(1) from "document" where user_id = NEW.user_id and class_name = 'comprovante_residencia' AND validated_at IS NOT NULL)+
+            ( select count(1) from "document" where user_id = NEW.user_id and class_name = 'foto_carro' AND validated_at IS NOT NULL)
+        ) = 3
+        WHERE user_id = NEW.user_id;
+
+        RETURN NEW;
+    END IF;
+    END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+CREATE TRIGGER t_driver_documents_validated
+  AFTER INSERT OR UPDATE OR DELETE
+  ON document
+  FOR EACH ROW
+  EXECUTE PROCEDURE f_driver_documents_validated();
