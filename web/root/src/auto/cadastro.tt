@@ -22,6 +22,11 @@
 
             [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'], req=>1, birth_date => 1)|none%]
 
+            [%select_field('gender', 'Gênero',  array => [
+                ['m','Masculino'],
+                ['f','Feminino'],
+            ], req=>1)|none%]
+
             [%select_field('marital_state', 'Estado civil',  array => [
                 ['C','Casado (a)'],
                 ['D','Divorciado(a)'],

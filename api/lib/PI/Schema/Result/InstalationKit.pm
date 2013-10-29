@@ -132,6 +132,22 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<instalation_kit_driver_id_token_key>
+
+=over 4
+
+=item * L</driver_id>
+
+=item * L</token>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("instalation_kit_driver_id_token_key", ["driver_id", "token"]);
+
 =head1 RELATIONS
 
 =head2 campaign
@@ -180,8 +196,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-28 19:52:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fUqaGCdsiWCit77wfHKCUw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-29 10:46:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QRWO4zCK7tLxNyUTNB2Ung
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

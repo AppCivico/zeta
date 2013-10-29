@@ -30,7 +30,7 @@ sub process : Chained('base') : PathPart('') : Args(1) {
     }
     else {
         my $message;
-        if( $c->req->params->{status} =! 3  ) {
+        if( $c->req->params->{status} != 3  ) {
            $message = 'Campanha aceita com sucesso';
         } else {
             $message = 'Campanha recusada. Você não participará desta campanha.';

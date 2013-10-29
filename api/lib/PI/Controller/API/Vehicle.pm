@@ -67,7 +67,17 @@ sub result_GET {
                   )
             ),
             ( map { $_ => ( $vehicle->$_ ? $vehicle->$_->datetime : undef ) } qw/created_at/ ),
-            driver     => { ( map { $_ => $vehicle->driver->$_ } qw/id name/ ), },
+            driver     => {
+                (
+                    map { $_ => $vehicle->driver->$_ }
+                    qw/
+                    id
+                    name
+                    gender
+                    /
+                ),
+                ( map { $_ => ( $vehicle->driver->$_ ? $vehicle->driver->$_->datetime : undef ) } qw/birth_date/ ),
+            },
             model      => { ( map { $_ => $vehicle->vehicle_model->$_ } qw/id name/ ), },
             color      => { ( map { $_ => $vehicle->vehicle_color->$_ } qw/id name/ ), },
             brand      => { ( map { $_ => $vehicle->vehicle_brand->$_ } qw/id name/ ), },
@@ -144,7 +154,17 @@ sub list_GET {
                               created_at
                               /
                         ),
-                        driver     => { ( map { $_ => $r->{driver}{$_} } qw/id name/ ), },
+                        driver     => {
+                            (
+                                map { $_ => $r->{driver}{$_} }
+                                    qw/
+                                    id
+                                    name
+                                    gender
+                                    /
+                            ),
+                            ( map { $_ => ( $$r->{driver}{$_} ? $r->{driver}{$_}->datetime : undef ) } qw/birth_date/ ),
+                        },
                         model      => { ( map { $_ => $r->{vehicle_model}{$_} } qw/id name/ ), },
                         color      => { ( map { $_ => $r->{vehicle_color}{$_} } qw/id name/ ), },
                         brand      => { ( map { $_ => $r->{vehicle_brand}{$_} } qw/id name/ ), },

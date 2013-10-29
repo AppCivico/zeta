@@ -28,7 +28,6 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $campaign = $c->stash->{campaign};
-
     my %attrs = $campaign->get_inflated_columns;
     $self->status_ok(
         $c,

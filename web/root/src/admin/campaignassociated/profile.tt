@@ -1,0 +1,34 @@
+[%-CALL assets.include("js/bootstrap-datepicker.js")%]
+[%-CALL assets.include("js/bootstrap-datepicker.pt-BR.js")%]
+[%-CALL assets.include("css/datepicker.css")%]
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/admin.js")%]
+
+[%IF !NO_TITLE%]
+    <h2>Perfil do associado</h2>
+[%END%]
+
+<div class="tab-pane active" id="tab1">
+    [%IF NO_TITLE%]
+        <input type="hidden" name="redirect_to_dashboard" value="1"/>
+    [%END%]
+    <dl>
+        <dt>Nome</dt>
+        <dd>[%vehicle.driver.name%]</dd>
+        <dt>Sexo</dt>
+        <dd>[%vehicle.driver.gender%]</dd>
+        <dt>Idade</dt>
+        <dd>[%format_date_to_human(vehicle.driver.birth_date)%]</dd>
+    </dt>
+</div>
+
+
+<div id="search_customer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Clientes</h3>
+    </div>
+    <div class="modal-body" id="modal_body">
+        [%INCLUDE 'admin/campaign/search_customer.tt' NO_TITLE=>1%]
+    </div>
+</div>

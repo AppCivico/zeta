@@ -165,6 +165,10 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Str',
                 },
+                gender => {
+                    required    => 1,
+                    type        => 'Str'
+                },
                 email => {
                     required  => 1,
                     type      => EmailAddress,
