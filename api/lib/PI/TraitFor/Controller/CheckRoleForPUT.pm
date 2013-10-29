@@ -13,7 +13,6 @@ around result_PUT => sub {
     my $do_detach = 0;
 
     my $r = $config->{update_roles};
-    use DDP; p $r;
     my @z = $c->user->roles;
     p @z;
     if ( !$c->check_any_user_role( @{ $config->{update_roles} } ) ) {
