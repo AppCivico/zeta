@@ -108,6 +108,8 @@ sub stash_result {
 
     # TODO talvez algum endpoint nao precisa de parser.
 
+    return $res->content if $opts{get_as_content};
+
     my $obj = eval { decode_json $res->content };
 
     if ($@) {
