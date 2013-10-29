@@ -10,7 +10,11 @@ __PACKAGE__->config(
     result      => 'DB::VehicleRoute',
     object_key  => 'vehicle_route',
     result_attr => {
-        prefetch => [ { 'origin' => 'address' }, { 'destination' => 'address' }, { 'vehicle_parking' => 'address' } ]
+        prefetch => [
+            { 'origin' => { 'address' => 'city' } },
+            { 'destination' => { 'address' => 'city' } },
+            { 'vehicle_parking' => 'address' }
+        ]
     },
 
     update_roles => [qw/superadmin user/],
@@ -180,32 +184,46 @@ sub list_GET {
                                 ( map { $_ => $r->{origin}{$_} } qw/id name/ ),
 
                                 address => {
-                                    map { $_ => $r->{origin}{address}{$_} }
-                                    qw/
-                                    id
-                                    address
-                                    number
-                                    neighborhood
-                                    postal_code
-                                    lat_lng
-                                    user_id
-                                    /
+                                    (
+                                        map { $_ => $r->{origin}{address}{$_} }
+                                        qw/
+                                        id
+                                        address
+                                        number
+                                        neighborhood
+                                        postal_code
+                                        lat_lng
+                                        user_id
+                                        /
+                                    ),
+                                    city => {
+                                        (
+                                            map { $_ => $r->{origin}{address}{city}{$_} } qw /id name/
+                                        )
+                                    },
                                 }
                             },
                             destination => {
                                 ( map { $_ => $r->{destination}{$_} } qw/id name/ ),
 
                                 address => {
-                                    map { $_ => $r->{destination}{address}{$_} }
-                                    qw/
-                                    id
-                                    address
-                                    number
-                                    neighborhood
-                                    postal_code
-                                    lat_lng
-                                    user_id
-                                    /
+                                    (
+                                        map { $_ => $r->{destination}{address}{$_} }
+                                        qw/
+                                        id
+                                        address
+                                        number
+                                        neighborhood
+                                        postal_code
+                                        lat_lng
+                                        user_id
+                                        /
+                                    ),
+                                    city => {
+                                        (
+                                            map { $_ => $r->{destination}{address}{city}{$_} } qw /id name/
+                                        )
+                                    },
                                 }
                             },
                             vehicle_parking => {
@@ -219,16 +237,18 @@ sub list_GET {
                                 ),
 
                                 address => {
-                                    map { $_ => $r->{vehicle_parking}{address}{$_} }
-                                    qw/
-                                    id
-                                    address
-                                    number
-                                    neighborhood
-                                    postal_code
-                                    lat_lng
-                                    user_id
-                                    /
+                                    (
+                                        map { $_ => $r->{vehicle_parking}{address}{$_} }
+                                        qw/
+                                        id
+                                        address
+                                        number
+                                        neighborhood
+                                        postal_code
+                                        lat_lng
+                                        user_id
+                                        /
+                                    ),
                                 }
                             },
                         }

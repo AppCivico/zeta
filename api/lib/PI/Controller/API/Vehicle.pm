@@ -161,9 +161,9 @@ sub list_GET {
                                     id
                                     name
                                     gender
+                                    birth_date
                                     /
                             ),
-                            ( map { $_ => ( $$r->{driver}{$_} ? $r->{driver}{$_}->datetime : undef ) } qw/birth_date/ ),
                         },
                         model      => { ( map { $_ => $r->{vehicle_model}{$_} } qw/id name/ ), },
                         color      => { ( map { $_ => $r->{vehicle_color}{$_} } qw/id name/ ), },

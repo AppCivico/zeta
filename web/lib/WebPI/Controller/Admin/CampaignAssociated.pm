@@ -16,8 +16,11 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
     $c->detach( '/form/not_found', [] ) if $c->stash->{campaign_associated_obj}{error};
 }
 
-sub profile : Chained('base') : PathPart('profile') : Args(1) {
-    my ( $self, $c, $vehicle_id ) = @_;
+sub profile : Chained('base') : PathPart('profile') : Args() {
+    my ( $self, $c ) = @_;
+
+    my $vehicle_id  = $c->req->params->{vehicle_id};
+    my $campaign_id = $c->req->params->{campaign_id};
 
     my $api = $c->model('API');
 
@@ -26,8 +29,37 @@ sub profile : Chained('base') : PathPart('profile') : Args(1) {
         stash => 'vehicle'
     );
 
-    my $vehicle = $c->stash->{vehicle};
-    use DDP; p $vehicle;
+    $api->stash_result(
+        $c, ['vehicle_routes'],
+        params => {
+            vehicle_id => $vehicle_id
+        }
+    );
+
+    $api->stash_result(
+        $c, ['vehicle_invitations'],
+        params => {
+            vehicle_id  => $vehicle_id,
+            campaign_id => $campaign_id
+        }
+    );
+
+    $api->stash_result(
+        $c, ['instalation_kits'],
+        stash => 'instalation_kit',
+        params => {
+            vehicle_id  => $vehicle_id,
+            campaign_id => $campaign_id
+        }
+    );
+
+
+
+    my $x = $c->stash->{vehicle_routes};
+    my $y = $c->stash->{vehicle_invitations};
+    my $z = $c->stash->{instalation_kit};
+
+    use DDP; p $x; p $y; p $z;
 
 }
 
