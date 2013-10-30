@@ -1,5 +1,3 @@
-alter table driver add column documents_validated boolean not null default false;
-
 CREATE OR REPLACE FUNCTION f_driver_documents_validated() RETURNS trigger AS $BODYSHOT$
 BEGIN
 
