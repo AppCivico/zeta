@@ -46,21 +46,21 @@ sub profile : Chained('base') : PathPart('profile') : Args() {
 
     $api->stash_result(
         $c, ['instalation_kits'],
-        stash => 'instalation_kit',
         params => {
             vehicle_id  => $vehicle_id,
             campaign_id => $campaign_id
         }
     );
 
+    $api->stash_result(
+        $c, ['campaign_vehicles'],
+        params => {
+            vehicle_id  => $vehicle_id,
+            campaign_id => $campaign_id
+        }
+    );
 
-
-    my $x = $c->stash->{vehicle_routes};
-    my $y = $c->stash->{vehicle_invitations};
-    my $z = $c->stash->{instalation_kit};
-
-    use DDP; p $x; p $y; p $z;
-
+    $c->stash->{invitation_status} = $c->stash->{campaign_vehicles}[0]{status}{description};
 }
 
 

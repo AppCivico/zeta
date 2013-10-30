@@ -16,10 +16,10 @@ __PACKAGE__->config(
         order       => 'Str'
     },
     result_attr => {
-        prefetch =>
-            {
-                'vehicle' =>  { 'driver' => 'user' }
-            }
+        prefetch =>[{
+            'vehicle' =>  { 'driver' => 'user' },
+            'status'
+        }]
     },
     update_roles => [qw/superadmin admin webapi user/],
     create_roles => [qw/superadmin admin webapi user/],
@@ -71,6 +71,9 @@ sub result_GET {
                         ( map { $_ => $campaign_vehicle->vehicle->driver->user->$_ } qw/id email/ ),
                     }
                 },
+            },
+            status => {
+                ( map { $_ => $campaign_vehicle->status->$_ } qw/id description/ ),
             },
              (
                 map { $_ => ( $campaign_vehicle->$_ ? $campaign_vehicle->$_->datetime : undef ) }
@@ -163,6 +166,9 @@ sub list_GET {
                                     ( map { $_ => $r->{vehicle}{driver}{user}{$_} } qw/id email/ ),
                                 }
                             },
+                        },
+                        status => {
+                            ( map { $_ => $r->{status}{$_} } qw/id description/ ),
                         },
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }

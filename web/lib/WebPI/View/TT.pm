@@ -2,6 +2,8 @@ package WebPI::View::TT;
 use Moose;
 use namespace::autoclean;
 use utf8;
+use DateTime;
+use DateTime::Format::Pg;
 
 extends 'Catalyst::View::TT';
 
@@ -74,6 +76,17 @@ sub format_cnpj_to_human {
     my ( $a, $b, $c, $d, $e ) = $cnpj =~ m/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/;
 
     return "$a.$b.$c/$d-$e";
+}
+
+sub birthdate_to_age {
+    my ( $self, $ref, $date ) = @_;
+
+    my $now         = DateTime->now();
+    my $birthdate   = eval { DateTime::Format::Pg->parse_datetime( $date ) };
+
+    my $age = $birthdate->subtract_datetime($now);
+
+    return $age->years;
 }
 
 

@@ -74,6 +74,7 @@ sub result_GET {
                     id
                     name
                     gender
+                    documents_validated
                     /
                 ),
                 ( map { $_ => ( $vehicle->driver->$_ ? $vehicle->driver->$_->datetime : undef ) } qw/birth_date/ ),
@@ -162,6 +163,7 @@ sub list_GET {
                                     name
                                     gender
                                     birth_date
+                                    documents_validated
                                     /
                             ),
                         },

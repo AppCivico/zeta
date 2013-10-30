@@ -1,7 +1,3 @@
-[%-CALL assets.include("js/bootstrap-datepicker.js")%]
-[%-CALL assets.include("js/bootstrap-datepicker.pt-BR.js")%]
-[%-CALL assets.include("css/datepicker.css")%]
-[%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/admin.js")%]
 
 [%IF !NO_TITLE%]
@@ -25,7 +21,7 @@
             [%END%]
         </dd>
         <dt>Idade</dt>
-        <dd>[%format_date_to_human(vehicle.driver.birth_date)%]</dd>
+        <dd>[%birthdate_to_age(vehicle.driver.birth_date)%]</dd>
     </dl>
     <legend>Informações do veículo</legend>
         <dl>
@@ -41,6 +37,13 @@
             <dd>[%vehicle.body_style.name%]</dd>
 
         </dl>
+
+    <legend>Documentos</legend>
+    [%IF vehicle.documents_validated%]
+        <p>Documentos em situação regular</p>
+    [%ELSE%]
+        <p>Necessário analisar documentos enviados</p>
+    [%END%]
     <legend data-toggle-class="hidden" data-toggle-class-target="#routes">Roteiros cadastrados</legend>
     <div id="routes">
         [%FOREACH r IN vehicle_routes%]
@@ -69,6 +72,8 @@
                     <dd>[%vi.invitation.campaign.name%]</dd>
                     <dt>Enviado em:</dt>
                     <dd>[%format_date_to_human(vi.sent_at)%]</dd>
+                    <dt>Status:</dt>
+                    <dd>[%invitation_status%]</dd>
                 </dl>
             </div>
         [%END%]
@@ -84,7 +89,7 @@
     <legend>Kit de instalação</legend>
     [%IF instalation_kits%]
         [%FOREACH ik IN instalation_kits%]
-            <div class="item" id="routes_info">
+            <div class="item">
                 <dl>
                     <dt>Campanha:</dt>
                     <dd>[%vi.invitation.campaign.name%]</dd>
@@ -94,13 +99,15 @@
             </div>
         [%END%]
     [%ELSE%]
-        <div class="item" id="routes_info">
+        <div class="item">
             <dl>
-                <dt>Convite não enviado</dt>
-                <dd>Enviar convite</dd>
+                <dt>Kit de instalação não enviado</dt>
+                <dd>Enviar kit de instalação</dd>
             </dl>
         </div>
     [%END%]
+
+
 
 </div>
 

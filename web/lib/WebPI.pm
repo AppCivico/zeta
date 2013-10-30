@@ -68,7 +68,8 @@ __PACKAGE__->config(
             'days_of_week_human',
             'hour_human',
             'format_date_to_human',
-            'format_cnpj_to_human'
+            'format_cnpj_to_human',
+            'birthdate_to_age'
         ]
       }
 
