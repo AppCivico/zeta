@@ -24,6 +24,7 @@ sub index : Chained('object') : PathPart('') : Args(0) {
 
 sub validate : Chained('base') : PathPart('validate') : Args(1) {
     my ( $self, $c, $document_id ) = @_;
+    my $api = $c->model('API');
 
     $api->stash_result( $c,
         [ 'documents', $document_id ],
@@ -35,6 +36,7 @@ sub validate : Chained('base') : PathPart('validate') : Args(1) {
 
 sub reject : Chained('base') : PathPart('reject') : Args(1) {
     my ( $self, $c, $document_id ) = @_;
+    my $api = $c->model('API');
 
     $api->stash_result( $c,
         [ 'documents', $document_id ],
