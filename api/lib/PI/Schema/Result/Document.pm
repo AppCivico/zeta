@@ -88,6 +88,12 @@ __PACKAGE__->table("document");
   is_foreign_key: 1
   is_nullable: 1
 
+=head2 status
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -117,6 +123,8 @@ __PACKAGE__->add_columns(
   },
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "status",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -132,6 +140,26 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
+
+=head2 status
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::StatusDescription>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "status",
+  "PI::Schema::Result::StatusDescription",
+  { id => "status" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
 
 =head2 user
 
@@ -174,8 +202,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-05 18:14:09
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KMF90yYkNqxHBDjiBwv1rQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-30 18:12:43
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DqBsY3Ku1DyF5XEqVMRXlw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -214,6 +242,10 @@ sub verifiers_specs {
                 user_id => {
                     required => 0,
                     type     => 'Int',
+                },
+                status => {
+                    required    => 0,
+                    type        => 'Int'
                 },
             }
         ),

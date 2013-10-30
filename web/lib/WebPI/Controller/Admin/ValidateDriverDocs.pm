@@ -22,6 +22,28 @@ sub index : Chained('object') : PathPart('') : Args(0) {
 
 }
 
+sub validate : Chained('base') : PathPart('validate') : Args(1) {
+    my ( $self, $c, $document_id ) = @_;
+
+    $api->stash_result( $c,
+        [ 'documents', $document_id ],
+        body => {
+            document_valid => 1
+        },
+    );
+}
+
+sub reject : Chained('base') : PathPart('reject') : Args(1) {
+    my ( $self, $c, $document_id ) = @_;
+
+    $api->stash_result( $c,
+        [ 'documents', $document_id ],
+        body => {
+            status => 5
+        },
+    );
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

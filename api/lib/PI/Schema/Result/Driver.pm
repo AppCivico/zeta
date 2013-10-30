@@ -340,9 +340,8 @@ __PACKAGE__->has_many(
 );
 
 
-
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-29 14:26:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:IYQn9SeLkrKV/lHvWlHBBQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-30 18:12:43
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:c+jRYxXk6B5n5UCBwoxqhw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

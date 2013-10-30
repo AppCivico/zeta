@@ -14,9 +14,23 @@
     [%FOREACH cs IN documents%]
     <tr>
         <th>[%cs.class_name%]</th>
-        <td>[%format_date_to_human(cs.validated_at)%]</td>
-        <th>[%cs.validated_by%]</th>
+        <td>
+        [%IF cs.validated_at%]
+            [%format_date_to_human(cs.validated_at)%]
+        [%ELSE%]
+            --
+        [%END%]
+        </td>
+        <th>
+        [%IF cs.validated_by%]
+            [%cs.validated_by%]
+        [%ELSE%]
+            --
+        [%END%]
+        </th>
         <td><a href="/patch/to/cuspir/download/fuck">Download</a></td>
+        <td><a href="/patch/to/cuspir/download/fuck"  class="icon-ok-sign" title="Aprovar documento"></a></td>
+        <td><a href="/patch/to/cuspir/download/fuck" data-confirm="Deseja realmente não aprovar?" class="icon-remove-sign" title="Negar documento"></a></td>
     </tr>
     [%END%]
 </tbody>

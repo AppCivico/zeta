@@ -42,6 +42,10 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
+                status => {
+                    required    => 1,
+                    type        => 'Int'
+                },
             }
         )
     };

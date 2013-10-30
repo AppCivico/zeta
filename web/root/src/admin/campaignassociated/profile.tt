@@ -42,7 +42,8 @@
     [%IF vehicle.documents_validated%]
         <p>Documentos em situação regular</p>
     [%ELSE%]
-        <p>Necessário analisar documentos enviados</p>
+        <p>Necessário analisar documentos enviados.
+        <a href="/admin/validate-driver-documents/driver-id/[%vehicle.driver.id%]">Clique aqui para listá-los</a></p>
     [%END%]
     <legend data-toggle-class="hidden" data-toggle-class-target="#routes">Roteiros cadastrados</legend>
     <div id="routes">

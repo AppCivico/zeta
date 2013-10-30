@@ -112,6 +112,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 documents
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::Document>
+
+=cut
+
+__PACKAGE__->has_many(
+  "documents",
+  "PI::Schema::Result::Document",
+  { "foreign.status" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 instalation_kits
 
 Type: has_many
@@ -128,8 +143,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-28 19:29:37
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sesbisnAuRaffoU7nVESRg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-30 18:12:43
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8uAQhFlL1hjkvnk/mNNq6g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -10,6 +10,9 @@ __PACKAGE__->config(
 
     result     => 'DB::Document',
     object_key => 'document',
+    result_attr => {
+        prefetch =>  'status'
+    },
 
     update_roles => [qw/superadmin user admin/],
     create_roles => [qw/superadmin user/],
@@ -51,7 +54,16 @@ sub result_GET {
                   vehicle_id
                   user_id
                   /
-            )
+            ),
+            status => {
+                (
+                    map { $_ => $attrs{$_}, }
+                    qw/
+                    id
+                    description
+                    /
+                )
+            }
         }
     );
 
@@ -75,6 +87,7 @@ sub result_PUT {
 
     if ( $c->check_any_user_role( 'admin' ) && $c->req->params->{document_valid}) {
         $params->{validated_by} = $c->user->id;
+        $params->{status}       = 1;
     }else{
         delete $params->{validated_by};
     }
@@ -116,6 +129,15 @@ sub list_GET {
                               validated_at
                               /
                         ),
+                        status => {
+                            (
+                                map { $_ => $r->{status}{$_}, }
+                                qw/
+                                id
+                                description
+                                /
+                            )
+                        },
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
                 } $c->stash->{collection}->as_hashref->all
