@@ -13,7 +13,7 @@
 </tr>
 </thead>
 <tbody>
-[%IF customers.size <= 0 %]
+[%IF campaigns.size <= 0 %]
 	<tr>
 		<td colspan="10">Nenhum registro encontrado</td>
 	</tr>
