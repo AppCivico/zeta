@@ -9,6 +9,8 @@
 [%END%]
 
     [%input_text('code','Código')|none%]
+    [%input_text('iccid','ICCID')|none%]
+    [%input_text('mobile_number','Número do telefone')|none%]
     [%select_field('status', 'Status',  array => [
         [1,'Ativo'],
         [0,'Inativo'],

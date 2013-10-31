@@ -71,6 +71,16 @@ __PACKAGE__->table("tracker");
   data_type: 'text'
   is_nullable: 1
 
+=head2 iccid
+
+  data_type: 'bigint'
+  is_nullable: 1
+
+=head2 mobile_number
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -94,6 +104,10 @@ __PACKAGE__->add_columns(
   },
   "status",
   { data_type => "text", is_nullable => 1 },
+  "iccid",
+  { data_type => "bigint", is_nullable => 1 },
+  "mobile_number",
+  { data_type => "integer", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -172,8 +186,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-15 18:47:02
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:XGJKREgAKew6b+/JYPUjww
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-30 19:37:25
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RpaEQa7Fpxn6St21vyp6nA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

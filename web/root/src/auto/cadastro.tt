@@ -32,7 +32,7 @@
                 ['D','Divorciado(a)'],
                 ['S','Solteiro (a)'],
                 ['E','União estável'],
-                ['V','Viuvo(a)'],
+                ['V','Viúvo(a)'],
             ], req=>1)|none%]
 
         </fieldset>
@@ -95,7 +95,6 @@
         <fieldset>
             <div class="form-actions">
                 <button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
-                <button type="reset" class="btn">Limpar formulário</button>
             </div>
         </fieldset>
 

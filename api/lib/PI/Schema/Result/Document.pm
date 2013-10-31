@@ -91,6 +91,7 @@ __PACKAGE__->table("document");
 =head2 status
 
   data_type: 'integer'
+  default_value: 4
   is_foreign_key: 1
   is_nullable: 1
 
@@ -124,7 +125,12 @@ __PACKAGE__->add_columns(
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "status",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  {
+    data_type      => "integer",
+    default_value  => 4,
+    is_foreign_key => 1,
+    is_nullable    => 1,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -202,8 +208,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-30 18:12:43
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DqBsY3Ku1DyF5XEqVMRXlw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-30 19:37:25
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:nf7PQKwS+vMlQOQWDaHCIQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

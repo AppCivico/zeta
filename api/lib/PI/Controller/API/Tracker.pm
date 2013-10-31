@@ -42,6 +42,8 @@ sub result_GET {
                   code
                   vehicle_id
                   status
+                  iccid
+                  mobile_number
                   /
             ),
             ( map { $_ => $tracker->$_->datetime } qw/created_at/ )
@@ -105,6 +107,8 @@ sub list_GET {
                               vehicle_id
                               status
                               created_at
+                              iccid
+                              mobile_number
                               /
                         )
                       }

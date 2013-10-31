@@ -26,8 +26,32 @@ var $admin = function(){
         });
     }
 
+    function analiseDriverDocuments(document_id, element) {
+
+        if(element.attr('id') == 'accept') {
+            var $url = '/admin/validate-driver-documents/validate/'+document_id;
+        } else {
+            var $url = '/admin/validate-driver-documents/reject/'+document_id;
+        }
+
+        $.ajax({
+            url: $url,
+            dataType: 'json',
+            success: function(result) {
+                console.log(result);
+            },
+            error: function(err) {
+                console.log(err);
+            },
+            complete: function() {
+            }
+        });
+
+    }
+
     return {
-        getCostumers: getCostumers
+        getCostumers: getCostumers,
+        analiseDriverDocuments: analiseDriverDocuments
     };
 }();
 
@@ -54,6 +78,16 @@ $( document ).ready(function() {
             }
         });
     }
+
+    var $approve_docs = $('.approve_docs');
+    if($approve_docs.length) {
+        $approve_docs.click(function(){
+            var $doc_id  = $(this).val();
+
+            $admin.analiseDriverDocuments($doc_id, $approve_docs);
+        });
+    }
+
 });
 
 
