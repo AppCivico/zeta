@@ -1,5 +1,5 @@
-<div class="well sidebar-nav" style="width: 130px" data-spy="affix" data-offset-top="0">
-    <ul class="nav nav-list">
+<div class="sidebar-nav" style="width: 130px" data-spy="affix" data-offset-top="0">
+    <ul class="well nav nav-list">
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="/admin/dashboard">Dashboard</a></li>
 
         <li class="nav-header">Clientes</li>
