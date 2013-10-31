@@ -5,7 +5,7 @@
       type="image/png"
       href="/static/img/favicon.png" />
 <meta charset="UTF-8">
-<title>[% template.title or site.title or title or 'WebPI' %]</title>
+<title>[% template.title or site.title or title or 'Publicidade Inteligente' %]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <!--[if lt IE 9]>
@@ -26,10 +26,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body><script>var actions=[];</script>
+<body class="admin"><script>var actions=[];</script>
 
-<div class="container">
-    [%INCLUDE parts/user_menu.tt%]
+<div class="container content-container">
+    [%INCLUDE parts/admin_user_menu.tt%]
 
     <div class="row">
 
@@ -47,6 +47,12 @@
     </div>
 
 </div> <!-- /container -->
+<div class="clear"></div>
+<footer>
+	<div class="container">
+		© Publicidade Inteligente 2013. Todos os direitos reservados.		
+	</div>
+</footer>
 
 <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
 [% assets.export("js")|none %]

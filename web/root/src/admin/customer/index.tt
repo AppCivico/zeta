@@ -1,7 +1,6 @@
 <h2>Lista de clientes</h2>
 
-<table class="table table-striped">
-
+<table class="table table-striped .table-hover">
 <thead>
 <tr>
     <th>ID</th>
@@ -11,17 +10,23 @@
 </tr>
 </thead>
 <tbody>
-[%FOREACH c IN customers %]
-<tr>
-    <th>[%c.id%]</th>
-    <td>[%c.fancy_name%]</td>
-    <td>[%c.corporate_name%]</td>
-    <td>[%format_cnpj_to_human(c.cnpj)%]</td>
-    <td>
-        <a href="/admin/customer/[%c.id%]">editar</a>
-        <a class="del" href="/admin/form/remove_customer/[%c.id%]" data-confirm="Deseja realmente remover?">remover</a>
-    </td>
-</tr>
+[%IF customers.size <= 0 %]
+	<tr>
+		<td colspan="10">Nenhum registro encontrado</td>
+	</tr>
+[%ELSE%]
+	[%FOREACH c IN customers %]
+	<tr>
+		<th>[%c.id%]</th>
+		<td>[%c.fancy_name%]</td>
+		<td>[%c.corporate_name%]</td>
+		<td>[%format_cnpj_to_human(c.cnpj)%]</td>
+		<td>
+			<a href="/admin/customer/[%c.id%]" class="edit"><i class="icon-pencil"></i> editar</a>
+			<a href="/admin/form/remove_customer/[%c.id%]" data-confirm="Deseja realmente remover?" class="del"><i class="icon-trash"></i> remover</a>
+		</td>
+	</tr>
+	[%END%]
 [%END%]
 </tbody>
 </table>

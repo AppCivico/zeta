@@ -531,3 +531,16 @@ div.faq .buttons{
 .clear{
 	clear: both;
 }
+
+@media (min-width: 978px) {
+	.panel-home .text .contents p.lead{
+		font-size: 1.4em;
+	}
+}
+@media (max-width: 977px) {
+	.panel-home .text .contents p.lead{
+		font-size: 1em;
+		line-height: 1.4em;
+	}
+}
+
