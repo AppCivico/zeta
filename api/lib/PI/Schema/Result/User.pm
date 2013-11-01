@@ -177,6 +177,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 document_validateds_by
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::Document>
+
+=cut
+
+__PACKAGE__->has_many(
+  "document_validateds_by",
+  "PI::Schema::Result::Document",
+  { "foreign.validated_by" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 documents
 
 Type: has_many
@@ -283,8 +298,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:20:43
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Z49B9qcm4DkmCmzNoz/mRQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-31 15:12:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TdNh/rpHYnmRSfQwbtGFlg
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 

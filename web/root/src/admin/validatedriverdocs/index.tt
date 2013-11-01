@@ -8,6 +8,7 @@
     <th>Documento</th>
     <th>Validado em</th>
     <th>Validado por</th>
+    <th>Status</th>
     <th>Opções</th>
 </tr>
 </thead>
@@ -23,18 +24,21 @@
         [%END%]
         </td>
         <th>
-        [%IF cs.validated_by%]
-            [%cs.validated_by%]
+        [%IF cs.validated_by.name%]
+            [%cs.validated_by.name%]
         [%ELSE%]
             --
         [%END%]
         </th>
-        <td><a href="/patch/to/cuspir/download/fuck">Download</a></td>
-        <td><a href="javascript:;"  class="icon-ok-sign approve_docs" id="accept" value="[%cs.id%]" title="Aprovar documento"></a></td>
-        <td><a href="javascript:;" data-confirm="Deseja realmente não aprovar?" id="deny" value="[%cs.id%]" class="icon-remove-sign approve_docs" title="Negar documento"></a></td>
+        <th id="status_[%cs.id%]">
+           [%cs.status.description%]
+        </th>
+        <td><a href="/admin/validate-driver-documents/download/[%cs.id%]">Download</a></td>
+        <td><a href="javascript:;"  class="icon-ok-sign approve_docs" id="accept_[%cs.id%]" title="Aprovar documento"></a></td>
+        <td><a href="javascript:;" data-confirm="Deseja realmente não aprovar?" id="deny_[%cs.id%]" class="icon-remove-sign approve_docs" title="Negar documento"></a></td>
     </tr>
     [%END%]
 </tbody>
 </table>
 
-<a class="btn" href="/admin/campaign/new">Adicionar uma nova campanha</a>
+<a class="btn" href="[%c.req.referer%]">Voltar</a>

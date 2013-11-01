@@ -28,7 +28,7 @@ var $admin = function(){
 
     function analiseDriverDocuments(document_id, element) {
 
-        if(element.attr('id') == 'accept') {
+        if(element == 'accept') {
             var $url = '/admin/validate-driver-documents/validate/'+document_id;
         } else {
             var $url = '/admin/validate-driver-documents/reject/'+document_id;
@@ -38,12 +38,32 @@ var $admin = function(){
             url: $url,
             dataType: 'json',
             success: function(result) {
-                console.log(result);
+                $('#status_'+document_id).text(result.status);
+                alert('Documento '+result.status);
             },
             error: function(err) {
                 console.log(err);
+            }
+        });
+
+    }
+
+    function sendInvitation() {
+        var $campaign_id = $('#campaign_id').val();
+        var $vehicle_id = $('#vehicle_id').val();
+
+        $.ajax({
+            url: '/admin/form/send_invitation',
+            data: {campaign_id: $campaign_id, vehicle_id: $vehicle_id},
+            dataType: 'json',
+            success: function(result) {
+                $('#sent_txt').html(
+                    '<dt>Convite enviado</dt>'
+//                     '<dd>'+result.response.rows[0].sent_at+'</dd>'
+                );
             },
-            complete: function() {
+            error: function(err) {
+                console.log(err);
             }
         });
 
@@ -51,7 +71,8 @@ var $admin = function(){
 
     return {
         getCostumers: getCostumers,
-        analiseDriverDocuments: analiseDriverDocuments
+        analiseDriverDocuments: analiseDriverDocuments,
+        sendInvitation: sendInvitation
     };
 }();
 
@@ -82,9 +103,16 @@ $( document ).ready(function() {
     var $approve_docs = $('.approve_docs');
     if($approve_docs.length) {
         $approve_docs.click(function(){
-            var $doc_id  = $(this).val();
+            var $info  = $(this).attr('id').split('_');
 
-            $admin.analiseDriverDocuments($doc_id, $approve_docs);
+            $admin.analiseDriverDocuments($info[1], $info[0]);
+        });
+    }
+
+    var $send_invitation = $('#send_invitation');
+    if($send_invitation.length) {
+        $send_invitation.click(function() {
+            $admin.sendInvitation();
         });
     }
 
