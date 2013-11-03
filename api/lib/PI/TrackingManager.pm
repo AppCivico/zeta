@@ -21,7 +21,9 @@ sub add {
     }
 
     die 'invalid object type' if ref $message ne 'PI::TrackingManager::Message';
-
+    my $t = $message->tracker_code;
+    use DDP; p $t;
+    #todo: ajustar where de status
     my $tracker_data =
       $self->schema->resultset('Tracker')->search( { code => $message->tracker_code, status => 1 } )->next;
 
