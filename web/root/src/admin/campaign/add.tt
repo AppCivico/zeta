@@ -23,7 +23,7 @@
         ])|none%]
         <div class="control-group">
             <label class="control-label">Cliente</label>
-            <div id="customer_name" class="span3"></div>
+            <div id="customer_name" class="span3 customer-list">Nenhum cliente selecionado</div>
             <input type="hidden" name="customer_id" id="elm_customer"><br /><br />
         </div>
        <div class="control-group">

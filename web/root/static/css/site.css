@@ -153,7 +153,8 @@ a:hover{
 	-webkit-border-radius:2px;
 }
 .partners .logos .item{
-	padding: 5px 10px;
+	padding: 5px 5px;
+	display: inline-block;
 }
 
 .bg-dark{

@@ -3,12 +3,12 @@
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="/admin/dashboard">Dashboard</a></li>
 
         <li class="nav-header">Clientes</li>
-        <li><a href="/admin/customer"><i class="icon-user"></i>Listar</a></li>
+        <li><a href="/admin/customer"><i class="icon-th-list"></i>Listar</a></li>
         <li><a href="/admin/customer/new"><i class="icon-user"></i>Cadastrar</a></li>
         <li class="nav-header">Campanhas</li>
-        <li><a href="/admin/campaign"><i class="icon-user"></i>Listar</a></li>
+        <li><a href="/admin/campaign"><i class="icon-th-list"></i>Listar</a></li>
+        <li><a href="/admin/campaign/new"><i class="icon-plus"></i>Cadastrar</a></li>
         <li class="nav-header">Outros</li>
-        <li><a href="/contato">Contato</a></li>
         <li><a href="/logout">Sair</a></li>
     </ul>
 </div>

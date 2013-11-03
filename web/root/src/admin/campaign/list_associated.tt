@@ -24,7 +24,7 @@
                         <td>
                             <a class="btn btn-mini" href=" ">Visualizar documentos</a>
 
-                            <a class="pull-right btn-mini btn btn-danger" data-confirm="Deseja realmente remover?" href="/admin/form/remove_associated?id=[%cv.id%]&campaign_id=[%cv.campaign_id%]">Excluir</a>
+                            <a class="pull-right del" data-confirm="Deseja realmente remover?" href="/admin/form/remove_associated?id=[%cv.id%]&campaign_id=[%cv.campaign_id%]"><i class="icon-trash"></i> excluir</a>
                         </td>
                     </tr>
                 [%END%]
@@ -36,7 +36,7 @@
             </ul>
         [%END%]
 
-        <div class="form-actions">
+        <div>
             [%IF !NO_TITLE%]
                 <a href="/admin/campaign/[%campaign_id%]" class="btn btn-right">Voltar para edição de campanha</a>
             [%END%]

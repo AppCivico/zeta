@@ -8,7 +8,7 @@
     <th>Nome</th>
     <th>Cliente</th>
     <th>Inicio</th>
-    <th>Fim</th>
+    <th>Término</th>
     <th>Status</th>
 </tr>
 </thead>
@@ -27,8 +27,8 @@
         <td>[%format_date_to_human(cs.valid_to)%]</td>
         <td>[%cs.status.description%]</td>
         <td>
-            <a href="/admin/campaign/[%cs.id%]">editar</a>
-            <a class="del" href="/admin/form/remove_campaign/[%cs.id%]" data-confirm="Deseja realmente remover?">remover</a>
+            <a href="/admin/campaign/[%cs.id%]" class="edit"><i class="icon-pencil"></i> editar</a>
+            <a href="/admin/form/remove_campaign/[%cs.id%]" data-confirm="Deseja realmente remover?" class="del"><i class="icon-trash"></i> remover</a>
         </td>
     </tr>
     [%END%]
