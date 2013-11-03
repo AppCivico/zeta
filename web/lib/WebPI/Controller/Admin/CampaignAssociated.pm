@@ -61,6 +61,7 @@ sub profile : Chained('base') : PathPart('profile') : Args() {
     );
 
     $c->stash->{invitation_status} = $c->stash->{campaign_vehicles}[0]{status}{description};
+    $c->stash->{campaign_id} = $campaign_id;
 }
 
 

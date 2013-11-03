@@ -11,7 +11,10 @@ __PACKAGE__->config(
     result     => 'DB::Document',
     object_key => 'document',
     result_attr => {
-        prefetch =>  'status'
+        prefetch => [
+            'status',
+            'validated_by'
+        ]
     },
 
     update_roles => [qw/superadmin user admin/],
@@ -50,7 +53,6 @@ sub result_GET {
                   id
                   class_name
                   private_path
-                  validated_by
                   vehicle_id
                   user_id
                   /
@@ -61,6 +63,15 @@ sub result_GET {
                     qw/
                     id
                     description
+                    /
+                )
+            },
+            validated_by => {
+                (
+                    map { $_ => $attrs{$_}, }
+                    qw/
+                    id
+                    name
                     /
                 )
             }
@@ -135,6 +146,15 @@ sub list_GET {
                                 qw/
                                 id
                                 description
+                                /
+                            )
+                        },
+                        validated_by => {
+                            (
+                                map { $_ => $r->{validated_by}{$_}, }
+                                qw/
+                                id
+                                name
                                 /
                             )
                         },

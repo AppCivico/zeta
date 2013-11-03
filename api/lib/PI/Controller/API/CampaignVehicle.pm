@@ -16,10 +16,10 @@ __PACKAGE__->config(
         order       => 'Str'
     },
     result_attr => {
-        prefetch =>[{
-            'vehicle' =>  { 'driver' => 'user' },
+        prefetch =>[
+            {'vehicle' =>  { 'driver' => 'user' }},
             'status'
-        }]
+        ]
     },
     update_roles => [qw/superadmin admin webapi user/],
     create_roles => [qw/superadmin admin webapi user/],

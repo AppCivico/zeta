@@ -65,7 +65,7 @@
     </div>
 
     <legend>Convite para a campanha</legend>
-    [%IF vehicle_invitations%]
+    [%IF vehicle_invitations.size > 0%]
         [%FOREACH vi IN vehicle_invitations%]
             <div class="item" id="routes_info">
                 <dl>
@@ -81,8 +81,12 @@
     [%ELSE%]
         <div class="item" id="routes_info">
             <dl>
-                <dt>Convite não enviado</dt>
-                <dd>Enviar convite</dd>
+                <div id="sent_txt">
+                    <dt>Convite não enviado</dt>
+                    <input type="hidden" name="campaign_id" id="campaign_id" value=[%campaign_id%]>
+                    <input type="hidden" name="vehicle_id" id="vehicle_id" value=[%vehicle.id%]>
+                    <dd><a href="javascript:;" id="send_invitation"> Enviar convite </a></dd>
+                </div>
             </dl>
         </div>
     [%END%]

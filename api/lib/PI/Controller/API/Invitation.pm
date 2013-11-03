@@ -2,6 +2,7 @@ package PI::Controller::API::Invitation;
 
 use Moose;
 use DateTime;
+use JSON::XS;
 BEGIN { extends 'Catalyst::Controller::REST' }
 
 __PACKAGE__->config(
@@ -165,18 +166,25 @@ sub list_POST {
 }
 
 sub _send_invitation :Private {
-    my ( $self, $c, $invitation ) = @_;
+    my ( $self, $c, $invitation, $assoc ) = @_;
 
     my $api         = $c->model('API');
     my $email_model = $c->model('EmailQueue');
+    my $condition;
+
+    if($assoc) {
+        $condition = { 'in' => $assoc };
+    } else {
+        $condition = { 'not in' => \"(select vehicle_id from vehicle_invitation)" };
+    }
 
     my @associateds = $c->model('DB::CampaignVehicle')->search(
             {
-                campaign_id => $invitation->campaign_id,
-                'vehicle.id' => {'not in' => \"(select vehicle_id from vehicle_invitation)"}
+                campaign_id     => $invitation->campaign_id,
+                'vehicle.id'    => $condition
             },
             {
-                join => ['vehicle', { 'vehicle' => { 'driver' => 'user' } } ],
+                join    => ['vehicle', { 'vehicle' => { 'driver' => 'user' } } ],
                 columns => [qw/user.name user.email vehicle.id/]
             }
         )->as_hashref->all;
@@ -204,9 +212,36 @@ sub _send_invitation :Private {
         push(@vehicle_list,  $vehicle_data);
     }
 
-    $c->model('DB::VehicleInvitation')->populate(\@vehicle_list);
+    my $vehicle_invitations = $c->model('DB::VehicleInvitation')->populate(\@vehicle_list);
 
-    return 1;
+    return $vehicle_invitations;
+}
+
+sub send_invitation_public : Chained('base') : PathPart('send') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $api         = $c->model('API');
+    my $associateds = decode_json($c->req->params->{associateds});
+
+    my $invitation = $c->model('DB::Invitation')->search(
+        {
+            campaign_id => $c->req->params->{campaign_id}
+        }
+    )->next;
+
+    my $entity = eval { $self->_send_invitation($c, $invitation, $associateds) } ;
+
+    my @invitations;
+    foreach my $i (@$entity) {
+        push(@invitations,  {
+                'id'         => $i->id,
+                'vehicle_id' => $i->vehicle_id,
+                'sent_at'    => $i->sent_at->datetime
+            }
+        );
+    }
+
+    $self->status_ok($c, entity => { rows => \@invitations } );
 }
 
 1;

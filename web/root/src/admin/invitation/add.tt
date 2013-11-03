@@ -25,8 +25,7 @@
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
                 [%IF !NO_TITLE%]
-                    [%href = c.uri_for_action('/admin/campaign/index')%]
-                    <a href="[%href%]" class="btn btn-right">Voltar para lista de campanhas</a>
+                    <a href="[%c.req.referer%]" class="btn btn-right">Voltar para lista de campanhas</a>
                 [%END%]
             </div>
         </fieldset>

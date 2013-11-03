@@ -76,6 +76,37 @@ sub process_delete : Chained('base') : PathPart('remove_invitation') : Args(1) {
     }
 }
 
+sub process_on_demand : Chained('base') : PathPart('send_invitation') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $api = $c->model('API');
+    my @vehicles;
+
+    foreach my $id ($c->req->params->{vehicle_id}) {
+        push (@vehicles, $id);
+    }
+
+    $api->stash_result(
+        $c,  'invitations/send',
+        stash => 'send_invitation',
+        params => {
+            associateds => encode_json(\@vehicles),
+            campaign_id => $c->req->params->{campaign_id}
+        }
+    );
+
+    my $response;
+    if ( $c->stash->{send_invitation}{error} ) {
+        $response = { 'error' => $c->stash->{send_invitation}{error} };
+    }
+    else {
+        $response =  { 'response' => $c->stash->{send_invitation} };
+    }
+
+    $c->res->header( 'content-type', 'application/json;charset=UTF-8' );
+    $c->res->body( encode_json($response) );
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

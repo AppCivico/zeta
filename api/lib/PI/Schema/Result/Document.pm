@@ -67,6 +67,7 @@ __PACKAGE__->table("document");
 =head2 validated_by
 
   data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 1
 
 =head2 vehicle_id
@@ -112,7 +113,7 @@ __PACKAGE__->add_columns(
   "validated_at",
   { data_type => "timestamp", is_nullable => 1 },
   "validated_by",
-  { data_type => "integer", is_nullable => 1 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "vehicle_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "created_at",
@@ -187,6 +188,26 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head2 validated_by
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "validated_by",
+  "PI::Schema::Result::User",
+  { id => "validated_by" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
 =head2 vehicle
 
 Type: belongs_to
@@ -208,8 +229,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-30 19:37:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:nf7PQKwS+vMlQOQWDaHCIQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-31 15:12:26
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5KIZUta1TVqGoZsZLR7jjQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
