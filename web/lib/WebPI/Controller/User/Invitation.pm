@@ -19,10 +19,6 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         }
     );
 
-    my $i = $c->stash->{vehicle_invitations};
-    use DDP; p $i;
-
-
 }
 
 __PACKAGE__->meta->make_immutable;

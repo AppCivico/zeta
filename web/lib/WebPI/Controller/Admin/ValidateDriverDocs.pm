@@ -8,7 +8,7 @@ BEGIN { extends 'Catalyst::Controller' }
 sub base : Chained('/admin/base') : PathPart('validate-driver-documents') : CaptureArgs(0) {
 }
 
-sub object : Chained('base') : PathPart('vehicle-id') : CaptureArgs(1) {
+sub object : Chained('base') : PathPart('user-id') : CaptureArgs(1) {
     my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
@@ -16,7 +16,7 @@ sub object : Chained('base') : PathPart('vehicle-id') : CaptureArgs(1) {
     $api->stash_result(
         $c, 'documents',
         params => {
-            vehicle_id => $id
+            user_id => $id
         },
     );
 

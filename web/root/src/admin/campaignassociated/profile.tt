@@ -43,7 +43,7 @@
         <p>Documentos em situação regular</p>
     [%ELSE%]
         <p>Necessário analisar documentos enviados.
-        <a href="/admin/validate-driver-documents/vehicle-id/[%vehicle.id%]">Clique aqui para listá-los</a></p>
+        <a href="/admin/validate-driver-documents/user-id/[%vehicle.driver.user.id%]">Clique aqui para listá-los</a></p>
     [%END%]
     <legend data-toggle-class="hidden" data-toggle-class-target="#routes">Roteiros cadastrados</legend>
     <div id="routes">
