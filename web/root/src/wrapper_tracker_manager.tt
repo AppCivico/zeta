@@ -26,10 +26,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body><script>var actions=[];</script>
+<body class="admin"><script>var actions=[];</script>
 
 <div class="container">
-    [%INCLUDE parts/user_menu.tt%]
+    [%INCLUDE parts/admin_user_menu.tt%]
 
     <div class="row">
 
