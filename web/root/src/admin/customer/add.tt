@@ -5,6 +5,7 @@
 [%END%]
 <form class="form-horizontal" method="post" action="/admin/form/customer">
 <div class="tab-pane active" id="tab1">
+<p>Utilize o formulário abaixo para cadastrar um novo cliente (anunciante).</p>
 <fieldset>
     [%IF NO_TITLE%]
         <input type="hidden" name="redirect_to_dashboard" value="1"/>

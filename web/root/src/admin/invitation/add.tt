@@ -6,6 +6,7 @@
 
 <form class="form-horizontal" method="post" action="/admin/form/invitation">
     <div class="tab-pane active" id="tab1">
+    <p>Crie um convite para ser enviado por email aos possíveis colaboradores da campanha.</p>
         <fieldset>
             [%IF NO_TITLE%]
                 <input type="hidden" name="redirect_to_dashboard" value="1"/>

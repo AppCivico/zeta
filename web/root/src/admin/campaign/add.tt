@@ -9,6 +9,7 @@
 [%END%]
 <form class="form-horizontal" method="post" action="/admin/form/campaign">
 <div class="tab-pane active" id="tab1">
+<p>Utilize o formulário abaixo para criar uma nova campanha publicitária no sistema.</p>
 <fieldset>
     [%IF NO_TITLE%]
         <input type="hidden" name="redirect_to_dashboard" value="1"/>

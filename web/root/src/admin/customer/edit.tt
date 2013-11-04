@@ -3,7 +3,7 @@
 [%IF !NO_TITLE%]
 <h2>Adicionar novo cliente</h2>
 [%END%]
-<form class="form-horizontal" method="post" action="/admin/form/customer">
+<form class="form-horizontal" method="post" action="/admin/form/customer/[%customer_obj.id%]">
 <div class="tab-pane active" id="tab1">
 <fieldset>
     [%IF NO_TITLE%]

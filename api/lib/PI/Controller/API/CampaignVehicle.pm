@@ -53,7 +53,6 @@ sub result_GET {
                 id
                 vehicle_id
                 campaign_id
-                status
                 )
              ),
             vehicle => {
@@ -148,7 +147,6 @@ sub list_GET {
                                 id
                                 vehicle_id
                                 campaign_id
-                                status
                               /
                         ),
                         vehicle => {

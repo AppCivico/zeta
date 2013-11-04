@@ -126,6 +126,9 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
         $c->detach( '/form/redirect_error', [] );
     }
     else {
+
+        #fazer consulta no convite, se já tiver, direcionar para a página inicial da campanha e enviar convite para os usuários
+        #recém adicionados
         my $uri = $c->uri_for_action(
             '/admin/invitation/add',
             {

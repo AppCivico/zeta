@@ -12,7 +12,7 @@
 				</ul>
 			</div>
 			<div class="welcome">
-				Olá <a href="[%c.uri_for_action('/user/account/index')%]" class="navbar-link">[%driver.name%]</a>, <a href="/logout"><small>[ sair ]</small></a>
+				Olá <a href="[%c.uri_for_action('/admin/dashboard/index')%]" class="navbar-link">[%c.user.name%]</a>, <a href="/logout"><small>[ sair ]</small></a>
 			</div>
 		</div>
 	</div>

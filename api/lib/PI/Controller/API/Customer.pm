@@ -77,7 +77,11 @@ sub result_PUT {
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $customer->id ] )->as_string,
-        entity => { name => $customer->corporate_name, id => $customer->id }
+        entity => {
+                name => $customer->corporate_name,
+                id => $customer->id,
+                address_id => $customer->address_id
+            }
       ),
       $c->detach
       if $customer;

@@ -30,13 +30,9 @@ sub process : Chained('base') : PathPart('customer') : Args(0) {
             body   => $params
     );
 
-    my $st = $c->stash;
-    use DDP; p $st;
-
-    if ( $c->stash->{error} ) {
-
+    if ( $c->stash->{customer}{error} ) {
+        $c->stash->{error} = $c->stash->{customer}{error};
         $c->detach( '/form/redirect_error', [] );
-
     }
 
     $api->stash_result(
@@ -55,10 +51,9 @@ sub process : Chained('base') : PathPart('customer') : Args(0) {
         }
     );
 
-    if ( $c->stash->{error} ) {
-
+    if ( $c->stash->{customer_address}{error} ) {
+        $c->stash->{error} = $c->stash->{customer_address}{error};
         $c->detach( '/form/redirect_error', [] );
-
     }
 
     $api->stash_result(
@@ -82,26 +77,53 @@ sub process : Chained('base') : PathPart('customer') : Args(0) {
 sub process_edit : Chained('base') : PathPart('customer') : Args(1) {
     my ( $self, $c, $id ) = @_;
 
-    my $api = $c->model('API');
+    my $api     = $c->model('API');
+    my $form    = $c->model('Form');
+
+    my $params = { %{ $c->req->params } };
+
+    my @fields;
+
+    push (@fields, 'cnpj', 'postal_code');
+
+    $form->only_number( $params, @fields );
+
+    my $customer = {
+        cnpj                    => $params->{cnpj},
+        corporate_name          => $params->{corporate_name},
+        email                   => $params->{email},
+        fancy_name              => $params->{fancy_name},
+        mobile_phone            => $params->{mobile_phone},
+        municipal_registration  => $params->{municipal_registration},
+        phone                   => $params->{phone},
+        secondary_phone         => $params->{secondary_phone_phone},
+        state_registration      => $params->{state_registration},
+    };
+
+    my $address = {
+        address         => $params->{address},
+        city_id         => $params->{city_id},
+        complement      => $params->{complement},
+        neighborhood    => $params->{neighborhood},
+        number          => $params->{number},
+        postal_code     => $params->{postal_code},
+        state_id        => $params->{state_id},
+    };
 
     $api->stash_result(
         $c, [ 'customers', $id ],
         method => 'PUT',
-        body   => $c->req->params
+        body   => $customer
     );
 
-    my $st = $c->stash;
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    }
 
     $api->stash_result(
-        $c, [ 'addresses', $id ],
+        $c, [ 'addresses', $c->stash->{address_id} ],
         method => 'PUT',
-        body   => $c->req->params
-    );
-
-    $api->stash_result(
-        $c, [ 'customers', $id ],
-        method => 'PUT',
-        body   => $c->req->params
+        body   => $address
     );
 
     if ( $c->stash->{error} ) {
