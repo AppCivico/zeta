@@ -19,9 +19,6 @@ sub object : Chained('base') : PathPart('user-id') : CaptureArgs(1) {
             user_id => $id
         },
     );
-
-    my $d = $c->stash->{documents};
-    use DDP; p $d;
 }
 
 sub index : Chained('object') : PathPart('') : Args(0) {

@@ -21,7 +21,7 @@
 		<tr>
 			<th>[%class_name_conf.${d.class_name}%]</th>
 			[%IF d.validated_at%]
-				<td>[%d.validated_at%]</td>
+				<td>Validado em - [%format_date_to_human(d.validated_at)%]</td>
 			[%ELSE%]
 				<td>Em aprovação</td>
 			[%END%]

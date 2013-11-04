@@ -8,7 +8,7 @@
     </div>
     <div class="row page-content">
         <div class="span6">
-            [%IF document_check%]
+            [%IF !document_check%]
                 <p>Existem documentos pendentes. Para continuar é necessário <a href="/user/document">informá-los aqui.</a></p>
             [%ELSIF campaign_vehicles.0.status == 4%]
                 <p>Participação em análise.</p>

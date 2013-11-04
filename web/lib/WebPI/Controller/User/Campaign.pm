@@ -16,6 +16,7 @@ sub details : Chained('base') : PathPart('details') : Args(1) {
     my $api = $c->model('API');
 
     $api->stash_result( $c, ['campaigns', $campaign_id ], stash => 'campaign' );
+
     $api->stash_result(
         $c, 'campaign_vehicles',
         params => {
