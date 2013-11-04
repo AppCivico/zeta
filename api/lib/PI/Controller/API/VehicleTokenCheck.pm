@@ -32,14 +32,14 @@ sub result_GET {
 
         die { 'car_plate.invalid' => 1 } unless $vehicle;
 
-        my $token = $vehicle->vehicle_tokens->search(
-            {
-                token   => $c->req->params->{token},
-                used_at => undef
-            }
-        )->next;
-
-        die { 'token.invalid' => 1 } unless $token;
+#         my $token = $vehicle->vehicle_tokens->search(
+#             {
+#                 token   => $c->req->params->{token},
+#                 used_at => undef
+#             }
+#         )->next;
+#
+#         die { 'token.invalid' => 1 } unless $token;
 
         $self->status_ok(
             $c,
@@ -71,7 +71,7 @@ sub result_GET {
                 brand      => { ( map { $_ => $vehicle->vehicle_brand->$_ } qw/name/ ), },
                 body_style => { ( map { $_ => $vehicle->vehicle_body_style->$_ } qw/name/ ), },
                 ( map { $_ => ( $vehicle->$_ ? $vehicle->$_->datetime : undef ) } qw/created_at/ ),
-                token_id   => $token->id,
+#                 token_id   => $token->id,
             }
         );
 

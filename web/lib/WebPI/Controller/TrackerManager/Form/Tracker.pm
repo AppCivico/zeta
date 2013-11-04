@@ -72,13 +72,19 @@ sub process_delete : Chained('base') : PathPart('remove_tracker') : Args(1) {
 }
 
 sub check_token : Chained('base') : PathPart('check_token') : Args(0) {
+    #provavel que não seja mais necessário usar token pra validar. Apagar quando confirmar
     my ( $self, $c ) = @_;
-    my $api = $c->model('API');
+    my $api     = $c->model('API');
+    my $form    = $c->model('Form');
+
+    my $params = { %{ $c->req->params } } ;
+
+    $form->format_car_plate($params, 'car_plate');
 
     $api->stash_result(
         $c, ['vehicle_token_check'],
         stash   => 'vehicle_token_check',
-        params  => $c->req->params
+        params  => $params
     );
 
     my $result = $c->stash->{vehicle_token_check};
@@ -119,15 +125,15 @@ sub process_activation : Chained('base') : PathPart('activation') Args(0) {
     }
     else {
 
-        $api->stash_result(
-            $c,
-            [ 'vehicle_tokens', $params->{token_id} ],
-            method => 'PUT',
-            body   => [
-                user_id => $c->user->id
-              ]
-
-        );
+#         $api->stash_result(
+#             $c,
+#             [ 'vehicle_tokens', $params->{token_id} ],
+#             method => 'PUT',
+#             body   => [
+#                 user_id => $c->user->id
+#               ]
+#
+#         );
 
         $c->detach( '/form/redirect_ok', [ '/trackermanager/tracker/index', {}, 'Removido com sucesso!' ] );
     }

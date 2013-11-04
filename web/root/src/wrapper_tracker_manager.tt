@@ -5,7 +5,7 @@
       type="image/png"
       href="/static/img/favicon.png" />
 <meta charset="UTF-8">
-<title>[% template.title or site.title or title or 'WebPI' %]</title>
+<title>[% template.title or site.title or title or 'Publicidade Inteligente' %]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <!--[if lt IE 9]>
@@ -16,8 +16,10 @@
 [%-CALL assets.include("css/bootstrap-timepicker.min.css")%]
 [%-CALL assets.include("css/system.css")%]
 
+
 [%-CALL assets.include("js/bootstrap.min.js")%]
 [%-CALL assets.include("js/bootstrap-timepicker.min.js")%]
+[%-CALL assets.include("js/jquery.maskedinput.js")%]
 [%-CALL assets.include("js/user.js")%]
 
 [%- assets.export("css") |none-%]

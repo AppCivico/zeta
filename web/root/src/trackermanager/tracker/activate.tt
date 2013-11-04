@@ -1,3 +1,5 @@
+[%-CALL assets.include("js/jquery.maskedinput.js")%]
+[%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/tracker_manager.js")%]
 
 [%IF !NO_TITLE%]
@@ -12,8 +14,8 @@
 
     [%input_text('car_plate','Placa do carro')|none%]
     <p class="errors" id="car_plate_error">Informe a placa do carro</p>
-    [%input_text('token','Código de segurança')|none%]
-    <p class="errors" id="token_error">Informe o token</p>
+    <!--[%input_text('token','Código de segurança')|none%]
+    <p class="errors" id="token_error">Informe o token</p>-->
     <button type="button" class="btn btn-primary" id="check_token" data-loading-text="Processando...">Pesquisar</button>
     <div id="car_info"></div>
     <div class="form-actions">
