@@ -34,7 +34,7 @@
 
             <form class="form-horizontal" method="post" id="campaign_confirmation" action="/user/form/campaign/[%campaign_vehicles.0.id%]">
                 <fieldset>
-                    [%IF !document_check%]
+                    [%IF document_check%]
                         [%IF campaign_vehicles.0.status == 2%]
                             <label>Aceito as condições descritas no <a href="#">contrato</a> para participar da campanha</label>
                             <input type="checkbox" id="accept_campaign">
