@@ -29,7 +29,7 @@
                         <td>[%cv.vehicle.driver.name%]</td>
                         <td>[%cv.status.description%]</td>
                         <td>
-                            <a class="btn btn-mini" href="/admin/validate-driver-documents/vehicle-id/[%cv.vehicle.id%]">Visualizar documentos</a>
+                            <a class="btn btn-mini" href="/admin/validate-driver-documents/user-id/[%cv.vehicle.driver.user.id%]">Visualizar documentos</a>
 
                             <a class="pull-right del" data-confirm="Deseja realmente remover?" href="/admin/form/remove_associated?id=[%cv.id%]&campaign_id=[%cv.campaign_id%]"><i class="icon-trash"></i> excluir</a>
                             <a class="btn btn-mini" href="/admin/campaign_associated/profile?vehicle_id=[%cv.vehicle.id%]&campaign_id=[%cv.campaign_id%]">

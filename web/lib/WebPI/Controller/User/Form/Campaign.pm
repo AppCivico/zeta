@@ -29,6 +29,19 @@ sub process : Chained('base') : PathPart('') : Args(1) {
         $c->detach( '/form/redirect_error', [] );
     }
     else {
+
+        $api->stash_result(
+            $c, ['vehicle_invitations', $c->req->params->{invitation_id}],
+            method  => 'PUT',
+            body    => {
+                status => $c->req->params->{status}
+            }
+        );
+
+        if ( $c->stash->{error} ) {
+            $c->detach( '/form/redirect_error', [] );
+        }
+
         my $message;
         if( $c->req->params->{status} != 3  ) {
            $message = 'Campanha aceita com sucesso';

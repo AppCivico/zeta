@@ -71,8 +71,9 @@ __PACKAGE__->table("campaign_vehicle");
 =head2 status
 
   data_type: 'integer'
+  default_value: 8
   is_foreign_key: 1
-  is_nullable: 0
+  is_nullable: 1
 
 =cut
 
@@ -96,7 +97,12 @@ __PACKAGE__->add_columns(
     original      => { default_value => \"now()" },
   },
   "status",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  {
+    data_type      => "integer",
+    default_value  => 8,
+    is_foreign_key => 1,
+    is_nullable    => 1,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -159,7 +165,12 @@ __PACKAGE__->belongs_to(
   "status",
   "PI::Schema::Result::StatusDescription",
   { id => "status" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
 );
 
 =head2 vehicle
@@ -178,8 +189,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-24 11:57:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Zy4GhuNdPuBH79vClt6xIA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-05 17:35:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EToZm0fVQfEugaC4+V8aNw
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

@@ -10,11 +10,10 @@ __PACKAGE__->config(
     result      => 'DB::VehicleInvitation',
     object_key  => 'vehicle_invitation',
     result_attr => {
-        prefetch => {
-            'invitation' => {
-                'campaign' => 'customer'
-                }
-            }
+        prefetch => [
+            {'invitation' =>  { 'campaign' => 'customer' }},
+            'status'
+        ]
     },
 
     update_roles => [qw/superadmin user/],
@@ -50,6 +49,11 @@ sub result_GET {
                   /
             ),
             ( map { $_ => ( $vehicle_invitation->$_ ? $vehicle_invitation->$_->datetime : undef ) } qw/sent_at created_at/ ),
+            status => {
+                (
+                    map { $_ => $vehicle_invitation->status->$_ } qw/id description/
+                ),
+            },
             invitation => {
                 (
                     map { $_ => $vehicle_invitation->invitation->$_ } qw/id title/
@@ -133,6 +137,11 @@ sub list_GET {
                               sent_at
                               /
                         ),
+                        status => {
+                            (
+                                map { $_ => $r->{status}{$_} } qw/id description/
+                            ),
+                        },
                         invitation => {
                             ( map { $_ => $r->{invitation}{$_} } qw/id title/ ),
                             campaign => {

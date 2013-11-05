@@ -112,6 +112,10 @@
         </div>
     [%END%]
 
+    [%IF approve%]
+        APROVAR O MENINAO
+    [%END%]
+
 
 
 </div>

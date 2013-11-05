@@ -107,7 +107,6 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
            $record = {
                 vehicle_id  => $iten,
                 campaign_id => $params->{campaign_id},
-                status      => 2
             };
 
             push (@rows, $record);
@@ -126,15 +125,44 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
         $c->detach( '/form/redirect_error', [] );
     }
     else {
-
-        #fazer consulta no convite, se já tiver, direcionar para a página inicial da campanha e enviar convite para os usuários
-        #recém adicionados
-        my $uri = $c->uri_for_action(
-            '/admin/invitation/add',
-            {
-                'campaign_id' => $params->{campaign_id}
+        $api->stash_result(
+            $c, 'invitations',
+            stash => 'invitations',
+            params    => {
+                campaign_id => $params->{campaign_id}
             }
         );
+
+        my $uri;
+        if(!$c->stash->{invitations}) {
+            $uri = $c->uri_for_action(
+                '/admin/invitation/add',
+                {
+                    'campaign_id' => $params->{campaign_id}
+                }
+            );
+        } else {
+            $api->stash_result(
+                $c,  'invitations/send',
+                stash => 'send_invitation',
+                params => {
+                    associateds => encode_json(\@{ $params->{vehicles} } ),
+                    campaign_id => $params->{campaign_id}
+                }
+            );
+
+            if($c->stash->{send_invitation}{error}) {
+                $c->stash->{error} = $c->stash->{send_invitation}{error};
+                $c->detach( '/form/redirect_error', [] );
+            }
+
+            $uri = $c->uri_for_action(
+                '/admin/campaign/index',
+                {
+                    'campaign_id' => $params->{campaign_id}
+                }
+            );
+        }
 
         $c->res->redirect( $uri->as_string );
     }

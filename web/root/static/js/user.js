@@ -83,7 +83,7 @@ $( document ).ready(function() {
     if($confirm_campaign.length) {
 
         $confirm_campaign.submit(function(e) {
-            if($('#status').val() != 3) {
+            if($('#status').val() != 6) {
                 if(!($('#accept_campaign').is(':checked'))) {
                     $('#contract_error').show();
                     $('#confirm_campaign').button('reset');
@@ -98,7 +98,7 @@ $( document ).ready(function() {
     var $cancel_campaign = $('#cancel_campaign');
     if($cancel_campaign.length) {
         $cancel_campaign.click(function(){
-            $('#status').val(3)
+            $('#status').val(6)
         });
     }
 

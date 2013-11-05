@@ -60,6 +60,12 @@ sub profile : Chained('base') : PathPart('profile') : Args() {
         }
     );
 
+    if($c->stash->{vehicle}{driver}{documents_validated} && $c->stash->{vehicle_invitations}[0]{status}{id} == 4) {
+        $c->stash->{approve} = 1;
+    } else {
+        $c->stash->{approve} = 0;
+    }
+
     $c->stash->{invitation_status} = $c->stash->{campaign_vehicles}[0]{status}{description};
     $c->stash->{campaign_id} = $campaign_id;
 }

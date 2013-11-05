@@ -10,10 +10,12 @@ sub base : Chained('/user/base') : PathPart('campaign') : CaptureArgs(0) {
 sub index : Chained('base') : PathPart('') : Args(0) {
 }
 
-sub details : Chained('base') : PathPart('details') : Args(1) {
-    my ( $self, $c, $campaign_id ) = @_;
+sub details : Chained('base') : PathPart('details') : Args(2) {
+    my ( $self, $c, $campaign_id, $invitation_id ) = @_;
 
     my $api = $c->model('API');
+
+    $c->stash->{invitation_id} = $invitation_id;
 
     $api->stash_result( $c, ['campaigns', $campaign_id ], stash => 'campaign' );
 
@@ -37,6 +39,8 @@ sub details : Chained('base') : PathPart('details') : Args(1) {
 
     if($documents_check != 3) {
         $c->stash->{document_check} = 1;
+    } else {
+        $c->stash->{document_check} = 0;
     }
 }
 
