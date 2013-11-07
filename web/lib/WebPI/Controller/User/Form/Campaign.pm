@@ -31,7 +31,15 @@ sub process : Chained('base') : PathPart('') : Args(1) {
     else {
 
         $api->stash_result(
-            $c, ['vehicle_invitations', $c->req->params->{invitation_id}],
+            $c, 'vehicle_invitations',
+            params => {
+                invitation_id   => $c->req->params->{invitation_id},
+                vehicle_id      => $c->stash->{vehicles}[0]{id}
+            }
+        );
+
+        $api->stash_result(
+            $c, ['vehicle_invitations', $c->stash->{vehicle_invitations}[0]{id}],
             method  => 'PUT',
             body    => {
                 status => $c->req->params->{status}
@@ -43,7 +51,7 @@ sub process : Chained('base') : PathPart('') : Args(1) {
         }
 
         my $message;
-        if( $c->req->params->{status} != 3  ) {
+        if( $c->req->params->{status} != 4  ) {
            $message = 'Campanha aceita com sucesso';
         } else {
             $message = 'Campanha recusada. Você não participará desta campanha.';

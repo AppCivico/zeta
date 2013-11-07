@@ -16,13 +16,14 @@ __PACKAGE__->config(
         ]
     },
 
-    update_roles => [qw/superadmin user/],
-    create_roles => [qw/superadmin user/],
-    delete_roles => [qw/superadmin user/],
+    update_roles => [qw/superadmin user admin/],
+    create_roles => [qw/superadmin user admin/],
+    delete_roles => [qw/superadmin user admin/],
 
     search_ok => {
-        vehicle_id => 'Int',
-      }
+        vehicle_id      => 'Int',
+        invitation_id   => 'Int'
+    }
 
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -89,10 +90,11 @@ sub result_PUT {
     my $vehicle_invitation = $c->stash->{vehicle_invitation};
 
     $vehicle_invitation->execute( $c, for => 'update', with => { %{ $c->req->params }, created_by => $c->user->id } );
+
     $self->status_accepted(
         $c,
-        location => $c->uri_for( $self->action_for('result'), [ $vehicle_invitation->id ] )->as_string,
-        entity => { model => $vehicle_invitation->vehicle_invitation_model_id, id => $vehicle_invitation->id }
+        location    => $c->uri_for( $self->action_for('result'), [ $vehicle_invitation->id ] )->as_string,
+        entity      => { invitation_id => $vehicle_invitation->invitation_id, id => $vehicle_invitation->id }
       ),
       $c->detach
       if $vehicle_invitation;

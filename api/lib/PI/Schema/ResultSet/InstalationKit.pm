@@ -29,7 +29,7 @@ sub verifiers_specs {
                     type     => DataStr
                 },
                 status => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 used_at => {

@@ -32,7 +32,7 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $instalation_kit = $c->stash->{instalation_kit};
-    my %attrs         = $instalation_kit->get_inflated_columns;
+    my %attrs           = $instalation_kit->get_inflated_columns;
     $self->status_ok(
         $c,
         entity => {
@@ -118,8 +118,20 @@ sub list_GET {
 
 sub list_POST {
     my ( $self, $c ) = @_;
+    my $config = PI->config;
 
     my $instalation_kit = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+
+    my $email_model = $c->model('EmailQueue');
+
+    $email_model->add(
+        email     => $c->req->params->{email},
+        name      => $c->req->params->{name},
+        content   => $c->req->params->{campaign_name},
+        subject   => 'Publicidade Inteligente - Confirmação de cadastro',
+        template  => 'confirm_campaign_registration.tt',
+        queue_key => 'email'
+    );
 
     $self->status_created(
         $c,
@@ -129,7 +141,6 @@ sub list_POST {
             token => $instalation_kit->token
         }
     );
-
 }
 
 1;

@@ -75,8 +75,9 @@ __PACKAGE__->table("instalation_kit");
 =head2 status
 
   data_type: 'integer'
+  default_value: 9
   is_foreign_key: 1
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 used_at
 
@@ -113,7 +114,12 @@ __PACKAGE__->add_columns(
   "token",
   { data_type => "text", is_nullable => 0 },
   "status",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  {
+    data_type      => "integer",
+    default_value  => 9,
+    is_foreign_key => 1,
+    is_nullable    => 1,
+  },
   "used_at",
   { data_type => "timestamp", is_nullable => 1 },
   "campaign_id",
@@ -192,12 +198,17 @@ __PACKAGE__->belongs_to(
   "status",
   "PI::Schema::Result::StatusDescription",
   { id => "status" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-29 10:46:28
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QRWO4zCK7tLxNyUTNB2Ung
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-07 12:25:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:w0YtSgLDY96i70F+lzOv7Q
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

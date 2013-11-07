@@ -116,6 +116,13 @@ $( document ).ready(function() {
         });
     }
 
+    var $cancel_campaign = $('#cancel_campaign');
+    if($cancel_campaign.length) {
+        $cancel_campaign.click(function() {
+            $('#campaign_status').val(7);
+        });
+    }
+
 });
 
 

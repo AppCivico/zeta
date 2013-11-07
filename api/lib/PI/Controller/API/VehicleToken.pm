@@ -10,9 +10,9 @@ __PACKAGE__->config(
     result     => 'DB::VehicleToken',
     object_key => 'vehicle_token',
 
-    update_roles => [qw/superadmin user admin-tracker/],
-    create_roles => [qw/superadmin user admin-tracker/],
-    delete_roles => [qw/superadmin user admin-tracker/],
+    update_roles => [qw/superadmin user admin-tracker admin/],
+    create_roles => [qw/superadmin admin-tracker admin/],
+    delete_roles => [qw/superadmin admin-tracker admin/],
 
     search_ok => {
         vehicle_id => 'Int',

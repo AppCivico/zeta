@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.9
 -- Dumped by pg_dump version 9.1.9
--- Started on 2013-10-30 18:39:50 BRST
+-- Started on 2013-11-07 14:22:27 BRST
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -24,8 +24,13 @@ COPY status_description (id, description) FROM stdin;
 1	Ativo
 2	Inativo
 3	Removido
-4	Em aprovação
-5	Rejeitado
+4	Aprovado pelo associado
+5	Aprovado pela campanha
+6	Rejeitado pelo associado
+7	Rejeitado pela campanha
+8	Em aprovação
+9	Enviado
+10	Recebido
 \.
 
 
@@ -38,7 +43,7 @@ COPY status_description (id, description) FROM stdin;
 SELECT pg_catalog.setval('status_description_id_seq', 3, true);
 
 
--- Completed on 2013-10-30 18:39:50 BRST
+-- Completed on 2013-11-07 14:22:27 BRST
 
 --
 -- PostgreSQL database dump complete

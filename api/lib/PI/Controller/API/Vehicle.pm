@@ -78,7 +78,7 @@ sub result_GET {
                     /
                 ),
                 ( map { $_ => ( $vehicle->driver->$_ ? $vehicle->driver->$_->datetime : undef ) } qw/birth_date/ ),
-                user => { (map { $_ => $vehicle->driver->user->$_ } qw/id/) },
+                user => { (map { $_ => $vehicle->driver->user->$_ } qw/id email/) },
             },
             model      => { ( map { $_ => $vehicle->vehicle_model->$_ } qw/id name/ ), },
             color      => { ( map { $_ => $vehicle->vehicle_color->$_ } qw/id name/ ), },
@@ -167,7 +167,7 @@ sub list_GET {
                                     documents_validated
                                     /
                             ),
-                            user => { (map { $_ => $r->{driver}{user}{$_} } qw/id/) },
+                            user => { (map { $_ => $r->{driver}{user}{$_} } qw/id email/) },
                         },
                         model      => { ( map { $_ => $r->{vehicle_model}{$_} } qw/id name/ ), },
                         color      => { ( map { $_ => $r->{vehicle_color}{$_} } qw/id name/ ), },

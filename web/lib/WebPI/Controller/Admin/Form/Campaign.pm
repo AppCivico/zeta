@@ -3,6 +3,7 @@ use Moose;
 use namespace::autoclean;
 use DateTime;
 use JSON::XS;
+use utf8;
 BEGIN { extends 'Catalyst::Controller' }
 
 sub base : Chained('/admin/form/base') : PathPart('') : CaptureArgs(0) {
@@ -183,6 +184,85 @@ sub process_delete_assoc : Chained('base') : PathPart('remove_associated') : Arg
     }
     else {
         $c->detach( '/form/redirect_ok2', [ '/admin/campaign/list_associated',[$c->req->params->{campaign_id}], {}, 'Removido com sucesso!' ] );
+    }
+}
+
+sub process_activate : Chained('base') : PathPart('activate') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, [ 'campaign_vehicles', $c->req->params->{campaign_vehicle} ],
+        method => 'PUT',
+        body => {
+            status => $c->req->params->{status}
+        }
+    );
+
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    }
+
+    $api->stash_result(
+        $c, [ 'vehicle_invitations', $c->req->params->{vehicle_invitation} ],
+        method => 'PUT',
+        body => {
+            status => $c->req->params->{status}
+        }
+    );
+
+    if ( $c->stash->{error} ) {
+        $c->detach( '/form/redirect_error', [] );
+    }
+    else {
+        my $message;
+
+        if($c->req->params->{status} == 5) {
+
+            $api->stash_result(
+                $c, 'vehicle_tokens',
+                method  => 'POST',
+                body    => {
+                    vehicle_id  => $c->req->params->{vehicle_id},
+                    user_id     => $c->req->params->{user_id}
+                }
+            );
+
+            if ( $c->stash->{error} ) {
+                $c->detach( '/form/redirect_error', [] );
+            }
+
+            my $now = DateTime->now();
+            $api->stash_result(
+                $c, 'instalation_kits',
+                method  => 'POST',
+                body    => {
+                    sent_at         => $now,
+                    name            => $c->req->params->{name},
+                    email           => $c->req->params->{email},
+                    driver_id       => $c->req->params->{driver_id},
+                    campaign_id     => $c->req->params->{campaign_id},
+                    campaign_name   => $c->req->params->{campaign_name},
+                    token           => $c->stash->{vehicle_tokens}{token},
+                }
+            );
+
+            $message = 'Participação aprovada.';
+
+        } elsif( $c->req->params->{status} == 7  ) {
+
+            $message = 'Participação recusada.';
+
+        }
+
+        if ( $c->stash->{error} ) {
+            my $e = $c->stash->{error};
+            use DDP; p $e;
+            $c->detach( '/form/redirect_error', [] );
+        }
+
+        $c->detach( '/form/redirect_ok2', [ '/admin/campaign/list_associated',[$c->req->params->{campaign_id}], {}, $message ] );
     }
 }
 

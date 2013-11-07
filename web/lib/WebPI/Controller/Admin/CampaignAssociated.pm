@@ -43,6 +43,7 @@ sub profile : Chained('base') : PathPart('profile') : Args() {
             campaign_id => $campaign_id
         }
     );
+    $c->stash->{vehicle_invitation_id} = $c->stash->{vehicle_invitations}[0]{id};
 
     $api->stash_result(
         $c, ['instalation_kits'],
@@ -59,6 +60,7 @@ sub profile : Chained('base') : PathPart('profile') : Args() {
             campaign_id => $campaign_id
         }
     );
+    $c->stash->{campaign_vehicle_id} = $c->stash->{campaign_vehicles}[0]{id};
 
     if($c->stash->{vehicle}{driver}{documents_validated} && $c->stash->{vehicle_invitations}[0]{status}{id} == 4) {
         $c->stash->{approve} = 1;

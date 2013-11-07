@@ -12,6 +12,8 @@
     <dl>
         <dt>Nome</dt>
         <dd>[%vehicle.driver.name%]</dd>
+        <dt>Email</dt>
+        <dd>[%vehicle.driver.user.email%]</dd>
         <dt>Sexo</dt>
         <dd>
             [%IF vehicle.driver.gender == 'm'%]
@@ -39,7 +41,7 @@
         </dl>
 
     <legend>Documentos</legend>
-    [%IF vehicle.documents_validated%]
+    [%IF vehicle.driver.documents_validated%]
         <p>Documentos em situação regular</p>
     [%ELSE%]
         <p>Necessário analisar documentos enviados.
@@ -94,6 +96,7 @@
     <legend>Kit de instalação</legend>
     [%IF instalation_kits%]
         [%FOREACH ik IN instalation_kits%]
+            [%campaign_name = vi.invitation.campaign.name%]
             <div class="item">
                 <dl>
                     <dt>Campanha:</dt>
@@ -106,17 +109,32 @@
     [%ELSE%]
         <div class="item">
             <dl>
-                <dt>Kit de instalação não enviado</dt>
                 <dd>Enviar kit de instalação</dd>
             </dl>
         </div>
     [%END%]
 
-    [%IF approve%]
-        APROVAR O MENINAO
-    [%END%]
 
-
+        <form class="form-horizontal" method="post" action="/admin/form/activate">
+            <fieldset>
+                <input type="hidden" name="campaign_vehicle" value="[%campaign_vehicle_id%]">
+                <input type="hidden" name="vehicle_invitation" value="[%vehicle_invitation_id%]">
+                <input type="hidden" name="campaign_id" value="[%campaign_id%]">
+                <input type="hidden" name="vehicle_id" value="[%vehicle.id%]">
+                <input type="hidden" name="user_id" value="[%vehicle.driver.user.id%]">
+                <input type="hidden" name="driver_id" value="[%vehicle.driver.id%]">
+                <input type="hidden" name="name" value="[%vehicle.driver.name%]">
+                <input type="hidden" name="email" value="[%vehicle.driver.user.email%]">
+                <input type="hidden" name="campaign_name" value="[%campaign_name%]">
+                <input type="hidden" name="status" id="campaign_status" value="5">
+                <div class="form-actions">
+                [%IF approve%]
+                    <button type="submit" id="confirm_campaign" name="confirm" class="btn btn-success" data-loading-text="Processando...">Confirmar participação</button>
+                [%END%]
+                <button type="submit" id="cancel_campaign" name ="cancel" class="btn btn-cancel" data-loading-text="Processando...">Cancelar participação</button>
+                </div>
+            </fieldset>
+        </form>
 
 </div>
 
