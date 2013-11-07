@@ -10,6 +10,15 @@ sub base : Chained('/user/base') : PathPart('vehicle_tracker') : CaptureArgs(0) 
 
 sub index : Chained('base') : PathPart('index') : Args(0) {
     my ( $self, $c ) = @_;
+    my $api  = $c->model('API');
+
+    $api->stash_result(
+        $c,
+        'trackers',
+        params => {
+            vehicle_id => $c->stash->{vehicles}[0]{id},
+        }
+    );
 
     $c->stash->{without_wrapper} = 1 if exists $c->req->params->{no_wrapper};
 }
@@ -29,8 +38,9 @@ sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
         stash  => 'vehicle_trackers',
         params => {
             vehicle_id => $params->{vehicle_id},
+            tracker_id => $params->{tracker_id},
             date       => $params->{date},
-            order      => 'track_event'
+
         }
     );
 

@@ -17,7 +17,8 @@ __PACKAGE__->config(
     delete_roles => [qw/superadmin admin/],
 
     search_ok => {
-        driver_id => 'driver_id',
+        vehicle_id  => 'Int',
+        campaign_id => 'Int'
     }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -40,7 +41,7 @@ sub result_GET {
                 map { $_ => $attrs{$_}, }
                   qw/
                   id
-                  driver_id
+                  vehicle_id
                   token
                   campaign_id
                   /
@@ -99,7 +100,7 @@ sub list_GET {
                             map { $_ => $r->{$_} }
                               qw/
                               id
-                              driver_id
+                              vehicle_id
                               token
                               created_at
                               used_at

@@ -16,7 +16,7 @@ __PACKAGE__->config(
 
     search_ok => {
         vehicle_id => 'Int',
-        order      => 'Str'
+        tracker_id => 'Int'
     }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -89,40 +89,72 @@ sub list_GET {
     my $rs = $c->stash->{collection};
 
     if ( $c->req->params->{date} ) {
-        $rs = $rs->search(
+
+        my $rs = $c->model('DB::ViewVehicleTracker');
+
+        my $data = $rs->search_rs(
+            undef,
             {
-                track_event => {
-                    -between => [ $c->req->params->{date} . ' 00:00:00', $c->req->params->{date} . ' 23:59:59' ],
-                }
+                bind  => [
+                    $c->req->params->{date} . ' 00:00:00',
+                    $c->req->params->{date} . ' 23:59:59',
+                    $c->req->params->{tracker_id},
+                    $c->req->params->{vehicle_id}
+                ],
             }
         );
-    }
 
-    $self->status_ok(
-        $c,
-        entity => {
-            vehicle_trackers => [
-                map {
-                    my $r = $_;
-                    +{
-                        (
-                            map { $_ => $r->{$_} }
-                              qw/
-                              id
-                              tracker_id
-                              lat
-                              lng
-                              vehicle_id
-                              speed
-                              track_event
-                              /
-                        ),
-                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
-                      },
-                } $rs->as_hashref->all
-            ]
-        }
-    );
+        $self->status_ok(
+            $c,
+            entity => {
+                vehicle_trackers => [
+                    map {
+                        my $r = $_;
+                        +{
+                            (
+                                map { $_ => $r->get_column($_) }
+                                qw/
+                                lat
+                                lng
+                                speed
+                                track_event
+                                /
+                            ),
+                        },
+                    } $data->all
+                ]
+            }
+        );
+
+    } else {
+
+        $self->status_ok(
+            $c,
+            entity => {
+                vehicle_trackers => [
+                    map {
+                        my $r = $_;
+                        +{
+                            (
+                                map { $_ => $r->{$_} }
+                                qw/
+                                id
+                                tracker_id
+                                lat
+                                lng
+                                vehicle_id
+                                speed
+                                track_event
+                                /
+                            ),
+                            url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
+                        },
+                    } $rs->as_hashref->all
+                ]
+            }
+        );
+
+    }
 }
 
 sub list_POST {

@@ -305,6 +305,21 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 instalation_kits
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::InstalationKit>
+
+=cut
+
+__PACKAGE__->has_many(
+  "instalation_kits",
+  "PI::Schema::Result::InstalationKit",
+  { "foreign.vehicle_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 state
 
 Type: belongs_to
@@ -491,8 +506,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-22 18:06:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RCt38QHJMEdVQWSuDvrhow
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-07 16:09:30
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:z6aBHcyD0FGM0/vfrYs6BA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

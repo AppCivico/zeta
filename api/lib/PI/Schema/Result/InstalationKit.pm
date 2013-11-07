@@ -49,12 +49,6 @@ __PACKAGE__->table("instalation_kit");
   is_nullable: 0
   sequence: 'instalation_kit_id_seq'
 
-=head2 driver_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
 =head2 created_at
 
   data_type: 'timestamp'
@@ -90,6 +84,12 @@ __PACKAGE__->table("instalation_kit");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 vehicle_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -100,8 +100,6 @@ __PACKAGE__->add_columns(
     is_nullable       => 0,
     sequence          => "instalation_kit_id_seq",
   },
-  "driver_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -124,6 +122,8 @@ __PACKAGE__->add_columns(
   { data_type => "timestamp", is_nullable => 1 },
   "campaign_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "vehicle_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -137,22 +137,6 @@ __PACKAGE__->add_columns(
 =cut
 
 __PACKAGE__->set_primary_key("id");
-
-=head1 UNIQUE CONSTRAINTS
-
-=head2 C<instalation_kit_driver_id_token_key>
-
-=over 4
-
-=item * L</driver_id>
-
-=item * L</token>
-
-=back
-
-=cut
-
-__PACKAGE__->add_unique_constraint("instalation_kit_driver_id_token_key", ["driver_id", "token"]);
 
 =head1 RELATIONS
 
@@ -168,21 +152,6 @@ __PACKAGE__->belongs_to(
   "campaign",
   "PI::Schema::Result::Campaign",
   { id => "campaign_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
-);
-
-=head2 driver
-
-Type: belongs_to
-
-Related object: L<PI::Schema::Result::Driver>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "driver",
-  "PI::Schema::Result::Driver",
-  { id => "driver_id" },
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
@@ -206,9 +175,24 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head2 vehicle
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-07 12:25:28
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:w0YtSgLDY96i70F+lzOv7Q
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::Vehicle>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "vehicle",
+  "PI::Schema::Result::Vehicle",
+  { id => "vehicle_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-07 16:09:30
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HhKtb/xYNICUbFP+RKn/Mg
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -222,7 +206,7 @@ sub verifiers_specs {
         update => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                driver_id => {
+                vehicle_id => {
                     required => 0,
                     type     => 'Int',
                 },

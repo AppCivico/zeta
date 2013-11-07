@@ -53,7 +53,7 @@ sub process {
         while (1) {
             my $frame = $stomp->receive_frame;
 
-            #             warn $frame->body;
+            #warn $frame->body;
             my $data = $xml_parser->XMLin( $frame->body, ForceArray => 1 );
 
             my $date;

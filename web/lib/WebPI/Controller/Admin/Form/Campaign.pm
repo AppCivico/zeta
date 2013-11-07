@@ -126,15 +126,15 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
         $c->detach( '/form/redirect_error', [] );
     }
     else {
+        my $uri;
+
         $api->stash_result(
             $c, 'invitations',
-            stash => 'invitations',
             params    => {
                 campaign_id => $params->{campaign_id}
             }
         );
-
-        my $uri;
+        use DDP; p $c->stash->{invitations};
         if(!$c->stash->{invitations}) {
             $uri = $c->uri_for_action(
                 '/admin/invitation/add',
@@ -241,7 +241,7 @@ sub process_activate : Chained('base') : PathPart('activate') : Args(0) {
                     sent_at         => $now,
                     name            => $c->req->params->{name},
                     email           => $c->req->params->{email},
-                    driver_id       => $c->req->params->{driver_id},
+                    vehicle_id      => $c->req->params->{vehicle_id},
                     campaign_id     => $c->req->params->{campaign_id},
                     campaign_name   => $c->req->params->{campaign_name},
                     token           => $c->stash->{vehicle_tokens}{token},
@@ -257,12 +257,10 @@ sub process_activate : Chained('base') : PathPart('activate') : Args(0) {
         }
 
         if ( $c->stash->{error} ) {
-            my $e = $c->stash->{error};
-            use DDP; p $e;
-            $c->detach( '/form/redirect_error', [] );
+            $c->detach('/form/redirect_error', []);
         }
 
-        $c->detach( '/form/redirect_ok2', [ '/admin/campaign/list_associated',[$c->req->params->{campaign_id}], {}, $message ] );
+        $c->detach('/form/redirect_ok2', [ '/admin/campaign/list_associated',[$c->req->params->{campaign_id}], {}, $message ]);
     }
 }
 

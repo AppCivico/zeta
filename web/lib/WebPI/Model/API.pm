@@ -150,8 +150,8 @@ sub stash_result {
 
     if ( $c->debug ) {
 
-        use DDP;
-        p $obj;
+        #    use DDP;
+        #   p $obj;
     }
 
     return 1;

@@ -94,22 +94,20 @@
     [%END%]
 
     <legend>Kit de instalação</legend>
-    [%IF instalation_kits%]
+    [%IF instalation_kits.size > 0%]
         [%FOREACH ik IN instalation_kits%]
             [%campaign_name = vi.invitation.campaign.name%]
             <div class="item">
                 <dl>
-                    <dt>Campanha:</dt>
-                    <dd>[%vi.invitation.campaign.name%]</dd>
-                    <dt>Enviado em:</dt>
-                    <dd>[%format_date_to_human(vi.sent_at)%]</dd>
+                    <dt>Status:</dt>
+                    <dd>[%ik.status.description%] [%IF ik.status.id == 9%] em [%format_date_to_human(ik.sent_at)%] [%END%]</dd>
                 </dl>
             </div>
         [%END%]
     [%ELSE%]
         <div class="item">
             <dl>
-                <dd>Enviar kit de instalação</dd>
+                <dd>Não enviado, confirme a participação para enviar o Kit.</dd>
             </dl>
         </div>
     [%END%]

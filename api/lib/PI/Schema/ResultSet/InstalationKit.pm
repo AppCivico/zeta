@@ -20,7 +20,7 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                driver_id => {
+                vehicle_id => {
                     required => 1,
                     type     => 'Int',
                 },
