@@ -150,8 +150,9 @@ sub list_POST {
     my ( $self, $c ) = @_;
 
     my $invitation = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
-
-    $self->_send_invitation($c, $invitation);
+    use DDP; p $invitation;
+    eval { $self->_send_invitation($c, $invitation); };
+    die $@ if $@;
 
     $self->status_created(
         $c,
@@ -177,7 +178,7 @@ sub _send_invitation :Private {
     } else {
         $condition = { 'not in' => \"(select vehicle_id from vehicle_invitation)" };
     }
-
+    use DDP; p $condition;
     my @associateds = $c->model('DB::CampaignVehicle')->search(
             {
                 campaign_id     => $invitation->campaign_id,
@@ -188,7 +189,7 @@ sub _send_invitation :Private {
                 columns => [qw/user.name user.email vehicle.id/]
             }
         )->as_hashref->all;
-
+    p @associateds;
     my @vehicle_list;
     my $vehicle_data;
     my $date = DateTime->now();
@@ -213,7 +214,7 @@ sub _send_invitation :Private {
     }
 
     my $vehicle_invitations = $c->model('DB::VehicleInvitation')->populate(\@vehicle_list);
-
+    use DDP; p $vehicle_invitations;
     return $vehicle_invitations;
 }
 
@@ -229,7 +230,7 @@ sub send_invitation_public : Chained('base') : PathPart('send') : Args(0) {
         }
     )->next;
 
-    my $entity = eval { $self->_send_invitation($c, $invitation, $associateds) } ;
+    my $entity =  $self->_send_invitation($c, $invitation, $associateds) ;
 
     my @invitations;
     foreach my $i (@$entity) {

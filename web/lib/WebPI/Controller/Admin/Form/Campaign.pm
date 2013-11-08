@@ -134,8 +134,8 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
                 campaign_id => $params->{campaign_id}
             }
         );
-        use DDP; p $c->stash->{invitations};
-        if(!$c->stash->{invitations}) {
+
+        if(! scalar @{ $c->stash->{invitations} || [] } ) {
             $uri = $c->uri_for_action(
                 '/admin/invitation/add',
                 {
