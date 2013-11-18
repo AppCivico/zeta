@@ -25,74 +25,6 @@ sub process : Chained('base') : PathPart('') : Args(0) {
 
     my $api = $c->model('API');
 
-    my ($number) = $c->req->params->{parking_address} =~ /\,\s*([\d]+)/g;
-
-    my $street = $c->req->params->{parking_address};
-    $street =~ s/\,\s*$number//;
-    $street =~ s/ - .+$//;
-
-    $number = 's/n' unless $number;
-
-    my $address = {
-        'address' => $street,
-        'number'  => $number,
-        'lat_lng' => $c->req->params->{lat_lng},
-        user_id   => $c->user->id
-    };
-
-    if ( exists $c->req->params->{vehicle_parking} && $c->req->params->{vehicle_parking} ) {
-        $api->stash_result(
-            $c,
-            [ 'vehicle_parking', $c->req->params->{vehicle_parking} ],
-            method => 'PUT',
-            stash  => 'vehicle_parking_route',
-            body   => {
-                'name'                  => $c->req->params->{parking_name},
-                vehicle_parking_type_id => $c->req->params->{vehicle_parking_type_id},
-            }
-        );
-
-        $api->stash_result(
-            $c, [ 'addresses', $c->stash->{vehicle_parking_route}{address_id} ],
-            stash  => 'parking_address',
-            method => 'PUT',
-            body   => $address
-        );
-
-    }
-    else {
-
-        $api->stash_result(
-            $c, ['addresses'],
-            stash  => 'parking_address',
-            method => 'POST',
-            body   => $address
-        );
-
-        $api->stash_result(
-            $c,
-            ['vehicle_parking'],
-            stash  => 'vehicle_parking_route',
-            method => 'POST',
-            body   => {
-                'name'                  => $c->req->params->{parking_name},
-                vehicle_parking_type_id => $c->req->params->{vehicle_parking_type_id},
-                address_id              => $c->stash->{parking_address}{id}
-            }
-        );
-
-        $api->stash_result(
-            $c,
-            [ 'vehicle_route_types', $c->req->params->{destination_id} ],
-            stash  => 'updated_route_type',
-            method => 'PUT',
-            body   => {
-                vehicle_parking_id => $c->stash->{vehicle_parking_route}{id}
-            }
-        );
-
-    }
-
     my $lastr = $c->stash->{vehicle_routes}[-1];
     my $count = $lastr ? do { $lastr->{name} =~ /(\d+)/; $1 + 1 } : 1;
     my $name  = "Rota $count";
@@ -102,14 +34,14 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         ['vehicle_routes'],
         method => 'POST',
         body   => {
-            vehicle_id         => $c->stash->{vehicles}[0]{id},
-            vehicle_parking_id => $c->stash->{vehicle_parking_route}{id},
-            origin_id          => $c->req->params->{origin_id},
-            destination_id     => $c->req->params->{destination_id},
-            'start_time_gone'  => $c->req->params->{start_time_gone},
-            'start_time_back'  => $c->req->params->{start_time_back},
-            'name'             => $name,
-            'days_of_week'     => $c->req->params->{days_of_week}
+            vehicle_id              => $c->stash->{vehicles}[0]{id},
+            origin_id               => $c->req->params->{origin_id},
+            destination_id          => $c->req->params->{destination_id},
+            'start_time_gone'       => $c->req->params->{start_time_gone},
+            'start_time_back'       => $c->req->params->{start_time_back},
+            'name'                  => $name,
+            'days_of_week'          => $c->req->params->{days_of_week},
+            'vehicle_parking_type_id'  => $c->req->params->{vehicle_parking_type_id}
         }
     );
 
@@ -159,7 +91,6 @@ sub process : Chained('base') : PathPart('') : Args(0) {
         }
 
         $c->res->redirect( $uri->as_string );
-
     }
 }
 
@@ -172,35 +103,6 @@ sub process_edit_obj : Chained('base') : PathPart('') : CaptureArgs(1) {
         $c, [ 'vehicle_routes', $id ],
         method => 'GET',
         stash  => 'vehicle_route_get'
-    );
-
-    my ($street) = $c->req->params->{parking_address} =~ /[^\d]*/g;
-    my ($number) = $c->req->params->{parking_address} =~ /[\d]+/g;
-
-    my $address = {
-        'address' => $street,
-        'number'  => $number,
-        'lat_lng' => $c->req->params->{lat_lng},
-    };
-
-    $api->stash_result(
-        $c, [ 'addresses', $c->stash->{vehicle_route_get}{vehicle_parking}{address}{id} ],
-        stash  => 'parking_address',
-        method => 'PUT',
-        body   => $address
-    );
-
-    my $parking = {
-        'arrival_time'          => $c->req->params->{start_time_gone},
-        'name'                  => $c->req->params->{parking_name},
-        vehicle_parking_type_id => $c->req->params->{vehicle_parking_type_id},
-    };
-
-    $api->stash_result(
-        $c, [ 'vehicle_parking', $c->stash->{vehicle_route_get}{vehicle_parking}{id} ],
-        stash  => 'vehicle_parking_route',
-        method => 'PUT',
-        body   => $parking
     );
 
     my $time = $c->req->params->{start_time_back};

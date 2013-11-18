@@ -59,55 +59,55 @@ var $new_add = function(){
     };
 }();
 
-var $load_parking = function(){
-
-    var initialize = function (ctx) {
-
-        $select = $('#' + ctx);
-        $select.on('change', {}, _on_change);
-    },
-    _on_change = function(){
-        $id = $select.val();
-
-        $.ajax({
-            url: '/user/route_type/load_parking',
-            data: {id: $id},
-            dataType: 'json',
-            success: function(result) {
-                if(result.vehicle_parking != 0) {
-                    $('#elm_parking_name').val(result.name);
-                    $('#elm_parking_address').val(result.address);
-                    $('#elm_vehicle_parking_type_id').val(result.vehicle_parking_type);
-                    $('#elm_lat_lng').val(result.lat_lng);
-
-                    var $parking_aux = $('#parking_aux');
-                    if($parking_aux.length) {
-                        $parking_aux.val(result.vehicle_parking);
-                    } else {
-                        $('form').append('<input id=parking_aux type=hidden name=vehicle_parking class=parking value='+result.vehicle_parking+'>');
-                    }
-
-
-                } else {
-                    $('.parking').val('');
-                }
-            },
-            error: function(err) {
-                alert('Não foi possível carregar o estacionamento.');
-                $('.parking').val('');
-            },
-            complete: function() {
-                $maps.codeAddress('#elm_lat_lng', '#elm_parking_address');
-            }
-        });
-
-        return false;
-    };
-
-    return {
-        initialize: initialize
-    };
-}();
+// var $load_parking = function(){
+//
+//     var initialize = function (ctx) {
+//
+//         $select = $('#' + ctx);
+//         $select.on('change', {}, _on_change);
+//     },
+//     _on_change = function(){
+//         $id = $select.val();
+//
+//         $.ajax({
+//             url: '/user/route_type/load_parking',
+//             data: {id: $id},
+//             dataType: 'json',
+//             success: function(result) {
+//                 if(result.vehicle_parking != 0) {
+//                     $('#elm_parking_name').val(result.name);
+//                     $('#elm_parking_address').val(result.address);
+//                     $('#elm_vehicle_parking_type_id').val(result.vehicle_parking_type);
+//                     $('#elm_lat_lng').val(result.lat_lng);
+//
+//                     var $parking_aux = $('#parking_aux');
+//                     if($parking_aux.length) {
+//                         $parking_aux.val(result.vehicle_parking);
+//                     } else {
+//                         $('form').append('<input id=parking_aux type=hidden name=vehicle_parking class=parking value='+result.vehicle_parking+'>');
+//                     }
+//
+//
+//                 } else {
+//                     $('.parking').val('');
+//                 }
+//             },
+//             error: function(err) {
+//                 alert('Não foi possível carregar o estacionamento.');
+//                 $('.parking').val('');
+//             },
+//             complete: function() {
+//                 $maps.codeAddress('#elm_lat_lng', '#elm_parking_address');
+//             }
+//         });
+//
+//         return false;
+//     };
+//
+//     return {
+//         initialize: initialize
+//     };
+// }();
 
 $( document ).ready(function() {
 
@@ -122,7 +122,4 @@ $( document ).ready(function() {
         $('#btn_save').button('reset');
         $('.clear_addr_rt').val('');
     });
-
-
-    $load_parking.initialize('elm_destination_id');
 });

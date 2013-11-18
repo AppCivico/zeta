@@ -13,7 +13,6 @@ __PACKAGE__->config(
         prefetch => [
             { 'origin' => { 'address' => 'city' } },
             { 'destination' => { 'address' => 'city' } },
-            { 'vehicle_parking' => 'address' }
         ]
     },
 
@@ -49,6 +48,7 @@ sub result_GET {
                   days_of_week
                   start_time_gone
                   start_time_back
+                  vehicle_route_polyline
                   /
             ),
             origin => {
@@ -85,32 +85,8 @@ sub result_GET {
                       /
                 }
             },
-            vehicle_parking => {
-                (
-                    map { $_ => $vehicle_route->vehicle_parking->$_ }
-                      qw/
-                      id
-                      name
-                      vehicle_parking_type_id
-                      /
-                ),
-
-                address => {
-                    map { $_ => $vehicle_route->vehicle_parking->address->$_ }
-                      qw/
-                      id
-                      address
-                      number
-                      neighborhood
-                      postal_code
-                      lat_lng
-                      user_id
-                      /
-                }
-            },
         }
     );
-
 }
 
 sub result_DELETE {
@@ -176,6 +152,7 @@ sub list_GET {
                                 start_time_back
                                 vehicle_id
                                 days_of_week
+                                vehicle_route_polyline
                                 /
                             ),
                             origin => {
@@ -224,31 +201,6 @@ sub list_GET {
                                     },
                                 }
                             },
-                            vehicle_parking => {
-                                (
-                                    map { $_ => $r->{vehicle_parking}{$_} }
-                                    qw/
-                                    id
-                                    name
-                                    vehicle_parking_type_id
-                                    /
-                                ),
-
-                                address => {
-                                    (
-                                        map { $_ => $r->{vehicle_parking}{address}{$_} }
-                                        qw/
-                                        id
-                                        address
-                                        number
-                                        neighborhood
-                                        postal_code
-                                        lat_lng
-                                        user_id
-                                        /
-                                    ),
-                                }
-                            },
                         }
                     } $c->stash->{collection}->as_hashref->all
                 ]
@@ -258,7 +210,35 @@ sub list_GET {
 }
 
 sub list_POST {
-    my ( $self, $c ) = @_;
+    my ( $self, $c )    = @_;
+    my $geolocation     = $c->model('Geolocation');
+
+    my $orig = $c->model('DB::VehicleRouteType')->search(
+        { 'me.id'   => $c->req->params->{origin_id} },
+        {
+            select => ['address.lat_lng'],
+            as => ['lat_lng'],
+            join    => 'address',
+        },
+    )->next;
+
+    my $dest = $c->model('DB::VehicleRouteType')->search(
+        { 'me.id'   => $c->req->params->{destination_id} },
+        {
+            select => ['address.lat_lng'],
+            as => ['lat_lng'],
+            join    => 'address',
+        },
+    )->next;
+
+    my $addr_points = {
+        origin      => $orig->get_column('lat_lng'),
+        destination => $dest->get_column('lat_lng')
+    };
+
+    my $points = $geolocation->geo_by_point($addr_points);
+
+    $c->req->params->{vehicle_route_polyline} = $points;
 
     my $vehicle_route = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 

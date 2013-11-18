@@ -60,12 +60,6 @@ __PACKAGE__->table("vehicle_route_type");
   is_foreign_key: 1
   is_nullable: 0
 
-=head2 vehicle_parking_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 1
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -80,8 +74,6 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 0 },
   "address_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "vehicle_parking_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -127,26 +119,6 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
-=head2 vehicle_parking
-
-Type: belongs_to
-
-Related object: L<PI::Schema::Result::VehicleParking>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "vehicle_parking",
-  "PI::Schema::Result::VehicleParking",
-  { id => "vehicle_parking_id" },
-  {
-    is_deferrable => 0,
-    join_type     => "LEFT",
-    on_delete     => "NO ACTION",
-    on_update     => "NO ACTION",
-  },
-);
-
 =head2 vehicle_route_destinations
 
 Type: has_many
@@ -178,8 +150,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-01 11:35:00
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Cbuf3KYE+yjyK/2OxbuvXg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-18 14:22:24
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:GYVH8fBWxDzrvOjkYRJqFQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -198,10 +170,6 @@ sub verifiers_specs {
                     type        => 'Str',
                 },
                 address_id => {
-                    required    => 0,
-                    type        => 'Int',
-                },
-                vehicle_parking_id => {
                     required    => 0,
                     type        => 'Int',
                 },

@@ -42,7 +42,7 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
-                vehicle_parking_id => {
+                vehicle_parking_type_id => {
                     required => 1,
                     type     => 'Int',
                 },
@@ -56,6 +56,10 @@ sub verifiers_specs {
 
                         return 1;
                       }
+                },
+                vehicle_route_polyline => {
+                    required    => 0,
+                    type        => 'Str',
                 }
             }
         )

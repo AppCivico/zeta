@@ -87,10 +87,15 @@ __PACKAGE__->table("vehicle_route");
   data_type: 'text'
   is_nullable: 0
 
-=head2 vehicle_parking_id
+=head2 vehicle_parking_type_id
 
   data_type: 'integer'
   is_foreign_key: 1
+  is_nullable: 0
+
+=head2 vehicle_route_polyline
+
+  data_type: 'text'
   is_nullable: 1
 
 =cut
@@ -117,8 +122,10 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "name",
   { data_type => "text", is_nullable => 0 },
-  "vehicle_parking_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "vehicle_parking_type_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "vehicle_route_polyline",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -180,29 +187,24 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
-=head2 vehicle_parking
+=head2 vehicle_parking_type
 
 Type: belongs_to
 
-Related object: L<PI::Schema::Result::VehicleParking>
+Related object: L<PI::Schema::Result::VehicleParkingType>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "vehicle_parking",
-  "PI::Schema::Result::VehicleParking",
-  { id => "vehicle_parking_id" },
-  {
-    is_deferrable => 0,
-    join_type     => "LEFT",
-    on_delete     => "NO ACTION",
-    on_update     => "NO ACTION",
-  },
+  "vehicle_parking_type",
+  "PI::Schema::Result::VehicleParkingType",
+  { id => "vehicle_parking_type_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-12 14:58:45
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rPNUzDHUq08cLqcjWa3yYg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-18 17:33:08
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Zc3vxZP4ursTTkDIFW6MDA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -238,7 +240,7 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
-                vehicle_parking_id => {
+                vehicle_parking_type_id => {
                     required => 0,
                     type     => 'Int',
                 },
@@ -254,6 +256,10 @@ sub verifiers_specs {
 
                         return 1;
                     }
+                },
+                vehicle_route_polyline => {
+                    required    => 0,
+                    type        => 'Str',
                 }
             }
         ),

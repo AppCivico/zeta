@@ -97,9 +97,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 vehicle_routes
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-09-12 14:58:45
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:umfQjvEBrqXBrgniWZUcnA
+Type: has_many
+
+Related object: L<PI::Schema::Result::VehicleRoute>
+
+=cut
+
+__PACKAGE__->has_many(
+  "vehicle_routes",
+  "PI::Schema::Result::VehicleRoute",
+  { "foreign.vehicle_parking_type_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-18 14:22:24
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7zkUox/TzY15Q37VkEFdmQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

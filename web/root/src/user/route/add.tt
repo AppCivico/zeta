@@ -1,7 +1,3 @@
-<script type="text/javascript"
-    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
-</script>
-[%-CALL assets.include("js/maps.js")%]
 [%-CALL assets.include("js/routes.js")%]
 
 [%IF !NO_TITLE%]
@@ -69,17 +65,7 @@
             extratags => 'data-default-time="false" data-show-meridian="false" data-minute-step="10"'
         )|none%]
 
-        <div class="subtitle">O carro será estacionado em:</div>
-        [%input_text('parking_name','Nome para o local', classes => ['span3', 'parking'])|none%]
-        [%input_text('parking_address','Endereço', classes => ['span3', 'parking'])|none%]
-        [%select_field('vehicle_parking_type_id','Tipo de estacionamento: ', array => select_parking_types, classes => ['span3', 'parking'])|none%]
-        <input type="hidden" name= "lat_lng" id="elm_lat_lng" class="parking">
-        <div class="control-group ">
-            <label class="control-label"></label>
-            <div class="text controls">
-                <div id="map_canvas" style="width:300px; height:300px" class="map-route"></div>
-            </div>
-        </div>
+        [%select_field('vehicle_parking_type_id','Tipo de estacionamento: ', array => select_parking_types)|none%]
 
 	<div class="subtitle center">Clique sobre os dias da semana que você normalmente efetua essa rota</div>
 	<div class="center">
@@ -146,7 +132,7 @@
 
 	</div>
 
-    [%IF empty_days.length > 0%]
+    [%IF empty_days.size > 0%]
         <div class="rounding5px warning-box yellow-alpha">
             <h4>Atenção</h4>
             Notamos que os seguintes dias não possuem nenhum roteiro associado.

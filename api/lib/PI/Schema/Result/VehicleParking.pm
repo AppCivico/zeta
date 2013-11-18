@@ -161,38 +161,9 @@ __PACKAGE__->belongs_to(
   },
 );
 
-=head2 vehicle_route_types
 
-Type: has_many
-
-Related object: L<PI::Schema::Result::VehicleRouteType>
-
-=cut
-
-__PACKAGE__->has_many(
-  "vehicle_route_types",
-  "PI::Schema::Result::VehicleRouteType",
-  { "foreign.vehicle_parking_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 vehicle_routes
-
-Type: has_many
-
-Related object: L<PI::Schema::Result::VehicleRoute>
-
-=cut
-
-__PACKAGE__->has_many(
-  "vehicle_routes",
-  "PI::Schema::Result::VehicleRoute",
-  { "foreign.vehicle_parking_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-02 15:20:43
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:vmmMOIavV2wQzkDQk3hHIw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-18 14:22:24
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DMG4kNYeQXEPaF98PN8OJA
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

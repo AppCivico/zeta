@@ -4,6 +4,7 @@
     [%input_text('postal_code','CEP', classes => ['span3', 'postal_code', 'clear_addr_rt'],
         input_append => '<span id="cep_not_found" class="hide">CEP não encontrado</span>'
     )|none%]
+    <span style="display:inline" class="hide">Não sei meu CEP</span>
 
     [%select_field('state_id', 'Estado',  array => select_states, classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
     <div id="cities">
