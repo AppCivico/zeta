@@ -69,10 +69,25 @@ var $admin = function(){
 
     }
 
+    function getAssociatedLatLnt() {
+        $.ajax({
+            url: '/admin/associated_routes/get_positions',
+            dataType: 'json',
+            success: function(result) {
+                //console.log(result);
+                $maps.calcRoute(result);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    }
+
     return {
         getCostumers: getCostumers,
         analiseDriverDocuments: analiseDriverDocuments,
-        sendInvitation: sendInvitation
+        sendInvitation: sendInvitation,
+        getAssociatedLatLnt: getAssociatedLatLnt
     };
 }();
 
@@ -122,6 +137,8 @@ $( document ).ready(function() {
             $('#campaign_status').val(7);
         });
     }
+
+    $admin.getAssociatedLatLnt();
 
 });
 

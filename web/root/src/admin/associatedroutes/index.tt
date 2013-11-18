@@ -1,0 +1,12 @@
+<script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
+</script>
+[%-CALL assets.include("js/maps.js")%]
+[%-CALL assets.include("js/admin.js")%]
+<div id="x-container">
+    <div class="x-dummy"></div>
+        <div class="x-element">
+            <div id="map_canvas" style="width:100%; height:100%" class="map-route"></div>
+        </div>
+    </div>
+</div>

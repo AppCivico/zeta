@@ -102,7 +102,6 @@ $( document ).ready(function() {
         });
     }
 
-
 });
 
 function filter_vehicle(brand_id) {

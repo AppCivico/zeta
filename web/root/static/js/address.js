@@ -71,8 +71,9 @@ function get_address( $me, no_focus ) {
 
                 } else {
                     addr_format = result.address.replace(/\s+- de.+a.+/, '');
-                    addr_format = result.address.replace(/\s+- até.+/, '');
-                    addr_format = result.address.replace(/\s+- lado.+/, '');
+                    addr_format = addr_format.replace(/\s+- até.+/, '');
+                    addr_format = addr_format.replace(/\s+- lado.+/, '');
+                    console.log(addr_format);
                     $('#elm_address').val(addr_format);
                     $('#elm_neighborhood').val(result.neighborhood);
                     $('#elm_state_id').val(result.state_id);
@@ -90,9 +91,7 @@ function get_address( $me, no_focus ) {
                 }
             },
             complete: function() {
-
                 $me.removeClass('input-loading');
-
             }
         });
 

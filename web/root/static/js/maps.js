@@ -3,8 +3,6 @@ var $maps = function(){
     var addr;
     var geocoder;
     var markersArray = [];
-    var directionsDisplay;
-    var directionsService = new google.maps.DirectionsService();
     var polyline;
 
     function initialize() {
@@ -107,23 +105,42 @@ var $maps = function(){
         }
     }
 
-    function calcRoute() {
-        var start = $('#elm_origin').val();
-        var end   = $('#elm_destination').val();
+    function calcRoute(positions) {
+        if (positions.length > 0) {
+            var keep    = {};
+            var points  = [];
 
-        var request = {
-            origin:start,
-            destination:end,
-            travelMode: google.maps.TravelMode.DRIVING
-        };
+            for( var i = 0; i < positions.length; i++ ) {
+                keep["z" + i] = new google.maps.DirectionsService();
 
-        directionsService.route(request, function(result, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                clearOverlays();
-                directionsDisplay.setDirections(result);
-                directionsDisplay.setMap(map);
+                if(positions[i].origin && positions[i].destination) {
+                    var request = {
+                        origin: positions[i].origin,
+                        destination: positions[i].destination,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+
+                    keep["z" + i].route(request, function(result, status) {
+                        keep["x"+i] = new google.maps.DirectionsRenderer({
+                            suppressMarkers: true,
+                            suppressInfoWindows: true
+                        });
+
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            points.push(result.routes[0].overview_path[0]);
+                            save_positions(points);
+                            keep["x"+i].setDirections(result);
+                            keep["x"+i].setMap(map);
+                        }
+                    });
+                }
             }
-        });
+
+        }
+    }
+
+    function save_positions(positions) {
+        console.log(positions);
     }
 
     return {

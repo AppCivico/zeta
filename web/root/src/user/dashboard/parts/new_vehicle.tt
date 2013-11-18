@@ -16,7 +16,6 @@
             [%select_field('model_year','Ano do modelo', array => vehicle_years, req=>1)|none%]
             [%select_field('manufacture_year','Ano de fabricação', array => vehicle_years, req=>1)|none%]
             [%select_field('vehicle_color_id','Cor', req=>1, array => select_colors)|none%]
-            [%select_field('vehicle_body_style_id','Carroceria', req=>1, array => select_body_styles)|none%]
 		</fieldset>
 		<fieldset>
 			[%input_text('km','Quilometragem atual', req=>1)|none%]
@@ -50,7 +49,6 @@
 			])|none%]
 		</fieldset>
 		<fieldset>
-			[%input_text('observations','Observações')|none%]
 
 			<div class="form-actions">
 				<button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>

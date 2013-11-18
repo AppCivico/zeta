@@ -150,8 +150,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-08-20 19:03:18
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uEhKI/LfGwiPsh/uOLNk8Q
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-18 10:45:09
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:M6UX5xkSJ06JRtZF9gRvaw
 
 
 with 'PI::Role::Verification';
@@ -191,7 +191,7 @@ sub verifiers_specs {
                 location => {
                     required    => 0,
                     type        =>  'Str'
-                },
+                }
             }
         ),
     };

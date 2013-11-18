@@ -40,7 +40,7 @@ sub verifiers_specs {
                 location => {
                     required => 0,
                     type     => 'Str'
-                },
+                }
             },
         ),
     };

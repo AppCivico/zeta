@@ -65,7 +65,7 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
 
                 [
                     $_->{id},
-"$_->{name}: ${\$_->{address}{address}}, ${\$_->{address}{number}}, ${\$_->{address}{neighborhood}}, ${\$_->{address}{postal_code}}",
+                   "$_->{name}: ${\$_->{address}{address}}, ${\$_->{address}{number}}, ${\$_->{address}{neighborhood}}, ${\$_->{address}{postal_code}}",
                     {
                         address      => $_->{address}{address},
                         number       => $_->{address}{number},
@@ -74,7 +74,7 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
                         complement   => $_->{address}{complement},
                         city_id      => $_->{address}{city_id},
                         address_id   => $_->{address}{id},
-                    }
+                   }
                 ]
             } @{ $c->stash->{vehicle_route_types} }
         ];
@@ -100,9 +100,6 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
             }
         );
         $c->stash->{select_colors} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_colors} } ];
-
-        $api->stash_result( $c, 'vehicle_body_styles' );
-        $c->stash->{select_body_styles} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_body_styles} } ];
 
         $api->stash_result( $c, 'vehicle_brands' );
         $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];

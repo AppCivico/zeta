@@ -16,11 +16,32 @@ sub base : Chained('/user/base') : PathPart('vehicle') : CaptureArgs(0) {
     $api->stash_result( $c, 'vehicle_colors' );
     $c->stash->{select_colors} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_colors} } ];
 
-    $api->stash_result( $c, 'vehicle_body_styles' );
-    $c->stash->{select_body_styles} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_body_styles} } ];
-
     $api->stash_result( $c, 'vehicle_brands' );
     $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
+
+    $self->_build_valid_years($c);
+}
+
+sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
+    my ( $self, $c, $id ) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result( $c, [ 'vehicles', $id ], stash => 'vehicle_obj' );
+    $self->_build_valid_years($c);
+
+    $c->detach( '/form/not_found', [] ) if $c->stash->{vehicle_obj}{error};
+}
+
+sub index : Chained('base') : PathPart('') : Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub edit : Chained('object') : PathPart('') : Args(0) {
+}
+
+sub _build_valid_years :Private {
+    my ( $self, $c ) = @_;
 
     my $year       = DateTime->now;
     my $first_year = $year->year - 3;
@@ -37,23 +58,7 @@ sub base : Chained('/user/base') : PathPart('vehicle') : CaptureArgs(0) {
 
     $c->stash->{vehicle_years} = [ map { [ $_, $vehicle_years{$_} ] } sort keys %vehicle_years ];
 
-}
-
-sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
-    my ( $self, $c, $id ) = @_;
-
-    my $api = $c->model('API');
-
-    $api->stash_result( $c, [ 'vehicles', $id ], stash => 'vehicle_obj' );
-
-    $c->detach( '/form/not_found', [] ) if $c->stash->{vehicle_obj}{error};
-}
-
-sub index : Chained('base') : PathPart('') : Args(0) {
-    my ( $self, $c ) = @_;
-}
-
-sub edit : Chained('object') : PathPart('') : Args(0) {
+    return 1;
 }
 
 __PACKAGE__->meta->make_immutable;

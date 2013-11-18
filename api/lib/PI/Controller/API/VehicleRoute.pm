@@ -148,9 +148,7 @@ sub list_GET {
 
         my $data = $rs->search_rs(
             undef,
-            {
-                bind  => [ $c->req->params->{vehicle_id}, $c->req->params->{vehicle_id} ],
-            }
+            { bind  => [ $c->req->params->{vehicle_id}, $c->req->params->{vehicle_id} ] }
         )->next;
 
         $self->status_ok(

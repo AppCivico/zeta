@@ -118,7 +118,18 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $s = $c->req->params;
+    my $geolocation = $c->model('Geolocation');
+    my $city        = $c->model('DB::City')->search({id => $c->req->params->{city_id}})->next;
+    my $state       = $c->model('DB::State')->search({id => $city->state_id})->next;
+
+    my $points = $geolocation->geo_by_address(
+        $c->req->params->{address}.','.$c->req->params->{number}.','.$city->name.','.$state->uf
+    );
+
+    if(exists $points->{lat} && exists $points->{lng}) {
+        $c->req->params->{lat_lng} = $points->{lat}.','.$points->{lng};
+    }
+
     my $address = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 
     $self->status_created(

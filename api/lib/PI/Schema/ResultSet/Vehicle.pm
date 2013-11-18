@@ -56,23 +56,29 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
-                manufacture_year => {
+                vehicle_model_id => {
                     required => 1,
                     type     => 'Int',
                 },
-                vehicle_model_id => {
+                manufacture_year => {
                     required => 1,
                     type     => 'Int',
                 },
                 model_year => {
                     required => 1,
                     type     => 'Int',
+                    post_check => sub {
+                        my $r = shift;
+
+                        my $manufacture = $r->get_value('manufacture_year');
+                        my $model       = $r->get_value('model_year');
+
+                        return 1 if $manufacture <= $model;
+
+                        return 0;
+                    }
                 },
                 vehicle_brand_id => {
-                    required => 1,
-                    type     => 'Int',
-                },
-                vehicle_body_style_id => {
                     required => 1,
                     type     => 'Int',
                 },
@@ -86,10 +92,6 @@ sub verifiers_specs {
                 },
                 fuel_type => {
                     required => 1,
-                    type     => 'Str',
-                },
-                observations => {
-                    required => 0,
                     type     => 'Str',
                 },
                 driver_id => {

@@ -40,9 +40,6 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
     $api->stash_result($c, 'vehicle_colors', params => { order => 'name' } );
     $c->stash->{select_colors} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_colors} } ];
 
-    $api->stash_result( $c, 'vehicle_body_styles' );
-    $c->stash->{select_body_styles} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_body_styles} } ];
-
     $api->stash_result( $c, 'vehicle_brands' );
     $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
 

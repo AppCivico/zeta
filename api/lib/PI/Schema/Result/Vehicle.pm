@@ -84,11 +84,6 @@ __PACKAGE__->table("vehicle");
   data_type: 'text'
   is_nullable: 0
 
-=head2 observations
-
-  data_type: 'text'
-  is_nullable: 1
-
 =head2 vehicle_owner_id
 
   data_type: 'integer'
@@ -143,12 +138,6 @@ __PACKAGE__->table("vehicle");
   is_foreign_key: 1
   is_nullable: 0
 
-=head2 vehicle_body_style_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -173,8 +162,6 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 0 },
   "fuel_type",
   { data_type => "text", is_nullable => 0 },
-  "observations",
-  { data_type => "text", is_nullable => 1 },
   "vehicle_owner_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "created_at",
@@ -197,8 +184,6 @@ __PACKAGE__->add_columns(
   "vehicle_brand_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "vehicle_color_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "vehicle_body_style_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
@@ -332,21 +317,6 @@ __PACKAGE__->belongs_to(
   "state",
   "PI::Schema::Result::State",
   { id => "state_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
-);
-
-=head2 vehicle_body_style
-
-Type: belongs_to
-
-Related object: L<PI::Schema::Result::VehicleBodyStyle>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "vehicle_body_style",
-  "PI::Schema::Result::VehicleBodyStyle",
-  { id => "vehicle_body_style_id" },
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
@@ -506,8 +476,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-07 16:09:30
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:z6aBHcyD0FGM0/vfrYs6BA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-08 16:37:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:okDWoklmTmpP9mOGexsXkg
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -551,23 +521,29 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
-                manufacture_year => {
-                    required => 0,
-                    type     => 'Int',
-                },
                 vehicle_model_id => {
                     required => 0,
                     type     => 'Int',
                 },
-                model_year => {
-                    required => 0,
+                manufacture_year => {
+                    required => 1,
                     type     => 'Int',
+                },
+                model_year => {
+                    required => 1,
+                    type     => 'Int',
+                    post_check => sub {
+                        my $r = shift;
+
+                        my $manufacture = $r->get_value('manufacture_year');
+                        my $model       = $r->get_value('model_year');
+
+                        return 1 if $manufacture <= $model;
+
+                        return 0;
+                    }
                 },
                 vehicle_brand_id => {
-                    required => 0,
-                    type     => 'Int',
-                },
-                vehicle_body_style_id => {
                     required => 0,
                     type     => 'Int',
                 },
@@ -580,10 +556,6 @@ sub verifiers_specs {
                     type     => 'Int',
                 },
                 fuel_type => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                observations  => {
                     required => 0,
                     type     => 'Str',
                 },

@@ -53,7 +53,7 @@ sub load_parking : Chained('base') : PathPart('load_parking') : Args(0) {
     }
 
     $c->response->content_type('application/json');
-    $c->res->headers->header( 'charset' => 'utf-8' );
+    $c->res->headers->header( 'charset' => 'utf-8');
     $c->detach;
 }
 

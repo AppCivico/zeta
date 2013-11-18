@@ -14,7 +14,6 @@ __PACKAGE__->config(
             'vehicle_model',
             'vehicle_brand',
             'vehicle_color',
-            'vehicle_body_style',
             { 'driver' => 'user' }
         ]
     },
@@ -55,11 +54,9 @@ sub result_GET {
                   vehicle_model_id
                   model_year
                   vehicle_brand_id
-                  vehicle_body_style_id
                   km
                   vehicle_color_id
                   fuel_type
-                  observations
                   vehicle_owner_id
                   driver_id
                   state_id
@@ -83,7 +80,6 @@ sub result_GET {
             model      => { ( map { $_ => $vehicle->vehicle_model->$_ } qw/id name/ ), },
             color      => { ( map { $_ => $vehicle->vehicle_color->$_ } qw/id name/ ), },
             brand      => { ( map { $_ => $vehicle->vehicle_brand->$_ } qw/id name/ ), },
-            body_style => { ( map { $_ => $vehicle->vehicle_body_style->$_ } qw/id name/ ), },
         }
     );
 }
@@ -144,11 +140,9 @@ sub list_GET {
                               vehicle_model_id
                               model_year
                               vehicle_brand_id
-                              vehicle_body_style_id
                               km
                               vehicle_color_id
                               fuel_type
-                              observations
                               vehicle_owner_id
                               driver_id
                               state_id
@@ -156,7 +150,7 @@ sub list_GET {
                               created_at
                               /
                         ),
-                        driver     => {
+                        driver => {
                             (
                                 map { $_ => $r->{driver}{$_} }
                                     qw/
@@ -169,11 +163,10 @@ sub list_GET {
                             ),
                             user => { (map { $_ => $r->{driver}{user}{$_} } qw/id email/) },
                         },
-                        model      => { ( map { $_ => $r->{vehicle_model}{$_} } qw/id name/ ), },
-                        color      => { ( map { $_ => $r->{vehicle_color}{$_} } qw/id name/ ), },
-                        brand      => { ( map { $_ => $r->{vehicle_brand}{$_} } qw/id name/ ), },
-                        body_style => { ( map { $_ => $r->{vehicle_body_style}{$_} } qw/id name/ ), },
-                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
+                        model   => { ( map { $_ => $r->{vehicle_model}{$_} } qw/id name/ ), },
+                        color   => { ( map { $_ => $r->{vehicle_color}{$_} } qw/id name/ ), },
+                        brand   => { ( map { $_ => $r->{vehicle_brand}{$_} } qw/id name/ ), },
+                        url     => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
                       }
                 } $rs->as_hashref->all
             ]
