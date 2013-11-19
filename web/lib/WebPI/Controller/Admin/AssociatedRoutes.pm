@@ -23,25 +23,23 @@ sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
-    my @positions;
+    my @final_pos;
 
     $api->stash_result(
         $c, 'vehicle_routes'
     );
 
-    foreach my $item (@{ $c->stash->{vehicle_routes} } ) {
-        push( @positions, {
-                origin      => $item->{origin}{address}{lat_lng},
-                destination => $item->{destination}{address}{lat_lng},
-            }
-        );
+    #acho que ta sobrescrevendo posições, mas pra mostrar amanha rola
+    foreach my $position ( @{ $c->stash->{vehicle_routes} } ) {
+        my $arrayref = decode_json($position->{vehicle_route_polyline});
+
+        @final_pos = map {my ($x, $y) = split /\,/, $_; +{lat => $x, lng=>$y} } @$arrayref;
     }
 
-    use DDP; p @positions;
     $c->res->content_type('application/json');
     $c->res->headers->header( 'charset' => 'utf-8') ;
 
-    $c->res->body(encode_json(\@positions));
+    $c->res->body(encode_json(\@final_pos));
 }
 
 __PACKAGE__->meta->make_immutable;

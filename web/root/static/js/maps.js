@@ -139,6 +139,25 @@ var $maps = function(){
         }
     }
 
+    function buildHeatMap (positions) {
+        var taxiData = [];
+
+        for(i = 0; i <= positions.length; i++){
+            taxiData.push(
+//                 new google.maps.LatLng(positions[i].lat, positions[i].lng)
+                 new google.maps.LatLng(37.783383, -122.439594)
+            );
+        }
+        console.log(taxiData);
+        var pointArray = new google.maps.MVCArray(taxiData);
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+            data: pointArray
+        });
+
+        heatmap.setMap(map);
+    }
+
     function save_positions(positions) {
         console.log(positions);
     }
@@ -148,7 +167,8 @@ var $maps = function(){
         codeAddress: codeAddress,
         calcRoute: calcRoute,
         reverseCode: reverseCode,
-        getPoints: getPoints
+        getPoints: getPoints,
+        buildHeatMap: buildHeatMap
     };
 
     function printPolyline(positions) {
