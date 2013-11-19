@@ -8,6 +8,7 @@
         <li class="nav-header">Campanhas</li>
         <li><a href="/admin/campaign"><i class="icon-th-list"></i>Listar</a></li>
         <li><a href="/admin/campaign/new"><i class="icon-plus"></i>Cadastrar</a></li>
+        <li><a href="/admin/associated_routes"><i class="icon-road"></i>Rotas</a></li>
         <li class="nav-header">Outros</li>
         <li><a href="/logout">Sair</a></li>
     </ul>

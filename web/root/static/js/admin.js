@@ -74,7 +74,6 @@ var $admin = function(){
             url: '/admin/associated_routes/get_positions',
             dataType: 'json',
             success: function(result) {
-                console.log(result);
                 $maps.buildHeatMap(result);
             },
             error: function(err) {

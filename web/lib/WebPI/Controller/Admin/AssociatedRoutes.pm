@@ -29,17 +29,19 @@ sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
         $c, 'vehicle_routes'
     );
 
-    #acho que ta sobrescrevendo posições, mas pra mostrar amanha rola
+    my @fp;
     foreach my $position ( @{ $c->stash->{vehicle_routes} } ) {
         my $arrayref = decode_json($position->{vehicle_route_polyline});
 
         @final_pos = map {my ($x, $y) = split /\,/, $_; +{lat => $x, lng=>$y} } @$arrayref;
+
+        push(@fp, @final_pos);
     }
 
     $c->res->content_type('application/json');
     $c->res->headers->header( 'charset' => 'utf-8') ;
 
-    $c->res->body(encode_json(\@final_pos));
+    $c->res->body(encode_json(\@fp));
 }
 
 __PACKAGE__->meta->make_immutable;

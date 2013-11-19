@@ -27,12 +27,6 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
         $controller->add($c);
 
     }
-    elsif ( @{ $c->stash->{vehicle_parking} || [] } == 0 ) {
-
-        $c->stash->{cadastro_incompleto} = 1;
-        $c->stash->{main_view}           = 'parts/new_parking.tt';
-
-    }
 
     $api->stash_result( $c, 'states' );
     $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];

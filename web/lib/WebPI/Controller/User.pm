@@ -36,13 +36,8 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
     my $vehicle_id = exists $c->stash->{vehicles}[0] ? $c->stash->{vehicles}[0]{id} : undef;
 
     if ($vehicle_id) {
-        $api->stash_result(
-            $c,
-            ['vehicle_parking'],
-            params => {
-                user_id => $c->user->id
-            }
-        );
+        my $d = 'Entrou';
+        use DDP; p $d;
         $api->stash_result(
             $c,
             ['vehicle_routes'],
@@ -51,6 +46,8 @@ sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
                 order      => 'name'
             }
         );
+        my $r = $c->stash->{vehicle_routes};
+        p $r;
 
         $api->stash_result(
             $c,

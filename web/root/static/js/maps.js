@@ -142,13 +142,10 @@ var $maps = function(){
     function buildHeatMap (positions) {
         var taxiData = [];
 
-        for(i = 0; i <= positions.length; i++){
-            taxiData.push(
-//                 new google.maps.LatLng(positions[i].lat, positions[i].lng)
-                 new google.maps.LatLng(37.783383, -122.439594)
-            );
+        for(i = 0; i < positions.length; i++) {
+            taxiData.push(new google.maps.LatLng(positions[i].lat, positions[i].lng));
         }
-        console.log(taxiData);
+
         var pointArray = new google.maps.MVCArray(taxiData);
 
         heatmap = new google.maps.visualization.HeatmapLayer({
@@ -161,15 +158,6 @@ var $maps = function(){
     function save_positions(positions) {
         console.log(positions);
     }
-
-    return {
-        initialize: initialize,
-        codeAddress: codeAddress,
-        calcRoute: calcRoute,
-        reverseCode: reverseCode,
-        getPoints: getPoints,
-        buildHeatMap: buildHeatMap
-    };
 
     function printPolyline(positions) {
         if (!positions) {
@@ -261,6 +249,56 @@ var $maps = function(){
         });
 
     }
+
+    function drawingManager() {
+
+        MyOverlay.prototype             = new google.maps.OverlayView();
+        MyOverlay.prototype.onAdd       = function() { }
+        MyOverlay.prototype.onRemove    = function() { }
+        MyOverlay.prototype.draw        = function() { }
+        function MyOverlay(map) { this.setMap(map); }
+
+        var overlay = new MyOverlay(map);
+        var projection;
+
+        // Wait for idle map
+        google.maps.event.addListener(map, 'idle', function() {
+            // Get projection
+            projection = overlay.getProjection();
+            console.log(projection);
+        });
+
+       var drawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: google.maps.drawing.OverlayType.POLYGON,
+            drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: [google.maps.drawing.OverlayType.POLYGON]
+            },
+
+//             circleOptions: {
+//                 fillColor: '#ffff00',
+//                 fillOpacity: 0,
+//                 strokeWeight: 5,
+//                 clickable: false,
+//                 zIndex: 1,
+//                 editable: true
+//             }
+        });
+
+        drawingManager.setMap(map);
+    }
+
+    return {
+        initialize: initialize,
+        codeAddress: codeAddress,
+        calcRoute: calcRoute,
+        reverseCode: reverseCode,
+        getPoints: getPoints,
+        buildHeatMap: buildHeatMap,
+        drawingManager: drawingManager
+    };
+
 }();
 
 $( document ).ready(function() {
@@ -318,5 +356,7 @@ $( document ).ready(function() {
             $maps.getPoints($(this).serialize());
        });
     }
+
+    $maps.drawingManager();
 
 });
