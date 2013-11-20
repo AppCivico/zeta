@@ -44,6 +44,16 @@ sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
     $c->res->body(encode_json(\@fp));
 }
 
+sub search : Chained('base') : PathPart('search') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $p = $c->req->params;
+
+    use DDP; p $p;
+    $c->res->body('t');
+    $c->detach();
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

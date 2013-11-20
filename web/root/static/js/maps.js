@@ -3,6 +3,7 @@ var $maps = function(){
     var addr;
     var geocoder;
     var markersArray = [];
+    var points = [];
     var polyline;
 
     function initialize() {
@@ -251,42 +252,52 @@ var $maps = function(){
     }
 
     function drawingManager() {
+        var polyOptions = {
+            fillColor: "#00BFFF",
+            strokeWeight: 0,
+            fillOpacity: 0.45,
+            editable: true,
+        };
 
-        MyOverlay.prototype             = new google.maps.OverlayView();
-        MyOverlay.prototype.onAdd       = function() { }
-        MyOverlay.prototype.onRemove    = function() { }
-        MyOverlay.prototype.draw        = function() { }
-        function MyOverlay(map) { this.setMap(map); }
-
-        var overlay = new MyOverlay(map);
-        var projection;
-
-        // Wait for idle map
-        google.maps.event.addListener(map, 'idle', function() {
-            // Get projection
-            projection = overlay.getProjection();
-            console.log(projection);
-        });
-
-       var drawingManager = new google.maps.drawing.DrawingManager({
+        var drawingManager = new google.maps.drawing.DrawingManager({
             drawingMode: google.maps.drawing.OverlayType.POLYGON,
             drawingControl: true,
+            polygonOptions: polyOptions,
             drawingControlOptions: {
                 position: google.maps.ControlPosition.TOP_CENTER,
                 drawingModes: [google.maps.drawing.OverlayType.POLYGON]
             },
+        });
 
-//             circleOptions: {
-//                 fillColor: '#ffff00',
-//                 fillOpacity: 0,
-//                 strokeWeight: 5,
-//                 clickable: false,
-//                 zIndex: 1,
-//                 editable: true
-//             }
+        var aux = {};
+        google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+            var path = polygon.getPath();
+            for(i = 0; i < path.getLength(); i++) {
+               aux['lat'] =  path.getAt(i).ob;
+               aux['lng'] =  path.getAt(i).pb;
+               points.push(aux);
+            }
         });
 
         drawingManager.setMap(map);
+    }
+
+    function searchAssociateds() {
+        if(points.length <= 0) {
+            alert('Nenhum critério de pesquisa');
+        }
+        $.ajax({
+            url: '/admin/associated_routes/search',
+            type:'POST',
+            data: points,
+            dataType: 'json',
+            success: function(result) {
+                console.log(result);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
     }
 
     return {
@@ -296,7 +307,8 @@ var $maps = function(){
         reverseCode: reverseCode,
         getPoints: getPoints,
         buildHeatMap: buildHeatMap,
-        drawingManager: drawingManager
+        drawingManager: drawingManager,
+        searchAssociateds: searchAssociateds
     };
 
 }();
@@ -357,6 +369,12 @@ $( document ).ready(function() {
        });
     }
 
-    $maps.drawingManager();
+    var $search_points = $('#search_points');
+    if($search_points.length) {
+        $search_points.click(function(){
+            $maps.searchAssociateds();
+        });
+    }
 
+    $maps.drawingManager();
 });
