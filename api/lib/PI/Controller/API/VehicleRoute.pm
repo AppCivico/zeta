@@ -1,5 +1,7 @@
 package PI::Controller::API::VehicleRoute;
 use utf8;
+use JSON::XS;
+use DateTime;
 use Moose;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
@@ -101,14 +103,16 @@ sub result_DELETE {
 sub result_PUT {
     my ( $self, $c ) = @_;
 
-    my $vehicle_route = $c->stash->{vehicle_route};
+    my $vehicle_route   = $c->stash->{vehicle_route};
+    my $params          = $self->_geo_point($c, $c->req->params);
 
-    $vehicle_route->execute( $c, for => 'update', with => $c->req->params );
+    $vehicle_route->execute( $c, for => 'update', with => $params );
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle_route->id ] )->as_string,
         entity => { vehicle_id => $vehicle_route->vehicle_id, id => $vehicle_route->id }
       ),
+
       $c->detach
       if $vehicle_route;
 }
@@ -117,10 +121,11 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 }
 
 sub list_GET {
-    my ( $self, $c ) = @_;
+    my ( $self, $c )    = @_;
+    my $rs;
 
     if ( $c->req->params->{check_dow} ) {
-        my $rs = $c->model('DB::ViewDaysOfWeek');
+        $rs = $c->model('DB::ViewDaysOfWeek');
 
         my $data = $rs->search_rs(
             undef,
@@ -133,6 +138,64 @@ sub list_GET {
                 dow => $data->get_column('dow')
             }
         );
+
+    } elsif( $c->req->params->{gis_polyline} ) {
+        $rs         = $c->model('DB::Vehicle');
+        my $filters = $c->req->params;
+
+        my @ids     = $self->_get_assoc_by_region($c, $c->req->params->{gis_polyline});
+
+        if(scalar @ids > 0) {
+            my @conditions;
+
+            push(@conditions, {
+                'me.id' => {
+                    '-in' => \@ids
+                }
+            });
+
+            if( $filters->{gender} ) {
+                push(@conditions, {'driver.gender' => $filters->{gender}});
+            }
+
+            if( $filters->{start_age} && $filters->{end_age} ) {
+                my $now     = DateTime->now();
+                my $start   = $now->clone->subtract( years => $filters->{start_age} );
+                my $end     = $now->clone->subtract( years => $filters->{end_age} );
+
+                push(@conditions, {
+                    'driver.birth_date' => {
+                        '-between' =>
+                        [
+                            $end->format_cldr( 'yyyy-M-d' ),
+                            $start->format_cldr( 'yyyy-M-d' )
+                        ]
+                    }
+                });
+            }
+
+            if( $filters->{brand} ) {
+                push( @conditions, {'me.vehicle_brand_id' => $filters->{brand}} );
+            }
+
+            my @result = $rs->search(
+                { '-and' => \@conditions },
+                {
+                    join     => 'driver',
+                    group_by =>  'me.id'
+                }
+            )->as_hashref->all;
+
+            use DDP; p @result;
+            $self->status_ok(
+                $c,
+                entity => {
+                    associateds => [
+                        map { +{ id => $_->{id} } } @result
+                    ]
+                }
+            );
+        }
 
     } else {
 
@@ -211,10 +274,28 @@ sub list_GET {
 
 sub list_POST {
     my ( $self, $c )    = @_;
-    my $geolocation     = $c->model('Geolocation');
+
+    my $params = $self->_geo_point($c, $c->req->params);
+
+    my $vehicle_route = $c->stash->{collection}->execute( $c, for => 'create', with => $params );
+
+    $self->status_created(
+        $c,
+        location => $c->uri_for( $self->action_for('result'), [ $vehicle_route->id ] )->as_string,
+        entity => {
+            id => $vehicle_route->id
+        }
+    );
+}
+
+sub _geo_point :Private {
+    my ( $self, $c, $params ) = @_;
+
+    my $api         = $c->model('API');
+    my $geolocation = $c->model('Geolocation');
 
     my $orig = $c->model('DB::VehicleRouteType')->search(
-        { 'me.id'   => $c->req->params->{origin_id} },
+        { 'me.id'   => $params->{origin_id} },
         {
             select => ['address.lat_lng'],
             as => ['lat_lng'],
@@ -223,7 +304,7 @@ sub list_POST {
     )->next;
 
     my $dest = $c->model('DB::VehicleRouteType')->search(
-        { 'me.id'   => $c->req->params->{destination_id} },
+        { 'me.id'   => $params->{destination_id} },
         {
             select => ['address.lat_lng'],
             as => ['lat_lng'],
@@ -237,19 +318,45 @@ sub list_POST {
     };
 
     my $points = $geolocation->geo_by_point($addr_points);
+    $params->{vehicle_route_polyline} = $points;
 
-    $c->req->params->{vehicle_route_polyline} = $points;
+    my $p = decode_json($points);
+    $params->{gis_polyline} = join ',', map { s/,/ /; $_ } @$p;
 
-    my $vehicle_route = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    return $params;
+}
 
-    $self->status_created(
-        $c,
-        location => $c->uri_for( $self->action_for('result'), [ $vehicle_route->id ] )->as_string,
-        entity => {
-            id => $vehicle_route->id
-        }
-    );
+sub _get_assoc_by_region :Private {
+    my ($self, $c, $params) = @_;
 
+    my @where = $self->_buil_params($c, $params);
+
+    my @rs = $c->stash->{collection}->search(
+        { '-or' => \@where },
+        { columns => ['id', 'vehicle_id'] }
+    )->all;
+
+    my @ids;
+
+    foreach(@rs) {
+        push(@ids, $_->get_column('vehicle_id'));
+    }
+
+    return @ids;
+}
+
+sub _buil_params :Private {
+    my ($self, $c, $params) = @_;
+
+    my @where;
+
+    $params = [$params] unless ref $params eq 'ARRAY';
+
+    foreach my $item (@{ $params}) {
+        push  @where, \['ST_Intersects(gis_polyline, ?::geometry)', "LINESTRING($item)"];
+    }
+
+    return @where;
 }
 
 1;

@@ -98,6 +98,12 @@ __PACKAGE__->table("vehicle_route");
   data_type: 'text'
   is_nullable: 1
 
+=head2 gis_polyline
+
+  data_type: 'geometry'
+  is_nullable: 1
+  size: 4
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -126,6 +132,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "vehicle_route_polyline",
   { data_type => "text", is_nullable => 1 },
+  "gis_polyline",
+  { data_type => "geometry", is_nullable => 1, size => 4 },
 );
 
 =head1 PRIMARY KEY
@@ -203,8 +211,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-18 17:33:08
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Zc3vxZP4ursTTkDIFW6MDA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-21 13:41:14
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uwBPBjDp/3Vx9GcuWODLsQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -260,6 +268,17 @@ sub verifiers_specs {
                 vehicle_route_polyline => {
                     required    => 0,
                     type        => 'Str',
+                },
+                  gis_polyline => {
+                    required    => 0,
+                    type        => 'Str',
+                    post_check => sub {
+                        my $r = shift;
+
+                        return 1 unless $r->get_value('gis_polyline') =~ /^(-?\d{1,3}(\.\d+)? -?\d{1,3}(\.\d+)?,?)+$/;
+
+                        return 1;
+                    }
                 }
             }
         ),
@@ -279,11 +298,17 @@ sub action_specs {
                 $values{days_of_week} = \@days;
             }
 
+            if( $values{gis_polyline} ) {
+                my $geo_p   = $values{gis_polyline};
+                $geo_p      =~ s/,$//;
+
+                $values{gis_polyline} = \"ST_GeomFromText('LINESTRING($geo_p)', -1)";
+            }
+
             my $vehicle_route = $self->update( \%values );
 
             return $vehicle_route;
-        },
-
+        }
     };
 }
 

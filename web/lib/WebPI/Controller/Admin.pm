@@ -12,13 +12,13 @@ sub base : Chained('/root') : PathPart('admin') : CaptureArgs(0) {
         $c->detach( '/form/redirect_error', [] );
     }
 
+    $c->stash->{template_wrapper} = 'admin';
     my $api = $c->model('API');
 
     if ( $c->req->method eq 'POST' ) {
         return;
     }
 
-    $c->stash->{template_wrapper} = 'admin';
 
 }
 

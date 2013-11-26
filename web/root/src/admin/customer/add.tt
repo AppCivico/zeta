@@ -35,6 +35,7 @@
         [%input_text('number','Número', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
         [%input_text('complement','Complemento', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
         [%input_text('neighborhood','Bairro', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
+        [%input_text('logo','Logotipo', type => 'file')|none%]
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>

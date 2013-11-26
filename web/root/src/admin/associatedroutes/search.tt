@@ -1,0 +1,12 @@
+<div id="x-container">
+    <p>Total de associados retornados [%search_result.count%]</p>
+    <form class="form-horizontal" method="post" action="/admin/campaign/new">
+        [%FOREACH ids IN search_result.ids %]
+            <input type="hidden" value="[%ids.id%]" name="vehicles">
+        [%END%]
+        <div class="form-actions">
+            <button type="submit" class="btn btn-confirm" data-loading-text="Processando...">Associar</button>
+        </div>
+    </form>
+
+</div>

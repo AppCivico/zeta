@@ -38,17 +38,15 @@ sub geo_by_address {
 sub geo_by_point {
     my ( $self, $points) = @_;
     my $res;
-    use DDP;
 
     return 0 unless exists $points->{origin} && exists $points->{destination};
 
-#     eval {
+    eval {
         my $uri = $self->uri_direction."?origin=$points->{origin}&destination=$points->{destination}&sensor=false&region=br";
-        p $uri;
         my $req = &access_uri($uri);
         my $con = $req->content;
-        $res    = decode_json( $req->content );
 
+        $res    = decode_json( $req->content );
         if(exists $res->{'routes'}[0]{'legs'}[0]{'steps'}) {
             my @polyline;
             foreach my $point (@{$res->{'routes'}[0]{'legs'}[0]{'steps'}}) {
@@ -64,7 +62,7 @@ sub geo_by_point {
             die 'Error.zero_results';
         }
 
-#     };
+    };
 
     if ($@) {
         return $@;

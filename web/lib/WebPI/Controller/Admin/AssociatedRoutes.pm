@@ -17,6 +17,9 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
+
+    $api->stash_result( $c, 'vehicle_brands');
+    $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
 }
 
 sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
@@ -47,11 +50,29 @@ sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
 sub search : Chained('base') : PathPart('search') : Args(0) {
     my ( $self, $c ) = @_;
 
+    my $api = $c->model('API');
     my $p = $c->req->params;
 
-    use DDP; p $p;
-    $c->res->body('t');
-    $c->detach();
+    my $pt              = decode_json($c->req->params->{points});
+    my $gis_polyline    = [ map { join ',', @$_ } @$pt ];
+
+    $api->stash_result(
+        $c, 'vehicle_routes',
+        params => {
+            gis_polyline    => $gis_polyline,
+            brand           => $c->req->params->{brand} ? $c->req->params->{brand} : undef,
+            end_age         => $c->req->params->{end_age} ? $c->req->params->{end_age} : undef,
+            start_age       => $c->req->params->{start_age} ? $c->req->params->{start_age} : undef,
+            gender          => $c->req->params->{gender} ? $c->req->params->{gender} : undef
+        }
+    );
+
+    $c->stash->{without_wrapper} = 1;
+
+    $c->stash->{search_result} = {
+        'ids'   => $c->stash->{associateds},
+        'count' => scalar keys $c->stash->{associateds}
+    };
 }
 
 __PACKAGE__->meta->make_immutable;

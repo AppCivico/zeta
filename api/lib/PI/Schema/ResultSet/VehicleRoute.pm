@@ -3,6 +3,8 @@ use namespace::autoclean;
 
 use utf8;
 use Moose;
+use JSON::XS;
+use String::Util ':all';
 use MooseX::Types::Email qw/EmailAddress/;
 use PI::Types qw /DataStr TimeStr/;
 extends 'DBIx::Class::ResultSet';
@@ -60,6 +62,17 @@ sub verifiers_specs {
                 vehicle_route_polyline => {
                     required    => 0,
                     type        => 'Str',
+                },
+                gis_polyline => {
+                    required    => 0,
+                    type        => 'Str',
+                    post_check => sub {
+                        my $r = shift;
+
+                        return 1 unless $r->get_value('gis_polyline') =~ /^(-?\d{1,3}(\.\d+)? -?\d{1,3}(\.\d+)?,?)+$/;
+
+                        return 1;
+                    }
                 }
             }
         )
@@ -78,10 +91,17 @@ sub action_specs {
                 $values{days_of_week} = \@days;
             }
 
+            if( $values{gis_polyline} ) {
+                my $geo_p   = $values{gis_polyline};
+                $geo_p      =~ s/,$//;
+
+                $values{gis_polyline} = \"ST_GeomFromText('LINESTRING($geo_p)', -1)";
+            }
+
             my $vehicle_route = $self->create( \%values );
 
             return $vehicle_route;
-          }
+        }
     };
 }
 

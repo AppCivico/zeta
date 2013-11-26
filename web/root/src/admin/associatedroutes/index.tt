@@ -3,13 +3,28 @@
 </script>
 [%-CALL assets.include("js/maps.js")%]
 [%-CALL assets.include("js/admin.js")%]
+[%-CALL assets.include("js/jquery.json-2.4.js")%]
+
 <div id="x-container">
     <div class="x-dummy"></div>
         <div class="x-element">
             <div id="map_canvas" style="width:100%; height:100%" class="map-route"></div>
         </div>
     </div>
+    <fieldset>
+        <form id="route_filter">
+            [%select_field('gender','Sexo', array => [
+                ['m', 'Masculino'],
+                ['f', 'Feminino']
+            ])|none%]
+            <label class="control-label" for="elm_age">Idade</label>
+            de <input type="text" name="start_age"> até <input type="text" name="end_age">
+            [%select_field('brand','Montadora',array => select_brands)|none%]
+        </form>
+    </fieldset>
     <div class="form-actions">
         <button id="search_points" class="btn btn-primary" data-loading-text="Processando...">Pesquisar</button>
     </div>
+
+    <div id="search_box" style="display:none;"></div>
 </div>

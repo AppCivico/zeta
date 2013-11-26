@@ -269,14 +269,20 @@ var $maps = function(){
             },
         });
 
-        var aux = {};
         google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
-            var path = polygon.getPath();
+            var path    = polygon.getPath();
+            var aux     = [];
+
             for(i = 0; i < path.getLength(); i++) {
-               aux['lat'] =  path.getAt(i).ob;
-               aux['lng'] =  path.getAt(i).pb;
-               points.push(aux);
+                aux.push(path.getAt(i).ob+" "+path.getAt(i).pb);
+
+//              Repetindo o primeiro ponto para fechar o polígono
+                if(i == path.getLength()-1) {
+                    aux.push(path.getAt(0).ob+" "+path.getAt(0).pb);
+                }
             }
+
+            points.push(aux);
         });
 
         drawingManager.setMap(map);
@@ -284,18 +290,37 @@ var $maps = function(){
 
     function searchAssociateds() {
         if(points.length <= 0) {
+            setTimeout(function () {
+                $("#search_points").button('reset');
+            })
+
             alert('Nenhum critério de pesquisa');
+
+            return false;
         }
+
+        var $z = $('<input type="hidden" name="points"/>')
+        $z.val($.toJSON(points));
+
+        $('#route_filter').append($z);
+
+        var $form       = $('#route_filter').serialize();
+        $z.remove();
+
         $.ajax({
             url: '/admin/associated_routes/search',
-            type:'POST',
-            data: points,
-            dataType: 'json',
+            data: $form,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'html',
             success: function(result) {
-                console.log(result);
+                $('#search_box').html(result);
+                $('#search_box').show(result);
             },
             error: function(err) {
                 console.log(err);
+            },
+            complete: function() {
+                $("#search_points").button('reset');
             }
         });
     }

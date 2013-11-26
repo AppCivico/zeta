@@ -17,7 +17,7 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
     my $form    = $c->model('Form');
 
     my $params =  { %{ $c->req->params } };
-
+#     use DDP; p $params;exit;
     my @fields;
 
     push(@fields, 'valid_from','valid_to');
@@ -25,10 +25,10 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
     $form->format_date( $params, @fields );
 
     $api->stash_result(
-            $c, ['campaigns'],
-            stash => 'campaign',
-            method => 'POST',
-            body   => $params
+        $c, ['campaigns'],
+        stash   => 'campaign',
+        method  => 'POST',
+        body    => $params
     );
 
     if ( $c->stash->{'campaign'}{error} ) {
@@ -40,16 +40,15 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
 
     } else {
 
-        my $uri = $c->uri_for_action(
-            '/admin/campaign/select_associated',
-            {
-                'campaign_id' => $c->stash->{campaign}{id}
-            }
+        $c->forward('process_associated', [
+                {
+                    vehicles    => $c->req->params->{vehicles},
+                    campaign_id => $c->stash->{campaign}{id}
+                }
+            ]
         );
 
-        $c->res->redirect( $uri->as_string );
     }
-
 }
 
 sub process_edit : Chained('base') : PathPart('campaign') : Args(1) {
@@ -95,19 +94,20 @@ sub process_delete : Chained('base') : PathPart('remove_campaign') : Args(1) {
 
 sub process_associated : Chained('base') :PathPart('process_associated') : Args(0) {
     my ( $self, $c ) = @_;
-
+    use DDP;
     my $api     = $c->model('API');
-    my $params  = $c->req->params;
+    my $params  = $c->req->args;
     my @rows;
-
-    if ( exists $params->{vehicles} ) {
-        $params->{vehicles} = [$params->{vehicles}] if ref $params->{vehicles} ne 'ARRAY';
+#     p $params;exit;
+    if ( exists $params->[0]{vehicles} ) {
+        $params->[0]{vehicles} = [$params->[0]{vehicles}] if ref $params->[0]{vehicles} ne 'ARRAY';
         my $record;
 
-        foreach my $iten (@ { $params->{vehicles } }) {
+        foreach my $iten (@ { $params->[0]{vehicles } }) {
+           p $iten;
            $record = {
                 vehicle_id  => $iten,
-                campaign_id => $params->{campaign_id},
+                campaign_id => $params->[0]{campaign_id},
             };
 
             push (@rows, $record);
@@ -131,7 +131,7 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
         $api->stash_result(
             $c, 'invitations',
             params    => {
-                campaign_id => $params->{campaign_id}
+                campaign_id => $params->[0]{campaign_id}
             }
         );
 
@@ -139,7 +139,7 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
             $uri = $c->uri_for_action(
                 '/admin/invitation/add',
                 {
-                    'campaign_id' => $params->{campaign_id}
+                    'campaign_id' => $params->[0]{campaign_id}
                 }
             );
         } else {
@@ -148,7 +148,7 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
                 stash => 'send_invitation',
                 params => {
                     associateds => encode_json(\@{ $params->{vehicles} } ),
-                    campaign_id => $params->{campaign_id}
+                    campaign_id => $params->[0]{campaign_id}
                 }
             );
 
@@ -160,7 +160,7 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
             $uri = $c->uri_for_action(
                 '/admin/campaign/index',
                 {
-                    'campaign_id' => $params->{campaign_id}
+                    'campaign_id' => $params->[0]{campaign_id}
                 }
             );
         }

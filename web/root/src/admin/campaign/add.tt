@@ -38,7 +38,7 @@
                 <textarea rows="10" name="description" class="span3"></textarea>
             </div>
         </div>
-
+        <input type="hidden" value="[%vehicle_ids.join(',')%]" name="vehicles">
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
             [%IF !NO_TITLE%]
