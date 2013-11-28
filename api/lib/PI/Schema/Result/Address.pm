@@ -168,6 +168,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 drivers
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::Driver>
+
+=cut
+
+__PACKAGE__->has_many(
+  "drivers",
+  "PI::Schema::Result::Driver",
+  { "foreign.address_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 user
 
 Type: belongs_to
@@ -214,8 +229,8 @@ __PACKAGE__->might_have(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-15 18:47:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:DyS94z2XLmP1aa/eQqtNrQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-28 10:28:47
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:g2pstfzASahWFC4nuTn4Cg
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

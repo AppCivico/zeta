@@ -31,10 +31,6 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
         body   => $param
     );
 
-    my $x = $c->stash;
-    use DDP;
-    p $x;
-
     if ( !$c->stash->{driver}{error} ) {
 
         my $address = {
@@ -55,24 +51,17 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
         );
 
         if ( !$c->stash->{error} ) {
-
             $api->stash_result(
-                $c,
-                'vehicle_parking',
-                method => 'POST',
-                stash  => 'vehicle_parking',
+                $c, ['drivers', $c->stash->{driver}{id}],
+                method => 'PUT',
                 body   => {
-                    'name'                  => 'Casa',
-                    address_id              => $c->stash->{address}{id},
-                    user_id                 => $c->stash->{driver}{user_id},
-                    vehicle_parking_type_id => 1
+                    address_id => $c->stash->{address}{id}
                 }
             );
 
             my $route_type = {
                 'name'             => 'Casa',
                 address_id         => $c->stash->{address}{id},
-                vehicle_parking_id => $c->stash->{vehicle_parking}{id},
             };
 
             $api->stash_result(

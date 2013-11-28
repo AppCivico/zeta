@@ -9,7 +9,7 @@
                 <a href="#search_customer" id="customer_list" class="addr btn btn-modal span2" role="button" data-toggle="modal"></i>Escolher cliente</a>
                 <a href="/admin/campaign/list_associated/[%campaign_obj.id%]" id="associated_list" class="addr btn span2" role="button"></i>Listar associados</a>
 
-                <a href="/admin/campaign/select_associated?campaign_id=[%campaign_obj.id%]" class="addr btn span2" role="button"></i>Adicionar associados</a>
+                <a href="/admin/associated_routes?campaign_id=[%campaign_obj.id%]" class="addr btn span2" role="button"></i>Adicionar associados</a>
                 [%IF invitations.0%]
                     <a href="/admin/invitation/[%invitations.0.id%]" class="addr btn span2" role="button"></i>Formatar convite</a>
                 [%ELSE%]

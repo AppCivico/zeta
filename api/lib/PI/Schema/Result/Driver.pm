@@ -95,31 +95,6 @@ __PACKAGE__->table("driver");
   is_nullable: 0
   size: 1
 
-=head2 address
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 neighborhood
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 complement
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 number
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 postal_code
-
-  data_type: 'text'
-  is_nullable: 1
-
 =head2 created_at
 
   data_type: 'timestamp'
@@ -130,12 +105,6 @@ __PACKAGE__->table("driver");
 =head2 created_by
 
   data_type: 'integer'
-  is_nullable: 0
-
-=head2 city_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
   is_nullable: 0
 
 =head2 user_id
@@ -160,6 +129,12 @@ __PACKAGE__->table("driver");
   data_type: 'boolean'
   default_value: false
   is_nullable: 0
+
+=head2 address_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
 
 =cut
 
@@ -189,16 +164,6 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 0 },
   "marital_state",
   { data_type => "char", is_nullable => 0, size => 1 },
-  "address",
-  { data_type => "text", is_nullable => 1 },
-  "neighborhood",
-  { data_type => "text", is_nullable => 1 },
-  "complement",
-  { data_type => "text", is_nullable => 1 },
-  "number",
-  { data_type => "text", is_nullable => 1 },
-  "postal_code",
-  { data_type => "text", is_nullable => 1 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -208,8 +173,6 @@ __PACKAGE__->add_columns(
   },
   "created_by",
   { data_type => "integer", is_nullable => 0 },
-  "city_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "user_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "validation_key",
@@ -222,6 +185,8 @@ __PACKAGE__->add_columns(
   },
   "documents_validated",
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
+  "address_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -264,19 +229,24 @@ __PACKAGE__->add_unique_constraint("driver_validation_key_key", ["validation_key
 
 =head1 RELATIONS
 
-=head2 city
+=head2 address
 
 Type: belongs_to
 
-Related object: L<PI::Schema::Result::City>
+Related object: L<PI::Schema::Result::Address>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "city",
-  "PI::Schema::Result::City",
-  { id => "city_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  "address",
+  "PI::Schema::Result::Address",
+  { id => "address_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
 );
 
 =head2 contracts
@@ -325,8 +295,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-07 16:09:30
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:z+XPA7XKE9bltS930t5xqQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-28 13:20:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VDO52Jw4wwbVXOQLkI0/eg
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -441,27 +411,7 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Str',
                 },
-                address => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                neighborhood => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                complement => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                number  => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                postal_code => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                city_id => {
+                address_id => {
                     required => 0,
                     type     => 'Int',
                 },

@@ -20,6 +20,10 @@
             <label class="control-label" for="elm_age">Idade</label>
             de <input type="text" name="start_age"> até <input type="text" name="end_age">
             [%select_field('brand','Montadora',array => select_brands)|none%]
+
+            [%IF campaign_id.size > 0%]
+                <input type="hidden" name="campaign_id" id="campaign_id" value="[%campaign_id%]">
+            [%END%]
         </form>
     </fieldset>
     <div class="form-actions">

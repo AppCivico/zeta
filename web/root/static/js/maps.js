@@ -30,31 +30,15 @@ var $maps = function(){
         }
     }
 
-    function codeAddress(selector, addr_value) {
-        var address = $(addr_value).val();
+//
 
+    function codeAddress(address) {
         if (address.length != 0 && addr != address) {
             geocoder.geocode( { 'address': address}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     clearOverlays();
-
-                    if (results[0]){
-                        map.setCenter(results[0].geometry.location);
-                        map.setOptions({zoom: 14});
-
-                        $(selector).val(results[0].geometry.location.toString());
-
-                        var marker = new google.maps.Marker({
-                            map: map,
-                            position: results[0].geometry.location
-                        });
-                        markersArray.push(marker);
-                    }else{
-                        $(selector).val('');
-                    }
-
+                    console.log(results);
                 } else {
-                    $(selector).val('');
                     alert('Falha ao localizar endereço');
                 }
             });
@@ -288,7 +272,7 @@ var $maps = function(){
         drawingManager.setMap(map);
     }
 
-    function searchAssociateds() {
+    function searchAssociateds(campaign_id) {
         if(points.length <= 0) {
             setTimeout(function () {
                 $("#search_points").button('reset');
@@ -299,7 +283,12 @@ var $maps = function(){
             return false;
         }
 
-        var $z = $('<input type="hidden" name="points"/>')
+        var z;
+        if(campaign_id) {
+            $z = $('<input type="hidden" name="points"/><input type="hidden" name="campaign_id" value='+campaign_id+'/>');
+        } else {
+            $z = $('<input type="hidden" name="points"/>');
+        }
         $z.val($.toJSON(points));
 
         $('#route_filter').append($z);
@@ -321,6 +310,9 @@ var $maps = function(){
             },
             complete: function() {
                 $("#search_points").button('reset');
+                if($('#campaign_id').val()) {
+                    $('#result_form').append('<input type=hidden name=campaign_id value='+$('#campaign_id').val()+'>');
+                }
             }
         });
     }
@@ -394,12 +386,8 @@ $( document ).ready(function() {
        });
     }
 
-    var $search_points = $('#search_points');
-    if($search_points.length) {
-        $search_points.click(function(){
-            $maps.searchAssociateds();
-        });
+    if(('#route_filter').length) {
+        $maps.drawingManager();
     }
 
-    $maps.drawingManager();
 });

@@ -139,18 +139,11 @@ $( document ).ready(function() {
 
     $admin.getAssociatedLatLnt();
 
+    var $search_points = $('#search_points');
+    if($search_points.length) {
+        $search_points.click(function(){
+            $maps.searchAssociateds();
+        });
+    }
+
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-

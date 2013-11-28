@@ -17,10 +17,12 @@ __PACKAGE__->config(
         validation_key => 'Str',
         order          => 'Str'
     },
-    result_attr => { prefetch => 'user' },
+    result_attr => {
+        prefetch => ['user', 'address']
+    },
     object_key  => 'driver',
 
-    update_roles => [qw/superadmin/],
+    update_roles => [qw/superadmin webapi/],
     create_roles => [qw/superadmin webapi/],
     delete_roles => [qw/superadmin/],
 
@@ -41,29 +43,39 @@ sub result_GET {
     $self->status_ok(
         $c,
         entity => {
-            email   => $driver->user->email,
-            user_id => $driver->user->id,
+            (
+              map { $_ => $attrs{$_}, }
+                qw/
+                id
+                name
+                cpf
+                cnh_code
+                mobile_number
+                telephone_number
+                marital_state
+                gender
+                documents_validated
+                /
+            ),
             (
                 map { $_ => ( $driver->$_ ? $driver->$_->datetime : undef ) }
                   qw/birth_date first_driver_license cnh_validity/
             ),
-            map { $_ => $attrs{$_}, }
-              qw(
-              id
-              name
-              cpf
-              cnh_code
-              mobile_number
-              telephone_number
-              marital_state
-              address
-              neighborhood
-              complement
-              number
-              postal_code
-              gender
-              documents_validated
-              )
+            email   => $driver->user->email,
+            user_id => $driver->user->id,
+            address => {
+                (
+                    map { $_ => $driver->address->$_ }
+                       qw/
+                        id
+                        address
+                        number
+                        neighborhood
+                        postal_code
+                        city_id
+                       /
+                ),
+            }
         }
     );
 }
@@ -117,6 +129,19 @@ sub list_GET {
                               gender
                               /
                         ),
+                        address => {
+                            (
+                                map { $_ => $r->{address}{$_} }
+                                   qw/
+                                    id
+                                    address
+                                    number
+                                    neighborhood
+                                    postal_code
+                                    city_id
+                                   /
+                            ),
+                        },
                         email       => $r->{user}{email},
                         user_id     => $r->{user}{id},
                         url         => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string

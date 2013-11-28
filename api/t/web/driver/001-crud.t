@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use utf8;
+use Digest::SHA1 qw(sha1 sha1_hex sha1_base64);
 
 use FindBin qw($Bin);
 use lib "$Bin/../../lib";
@@ -10,6 +11,20 @@ use PI::Test::Further;
 api_auth_as user_id => 1, roles => ['superadmin'];
 
 db_transaction {
+
+    #criar novo endereço
+    rest_post '/addresses',
+      name  => 'criar novo endereço origem',
+      list  => 1,
+      stash => 'address',
+      [
+        address      => 'Av. Paulista',
+        number       => '568',
+        neighborhood => 'Bela Vista',
+        user_id      => 1,
+        postal_code  => '01310000',
+        city_id     => 1
+      ];
 
     rest_post '/drivers',
       name  => 'criar motorista',
@@ -25,16 +40,13 @@ db_transaction {
         'mobile_number'        => '5511123456789',
         'telephone_number'     => '551112345678',
         'marital_state'        => 'S',
-        'address'              => 'foo st',
-        'neighborhood'         => 'foo bar',
-        'complement'           => 'second floor',
-        'number'               => '1',
-        'postal_code'          => '01310000',
-        'city_id'              => 1,
+        address_id             => stash 'address.id',
         password               => '12345',
         password_confirm       => '12345',
         'email'                => 'sdasdas@asdas.com',
-        'email_confirm'        => 'sdasdas@asdas.com'
+        'email_confirm'        => 'sdasdas@asdas.com',
+        'gender'               => 'm',
+        'validation_key'       => sha1_hex( 'sdasdas@asdas.com Foo Bar' ),
       ];
 
     stash_test 'driver1.get', sub {
@@ -65,14 +77,10 @@ db_transaction {
         'mobile_number'        => '551111111111',
         'telephone_number'     => '551111111111',
         'marital_state'        => 'D',
-        'address'              => 'foo st2',
-        'neighborhood'         => 'foo bar2',
+        address_id             => stash 'address.id',
         password               => '12345',
         password_confirm       => '12345',
-        'complement'           => 'third floor',
-        'number'               => '2',
-        'postal_code'          => '01310002',
-        'city_id'              => 1
+        'gender'               => 'm'
       ];
 
     rest_reload 'driver1';
@@ -98,4 +106,5 @@ db_transaction {
     };
 
 };
+
 done_testing;

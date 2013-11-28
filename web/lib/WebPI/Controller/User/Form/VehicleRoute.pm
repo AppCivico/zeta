@@ -24,12 +24,11 @@ sub process : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
-    use DDP;
-    my $lastr = scalar $c->stash->{vehicle_routes}[-1];
-    p $lastr;
-    my $count = $lastr ? do { $lastr->{name} =~ /(\d+)/; $1 + 1 } : 1;
-    p $count;
-    my $name  = "Rota $count";
+
+    my $count   = scalar keys $c->stash->{vehicle_routes};
+    my $s       = $count+1;
+
+    my $name  = "Rota $s";
 
     $api->stash_result(
         $c,

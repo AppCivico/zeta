@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                [%IF vehicle_invitations%]
+                [%IF vehicle_invitations.size > 0%]
                     [%FOREACH vi IN vehicle_invitations%]
                         <tr>
 
@@ -32,7 +32,7 @@
                     [%END%]
                 [%ELSE%]
                     <tr>
-                        <td colspan="2">Nenhum convite no momento</td>
+                        <td colspan="6">Nenhum convite no momento</td>
                     </tr>
                 [%END%]
             </tbody>

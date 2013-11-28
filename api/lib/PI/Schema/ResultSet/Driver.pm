@@ -133,28 +133,8 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Str',
                 },
-                address => {
-                    required => 1,
-                    type     => 'Str',
-                },
-                neighborhood => {
-                    required => 1,
-                    type     => 'Str',
-                },
-                complement => {
+                address_id => {
                     required => 0,
-                    type     => 'Str',
-                },
-                number => {
-                    required => 1,
-                    type     => 'Str',
-                },
-                postal_code => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                city_id => {
-                    required => 1,
                     type     => 'Int',
                 },
                 validation_key => {

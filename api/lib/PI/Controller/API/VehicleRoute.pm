@@ -150,8 +150,9 @@ sub list_GET {
 
             push(@conditions, {
                 'me.id' => {
-                    '-in' => \@ids
-                }
+                    '-in'       => \@ids,
+                    'not in'    => \"(select vehicle_id from campaign_vehicle)"
+                },
             });
 
             if( $filters->{gender} ) {

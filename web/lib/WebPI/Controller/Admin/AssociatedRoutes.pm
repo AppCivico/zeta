@@ -20,6 +20,11 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 
     $api->stash_result( $c, 'vehicle_brands');
     $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
+
+    if(exists $c->req->params->{campaign_id}) {
+        $c->stash->{campaign_id} = $c->req->params->{campaign_id};
+    }
+
 }
 
 sub get_positions : Chained('base') : PathPart('get_positions') : Args(0) {
@@ -51,7 +56,7 @@ sub search : Chained('base') : PathPart('search') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
-    my $p = $c->req->params;
+    my $p   = $c->req->params;
 
     my $pt              = decode_json($c->req->params->{points});
     my $gis_polyline    = [ map { join ',', @$_ } @$pt ];
