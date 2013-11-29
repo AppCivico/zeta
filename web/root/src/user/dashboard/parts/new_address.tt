@@ -5,7 +5,7 @@
         [%input_text('postal_code','CEP', classes => ['span3', 'postal_code', 'clear_addr_rt', 'default_addr'],
             input_append => '<span id="cep_not_found" class="hide">CEP não encontrado</span>'
         )|none%]
-<!--         <a href="javascript:;" id="address_search">Não sei meu CEP</a> -->
+        <a href="javascript:;" id="address_search">Não sei meu CEP</a>
 
         [%input_text('address','Endereço', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]
         [%input_text('number','Número', classes => ['span3', 'clear_addr', 'clear_addr_rt'])|none%]

@@ -19,7 +19,7 @@ has redis => (
 
 # my $config = PI::ConfigFindLocal->new(name => 'pi')->config;
 
-my $conf   = Config::General->new("pi_local.conf");
+my $conf   = Config::General->new("pi.conf");
 my %config = $conf->getall;
 
 sub _build_redis {

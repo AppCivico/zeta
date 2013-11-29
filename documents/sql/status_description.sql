@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.9
 -- Dumped by pg_dump version 9.1.9
--- Started on 2013-11-07 14:22:27 BRST
+-- Started on 2013-11-29 16:52:32 BRST
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -15,8 +15,8 @@ SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2129 (class 0 OID 60645)
--- Dependencies: 241 2130
+-- TOC entry 3275 (class 0 OID 60645)
+-- Dependencies: 240 3276
 -- Data for Name: status_description; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -35,15 +35,15 @@ COPY status_description (id, description) FROM stdin;
 
 
 --
--- TOC entry 2134 (class 0 OID 0)
--- Dependencies: 240
+-- TOC entry 3280 (class 0 OID 0)
+-- Dependencies: 239
 -- Name: status_description_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('status_description_id_seq', 3, true);
 
 
--- Completed on 2013-11-07 14:22:27 BRST
+-- Completed on 2013-11-29 16:52:32 BRST
 
 --
 -- PostgreSQL database dump complete

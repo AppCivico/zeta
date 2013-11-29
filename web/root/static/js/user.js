@@ -102,32 +102,33 @@ $( document ).ready(function() {
         });
     }
 
-//     var $address_search = $('#address_search');
-//     if($address_search.length) {
-//         $address_search.click(function(){
-//            $('.default_addr').parent().parent().parent().hide();
-//            $('.default_addr').hide();
-//            $('#submit_actions').hide();
-//            $('#search_actions').show();
-//         });
-//         $('.close, #back_address').click(function(){
-//             $('.default_addr').parent().parent().parent().show();
-//             $('.default_addr').show();
-//             $('#submit_actions').show();
-//             $('#search_actions').hide();
-//         });
-//
-//         $('#btn_search_addr').click(function(){
-//             var $address = $('#elm_address').val()
-//             +', '+$('#elm_number').val()
-//             +' '+$('#elm_neighborhood').val()
-//             +' '+$('#elm_city_id option:selected').text()
-//             +' '+$('#elm_state_id option:selected').text()
-//
+     var $address_search = $('#address_search');
+    if($address_search.length) {
+        $address_search.click(function(){
+            $('.default_addr').parent().parent().parent().hide();
+            $('.default_addr').hide();
+            $('#submit_actions').hide();
+            $('#search_actions').show();
+        });
+
+        $('.close, #back_address').click(function(){
+            $('.default_addr').parent().parent().parent().show();
+            $('.default_addr').show();
+            $('#submit_actions').show();
+            $('#search_actions').hide();
+        });
+
+        $('#btn_search_addr').click(function(){
+            var $address = $('#elm_address').val()
+            +', '+$('#elm_number').val()
+            +' '+$('#elm_neighborhood').val()
+            +' '+$('#elm_city_id option:selected').text()
+            +' '+$('#elm_state_id option:selected').text()
+
 //             $maps.codeAddress($address);
-//         });
-//
-//     }
+        });
+
+    }
 
 });
 
