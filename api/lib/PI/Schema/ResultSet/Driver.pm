@@ -63,7 +63,7 @@ sub verifiers_specs {
 
                             return 0 if $str =~ /^(\d)\1*$/;
                             return 0 if $self->find( { cpf => $str } );
-                        }
+                        };
                         die "$@" if $@;
 
                         return 1;
