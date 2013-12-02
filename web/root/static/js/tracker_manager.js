@@ -1,3 +1,9 @@
+function reset_button(){
+    setTimeout(function () {
+        $("#check_token").button('reset');
+    })
+}
+
 $( document ).ready(function() {
     $(".errors").hide();
 
@@ -33,9 +39,3 @@ $( document ).ready(function() {
     });
 
 });
-
-function reset_button(){
-    setTimeout(function () {
-        $("#check_token").button('reset');
-    })
-}
