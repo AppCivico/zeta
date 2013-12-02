@@ -1,3 +1,40 @@
+function filter_vehicle(brand_id) {
+
+    if(!brand_id) {
+        return false;
+    }
+
+    var $me = $('#elm_vehicle_model_id');
+
+    $me.removeClass('required');
+    $me.addClass('input-loading');
+
+    $.ajax({
+        url: "/get_vehicle_models",
+        data: {vehicle_brand_id: brand_id},
+        dataType: 'html',
+        success: function(result) {
+            $("#vehicle_model").html(result);
+        },
+        error: function(err) {
+            alert('Não foi possível encontrar os modelos.');
+        },
+        complete: function() {
+            $me.removeClass('input-loading');
+            $me.addClass('required');
+
+            var $model_aux = $('#vehicle_model_aux');
+            if($model_aux.length && $model_aux.val()) {
+                $('#elm_vehicle_model_id').val($model_aux.val());
+            }
+
+            $("#elm_vehicle_model_id").on('change', function(){
+                $("#vehicle_model_aux").val($(this).val());
+            });
+        }
+    });
+}
+
 $( document ).ready(function() {
 
     $(document).on("click", "[data-changeval-name]", function(){
@@ -67,7 +104,7 @@ $( document ).ready(function() {
             city_id = $('#city_aux').val();
         }
 
-        get_cities($('#elm_state_id').val(), city_id);
+        $address.get_cities($('#elm_state_id').val(), city_id);
     }
 
     var $brand_id = $("#elm_vehicle_brand_id");
@@ -102,7 +139,7 @@ $( document ).ready(function() {
         });
     }
 
-     var $address_search = $('#address_search');
+    var $address_search = $('#address_search');
     if($address_search.length) {
         $address_search.click(function(){
             $('.default_addr').parent().parent().parent().hide();
@@ -119,52 +156,15 @@ $( document ).ready(function() {
         });
 
         $('#btn_search_addr').click(function(){
-            var $address = $('#elm_address').val()
+            var $addr_str = $('#elm_address').val()
             +', '+$('#elm_number').val()
             +' '+$('#elm_neighborhood').val()
             +' '+$('#elm_city_id option:selected').text()
             +' '+$('#elm_state_id option:selected').text()
 
-//             $maps.codeAddress($address);
+            $address.find_postal_code($addr_str);
         });
 
     }
 
 });
-
-function filter_vehicle(brand_id) {
-
-    if(!brand_id) {
-        return false;
-    }
-
-    var $me = $('#elm_vehicle_model_id');
-
-    $me.removeClass('required');
-    $me.addClass('input-loading');
-
-    $.ajax({
-        url: "/get_vehicle_models",
-        data: {vehicle_brand_id: brand_id},
-        dataType: 'html',
-        success: function(result) {
-            $("#vehicle_model").html(result);
-        },
-        error: function(err) {
-            alert('Não foi possível encontrar os modelos.');
-        },
-        complete: function() {
-            $me.removeClass('input-loading');
-            $me.addClass('required');
-
-            var $model_aux = $('#vehicle_model_aux');
-            if($model_aux.length && $model_aux.val()) {
-                $('#elm_vehicle_model_id').val($model_aux.val());
-            }
-
-            $("#elm_vehicle_model_id").on('change', function(){
-                $("#vehicle_model_aux").val($(this).val());
-            });
-        }
-    });
-}
