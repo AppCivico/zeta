@@ -32,12 +32,12 @@ var $new_add = function(){
 
                     var cep_val;
                     $('#elm_state_id').change(function() {
-                        get_cities($(this).val());
+                        $address.get_cities($(this).val());
                     });
 
                     $('.postal_code', $modal).keyup(function() {
                         if(cep_val != $(this).val()){
-                            get_address($(this));
+                            $address.get_address($(this));
                         }
                     });
                     $('.postal_code').click(function(){
@@ -45,7 +45,7 @@ var $new_add = function(){
                     });
 
                     if ($('.postal_code', $modal).val()) {
-                        get_address($('.postal_code'));
+                        $address.get_address($('.postal_code'));
                     }
                 }
             }
