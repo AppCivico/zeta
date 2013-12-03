@@ -71,6 +71,23 @@ sub geo_by_point {
     return $res;
 }
 
+sub find_postal_code {
+    my ( $self, $address ) = @_;
+    my $res;
+
+    eval {
+        my $uri = URI->new($self->uri . "?address=$address&sensor=false&region=br");
+        my $req = &access_uri($uri);
+        $res    = decode_json( $req->content );
+    };
+    use DDP; p $res;exit;
+    if ($@) {
+        return $@;
+    }
+
+    return $res->{results}[0]{geometry}{location};
+}
+
 sub access_uri {
     my ($uri) = @_;
     my $req;
