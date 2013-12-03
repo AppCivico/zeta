@@ -15,6 +15,7 @@ MYMETA*
 nytprof.out
 pm_to_blib
 *_local*
+*pi.conf
 root/static/user/
 root/static/built/
 .tidyall.d/

@@ -57,16 +57,15 @@ sub verifiers_specs {
                     filters    => [$PI::Types::ONLY_DIGITY],
                     post_check => sub {
                         my $r   = shift;
-
+			my $ret = 1;
                         eval {
                             my $str = $r->get_value('cpf');
 
-                            return 0 if $str =~ /^(\d)\1*$/;
-                            return 0 if $self->find( { cpf => $str } );
-                        };
-                        die "$@" if $@;
+                           $ret = 0 if $str =~ /^(\d)\1*$/ || $self->find( { cpf => $str } );
+                       };
+                        return 0 if $@;
 
-                        return 1;
+                        return $ret;
                       }
                 },
                 cnh_code => {
