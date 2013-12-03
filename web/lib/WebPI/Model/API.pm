@@ -190,7 +190,7 @@ sub _generate_query_params {
     while (@aa) {
         my ( $k, $v ) = ( ( shift @aa ), ( shift @aa ) );
 
-        $v ||= '';
+        $v = '' if !defined $v;
         my $u = URI->new( "", "http" );
         $u->query_form( $k => $v );
 

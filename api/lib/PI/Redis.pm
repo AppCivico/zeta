@@ -22,6 +22,11 @@ has redis => (
 my $conf   = Config::General->new("pi.conf");
 my %config = $conf->getall;
 
+if( !$config{redis}{host} ) {
+    $conf   = Config::General->new("pi_local.conf");
+    %config = $conf->getall;
+}
+
 sub _build_redis {
     my $self = shift;
 

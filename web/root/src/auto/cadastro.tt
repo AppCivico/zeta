@@ -22,7 +22,7 @@
 
             [%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'], req=>1, birth_date => 1)|none%]
 
-            [%select_field('gender', 'Gênero',  array => [
+            [%select_field('gender', 'Sexo',  array => [
                 ['m','Masculino'],
                 ['f','Feminino'],
             ], req=>1)|none%]
@@ -73,7 +73,7 @@
             </div>
             <input type="hidden" id="city_aux" name="city_aux"/>
 
-            [%input_text('address','Logradouro', classes => ['span3', 'clear_addr'], req=>1)|none%]
+            [%input_text('address','Endereço', classes => ['span3', 'clear_addr'], req=>1)|none%]
             [%input_text('number','Número', classes => ['span3', 'clear_addr'], req=>1)|none%]
             [%input_text('complement','Complemento', classes => ['span3', 'clear_addr'])|none%]
             [%input_text('neighborhood','Bairro', classes => ['span3', 'clear_addr'], req=>1)|none%]
