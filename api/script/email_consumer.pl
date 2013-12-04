@@ -48,7 +48,10 @@ sub send_emails {
 
         eval {
             my $str_template = '';
-            my $vars = { content => $iten->{content} };
+            my $vars = {
+                content => $iten->{content},
+                domain  => $config->{domain}{default}
+            };
 
             eval { $template->process( $iten->{template}, $vars, \$str_template ) || die $template->error(); };
             use DDP;
@@ -58,9 +61,8 @@ sub send_emails {
                 header => [
                     To      => $iten->{email},
                     From    => 'gian@aware.com.br',
-                    Subject => $iten->{subject},
+                    Subject =>  $iten->{subject},
                     Charset => 'UTF-8',
-
                 ],
                 body => $str_template
             );
