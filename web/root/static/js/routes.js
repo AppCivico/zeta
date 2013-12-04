@@ -122,4 +122,10 @@ $( document ).ready(function() {
         $('#btn_save').button('reset');
         $('.clear_addr_rt').val('');
     });
+
+    $('#elm_origin_id').change(function(){
+        var $id = $("#elm_origin_id option:selected").attr('data-address_id');
+        $("#elm_destination_id option[data-address_id="+$id+"]").remove();
+    });
+
 });

@@ -2,11 +2,13 @@ use lib './lib';
 use utf8;
 use strict;
 use PI::Schema;
-use PI::EmailQueue;
+# use PI::EmailQueue;
+use MIME::Lite;
 use PI::Redis;
 use Email::Sender::Simple qw(sendmail);
 use JSON::XS;
 use Template;
+use Encode;
 
 package PI;
 use Catalyst qw( ConfigLoader  );
@@ -19,10 +21,12 @@ use FindBin qw($Bin);
 use lib "$Bin/../lib";
 use Catalyst::Test q(PI);
 use FindBin;
+use  File::Slurp qw/read_file/;
 
 my $config          = PI->config;
 my $redis           = PI::Redis->new();
 my $transport_class = 'Email::Sender::Transport::' . $config->{email}{transport}{class};
+my $logo            =  scalar read_file("$FindBin::Bin/../../web/root/static/img/logo.png");
 
 eval("use $transport_class");
 die $@ if $@;
@@ -50,26 +54,45 @@ sub send_emails {
             my $str_template = '';
             my $vars = {
                 content => $iten->{content},
-                domain  => $config->{domain}{default}
+                domain  => $config->{domain}{default},
+
             };
 
             eval { $template->process( $iten->{template}, $vars, \$str_template ) || die $template->error(); };
             use DDP;
             p $@ if $@;
+            my $email = MIME::Lite->new(
+                To      =>  'gfvizzotto@outlook.com',#$iten->{email},
+                From    => 'gian@aware.com.br',
+                Subject =>  Encode::encode('MIME-Header', $iten->{subject}),
+#                 Charset => 'UTF-8',
+                Type    => q{multipart/related},
+            );
+#             my $email = Email::Simple->create(
+#                 header => [
+#                     To      =>  $iten->{email},
+#                     From    => 'gian@aware.com.br',
+#                     Subject =>  Encode::encode('MIME-Header', $iten->{subject}),
+#                     Charset => 'UTF-8',
+#                     Type    => q{multipart/related},
+#                 ],
+#             );
 
-            my $email = Email::Simple->create(
-                header => [
-                    To      => $iten->{email},
-                    From    => 'gian@aware.com.br',
-                    Subject =>  $iten->{subject},
-                    Charset => 'UTF-8',
-                ],
-                body => $str_template
+            $email->attach(
+                Type => 'text/html; charset=UTF-8',
+                Data => $str_template,
             );
 
-            $email->header_set('Content-Type' => 'text/html;charset=utf-8');
+             $email->attach(
+                Type     => 'image/png',
+                Id       => 'logo.png',
+                Encoding => 'base64',
+                Data     => $logo
+            );
 
-            sendmail( $email, { transport => $transport } );
+#             $email->header_set('Content-Type' => 'text/html;charset=utf-8');
+
+            sendmail( $email->as_string, { transport => $transport } );
         };
 
         if ($@) {
