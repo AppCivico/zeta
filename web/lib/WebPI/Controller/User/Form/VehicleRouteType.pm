@@ -33,6 +33,7 @@ sub process : Chained('base') : PathPart('vehicle_route_types') : Args(0) {
         method => 'POST',
         body   => $address
     );
+
     $api->stash_result(
         $c,
         ['vehicle_route_types'],

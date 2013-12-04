@@ -61,22 +61,13 @@ sub send_emails {
             eval { $template->process( $iten->{template}, $vars, \$str_template ) || die $template->error(); };
             use DDP;
             p $@ if $@;
+
             my $email = MIME::Lite->new(
-                To      =>  'gfvizzotto@outlook.com',#$iten->{email},
+                To      =>  $iten->{email},
                 From    => 'gian@aware.com.br',
                 Subject =>  Encode::encode('MIME-Header', $iten->{subject}),
-#                 Charset => 'UTF-8',
                 Type    => q{multipart/related},
             );
-#             my $email = Email::Simple->create(
-#                 header => [
-#                     To      =>  $iten->{email},
-#                     From    => 'gian@aware.com.br',
-#                     Subject =>  Encode::encode('MIME-Header', $iten->{subject}),
-#                     Charset => 'UTF-8',
-#                     Type    => q{multipart/related},
-#                 ],
-#             );
 
             $email->attach(
                 Type => 'text/html; charset=UTF-8',
@@ -89,8 +80,6 @@ sub send_emails {
                 Encoding => 'base64',
                 Data     => $logo
             );
-
-#             $email->header_set('Content-Type' => 'text/html;charset=utf-8');
 
             sendmail( $email->as_string, { transport => $transport } );
         };

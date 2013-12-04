@@ -125,7 +125,14 @@ $( document ).ready(function() {
 
     $('#elm_origin_id').change(function(){
         var $id = $("#elm_origin_id option:selected").attr('data-address_id');
-        $("#elm_destination_id option[data-address_id="+$id+"]").remove();
+        $("#elm_destination_id option").show();
+        $("#elm_destination_id option[data-address_id="+$id+"]").hide();
+    });
+
+    $('#elm_destination_id').change(function(){
+        var $id = $("#elm_destination_id option:selected").attr('data-address_id');
+        $("#elm_origin_id option").show();
+        $("#elm_origin_id option[data-address_id="+$id+"]").hide();
     });
 
 });
