@@ -1,19 +1,19 @@
 var $address = function () {
 
-    function get_address( $me, no_focus ) {
+    function get_address($me, no_focus) {
         var cep = $me.val().replace('_', '');
         $('#cep_not_found').hide();
 
-        if(cep.length < 9) {
+        if (cep.length < 9) {
             return false;
         }
 
         var postal_code = $me.val(),
-            invalid     = false;
+            invalid = false;
 
         $me.addClass('input-loading');
 
-        if(postal_code == '') {
+        if (postal_code == '') {
 
             invalid = true;
             $("#postal_code_error").show();
@@ -21,15 +21,17 @@ var $address = function () {
 
         }
 
-        if(invalid == false) {
+        if (invalid == false) {
 
             $.ajax({
                 url: "/get_address",
-                data: {postal_code: postal_code},
+                data: {
+                    postal_code: postal_code
+                },
                 dataType: 'json',
-                success: function(result) {
+                success: function (result) {
 
-                    if(result.error){
+                    if (result.error) {
 
                         $('#cep_not_found').show();
                         $('#elm_state_id').focus();
@@ -45,19 +47,19 @@ var $address = function () {
                         $('#elm_neighborhood').val(result.neighborhood);
                         $('#elm_state_id').val(result.state_id);
 
-                        if($('#elm_city_id').find(":contains("+result.location+")").length) {
+                        if ($('#elm_city_id').find(":contains(" + result.location + ")").length) {
                             $('#elm_city_id').val(result.city_id);
                         } else {
-                            $('#elm_city_id').append('<option value='+result.city_id+'>'+result.location+'</option>').val(result.city_id);
+                            $('#elm_city_id').append('<option value=' + result.city_id + '>' + result.location + '</option>').val(result.city_id);
                         }
                         $("#city_aux").val(result.city_id);
-                        if(!no_focus) {
+                        if (!no_focus) {
                             $('#elm_number').focus();
                         }
 
                     }
                 },
-                complete: function() {
+                complete: function () {
                     $me.removeClass('input-loading');
                 }
             });
@@ -68,14 +70,14 @@ var $address = function () {
 
         setTimeout(function () {
             $("#check_token").button('reset');
-        })
+        });
 
     }
 
     function get_cities(state_id) {
         var $me = $('#elm_city_id');
 
-        if(!state_id) {
+        if (!state_id) {
             return false;
         }
 
@@ -84,23 +86,25 @@ var $address = function () {
 
         $.ajax({
             url: "/get_cities",
-            data: {state_id: state_id},
+            data: {
+                state_id: state_id
+            },
             dataType: 'html',
-            success: function(result) {
+            success: function (result) {
                 $("#cities").html(result);
             },
-            error: function(err) {
+            error: function (err) {
                 alert(err);
             },
-            complete: function() {
+            complete: function () {
                 $me.removeClass('input-loading');
                 $me.addClass('required');
 
-                if($('#city_aux').val()) {
+                if ($('#city_aux').val()) {
                     $('#elm_city_id').val($('#city_aux').val());
                 }
 
-                $('#elm_city_id').on('change', function(){
+                $('#elm_city_id').on('change', function () {
                     $('#city_aux').val($(this).val());
                 });
             }
@@ -108,21 +112,23 @@ var $address = function () {
     }
 
     function find_postal_code(address) {
-        if(!address) {
+        if (!address) {
             return false;
         }
 
         $.ajax({
             url: "/user/find_postal_code/search",
-            data: {address: address},
+            data: {
+                address: address
+            },
             dataType: 'json',
-            success: function(result) {
+            success: function (result) {
                 console.log(result)
             },
-            error: function(err) {
+            error: function (err) {
                 console.log(err);
             },
-            complete: function() {
+            complete: function () {
 
             }
         });
@@ -137,36 +143,36 @@ var $address = function () {
 
 }();
 
-$(document).ready(function() {
+$(document).ready(function () {
     var cep_val;
 
-    $('form').on('focus','select,input', function(event) {
+    $('form').on('focus', 'select,input', function (event) {
         $(event.target).parents('.controls:first').find('.hint-inline').show();
     });
 
-    $('form').on('blur','select,input', function(event) {
+    $('form').on('blur', 'select,input', function (event) {
         $(event.target).parents('.controls:first').find('.hint-inline').hide();
     });
 
-    $('#elm_state_id').change(function() {
-       $address.get_cities($(this).val());
+    $('#elm_state_id').change(function () {
+        $address.get_cities($(this).val());
     });
 
-    $('.postal_code').keyup(function() {
-        if(cep_val != $(this).val()){
+    $('.postal_code').keyup(function () {
+        if (cep_val != $(this).val()) {
             $address.get_address($(this));
         }
     });
 
-    if($('.postal_code').val()) {
+    if ($('.postal_code').val()) {
         $address.get_address($('.postal_code'), true);
     } else {
-        if($('#elm_state_id').val() != '') {
+        if ($('#elm_state_id').val() != '') {
             $address.get_cities($('#elm_state_id').val());
         }
     }
 
-    $('.postal_code').click(function(){
+    $('.postal_code').click(function () {
         cep_val = $(this).val();
     });
 

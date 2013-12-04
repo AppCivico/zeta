@@ -1,9 +1,9 @@
-var $admin = function(){
+var $admin = function () {
 
     function getCostumers(form) {
         var $data;
 
-        if(form) {
+        if (form) {
             $data = form;
         }
 
@@ -11,14 +11,14 @@ var $admin = function(){
             url: "/admin/campaign/search_customer",
             dataType: 'html',
             data: $data,
-            success: function(result) {
+            success: function (result) {
                 $('#modal_body').html(result);
             },
-            error: function(err) {
+            error: function (err) {
                 console.log(err);
             },
-            complete: function(){
-                $('.customer_choice').click(function(){
+            complete: function () {
+                $('.customer_choice').click(function () {
                     $('#elm_customer').val($(this).val());
                     $('#customer_name').text(($(this).parent().text()));
                 });
@@ -27,21 +27,21 @@ var $admin = function(){
     }
 
     function analiseDriverDocuments(document_id, element) {
-
-        if(element == 'accept') {
-            var $url = '/admin/validate-driver-documents/validate/'+document_id;
+        var $url;
+        if (element == 'accept') {
+            $url = '/admin/validate-driver-documents/validate/' + document_id;
         } else {
-            var $url = '/admin/validate-driver-documents/reject/'+document_id;
+            $url = '/admin/validate-driver-documents/reject/' + document_id;
         }
 
         $.ajax({
             url: $url,
             dataType: 'json',
-            success: function(result) {
-                $('#status_'+document_id).text(result.status);
-                alert('Documento '+result.status);
+            success: function (result) {
+                $('#status_' + document_id).text(result.status);
+                alert('Documento ' + result.status);
             },
-            error: function(err) {
+            error: function (err) {
                 console.log(err);
             }
         });
@@ -54,15 +54,15 @@ var $admin = function(){
 
         $.ajax({
             url: '/admin/form/send_invitation',
-            data: {campaign_id: $campaign_id, vehicle_id: $vehicle_id},
-            dataType: 'json',
-            success: function(result) {
-                $('#sent_txt').html(
-                    '<dt>Convite enviado</dt>'
-//                     '<dd>'+result.response.rows[0].sent_at+'</dd>'
-                );
+            data: {
+                campaign_id: $campaign_id,
+                vehicle_id: $vehicle_id
             },
-            error: function(err) {
+            dataType: 'json',
+            success: function (result) {
+                $('#sent_txt').html('<dt>Convite enviado</dt>');
+            },
+            error: function (err) {
                 console.log(err);
             }
         });
@@ -73,10 +73,10 @@ var $admin = function(){
         $.ajax({
             url: '/admin/associated_routes/get_positions',
             dataType: 'json',
-            success: function(result) {
+            success: function (result) {
                 $maps.buildHeatMap(result);
             },
-            error: function(err) {
+            error: function (err) {
                 console.log(err);
             }
         });
@@ -90,21 +90,21 @@ var $admin = function(){
     };
 }();
 
-$( document ).ready(function() {
-    if($('#customer_list').length) {
-        $('#customer_list').click(function(){
+$(document).ready(function () {
+    if ($('#customer_list').length) {
+        $('#customer_list').click(function () {
             $admin.getCostumers();
         });
     }
 
-    $('#search_customer').on('submit', function(){
+    $('#search_customer').on('submit', function () {
         getCostumers($(this).serialize());
     });
 
     var $check_all = $('#check_all');
-    if($check_all.length) {
-        $check_all.on('click', function() {
-            if($(this).attr('checked') == 'checked') {
+    if ($check_all.length) {
+        $check_all.on('click', function () {
+            if ($(this).attr('checked') == 'checked') {
                 $(this).removeAttr('checked');
                 $('.check_driver').attr('checked', false);
             } else {
@@ -115,24 +115,24 @@ $( document ).ready(function() {
     }
 
     var $approve_docs = $('.approve_docs');
-    if($approve_docs.length) {
-        $approve_docs.click(function(){
-            var $info  = $(this).attr('id').split('_');
+    if ($approve_docs.length) {
+        $approve_docs.click(function () {
+            var $info = $(this).attr('id').split('_');
 
             $admin.analiseDriverDocuments($info[1], $info[0]);
         });
     }
 
     var $send_invitation = $('#send_invitation');
-    if($send_invitation.length) {
-        $send_invitation.click(function() {
+    if ($send_invitation.length) {
+        $send_invitation.click(function () {
             $admin.sendInvitation();
         });
     }
 
     var $cancel_campaign = $('#cancel_campaign');
-    if($cancel_campaign.length) {
-        $cancel_campaign.click(function() {
+    if ($cancel_campaign.length) {
+        $cancel_campaign.click(function () {
             $('#campaign_status').val(7);
         });
     }
@@ -140,8 +140,8 @@ $( document ).ready(function() {
     $admin.getAssociatedLatLnt();
 
     var $search_points = $('#search_points');
-    if($search_points.length) {
-        $search_points.click(function(){
+    if ($search_points.length) {
+        $search_points.click(function () {
             $maps.searchAssociateds();
         });
     }
