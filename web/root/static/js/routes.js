@@ -123,16 +123,27 @@ $(document).ready(function () {
         $('.clear_addr_rt').val('');
     });
 
-    $('#elm_origin_id').change(function () {
-        var $id = $("#elm_origin_id option:selected").attr('data-address_id');
-        $("#elm_destination_id option").show();
-        $("#elm_destination_id option[data-address_id=" + $id + "]").hide();
-    });
+    /**REFATORAR PELO AMOR DE DEUS*/
+    if($('#elm_origin_id').length) {
+            var $id = $("#elm_origin_id option:selected").attr('data-address_id');
+            $("#elm_destination_id option").show();
+            $("#elm_destination_id option[data-address_id=" + $id + "]").hide();
+        $('#elm_origin_id').change(function () {
+            $id = $("#elm_origin_id option:selected").attr('data-address_id');
+            $("#elm_destination_id option").show();
+            $("#elm_destination_id option[data-address_id=" + $id + "]").hide();
+        });
+    }
 
-    $('#elm_destination_id').change(function () {
-        var $id = $("#elm_destination_id option:selected").attr('data-address_id');
-        $("#elm_origin_id option").show();
-        $("#elm_origin_id option[data-address_id=" + $id + "]").hide();
-    });
-
+    if($('#elm_destination_id').length) {
+            var $id = $("#elm_destination_id option:selected").attr('data-address_id');
+            $("#elm_origin_id option").show();
+            $("#elm_origin_id option[data-address_id=" + $id + "]").hide();
+        $('#elm_destination_id').change(function () {
+            $id = $("#elm_destination_id option:selected").attr('data-address_id');
+            $("#elm_origin_id option").show();
+            $("#elm_origin_id option[data-address_id=" + $id + "]").hide();
+        });
+    }
+    /**END*/
 });
