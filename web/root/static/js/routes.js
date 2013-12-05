@@ -7,52 +7,57 @@ var $new_add = function () {
         $modal = $('#' + who);
         $select = $('#' + ctx);
 
-        $modal.on('submit', 'form', {}, _on_submit);
+        $modal.off('submit.myedit');
+        $modal.on('submit.myedit', 'form', {}, _on_submit);
     },
-        _on_submit = function () {
 
-            var $form = $(this),
-                url = $form.attr('action');
+    _on_submit = function () {
 
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: $form.serialize(),
-                dataType: 'html',
-                success: function (result) {
-                    if (result.substr(0, 1) == '{') {
-                        var result_val = $.parseJSON(result);
-                        $select.append('<option value=' + result_val.route_type.id + '>' + result_val.route_type.name + '</option>');
-                        $select.val(result_val.route_type.id);
-                        $modal.find('button[type=button]').click();
-                    } else {
+        var $form = $(this),
+        url = $form.attr('action');
 
-                        $modal.find('.modal-body').html(result);
-                        re_mask();
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: $form.serialize(),
+            dataType: 'html',
+            success: function (result) {
+                if (result.substr(0, 1) == '{') {
+                    var result_val = $.parseJSON(result);
+                    $select.append('<option value=' + result_val.route_type.id + '>' + result_val.route_type.name + '</option>');
+                    $select.val(result_val.route_type.id);
+                    $modal.find('button[type=button]').click();
+                } else {
 
-                        var cep_val;
-                        $('#elm_state_id').change(function () {
-                            $address.get_cities($(this).val());
-                        });
+                    $modal.find('.modal-body').html(result);
+                    re_mask();
 
-                        $('.postal_code', $modal).keyup(function () {
-                            if (cep_val != $(this).val()) {
-                                $address.get_address($(this));
-                            }
-                        });
-                        $('.postal_code').click(function () {
-                            cep_val = $(this).val();
-                        });
+                    var cep_val;
+                    $('#elm_state_id').change(function () {
+                        $address.get_cities($(this).val());
+                    });
 
-                        if ($('.postal_code', $modal).val()) {
-                            $address.get_address($('.postal_code'));
+                    $('.postal_code', $modal).keyup(function () {
+                        if (cep_val != $(this).val()) {
+                            $address.get_address($(this));
                         }
+                    });
+                    $('.postal_code').click(function () {
+                        cep_val = $(this).val();
+                    });
+
+                    if ($('.postal_code', $modal).val()) {
+                        $address.get_address($('.postal_code'));
                     }
                 }
-            });
+            },
+            complete: function() {
+                console.log('completo');
+            }
+        });
 
-            return false;
-        };
+        return false;
+    };
 
     return {
         initialize: initialize,
@@ -108,7 +113,6 @@ $(document).ready(function () {
             $('.route_addr option').show();
             $route.swap_route_point($elm)
         });
-
     }
 
 });

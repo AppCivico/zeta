@@ -1,5 +1,5 @@
 <div>
-    <form class="form-horizontal" method="post" id="new_address" action="/user/form/vehicle_route_types">
+    <form class="form-horizontal" method="post"  action="/user/form/vehicle_route_types">
         [%input_text('route_type_name','Nome para o local', classes => ['span3', 'clear_addr_rt', 'default_addr'])|none%]
 
         [%input_text('postal_code','CEP', classes => ['span3', 'postal_code', 'clear_addr_rt', 'default_addr'],
