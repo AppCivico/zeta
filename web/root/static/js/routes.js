@@ -55,59 +55,33 @@ var $new_add = function () {
         };
 
     return {
-        initialize: initialize
+        initialize: initialize,
     };
+
 }();
 
-// var $load_parking = function(){
-//
-//     var initialize = function (ctx) {
-//
-//         $select = $('#' + ctx);
-//         $select.on('change', {}, _on_change);
-//     },
-//     _on_change = function(){
-//         $id = $select.val();
-//
-//         $.ajax({
-//             url: '/user/route_type/load_parking',
-//             data: {id: $id},
-//             dataType: 'json',
-//             success: function(result) {
-//                 if(result.vehicle_parking != 0) {
-//                     $('#elm_parking_name').val(result.name);
-//                     $('#elm_parking_address').val(result.address);
-//                     $('#elm_vehicle_parking_type_id').val(result.vehicle_parking_type);
-//                     $('#elm_lat_lng').val(result.lat_lng);
-//
-//                     var $parking_aux = $('#parking_aux');
-//                     if($parking_aux.length) {
-//                         $parking_aux.val(result.vehicle_parking);
-//                     } else {
-//                         $('form').append('<input id=parking_aux type=hidden name=vehicle_parking class=parking value='+result.vehicle_parking+'>');
-//                     }
-//
-//
-//                 } else {
-//                     $('.parking').val('');
-//                 }
-//             },
-//             error: function(err) {
-//                 alert('Não foi possível carregar o estacionamento.');
-//                 $('.parking').val('');
-//             },
-//             complete: function() {
-//                 $maps.codeAddress('#elm_lat_lng', '#elm_parking_address');
-//             }
-//         });
-//
-//         return false;
-//     };
-//
-//     return {
-//         initialize: initialize
-//     };
-// }();
+var $route = function() {
+
+    function swap_route_point(elm) {
+        $('.route_addr option').show();
+
+        var target;
+
+        if(elm == 'elm_origin_id') {
+            target = 'elm_destination_id';
+        } else {
+            target = 'elm_origin_id';
+        }
+
+        var id = $('#'+elm+' option:selected').attr('data-address_id');
+        $('#'+target+' option[data-address_id=' + id + ']').hide();
+    }
+
+    return {
+        swap_route_point: swap_route_point
+    };
+
+}();
 
 $(document).ready(function () {
 
@@ -123,27 +97,18 @@ $(document).ready(function () {
         $('.clear_addr_rt').val('');
     });
 
-    /**REFATORAR PELO AMOR DE DEUS*/
-    if($('#elm_origin_id').length) {
-            var $id = $("#elm_origin_id option:selected").attr('data-address_id');
-            $("#elm_destination_id option").show();
-            $("#elm_destination_id option[data-address_id=" + $id + "]").hide();
-        $('#elm_origin_id').change(function () {
-            $id = $("#elm_origin_id option:selected").attr('data-address_id');
-            $("#elm_destination_id option").show();
-            $("#elm_destination_id option[data-address_id=" + $id + "]").hide();
+
+    var $route_addr = $('.route_addr');
+    if($route_addr.length) {
+        $route.swap_route_point('elm_destination_id');
+        $route.swap_route_point('elm_origin_id');
+
+        $route_addr.on('change', function(){
+            var $elm = $(this).attr('id');
+            $('.route_addr option').show();
+            $route.swap_route_point($elm)
         });
+
     }
 
-    if($('#elm_destination_id').length) {
-            var $id = $("#elm_destination_id option:selected").attr('data-address_id');
-            $("#elm_origin_id option").show();
-            $("#elm_origin_id option[data-address_id=" + $id + "]").hide();
-        $('#elm_destination_id').change(function () {
-            $id = $("#elm_destination_id option:selected").attr('data-address_id');
-            $("#elm_origin_id option").show();
-            $("#elm_origin_id option[data-address_id=" + $id + "]").hide();
-        });
-    }
-    /**END*/
 });
