@@ -156,8 +156,6 @@ sub list_POST {
     my ( $self, $c ) = @_;
 
     my $config = PI->config;
-    my $p = $c->req->params;
-    use DDP; p $p;
     my $driver = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 
     my $email_model = $c->model('EmailQueue');

@@ -51,7 +51,7 @@ sub send_emails {
         };
 
         if ($@) {
-            &error_queue( $@, $iten->{email} );
+            die $@;
         }
         else {
             print "Email de erro enviado a $config->{email}{error_recipient}\n";

@@ -4,6 +4,9 @@ use Moose;
 use WWW::Correios::CEP;
 use Text2URI;
 use JSON::XS;
+use Furl;
+use URI;
+
 my $url_parser = Text2URI->new;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
@@ -33,15 +36,33 @@ sub result_GET {
             alarm($TIMEOUT_IN_SECONDS);
 
             eval {
-                my $ua = LWP::UserAgent->new;
+                use DDP;
+                my $ua          = LWP::UserAgent->new;
+                my $postmon_url = 'http://api.postmon.com.br/v1/cep/'.$c->req->params->{postal_code};
+                my $response = &access_uri($postmon_url);
+                my $new_address;
 
-                my $cepper = new WWW::Correios::CEP(
-                    {
-                        require_tests => []
-                    }
-                );
+                if($response->code == 200) {
+                    my $postmon_address = decode_json($response->content);
 
-                my $new_address = $cepper->find( $c->req->params->{postal_code} );
+                    $new_address = {
+                      uf            => $postmon_address->{estado},
+                      street        => $postmon_address->{logradouro},,
+                      cep           => $postmon_address->{cep},
+                      neighborhood  => $postmon_address->{bairro},
+                      location      => $postmon_address->{cidade},
+                    };
+
+                } else {
+                    my $cepper = new WWW::Correios::CEP(
+                        {
+                            require_tests => []
+                        }
+                    );
+
+                    $new_address = $cepper->find( $c->req->params->{postal_code} );
+                }
+
                 alarm(0);
 
                 die {'postal_code.invalid'} unless $new_address;
@@ -104,6 +125,24 @@ sub result_GET {
               )
         }
     );
+}
+
+sub access_uri :Private {
+    my ($uri) = @_;
+    my $req;
+
+    die 'URI inválida' if !$uri;
+
+    my $furl = Furl->new(
+        agent   => 'MyGreatUA/2.0',
+        timeout => 10,
+    );
+
+    eval { $req = $furl->get($uri) };
+
+    die $@ if $@;
+
+    return $req;
 }
 
 1;

@@ -1,5 +1,4 @@
-$( document ).ready(function() {
-
+$(document).ready(function () {
 	$(".faq .item .question").click(function(e){
 		$(this).parent().toggleClass("expanded");
 	});
@@ -12,5 +11,4 @@ $( document ).ready(function() {
 		e.preventDefault();
 		$(".faq .item").removeClass("expanded");
 	});
-
 });
