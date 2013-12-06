@@ -138,6 +138,12 @@ __PACKAGE__->table("vehicle");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 gender
+
+  data_type: 'enum'
+  extra: {custom_type_name => "gender",list => ["m","f"]}
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -185,6 +191,12 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "vehicle_color_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "gender",
+  {
+    data_type => "enum",
+    extra => { custom_type_name => "gender", list => ["m", "f"] },
+    is_nullable => 1,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -476,8 +488,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-08 16:37:51
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:okDWoklmTmpP9mOGexsXkg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-12-06 17:25:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:L0NVVmpGzPoTjj5ZtIGS5A
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

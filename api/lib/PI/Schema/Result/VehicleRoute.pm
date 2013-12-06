@@ -104,6 +104,11 @@ __PACKAGE__->table("vehicle_route");
   is_nullable: 1
   size: 4
 
+=head2 distance
+
+  data_type: 'numeric'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -134,6 +139,8 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 1 },
   "gis_polyline",
   { data_type => "geometry", is_nullable => 1, size => 4 },
+  "distance",
+  { data_type => "numeric", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -211,8 +218,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-21 13:41:14
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uwBPBjDp/3Vx9GcuWODLsQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-12-06 17:25:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:i94DGMH4UcxRpBCSI9c+eg
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -279,6 +286,10 @@ sub verifiers_specs {
 
                         return 1;
                     }
+                },
+                distance => {
+                    required    => 0,
+                    type        => 'Num'
                 }
             }
         ),

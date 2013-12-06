@@ -38,6 +38,7 @@ sub geo_by_address {
 sub geo_by_point {
     my ( $self, $points) = @_;
     my $res;
+    my $data;
 
     return 0 unless exists $points->{origin} && exists $points->{destination};
 
@@ -45,9 +46,12 @@ sub geo_by_point {
         my $uri = $self->uri_direction."?origin=$points->{origin}&destination=$points->{destination}&sensor=false&region=br";
         my $req = &access_uri($uri);
         my $con = $req->content;
-
         $res    = decode_json( $req->content );
+
+        #falta multiplicar a distancia pelo numero de dias
+
         if(exists $res->{'routes'}[0]{'legs'}[0]{'steps'}) {
+            my $distance = $res->{'routes'}[0]{'legs'}[0]{'distance'}{'value'};
             my @polyline;
             foreach my $point (@{$res->{'routes'}[0]{'legs'}[0]{'steps'}}) {
                 push(
@@ -57,7 +61,11 @@ sub geo_by_point {
                 );
             }
 
-            $res = encode_json(\@polyline);
+            $data = {
+                'distance' => $distance,
+                'polyline' => encode_json(\@polyline)
+            };
+
         } else {
             die 'Error.zero_results';
         }
@@ -68,7 +76,7 @@ sub geo_by_point {
         return $@;
     }
 
-    return $res;
+    return $data;
 }
 
 sub find_postal_code {

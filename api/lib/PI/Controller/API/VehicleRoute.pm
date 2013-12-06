@@ -51,6 +51,7 @@ sub result_GET {
                   start_time_gone
                   start_time_back
                   vehicle_route_polyline
+                  distance
                   /
             ),
             origin => {
@@ -217,6 +218,7 @@ sub list_GET {
                                 vehicle_id
                                 days_of_week
                                 vehicle_route_polyline
+                                distance
                                 /
                             ),
                             origin => {
@@ -319,9 +321,13 @@ sub _geo_point :Private {
     };
 
     my $points = $geolocation->geo_by_point($addr_points);
-    $params->{vehicle_route_polyline} = $points;
+    use DDP;
 
-    my $p = decode_json($points);
+    $params->{vehicle_route_polyline}   = $points->{polyline};
+
+    my $p = decode_json($points->{polyline});
+
+    $params->{distance}     = delete  $points->{distance};
     $params->{gis_polyline} = join ',', map { s/,/ /; $_ } @$p;
 
     return $params;

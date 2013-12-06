@@ -73,6 +73,10 @@ sub verifiers_specs {
 
                         return 1;
                     }
+                },
+                distance => {
+                    required    => 0,
+                    type        => 'Num'
                 }
             }
         )
