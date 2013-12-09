@@ -69,7 +69,8 @@ __PACKAGE__->config(
             'hour_human',
             'format_date_to_human',
             'format_cnpj_to_human',
-            'birthdate_to_age'
+            'birthdate_to_age',
+            'meter_to_kilometer'
         ]
       }
 

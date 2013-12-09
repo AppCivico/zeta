@@ -48,8 +48,6 @@ sub geo_by_point {
         my $con = $req->content;
         $res    = decode_json( $req->content );
 
-        #falta multiplicar a distancia pelo numero de dias
-
         if(exists $res->{'routes'}[0]{'legs'}[0]{'steps'}) {
             my $distance = $res->{'routes'}[0]{'legs'}[0]{'distance'}{'value'};
             my @polyline;

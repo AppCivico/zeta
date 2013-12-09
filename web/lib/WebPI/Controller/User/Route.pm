@@ -28,7 +28,14 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 
 sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
+    my $api = $c->model('API');
 
+    $api->stash_result(
+        $c, 'vehicle_routes/distance_sum',
+        params => {
+            vehicle_id => $c->stash->{vehicles}[0]{id}
+        }
+    );
 }
 
 sub edit : Chained('object') : PathPart('') : Args(0) {
@@ -82,8 +89,8 @@ sub add : Chained('base') : PathPart('new') : Args(0) {
         my %used        = map { $_ => 1 } @{$c->stash->{filled_dow}{dow}};
         my @not_used    = grep{ !exists $used{$_} } 1..7;
 
-        $c->stash->{empty_days} = [map { $week->{$_} } @not_used];
-        $c->stash->{empty_days_id} = \@not_used;
+        $c->stash->{empty_days}     = [map { $week->{$_} } @not_used];
+        $c->stash->{empty_days_id}  = \@not_used;
 
         $api->stash_result( $c, [ 'vehicle_routes', ], stash => 'vehicle_route_list' );
 

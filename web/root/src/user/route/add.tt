@@ -127,6 +127,7 @@
 		<div class="item">
 			<h4>[%r.name%] - [%r.origin.name%] para [%r.destination.name%]</h4>
 			<p><i>[%days_of_week_human(r.days_of_week)%]</i>, às <strong>[% hour_human(r.start_time_gone)%]</strong> eu saio de <strong>[%r.origin.name%]</strong>, na <strong>[%r.origin.address.address%]</strong>, e chego às <strong>[%hour_human(r.start_time_back)%]</strong> em <strong>[%r.destination.name%]</strong>.</p>
+			<p>Quilometragem aproximada percorrida mensalmente: <strong>[%meter_to_kilometer(r.distance)%] Km</strong></p>
 		</div>
 	[%END%]
 

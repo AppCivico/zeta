@@ -89,6 +89,11 @@ sub birthdate_to_age {
     return $age->years;
 }
 
+sub meter_to_kilometer {
+    my ( $self, $ref, $distance ) = @_;
+
+    return sprintf("%.2f", $distance/1000);
+}
 
 =head1 NAME
 

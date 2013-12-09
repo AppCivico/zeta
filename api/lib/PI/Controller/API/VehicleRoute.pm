@@ -24,6 +24,7 @@ __PACKAGE__->config(
 
     search_ok => {
         vehicle_id => 'Int',
+        order      => 'Str'
     }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -291,6 +292,16 @@ sub list_POST {
     );
 }
 
+sub distance_sum : Chained('base') : PathPart('distance_sum') : Args(0) {
+    my ($self, $c) = @_;
+
+    my $result = $c->stash->{collection}->search(
+        { vehicle_id => $c->req->params->{vehicle_id} },
+    );
+
+   $self->status_ok($c, entity => { total_distance => $result->get_column('distance')->sum } );
+}
+
 sub _geo_point :Private {
     my ( $self, $c, $params ) = @_;
 
@@ -321,13 +332,15 @@ sub _geo_point :Private {
     };
 
     my $points = $geolocation->geo_by_point($addr_points);
-    use DDP;
+
+    my @dow     = split(',', $params->{days_of_week});
+    my $size    = (scalar @dow)*4;
 
     $params->{vehicle_route_polyline}   = $points->{polyline};
 
     my $p = decode_json($points->{polyline});
 
-    $params->{distance}     = delete  $points->{distance};
+    $params->{distance}     = (delete  $points->{distance})*$size;
     $params->{gis_polyline} = join ',', map { s/,/ /; $_ } @$p;
 
     return $params;
