@@ -20,7 +20,8 @@
             <label class="control-label" for="elm_age">Idade</label>
             de <input type="text" name="start_age"> até <input type="text" name="end_age">
             [%select_field('brand','Montadora',array => select_brands)|none%]
-
+            [%input_text('distance', 'Quilometragem', 'placeholder' => 'Mínimo 500 Km / mês')|none%]
+            <p id="distance_error">Você deve preencher este campo com um valor maior ou igual a 500 ou deixá-lo em branco<p>
             [%IF campaign_id.size > 0%]
                 <input type="hidden" name="campaign_id" id="campaign_id" value="[%campaign_id%]">
             [%END%]

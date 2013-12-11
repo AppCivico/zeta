@@ -12,7 +12,13 @@ sub process : Chained('base') : PathPart('contact') : Args(0) {
 
     my $api = $c->model('API');
 
-    #todo fazer uma action para realmente enviar o email
+    $api->stash_result(
+        $c, 'contact/send',
+        method => 'POST',
+        stash  => 'contact',
+        body   => $c->req->params
+    );
+
     $c->detach( '/form/redirect_ok', [ \'/contato', {}, 'Mensagem enviada com sucesso!' ] );
 }
 

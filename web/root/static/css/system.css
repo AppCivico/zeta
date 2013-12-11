@@ -154,6 +154,10 @@ body.admin footer .container{
 	padding: 4px 6px;
 }
 
+#distance_error{
+    display: none;
+}
+
 @media (max-width: 979px) {
 	body.admin{
 		margin-top: 0;

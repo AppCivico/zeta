@@ -261,11 +261,11 @@ var $maps = function () {
             var aux = [];
 
             for (i = 0; i < path.getLength(); i++) {
-                aux.push(path.getAt(i).ob + " " + path.getAt(i).pb);
+                aux.push(path.getAt(i).lat().toString() + " " + path.getAt(i).lng().toString());
 
-                //              Repetindo o primeiro ponto para fechar o polígono
+//              Repetindo o primeiro ponto para fechar o polígono
                 if (i == path.getLength() - 1) {
-                    aux.push(path.getAt(0).ob + " " + path.getAt(0).pb);
+                    aux.push(path.getAt(i).lat().toString() + " " + path.getAt(i).lng().toString());
                 }
             }
 
@@ -282,6 +282,17 @@ var $maps = function () {
             })
 
             alert('Nenhum critério de pesquisa');
+
+            return false;
+        }
+
+        var $distance = $('#elm_distance').val();
+        if($distance && $distance < 500) {
+            $('#distance_error').show();
+
+            setTimeout(function () {
+                $("#search_points").button('reset');
+            })
 
             return false;
         }
@@ -316,6 +327,8 @@ var $maps = function () {
                 if ($('#campaign_id').val()) {
                     $('#result_form').append('<input type=hidden name=campaign_id value=' + $('#campaign_id').val() + '>');
                 }
+
+                $('#distance_error').hide();
             }
         });
     }

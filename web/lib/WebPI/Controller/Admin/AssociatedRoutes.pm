@@ -68,16 +68,22 @@ sub search : Chained('base') : PathPart('search') : Args(0) {
             brand           => $c->req->params->{brand} ? $c->req->params->{brand} : undef,
             end_age         => $c->req->params->{end_age} ? $c->req->params->{end_age} : undef,
             start_age       => $c->req->params->{start_age} ? $c->req->params->{start_age} : undef,
-            gender          => $c->req->params->{gender} ? $c->req->params->{gender} : undef
+            gender          => $c->req->params->{gender} ? $c->req->params->{gender} : undef,
+            distance        => $c->req->params->{distance} ? $c->req->params->{distance} : 500000 #bigger than 500km
         }
     );
 
     $c->stash->{without_wrapper} = 1;
 
-    $c->stash->{search_result} = {
-        'ids'   => $c->stash->{associateds},
-        'count' => scalar keys $c->stash->{associateds}
-    };
+    if($c->stash->{associateds}) {
+        $c->stash->{search_result} = {
+            'ids'   => $c->stash->{associateds},
+            'count' => scalar keys $c->stash->{associateds}
+        };
+    } else {
+        $c->stash->{search_result} = 0;
+    }
+
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -145,7 +145,8 @@ sub list_GET {
         $rs         = $c->model('DB::Vehicle');
         my $filters = $c->req->params;
 
-        my @ids     = $self->_get_assoc_by_region($c, $c->req->params->{gis_polyline});
+        my $distance    = $c->req->params->{distance} ? $c->req->params->{distance} : 500;
+        my @ids         = $self->_get_assoc_by_region($c, $c->req->params->{gis_polyline}, $distance);
 
         if(scalar @ids > 0) {
             my @conditions;
@@ -185,17 +186,23 @@ sub list_GET {
                 { '-and' => \@conditions },
                 {
                     join     => 'driver',
-                    group_by =>  'me.id'
+                    group_by =>  'me.id',
                 }
             )->as_hashref->all;
 
-            use DDP; p @result;
             $self->status_ok(
                 $c,
                 entity => {
                     associateds => [
                         map { +{ id => $_->{id} } } @result
                     ]
+                }
+            );
+        } else {
+            $self->status_ok(
+                $c,
+                entity => {
+                    associateds => 0
                 }
             );
         }
@@ -277,7 +284,7 @@ sub list_GET {
 }
 
 sub list_POST {
-    my ( $self, $c )    = @_;
+    my ( $self, $c ) = @_;
 
     my $params = $self->_geo_point($c, $c->req->params);
 
@@ -285,8 +292,8 @@ sub list_POST {
 
     $self->status_created(
         $c,
-        location => $c->uri_for( $self->action_for('result'), [ $vehicle_route->id ] )->as_string,
-        entity => {
+        location    => $c->uri_for( $self->action_for('result'), [ $vehicle_route->id ] )->as_string,
+        entity      => {
             id => $vehicle_route->id
         }
     );
@@ -347,13 +354,17 @@ sub _geo_point :Private {
 }
 
 sub _get_assoc_by_region :Private {
-    my ($self, $c, $params) = @_;
+    my ($self, $c, $params, $distance) = @_;
 
-    my @where = $self->_buil_params($c, $params);
+    my @where = $self->_build_params($c, $params);
 
-    my @rs = $c->stash->{collection}->search(
+    my @rs = $c->model('DB::VehicleRoute')->search(
         { '-or' => \@where },
-        { columns => ['id', 'vehicle_id'] }
+        {
+            columns     => ['vehicle_id'],
+            group_by    => ['vehicle_id'],
+            having      => \[ 'sum(distance) >= ?', [ sum => $distance ] ]
+        }
     )->all;
 
     my @ids;
@@ -365,7 +376,7 @@ sub _get_assoc_by_region :Private {
     return @ids;
 }
 
-sub _buil_params :Private {
+sub _build_params :Private {
     my ($self, $c, $params) = @_;
 
     my @where;
