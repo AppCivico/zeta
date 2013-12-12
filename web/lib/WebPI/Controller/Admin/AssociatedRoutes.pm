@@ -69,7 +69,7 @@ sub search : Chained('base') : PathPart('search') : Args(0) {
             end_age         => $c->req->params->{end_age} ? $c->req->params->{end_age} : undef,
             start_age       => $c->req->params->{start_age} ? $c->req->params->{start_age} : undef,
             gender          => $c->req->params->{gender} ? $c->req->params->{gender} : undef,
-            distance        => $c->req->params->{distance} ? $c->req->params->{distance} : 500000 #bigger than 500km
+            distance        => $c->req->params->{distance} ? $c->req->params->{distance}*1000 : 500000 #bigger than 500km
         }
     );
 

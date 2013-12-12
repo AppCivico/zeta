@@ -3,9 +3,11 @@ use utf8;
 use strict;
 use PI::Schema;
 # use PI::EmailQueue;
+use Furl;
 use MIME::Lite;
 use PI::Redis;
 use Email::Sender::Simple qw(sendmail);
+use Email::Sender::Transport::SMTP::TLS;
 use JSON::XS;
 use Template;
 use Encode;
@@ -34,8 +36,8 @@ die $@ if $@;
 &send_emails;
 
 sub send_emails {
+    my ( $self ) = @_;
     print "Aguardando itens na fila \n";
-    my $transport = $transport_class->new( %{ $config->{email}{transport}{opts} } );
 
     my $template = Template->new(
         INCLUDE_PATH => "$FindBin::Bin/../../web/root/src/email",
@@ -48,7 +50,8 @@ sub send_emails {
     while (1) {
         my ( $list, $iten ) = $redis->redis->blpop( 'email', 0 );
 
-        $iten = decode_json($iten);
+        my $from    = 'no-reply@publicidadeinteligente.com.br';
+        $iten       = decode_json($iten);
 
         eval {
             my $str_template = '';
@@ -64,7 +67,7 @@ sub send_emails {
 
             my $email = MIME::Lite->new(
                 To      =>  $iten->{email},
-                From    => 'gian@aware.com.br',
+                From    => 'no-reply@publicidadeinteligente.com.br',
                 Subject =>  Encode::encode('MIME-Header', $iten->{subject}),
                 Type    => q{multipart/related},
             );
@@ -81,7 +84,7 @@ sub send_emails {
                 Data     => $logo
             );
 
-            sendmail( $email->as_string, { transport => $transport } );
+            sendmail( $email->as_string, { from => $from, transport => &_build_transport } );
         };
 
         if ($@) {
@@ -98,11 +101,29 @@ sub error_queue {
     my (@params) = @_;
 
     my $error = {
-        'message'    => $params[0]->message ? $params[0]->message : undef,
-        'recipients' => $params[1]          ? $params[1]          : undef
+        'message'    => $params[0] ? $params[0] : undef,
+        'recipients' => $params[1] ? $params[1] : undef
     };
 
     PI::EmailQueue->add_error( encode_json($error) );
 
     return 1;
+}
+
+sub _build_transport {
+
+    my $transport = $config->{email}{transport}{opts};
+    my $username  = $transport->{username};
+    my $password  = $transport->{password};
+    my $host      = $transport->{host};
+
+    return Email::Sender::Transport::SMTP::TLS->new(
+        helo     => "pi.com.br",
+        host     => $host,
+        timeout  => 20,
+        port     => 587,
+        username => $username,
+        password => $password
+    );
+
 }
