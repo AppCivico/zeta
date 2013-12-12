@@ -138,10 +138,10 @@ __PACKAGE__->table("vehicle");
   is_foreign_key: 1
   is_nullable: 0
 
-=head2 gender
+=head2 insurance_company_id
 
-  data_type: 'enum'
-  extra: {custom_type_name => "gender",list => ["m","f"]}
+  data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 1
 
 =cut
@@ -191,12 +191,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "vehicle_color_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "gender",
-  {
-    data_type => "enum",
-    extra => { custom_type_name => "gender", list => ["m", "f"] },
-    is_nullable => 1,
-  },
+  "insurance_company_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -315,6 +311,26 @@ __PACKAGE__->has_many(
   "PI::Schema::Result::InstalationKit",
   { "foreign.vehicle_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 insurance_company
+
+Type: belongs_to
+
+Related object: L<PI::Schema::Result::InsuranceCompany>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "insurance_company",
+  "PI::Schema::Result::InsuranceCompany",
+  { id => "insurance_company_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
 );
 
 =head2 state
@@ -488,8 +504,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-12-06 17:25:19
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:L0NVVmpGzPoTjj5ZtIGS5A
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-12-12 18:49:31
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:l4c5g4Q8Tf3x2mOAKyIYpw
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
