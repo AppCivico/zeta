@@ -61,6 +61,7 @@ sub result_GET {
                   driver_id
                   state_id
                   city_id
+                  insurance_company_id
                   )
             ),
             ( map { $_ => ( $vehicle->$_ ? $vehicle->$_->datetime : undef ) } qw/created_at/ ),
@@ -148,6 +149,7 @@ sub list_GET {
                               state_id
                               city_id
                               created_at
+                              insurance_company_id
                               /
                         ),
                         driver => {

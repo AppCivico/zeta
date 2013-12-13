@@ -47,6 +47,8 @@
                 ['híbrido','Híbrido'],
                 ['outro','Outro']
 			])|none%]
+
+			[%select_field('insurance_company_id', 'Companhia de seguros', array => select_insurance_companies)|none%]
 		</fieldset>
 		<fieldset>
 

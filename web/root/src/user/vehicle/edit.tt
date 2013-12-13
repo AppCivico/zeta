@@ -49,6 +49,13 @@
             ['outro','Outro']
         ], value => vehicle_obj.fuel_type)|none%]
 
+        [%select_field(
+            'insurance_company_id',
+            'Companhia de seguros',
+            value => vehicle_obj.insurance_company_id,
+            array => select_insurance_companies
+        )|none%]
+
         <div class="form-actions">
             <button type="submit" class="btn btn-success" data-loading-text="Processando...">Continuar</button>
         </div>

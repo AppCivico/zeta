@@ -13,11 +13,29 @@ sub base : Chained('/user/base') : PathPart('vehicle') : CaptureArgs(0) {
     $api->stash_result( $c, 'states' );
     $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
-    $api->stash_result( $c, 'vehicle_colors' );
+    $api->stash_result(
+        $c, 'vehicle_colors',
+        params => {
+            order => 'name'
+        }
+    );
     $c->stash->{select_colors} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_colors} } ];
 
-    $api->stash_result( $c, 'vehicle_brands' );
+    $api->stash_result(
+        $c, 'vehicle_brands',
+         params => {
+            order => 'name'
+        }
+    );
     $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
+
+    $api->stash_result(
+        $c, 'insurance_companies',
+        params => {
+            order => 'name'
+        }
+    );
+    $c->stash->{select_insurance_companies} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{insurance_company} } ];
 
     $self->_build_valid_years($c);
 }

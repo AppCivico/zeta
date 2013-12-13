@@ -34,8 +34,21 @@ sub object : Chained('base') : PathPart('dashboard') : CaptureArgs(0) {
     $api->stash_result($c, 'vehicle_colors', params => { order => 'name' } );
     $c->stash->{select_colors} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_colors} } ];
 
-    $api->stash_result( $c, 'vehicle_brands' );
+    $api->stash_result(
+        $c, 'vehicle_brands',
+         params => {
+            order => 'name'
+        }
+    );
     $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
+
+    $api->stash_result(
+        $c, 'insurance_companies',
+        params => {
+            order => 'name'
+        }
+    );
+    $c->stash->{select_insurance_companies} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{insurance_company} } ];
 
     my $year       = DateTime->now;
     my $first_year = $year->year - 3;
