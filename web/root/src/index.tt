@@ -1,3 +1,4 @@
+[%-CALL assets.include("js/ga.js")%]
 <div class="row panel-home">
 	<div class="span8 video">
 		<iframe src="//player.vimeo.com/video/73480443?title=0&amp;byline=0&amp;portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

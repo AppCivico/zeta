@@ -1,4 +1,4 @@
-[%IF !without_wrapper%][%IF template_wrapper %][% INCLUDE "wrapper_${template_wrapper}.tt"|none%][%ELSE%]
+[%-CALL assets.include("js/ga.js")%][%IF !without_wrapper%][%IF template_wrapper %][% INCLUDE "wrapper_${template_wrapper}.tt"|none%][%ELSE%]
 <!DOCTYPE HTML>
 <html lang="pt-br">
 <head>
