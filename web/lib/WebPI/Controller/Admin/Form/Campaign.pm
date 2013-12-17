@@ -17,7 +17,7 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
     my $form    = $c->model('Form');
 
     my $params =  { %{ $c->req->params } };
-#     use DDP; p $params;exit;
+
     my @fields;
 
     push(@fields, 'valid_from','valid_to');
@@ -33,12 +33,35 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
 
     if ( $c->stash->{'campaign'}{error} ) {
 
-        $c->stash->{error} = $c->stash->{'campaign'}{error};
+        $c->stash->{error}      = $c->stash->{'campaign'}{error};
         $c->stash->{form_error} = $c->stash->{'campaign'}{form_error};
 
         $c->detach( '/form/redirect_error', [] );
 
     } else {
+        my $camp = $c->stash->{'campaign'};
+        use DDP; p $camp;
+
+        my $data = {
+            first       => $params->{'range_1'},
+            second      => $params->{'range_2'},
+            third       => $params->{'range_3'},
+            campaign_id => $c->stash->{'campaign'}{'id'}
+        };
+
+        $api->stash_result(
+            $c, ['campaign_payment_ranges'],
+            stash   => 'campaign_payment_range',
+            method  => 'POST',
+            body    => $data
+        );
+
+        if($c->stash->{'campaign_payment_ranges'}{error}) {
+            $c->stash->{error}      = $c->stash->{'campaign'}{error};
+            $c->stash->{form_error} = $c->stash->{'campaign'}{form_error};
+
+            $c->detach( '/form/redirect_error', [] );
+        }
 
         $c->forward('process_associated', [
                 {

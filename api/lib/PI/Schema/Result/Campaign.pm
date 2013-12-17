@@ -147,6 +147,21 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 campaign_payment_ranges
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::CampaignPaymentRange>
+
+=cut
+
+__PACKAGE__->has_many(
+  "campaign_payment_ranges",
+  "PI::Schema::Result::CampaignPaymentRange",
+  { "foreign.campaign_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 campaign_vehicles
 
 Type: has_many
@@ -228,8 +243,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-28 19:52:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cgFNKohra1krRjFuU5zpFw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-12-16 15:46:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LwHSrka/gk6jGgTPhVmkrg
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
