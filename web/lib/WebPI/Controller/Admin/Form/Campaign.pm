@@ -12,7 +12,8 @@ sub base : Chained('/admin/form/base') : PathPart('') : CaptureArgs(0) {
 
 sub process : Chained('base') : PathPart('campaign') : Args(0) {
     my ( $self, $c ) = @_;
-
+    my $pa = $c->req->params;
+    use DDP; p $pa; exit;
     my $api     = $c->model('API');
     my $form    = $c->model('Form');
 
@@ -39,21 +40,26 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
         $c->detach( '/form/redirect_error', [] );
 
     } else {
-        my $camp = $c->stash->{'campaign'};
-        use DDP; p $camp;
+        my @ranges;
+        my $data;
 
-        my $data = {
-            first       => $params->{'range_1'},
-            second      => $params->{'range_2'},
-            third       => $params->{'range_3'},
-            campaign_id => $c->stash->{'campaign'}{'id'}
-        };
+        for (my $i=1; $i<=3; $i++) {
+            $data = {
+                range       => $c->req->params->{'range_'.$i},
+                value       => $c->req->params->{'value_'.$i},
+                campaign_id => $c->stash->{'campaign'}{'id'}
+            };
+
+            push(@ranges, $data);
+        }
 
         $api->stash_result(
             $c, ['campaign_payment_ranges'],
             stash   => 'campaign_payment_range',
             method  => 'POST',
-            body    => $data
+            body    => {
+                ranges      => encode_json(\@ranges),
+            }
         );
 
         if($c->stash->{'campaign_payment_ranges'}{error}) {

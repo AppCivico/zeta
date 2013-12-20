@@ -38,9 +38,12 @@
                 <textarea rows="10" name="description" class="span3"></textarea>
             </div>
         </div>
-        [%input_text('range_1', 'Faixa 1')|none%]
-        [%input_text('range_2', 'Faixa 2')|none%]
-        [%input_text('range_3', 'Faixa 3')|none%]
+        [%input_text('range_1', 'Faixa 1', 'placeholder' => 'Porcentagem de realização de rota.')|none%]
+        [%input_text('value_1', 'Valor', 'placeholder' => 'Valor a ser recebido pelo associado.')|none%]
+        [%input_text('range_2', 'Faixa 2', 'placeholder' => 'Porcentagem de realização de rota.')|none%]
+        [%input_text('value_2', 'Valor', 'placeholder' => 'Valor a ser recebido pelo associado.')|none%]
+        [%input_text('range_3', 'Faixa 3', 'placeholder' => 'Porcentagem de realização de rota.')|none%]
+        [%input_text('value_3', 'Valor', 'placeholder' => 'Valor a ser recebido pelo associado.')|none%]
         <input type="hidden" value="[%vehicle_ids.join(',')%]" name="vehicles">
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>

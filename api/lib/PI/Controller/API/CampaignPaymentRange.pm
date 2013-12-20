@@ -112,34 +112,19 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $pa = $c->req->params;
-    use DDP; p $pa; exit;
-#     #percorrer array para popular tabela
-#     foreach my $iten ( %{ $c->req->params }) {
-#
-#         my $range = {
-#             campaign_id      => $iten->{vehicle}{id},
-#             invitation_id   => $invitation->id,
-#             sent_at         => $date
-#         };
-#
-#         push(@vehicle_list,  $vehicle_data);
-#     }
-#
-#     my $campaign_payment_range = $c->model('DB::CampaignPaymentRange')->populate(\@ranges);
-#
-#    use DDP; p $campaign_payment_range;exit;
-#
-#     $self->status_created(
-#         $c,
-#         location => $c->uri_for( $self->action_for('result'), [ $campaign_payment_range->id ] )->as_string,
-#         entity => {
-#             id          => $campaign_payment_range->id,
-#             campaign_id => $campaign_payment_range->campaign_id,
-#             value       => $campaign_payment_range->value,
-#             range       => $campaign_payment_range->range
-#         }
-#     );
+    my $ranges  = decode_json($c->req->params->{ranges});
+    my $msg     = 'OK';
+
+    eval { my $campaign_payment_range  = $c->model('DB::CampaignPaymentRange')->populate(\@$ranges); } ;
+
+    $msg = $@ unless $@;
+
+    $self->status_ok(
+        $c,
+        entity => {
+            'created' => $msg
+        }
+    );
 
 }
 

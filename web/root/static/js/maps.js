@@ -235,7 +235,6 @@ var $maps = function () {
                 $('#search_track').button('reset');
             }
         });
-
     }
 
     function drawingManager() {
@@ -257,8 +256,8 @@ var $maps = function () {
         });
 
         google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
-            var path = polygon.getPath();
-            var aux = [];
+            var path    = polygon.getPath();
+            var aux     = [];
 
             for (i = 0; i < path.getLength(); i++) {
                 aux.push(path.getAt(i).lat().toString() + " " + path.getAt(i).lng().toString());
@@ -285,7 +284,7 @@ var $maps = function () {
 
             return false;
         }
-
+        console.log(points);
         var $distance = $('#elm_distance').val();
         if($distance && $distance < 500) {
             $('#distance_error').show();
