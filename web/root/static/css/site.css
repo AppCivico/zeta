@@ -51,6 +51,10 @@ a:hover{
 	color: #666;
 }
 
+.container{
+    position: relative;
+}
+
 .menu-top{
 	list-style: none;
 }
@@ -89,6 +93,11 @@ a:hover{
 .masthead .welcome{
 	float: right;
 	margin-top: 20px;
+}
+.fb-plugin{
+    position: absolute;
+    margin-top: -57px;
+    right: 0;
 }
 .divider{
 	margin: 16px 0;
@@ -328,7 +337,7 @@ dl.profile dd{
 .body-style-select ul li input{
 	margin-bottom: 4px;
 }
-.body-style-select ul li.body-style-1 .image{	
+.body-style-select ul li.body-style-1 .image{
 	background-position: 0 0;
 }
 .body-style-select ul li.body-style-2 .image{
@@ -456,7 +465,7 @@ div.faq .item .question:hover{
     -moz-opacity:0.9;
     -khtml-opacity: 0.9;
     opacity: 0.9;
-	
+
 }
 div.faq .item.expanded .question:hover{
 	cursor: default;
