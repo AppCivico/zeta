@@ -95,9 +95,9 @@ sub result_PUT {
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $vehicle->id ] )->as_string,
         entity => { model => $vehicle->vehicle_model_id, id => $vehicle->id }
-      ),
-      $c->detach
-      if $vehicle;
+    ),
+    $c->detach
+    if $vehicle;
 }
 
 sub result_DELETE {
