@@ -75,7 +75,7 @@ sub login_POST {
         if ( grep { /^user$/ } @{ $attrs{roles} } ) {
             my $driver = $c->model('DB::Driver')->search( { user_id => $attrs{id} } )->next;
 
-            $self->status_bad_request( $c, message => 'Login invalid: no driver found!' ), $c->detach unless $driver;
+            $self->status_bad_request( $c, message => 'Dados de acesso inválidos: motorista não encontrado!' ), $c->detach unless $driver;
 
             $attrs{driver} = { map { $_ => $driver->$_ } qw/id name/ };
         }
@@ -87,7 +87,7 @@ sub login_POST {
     }
     else {
         $c->logx( "Falha na tentativa do login de " . $c->req->param('email') . "." );
-        $self->status_bad_request( $c, message => 'Login invalid(2)' );
+        $self->status_bad_request( $c, message => 'Dados de acesso inválidos' );
     }
 
 }
