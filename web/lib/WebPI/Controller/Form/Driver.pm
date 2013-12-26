@@ -102,15 +102,8 @@ sub process_password : Chained('base') : PathPart('driver/process_password') : A
             'active'           => 1
         }
     );
-    use DDP;
-    p $params;
     $params->{email} = $c->stash->{user_pass}{email};
-    my $err = $c->stash->{user_pass};
-    use DDP;
-    p $params;
-    p $err;
 
-    #      exit;
     if ( $c->stash->{user_pass}{error} ) {
         $c->stash->{error}      = $c->stash->{user_pass}{error};
         $c->stash->{form_error} = $c->stash->{user_pass}{form_error};
