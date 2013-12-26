@@ -105,17 +105,23 @@ sub list_GET {
 
 sub list_POST {
     my ( $self, $c ) = @_;
+    use DDP;
+    my $params = decode_json($c->req->params->{json});
 
-    my $campaign_perimeter = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    foreach my $item ( @{ $params } ) {
+        my $campaign_perimeter = $c->stash->{collection}->execute( $c, for => 'create', with => $item );
+    }
 
-    $self->status_created(
-        $c,
-        location    => $c->uri_for( $self->action_for('result'), [ $campaign_perimeter->id ] )->as_string,
-        entity      => {
-            campaign_id => $campaign_perimeter->campaign_id,
-            id          => $campaign_perimeter->id
-        }
-    );
+    $self->status_no_content($c);
+
+#     $self->status_created(
+#         $c,
+#         location    => $c->uri_for( $self->action_for('result'), [ $campaign_perimeter->id ] )->as_string,
+#         entity      => {
+#             campaign_id => $campaign_perimeter->campaign_id,
+#             id          => $campaign_perimeter->id
+#         }
+#     );
 }
 
 1;

@@ -30,6 +30,7 @@
     <div class="form-actions">
         <button id="search_points" class="btn btn-primary" data-loading-text="Processando...">Pesquisar</button>
     </div>
+    <div class="map_points"></div>
 
     <div id="search_box" style="display:none;"></div>
 </div>

@@ -284,7 +284,7 @@ var $maps = function () {
 
             return false;
         }
-        console.log(points);
+
         var $distance = $('#elm_distance').val();
         if($distance && $distance < 500) {
             $('#distance_error').show();
@@ -323,8 +323,9 @@ var $maps = function () {
             },
             complete: function () {
                 $("#search_points").button('reset');
+
                 if ($('#campaign_id').val()) {
-                    $('#result_form').append('<input type=hidden name=campaign_id value=' + $('#campaign_id').val() + '>');
+                    $('#result_form').append('<input type=hidden name=campaign_id value=' + $('#campaign_id').val() + '></input>');
                 }
 
                 $('#distance_error').hide();

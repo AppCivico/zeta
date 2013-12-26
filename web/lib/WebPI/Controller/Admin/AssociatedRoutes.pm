@@ -77,8 +77,9 @@ sub search : Chained('base') : PathPart('search') : Args(0) {
 
     if($c->stash->{associateds}) {
         $c->stash->{search_result} = {
-            'ids'   => $c->stash->{associateds},
-            'count' => scalar keys $c->stash->{associateds}
+            'ids'       => $c->stash->{associateds},
+            'count'     => scalar keys $c->stash->{associateds},
+            'positions' => $gis_polyline,
         };
     } else {
         $c->stash->{search_result} = 0;

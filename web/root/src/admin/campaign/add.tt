@@ -44,7 +44,15 @@
         [%input_text('value_2', 'Valor', 'placeholder' => 'Valor a ser recebido pelo associado.')|none%]
         [%input_text('range_3', 'Faixa 3', 'placeholder' => 'Porcentagem de realização de rota.')|none%]
         [%input_text('value_3', 'Valor', 'placeholder' => 'Valor a ser recebido pelo associado.')|none%]
-        <input type="hidden" value="[%vehicle_ids.join(',')%]" name="vehicles">
+
+        [%FOREACH id IN vehicle_ids %]
+            <input type="hidden" value="[%id%]" name="vehicles"></input>
+        [%END%]
+
+        [%FOREACH pos IN positions %]
+            <input type="hidden" value="[%pos%]" name="positions"></input>
+        [%END%]
+
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" data-loading-text="Processando...">Continuar</button>
             [%IF !NO_TITLE%]

@@ -39,7 +39,8 @@ sub edit : Chained('object') : PathPart('') : Args(0) {
 sub add : Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->stash->{vehicle_ids} = [$c->req->params->{vehicles}];
+    $c->stash->{vehicle_ids}    = $c->req->params->{vehicles};
+    $c->stash->{positions}      = $c->req->params->{positions};
 }
 
 sub search_customer : Chained('base') : PathPart('search_customer') : Args(0) {

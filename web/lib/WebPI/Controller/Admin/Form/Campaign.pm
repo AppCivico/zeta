@@ -13,7 +13,7 @@ sub base : Chained('/admin/form/base') : PathPart('') : CaptureArgs(0) {
 sub process : Chained('base') : PathPart('campaign') : Args(0) {
     my ( $self, $c ) = @_;
     my $pa = $c->req->params;
-    use DDP; p $pa; exit;
+
     my $api     = $c->model('API');
     my $form    = $c->model('Form');
 
@@ -40,6 +40,11 @@ sub process : Chained('base') : PathPart('campaign') : Args(0) {
         $c->detach( '/form/redirect_error', [] );
 
     } else {
+
+        if(exists $params->{positions}) {
+            $self->save_perimeter($c, $params->{positions}, $c->stash->{'campaign'}{'id'});
+        }
+
         my @ranges;
         my $data;
 
@@ -127,13 +132,13 @@ sub process_associated : Chained('base') :PathPart('process_associated') : Args(
     my $api     = $c->model('API');
     my $params  = $c->req->args;
     my @rows;
-#     p $params;exit;
+
     if ( exists $params->[0]{vehicles} ) {
         $params->[0]{vehicles} = [$params->[0]{vehicles}] if ref $params->[0]{vehicles} ne 'ARRAY';
         my $record;
 
         foreach my $iten (@ { $params->[0]{vehicles } }) {
-           p $iten;
+
            $record = {
                 vehicle_id  => $iten,
                 campaign_id => $params->[0]{campaign_id},
@@ -291,6 +296,42 @@ sub process_activate : Chained('base') : PathPart('activate') : Args(0) {
 
         $c->detach('/form/redirect_ok2', [ '/admin/campaign/list_associated',[$c->req->params->{campaign_id}], {}, $message ]);
     }
+}
+
+sub save_perimeter :PrivatePath('save_perimeter') {
+    my ($self, $c, $positions, $campaign_id) = @_;
+
+    my $api = $c->model('API');
+    my $pos;
+
+    if(ref $positions ne 'ARRAY') {
+        $pos->[0] = $positions;
+    } else {
+        $pos = $positions;
+    }
+
+    my $record;
+    my @rows;
+
+    foreach my $iten (@ { $pos } ) {
+        $record = {
+            polyline       => $iten,
+            campaign_id    => $campaign_id,
+            gis_polyline   => $iten,
+        };
+
+        push (@rows, $record);
+    }
+
+    $api->stash_result(
+        $c, 'campaign_perimeters',
+        method  => 'POST',
+        params    => {
+            json => encode_json(\@rows)
+        }
+    );
+
+
 }
 
 __PACKAGE__->meta->make_immutable;

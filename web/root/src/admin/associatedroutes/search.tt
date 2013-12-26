@@ -3,7 +3,11 @@
         <p>Total de associados retornados [%search_result.count%]</p>
         <form class="form-horizontal" id="result_form" method="post" action="/admin/campaign/new">
             [%FOREACH ids IN search_result.ids %]
-                <input type="hidden" value="[%ids.id%]" name="vehicles">
+                <input type="hidden" value="[%ids.id%]" name="vehicles"></input>
+            [%END%]
+
+            [%FOREACH pos IN search_result.positions %]
+                <input type="hidden" value="[%pos%]" name="positions"></input>
             [%END%]
 
                 <div class="form-actions">
