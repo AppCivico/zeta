@@ -12,10 +12,5 @@
 		<dt>CPF</dt>
 		<dd>[%driver.cpf%]</dd>
 
-		<dt>CNH</dt>
-		<dd>[%driver.cnh_code%]</dd>
-
-		<dt>Primeira carta</dt>
-		<dd>[%driver.first_driver_license%]</dd>
 	</dl>
 </div>

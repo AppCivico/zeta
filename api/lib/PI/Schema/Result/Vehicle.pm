@@ -52,7 +52,7 @@ __PACKAGE__->table("vehicle");
 =head2 renavam
 
   data_type: 'text'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 car_plate
 
@@ -155,7 +155,7 @@ __PACKAGE__->add_columns(
     sequence          => "vehicle_id_seq",
   },
   "renavam",
-  { data_type => "text", is_nullable => 0 },
+  { data_type => "text", is_nullable => 1 },
   "car_plate",
   { data_type => "text", is_nullable => 0 },
   "doors_number",
@@ -504,8 +504,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-12-13 14:53:19
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iK1HpTq0am+lEVIyzxjc2Q
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-03 16:23:53
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PzuWEtJRfRCUZjPil/lzHQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -522,7 +522,7 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 renavam => {
-                    required   => 1,
+                    required   => 0,
                     type       => 'Str',
                     post_check => sub {
                         my $r = shift;
@@ -554,11 +554,11 @@ sub verifiers_specs {
                     type     => 'Int',
                 },
                 manufacture_year => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 model_year => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                     post_check => sub {
                         my $r = shift;
@@ -596,11 +596,11 @@ sub verifiers_specs {
                     type     => 'Int',
                 },
                 state_id => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 city_id => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 insurance_company_id => {

@@ -67,17 +67,17 @@ __PACKAGE__->table("driver");
 =head2 first_driver_license
 
   data_type: 'date'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 cnh_code
 
   data_type: 'text'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 cnh_validity
 
   data_type: 'date'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 mobile_number
 
@@ -153,11 +153,11 @@ __PACKAGE__->add_columns(
   "cpf",
   { data_type => "text", is_nullable => 0 },
   "first_driver_license",
-  { data_type => "date", is_nullable => 0 },
+  { data_type => "date", is_nullable => 1 },
   "cnh_code",
-  { data_type => "text", is_nullable => 0 },
+  { data_type => "text", is_nullable => 1 },
   "cnh_validity",
-  { data_type => "date", is_nullable => 0 },
+  { data_type => "date", is_nullable => 1 },
   "mobile_number",
   { data_type => "text", is_nullable => 0 },
   "telephone_number",
@@ -295,8 +295,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-28 13:20:16
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VDO52Jw4wwbVXOQLkI0/eg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-03 16:23:53
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4iBYMIdCn4/8vlj6js4vGA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';

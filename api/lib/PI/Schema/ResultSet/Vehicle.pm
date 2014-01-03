@@ -18,27 +18,6 @@ sub verifiers_specs {
         create => Data::Verifier->new(
             filters => [qw(trim)],
             profile => {
-                renavam => {
-                    required   => 1,
-                    type       => 'Str',
-                    post_check => sub {
-                        my $r = shift;
-
-                        if (
-                            $self->resultset('Vehicle')->search(
-                                {
-                                    renavam => $r->get_value('renavam'),
-                                }
-                            )->count
-                            || (   length $r->get_value('renavam') < 9
-                                || length $r->get_value('renavam') > 11 )
-                          ) {
-                            return 0;
-                        }
-
-                        return 1;
-                      }
-                },
                 car_plate => {
                     required   => 1,
                     type       => 'Str',
