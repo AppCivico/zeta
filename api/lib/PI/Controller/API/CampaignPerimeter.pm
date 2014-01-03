@@ -113,15 +113,6 @@ sub list_POST {
     }
 
     $self->status_no_content($c);
-
-#     $self->status_created(
-#         $c,
-#         location    => $c->uri_for( $self->action_for('result'), [ $campaign_perimeter->id ] )->as_string,
-#         entity      => {
-#             campaign_id => $campaign_perimeter->campaign_id,
-#             id          => $campaign_perimeter->id
-#         }
-#     );
 }
 
 1;
