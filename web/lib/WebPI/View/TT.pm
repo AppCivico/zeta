@@ -81,6 +81,10 @@ sub format_cnpj_to_human {
 sub birthdate_to_age {
     my ( $self, $ref, $date ) = @_;
 
+    if(!$date) {
+        return undef;
+    }
+
     my $now         = DateTime->now();
     my $birthdate   = eval { DateTime::Format::Pg->parse_datetime( $date ) };
 

@@ -17,12 +17,23 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 }
 
 sub profile : Chained('base') : PathPart('profile') : Args() {
-    my ( $self, $c ) = @_;
+    my ( $self, $c )    = @_;
 
-    my $vehicle_id  = $c->req->params->{vehicle_id};
-    my $campaign_id = $c->req->params->{campaign_id};
-
+    my $vehicle_id;
     my $api = $c->model('API');
+
+    if($c->req->params->{vehicle_id}) {
+        $vehicle_id  = $c->req->params->{vehicle_id};
+
+    } elsif($c->req->params->{driver_id}) {
+        $api->stash_result(
+            $c, ['vehicles'],
+            params => {
+                driver_id => $c->req->params->{driver_id}
+            }
+        );
+        $vehicle_id = $c->stash->{vehicles}[0]{id};
+    }
 
     $api->stash_result(
         $c, ['vehicles', $vehicle_id],
@@ -36,43 +47,47 @@ sub profile : Chained('base') : PathPart('profile') : Args() {
         }
     );
 
-    $api->stash_result(
-        $c, ['vehicle_invitations'],
-        params => {
-            vehicle_id  => $vehicle_id,
-            campaign_id => $campaign_id
-        }
-    );
-    $c->stash->{vehicle_invitation_id} = $c->stash->{vehicle_invitations}[0]{id};
+    if($c->req->params->{campaign_id}) {
+        my $campaign_id = $c->req->params->{campaign_id};
 
-    $api->stash_result(
-        $c, ['instalation_kits'],
-        params => {
-            vehicle_id  => $vehicle_id,
-            campaign_id => $campaign_id
-        }
-    );
+        $api->stash_result(
+            $c, ['vehicle_invitations'],
+            params => {
+                vehicle_id  => $vehicle_id,
+                campaign_id => $campaign_id
+            }
+        );
+        $c->stash->{vehicle_invitation_id} = $c->stash->{vehicle_invitations}[0]{id};
 
-    $api->stash_result(
-        $c, ['campaign_vehicles'],
-        params => {
-            vehicle_id  => $vehicle_id,
-            campaign_id => $campaign_id
-        }
-    );
-    $c->stash->{campaign_vehicle_id} = $c->stash->{campaign_vehicles}[0]{id};
+        $api->stash_result(
+            $c, ['instalation_kits'],
+            params => {
+                vehicle_id  => $vehicle_id,
+                campaign_id => $campaign_id
+            }
+        );
 
-    if($c->stash->{vehicle}{driver}{documents_validated} && $c->stash->{vehicle_invitations}[0]{status}{id} == 4) {
-        $c->stash->{approve} = 1;
-    } else {
-        $c->stash->{approve} = 0;
+        $api->stash_result(
+            $c, ['campaign_vehicles'],
+            params => {
+                vehicle_id  => $vehicle_id,
+                campaign_id => $campaign_id
+            }
+        );
+
+        $c->stash->{campaign_vehicle_id} = $c->stash->{campaign_vehicles}[0]{id};
+
+        if($c->stash->{vehicle}{driver}{documents_validated} && $c->stash->{vehicle_invitations}[0]{status}{id} == 4) {
+            $c->stash->{approve} = 1;
+        } else {
+            $c->stash->{approve} = 0;
+        }
+
+        $c->stash->{invitation_status}  = $c->stash->{campaign_vehicles}[0]{status}{description};
+        $c->stash->{campaign_id}        = $campaign_id;
     }
 
-    $c->stash->{invitation_status} = $c->stash->{campaign_vehicles}[0]{status}{description};
-    $c->stash->{campaign_id} = $campaign_id;
 }
-
-
 
 __PACKAGE__->meta->make_immutable;
 

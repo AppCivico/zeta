@@ -1,0 +1,54 @@
+[%-CALL assets.include("js/bootstrap-datepicker.js")%]
+[%-CALL assets.include("js/bootstrap-datepicker.pt-BR.js")%]
+[%-CALL assets.include("css/datepicker.css")%]
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/admin.js")%]
+
+<div id="x-container">
+<h2>Lista de motoristas</h2>
+    <fieldset>
+        <form id="user_filter" action="/admin/driver" method="post">
+            <strong>Filtrar por data de cadastro</strong><br />
+            De: <br /><input class="datepicker" type="text" name="start"><br />
+            Até: <br /><input class="datepicker" type="text" name="end"><br />
+            <button class="btn btn-primary" data-loading-text="Processando...">Pesquisar</button>
+        </form>
+
+        [%IF drivers.size > 0%]
+            <table class="table table-striped table-condensed">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Idade</th>
+                <th>Data de cadastro</th>
+                <th>Perfil</th>
+            </tr>
+            </thead>
+            <tbody>
+                [%FOREACH dr IN drivers%]
+                    <tr>
+                        <td>[%dr.name%]</td>
+                        <td>[%dr.email%]</td>
+                        <td>[%birthdate_to_age(dr.birth_date)%]</td>
+                        <td>[%format_date_to_human(dr.created_at)%]</td>
+                        <td>
+                            <a class="btn btn-mini" href="/admin/campaign_associated/profile?driver_id=[%dr.id%]">
+                                Visualizar perfil
+                            </a>
+                        </td>
+                    </tr>
+                [%END%]
+            </tbody>
+            </table>
+        [%ELSE%]
+            <ul style=" list-style-type: none;">
+                <li>Nenhum motorista associado</li>
+            </ul>
+        [%END%]
+    </fieldset>
+</div>
+
+

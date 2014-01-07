@@ -35,9 +35,6 @@
             <dd>[%vehicle.manufacture_year%]</dd>
             <dt>Ano do modelo</dt>
             <dd>[%vehicle.model_year%]</dd>
-            <dt>Carroceria</dt>
-            <dd>[%vehicle.body_style.name%]</dd>
-
         </dl>
 
     <legend>Documentos</legend>
@@ -65,54 +62,52 @@
             </div>
         [%END%]
     </div>
-
-    <legend>Convite para a campanha</legend>
-    [%IF vehicle_invitations.size > 0%]
-        [%FOREACH vi IN vehicle_invitations%]
+    [%IF campaign_id%]
+        <legend>Convite para a campanha</legend>
+        [%IF vehicle_invitations.size > 0%]
+            [%FOREACH vi IN vehicle_invitations%]
+                <div class="item" id="routes_info">
+                    <dl>
+                        <dt>Campanha:</dt>
+                        <dd>[%vi.invitation.campaign.name%]</dd>
+                        <dt>Enviado em:</dt>
+                        <dd>[%format_date_to_human(vi.sent_at)%]</dd>
+                        <dt>Status:</dt>
+                        <dd>[%invitation_status%]</dd>
+                    </dl>
+                </div>
+            [%END%]
+        [%ELSE%]
             <div class="item" id="routes_info">
                 <dl>
-                    <dt>Campanha:</dt>
-                    <dd>[%vi.invitation.campaign.name%]</dd>
-                    <dt>Enviado em:</dt>
-                    <dd>[%format_date_to_human(vi.sent_at)%]</dd>
-                    <dt>Status:</dt>
-                    <dd>[%invitation_status%]</dd>
+                    <div id="sent_txt">
+                        <dt>Convite não enviado</dt>
+                        <input type="hidden" name="campaign_id" id="campaign_id" value=[%campaign_id%]>
+                        <input type="hidden" name="vehicle_id" id="vehicle_id" value=[%vehicle.id%]>
+                        <dd><a href="javascript:;" id="send_invitation"> Enviar convite </a></dd>
+                    </div>
                 </dl>
             </div>
         [%END%]
-    [%ELSE%]
-        <div class="item" id="routes_info">
-            <dl>
-                <div id="sent_txt">
-                    <dt>Convite não enviado</dt>
-                    <input type="hidden" name="campaign_id" id="campaign_id" value=[%campaign_id%]>
-                    <input type="hidden" name="vehicle_id" id="vehicle_id" value=[%vehicle.id%]>
-                    <dd><a href="javascript:;" id="send_invitation"> Enviar convite </a></dd>
-                </div>
-            </dl>
-        </div>
-    [%END%]
 
-    <legend>Kit de instalação</legend>
-    [%IF instalation_kits.size > 0%]
-        [%FOREACH ik IN instalation_kits%]
-            [%campaign_name = vi.invitation.campaign.name%]
+        <legend>Kit de instalação</legend>
+        [%IF instalation_kits.size > 0%]
+            [%FOREACH ik IN instalation_kits%]
+                [%campaign_name = vi.invitation.campaign.name%]
+                <div class="item">
+                    <dl>
+                        <dt>Status:</dt>
+                        <dd>[%ik.status.description%] [%IF ik.status.id == 9%] em [%format_date_to_human(ik.sent_at)%] [%END%]</dd>
+                    </dl>
+                </div>
+            [%END%]
+        [%ELSE%]
             <div class="item">
                 <dl>
-                    <dt>Status:</dt>
-                    <dd>[%ik.status.description%] [%IF ik.status.id == 9%] em [%format_date_to_human(ik.sent_at)%] [%END%]</dd>
+                    <dd>Não enviado, confirme a participação para enviar o Kit.</dd>
                 </dl>
             </div>
         [%END%]
-    [%ELSE%]
-        <div class="item">
-            <dl>
-                <dd>Não enviado, confirme a participação para enviar o Kit.</dd>
-            </dl>
-        </div>
-    [%END%]
-
-
         <form class="form-horizontal" method="post" action="/admin/form/activate">
             <fieldset>
                 <input type="hidden" name="campaign_vehicle" value="[%campaign_vehicle_id%]">
@@ -133,9 +128,8 @@
                 </div>
             </fieldset>
         </form>
-
+    [%END%]
 </div>
-
 
 <div id="search_customer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">

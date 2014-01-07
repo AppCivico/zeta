@@ -3,6 +3,7 @@ package PI::Controller::API::Driver;
 use Moose;
 use PI::EmailQueue;
 use MIME::Base64;
+use DateTime;
 use utf8;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
@@ -109,6 +110,42 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 
 sub list_GET {
     my ( $self, $c ) = @_;
+
+    my $rs = $c->stash->{collection};
+
+    if($c->req->params->{filters}) {
+        my $conditions;
+        my $now = DateTime->now();
+
+        if($c->req->params->{start} && $c->req->params->{end}) {
+            $conditions = {
+                'me.created_at' => {
+                    '-between' => [
+                        $c->req->params->{start},
+                        $c->req->params->{end}
+                    ],
+                }
+            };
+        } elsif ($c->req->params->{start} && !$c->req->params->{end}) {
+            $conditions = {
+                'me.created_at' => {
+                    '-between' => [
+                        $c->req->params->{start},
+                        $now->format_cldr('Y-m-d H:m:s')
+                    ],
+                }
+            };
+        } else {
+            $conditions = {
+                'me.created_at' => {
+                    '<=' => $c->req->params->{end}
+                }
+            };
+        }
+
+        $rs = $rs->search({ %$conditions });
+    }
+
     $self->status_ok(
         $c,
         entity => {
@@ -127,6 +164,7 @@ sub list_GET {
                               mobile_number
                               telephone_number
                               gender
+                              created_at
                               /
                         ),
                         address => {
@@ -146,7 +184,7 @@ sub list_GET {
                         user_id     => $r->{user}{id},
                         url         => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->as_hashref->all
             ]
         }
     );
