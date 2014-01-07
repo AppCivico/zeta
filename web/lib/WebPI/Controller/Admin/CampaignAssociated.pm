@@ -32,6 +32,17 @@ sub profile : Chained('base') : PathPart('profile') : Args() {
                 driver_id => $c->req->params->{driver_id}
             }
         );
+
+        if(!$c->stash->{vehicles}[0]{id}) {
+            $api->stash_result(
+                $c, ['drivers', $c->req->params->{driver_id}],
+                stash => 'driver'
+            );
+
+            $c->stash->{incomplete_profile} = 1;
+            $c->detach();
+        }
+
         $vehicle_id = $c->stash->{vehicles}[0]{id};
     }
 
@@ -43,7 +54,8 @@ sub profile : Chained('base') : PathPart('profile') : Args() {
     $api->stash_result(
         $c, ['vehicle_routes'],
         params => {
-            vehicle_id => $vehicle_id
+            vehicle_id => $vehicle_id,
+            order      => 'me.id'
         }
     );
 

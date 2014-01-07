@@ -131,7 +131,7 @@ sub list_GET {
                 'me.created_at' => {
                     '-between' => [
                         $c->req->params->{start},
-                        $now->format_cldr('Y-m-d H:m:s')
+                        $now->format_cldr('Y-M-d H:m:s')
                     ],
                 }
             };
@@ -143,7 +143,10 @@ sub list_GET {
             };
         }
 
-        $rs = $rs->search({ %$conditions });
+        $rs = $rs->search(
+            { %$conditions },
+            { order_by => { '-asc' => 'me.created_at' } }
+        );
     }
 
     $self->status_ok(

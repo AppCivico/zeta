@@ -26,7 +26,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             params => {
                 end     => $params->{end} ? $params->{end}.' 23:59:59' : undef,
                 start   => $params->{start} ? $params->{start}.' 00:00:00' : undef,
-                filters => 1
+                filters => 1,
             }
         );
     } else {
