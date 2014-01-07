@@ -18,7 +18,7 @@
         [%END%]
         [%input_text('name','Nome completo', req=>1)|none%]
         [%input_text('email','Email', req=>1)|none%]
-		[%input_text('telephone_number','Telefone', classes => ['span3', 'phone'], req=>1)|none%]
+		[%input_text('telephone_number','Telefone', classes => ['span3', 'mobile_phone'], req=>1)|none%]
 		[%select_field('motive', 'Motivo do contato',  array => [
 			['Dúvida','Dúvida'],
 			['Sugestão','Sugestão'],

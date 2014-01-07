@@ -25,7 +25,7 @@ sub email_send  : Chained('base') : PathPart('send') : Args(0) {
     my $email_model = $c->model('EmailQueue');
 
     $email_model->add(
-        email     => 'no-reply@publicidadeinteligente.com.br',
+        email     => 'contato@publicidadeinteligente.com.br',
         name      => $c->req->params->{name},
         content   => {
             name                => $c->req->params->{name},
