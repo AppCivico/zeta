@@ -297,7 +297,6 @@ __PACKAGE__->has_many(
 
 # Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-07 15:31:14
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VjcxtSmT8efsrd0C93semw
-
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

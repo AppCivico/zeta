@@ -506,7 +506,6 @@ __PACKAGE__->has_many(
 
 # Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-07 15:31:14
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tMgAu0Y1+dDbr10u4q0U7A
-
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -522,7 +521,7 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 renavam => {
-                    required   => 1,
+                    required   => 0,
                     type       => 'Str',
                     post_check => sub {
                         my $r = shift;
@@ -554,11 +553,11 @@ sub verifiers_specs {
                     type     => 'Int',
                 },
                 manufacture_year => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 model_year => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                     post_check => sub {
                         my $r = shift;
@@ -596,11 +595,11 @@ sub verifiers_specs {
                     type     => 'Int',
                 },
                 state_id => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 city_id => {
-                    required => 1,
+                    required => 0,
                     type     => 'Int',
                 },
                 insurance_company_id => {

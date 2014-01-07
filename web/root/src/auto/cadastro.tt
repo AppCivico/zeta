@@ -37,16 +37,17 @@
 
         </fieldset>
 
-        <fieldset>
+
+        <!--<fieldset>
             <legend>Informações do condutor</legend>
 
 			<div class="pull-left">
-				[%input_text('cnh_code','Nº de registro da CNH', req=>1, only_digits => 1, check_length => 1
-				)|none%]
-				[%input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'], req=>1, date => 1
-				)|none%]
-				[%input_text('first_driver_license','Data da 1ª habilitação', classes => ['span3', 'date'], req=>1, date => 1
-				)|none%]
+				[%#input_text('cnh_code','Nº de registro da CNH', req=>1, only_digits => 1, check_length => 1
+				)|none#%]
+				[%#input_text('cnh_validity','Validade da habilitação', classes => ['span3', 'date'], req=>1, date => 1
+				)|none#%]
+				[%#input_text('first_driver_license','Data da 1ª habilitação', classes => ['span3', 'date'], req=>1, date => 1
+				)|none#%]
 			</div>
 			<div class="pull-left">
 				<div class="cnh-hint">
@@ -58,7 +59,7 @@
 					</div>
 				</div>
 			</div>
-        </fieldset>
+        </fieldset>-->
 
         <fieldset>
             <legend>Informações de localização</legend>
