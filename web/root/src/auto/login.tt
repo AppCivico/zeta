@@ -19,7 +19,8 @@
 						<div class="control-group">
 							<div class="controls">
 							<label class="checkbox">
-								<input name="remember" type="checkbox" checked> Me lembrar
+								<input name="remember" type="checkbox" checked>Lembrar
+								<p><a href="/forgot_password">Esqueci minha senha</p>
 							</label>
 
 							</div>

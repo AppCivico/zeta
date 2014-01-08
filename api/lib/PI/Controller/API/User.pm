@@ -13,6 +13,9 @@ __PACKAGE__->config(
     update_roles => [qw/superadmin webapi/],
     create_roles => [qw/superadmin/],
     delete_roles => [qw/superadmin/],
+    search_ok   => {
+        email => 'Str'
+    }
 
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';
@@ -33,7 +36,14 @@ sub result_GET {
         entity => {
             roles => [ map { $_->name } $user->roles ],
 
-            map { $_ => $attrs{$_}, } qw(id name email active)
+            map { $_ => $attrs{$_}, }
+                qw/
+                id
+                name
+                email
+                active
+                reset_password_key
+                /
         }
     );
 }
@@ -53,7 +63,7 @@ sub result_PUT {
             id    => $user->id,
             email => $user->email
         }
-      ),
+    ),
       $c->detach
       if $user;
 }
@@ -82,7 +92,7 @@ sub list_GET {
                 map {
                     my $r = $_;
                     +{
-                        ( map { $_ => $r->{$_} } qw/id name email active/ ),
+                        ( map { $_ => $r->{$_} } qw/id name email active reset_password_key/ ),
 
                         roles => [ map { $r->{role}{name} } @{ $r->{user_roles} } ],
 
