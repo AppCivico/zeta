@@ -5,7 +5,7 @@
 [%IF !NO_TITLE%]
 <h2>Ativar rastreador</h2>
 [%END%]
-<form class="form-horizontal" method="post" action="/tracker-manager/form/activation">
+<form class="form-horizontal" method="post" action="javascript:;">
 <div class="tab-pane active" id="tab1">
     <fieldset>
 [%IF NO_TITLE%]
