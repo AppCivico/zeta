@@ -15,7 +15,6 @@ MYMETA.yml
 nytprof.out
 pm_to_blib
 *_local*
-*webpi.conf
 root/static/user/
 root/static/built/
 .tidyall.d/
