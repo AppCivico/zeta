@@ -6,8 +6,7 @@ use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) {
-}
+sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) { }
 
 sub forgot_password : Chained('base') : PathPart('forgot_password') : Args(0) {
     my ( $self, $c ) = @_;
@@ -22,14 +21,13 @@ sub forgot_password : Chained('base') : PathPart('forgot_password') : Args(0) {
             email => $c->req->params->{email}
         }
     );
-    my $s  = $c->stash->{users};
 
     if(!$c->stash->{form}{error} && $c->stash->{users}[0]{id}) {
         $api->stash_result(
             $c, ['users', $c->stash->{users}[0]{id}],
             method  => 'PUT',
             body    => {
-                reset_password_key => $c->req->params->{email}
+                reset_password_key => $validation_key
             }
         );
     } else {
@@ -39,15 +37,34 @@ sub forgot_password : Chained('base') : PathPart('forgot_password') : Args(0) {
     if(!$c->stash->{form}{error}) {
         $api->stash_result(
             $c, 'reset_password/send_email',
-            params => {
+            params  => {
                 email          => $c->req->params->{email},
                 validation_key => $validation_key,
             }
         );
-    } else {
 
+        if(!$c->stash->{form}{error}){
+            $c->detach( '/form/redirect_ok', [ '/forgotpassword/forgot_password', {}, 'E-mail enviado com sucesso. Verifique sua caixa de mensagens!' ] );
+        } else {
+            $c->detach( '/form/redirect_error', [] );
+        }
+
+    } else {
         $c->detach( '/form/redirect_error', [] );
     }
+}
+
+sub process_change : Chained('base') : PathPart('process_change') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $api = $c->model('API');
+
+    $api->stash_result(
+        $c, ['users', $c->req->params->{user_id}],
+        body => {
+            password => $c->req->params->{password}
+        }
+    );
 }
 
 __PACKAGE__->meta->make_immutable;

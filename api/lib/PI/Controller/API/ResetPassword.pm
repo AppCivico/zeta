@@ -1,6 +1,8 @@
 package PI::Controller::API::ResetPassword;
 
 use Moose;
+use MIME::Base64;
+use utf8;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -19,9 +21,10 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) { }
 
 sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { }
 
-sub send_email :Chained('base') : PathPart('send_email') : CaptureArgs(0) {
+sub send_email :Chained('base') : PathPart('send_email') : Args(0) {
     my ( $self, $c ) = @_;
-
+    my $p = $c->req->params;
+    use DDP; p $p;
     my $config      = PI->config;
     my $email_model = $c->model('EmailQueue');
 

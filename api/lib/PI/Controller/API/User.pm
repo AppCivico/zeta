@@ -14,7 +14,8 @@ __PACKAGE__->config(
     create_roles => [qw/superadmin/],
     delete_roles => [qw/superadmin/],
     search_ok   => {
-        email => 'Str'
+        email => 'Str',
+        reset_password_key => 'Str'
     }
 
 );
