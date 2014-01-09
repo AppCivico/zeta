@@ -110,6 +110,7 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    my $p = $c->req->params;
 
     my $rs = $c->stash->{collection};
 
@@ -200,15 +201,16 @@ sub list_POST {
     my $driver = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 
     my $email_model = $c->model('EmailQueue');
+    my $email       = lc $c->req->params->{email};
 
     my $validation_link =
         $config->{domain}{default}
       . '/driver/validate_email?email='
-      . $c->req->params->{email} . '&key='
+      . $email . '&key='
       . encode_base64( $driver->validation_key );
 
     $email_model->add(
-        email     => $c->req->params->{email},
+        email     => $email,
         name      => $driver->name,
         content   => $validation_link,
         subject   => 'Publicidade Inteligente - Validação de cadastro',
