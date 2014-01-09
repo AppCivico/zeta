@@ -29,13 +29,14 @@ sub validate_email : Chained('base') : PathPart('validate_email') : Args(0) {
     my $params = $c->req->params;
 
     $api->stash_result(
-        $c,
-        ['drivers'],
+        $c, 'drivers',
         stash  => 'validate_email',
         params => {
             validation_key => decode_base64( $params->{key} )
         }
     );
+
+    my $sts = $c->stash->{validate_email};
 
     my $driver = $c->stash->{validate_email}{drivers}[0];
 
