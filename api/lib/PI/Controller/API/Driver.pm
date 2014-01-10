@@ -110,13 +110,12 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 
 sub list_GET {
     my ( $self, $c ) = @_;
-    my $p = $c->req->params;
 
     my $rs = $c->stash->{collection};
 
     if($c->req->params->{filters}) {
-        my $conditions;
-        my $now = DateTime->now();
+        my $conditions  = undef;
+        my $now         = DateTime->now();
 
         if($c->req->params->{start} && $c->req->params->{end}) {
             $conditions = {
@@ -136,7 +135,7 @@ sub list_GET {
                     ],
                 }
             };
-        } else {
+        } elsif($c->req->params->{end}) {
             $conditions = {
                 'me.created_at' => {
                     '<=' => $c->req->params->{end}
@@ -145,7 +144,7 @@ sub list_GET {
         }
 
         $rs = $rs->search(
-            { %$conditions },
+            $conditions ? { %$conditions } : undef,
             { order_by => { '-asc' => 'me.created_at' } }
         );
     }
