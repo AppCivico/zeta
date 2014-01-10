@@ -17,12 +17,15 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         my @fields;
         my $params = { %{ $c->req->params } };
 
+        $c->stash->{start}  = $c->req->params->{start};
+        $c->stash->{end}    = $c->req->params->{end};
+
         push(@fields, 'start','end');
 
         $form->format_date($params, @fields);
 
         $api->stash_result(
-            $c, ['drivers'],
+            $c, 'drivers',
             params => {
                 end     => $params->{end} ? $params->{end}.' 23:59:59' : undef,
                 start   => $params->{start} ? $params->{start}.' 00:00:00' : undef,
@@ -31,13 +34,14 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         );
     } else {
         $api->stash_result(
-            $c, ['drivers']
+            $c, 'drivers',
+            params => {
+                filters => 1
+            }
         );
     }
 
-    my $dr = $c->stash->{drivers};
-
-    use DDP; p $dr;
+    $c->stash->{count} = scalar keys $c->stash->{drivers};
 }
 
 __PACKAGE__->meta->make_immutable;
