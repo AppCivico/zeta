@@ -1,3 +1,4 @@
+[%-CALL assets.include("js/routes.js")%]
 <div class="page-header bg-dark">
     <h3>Editando rota</h3>
 </div>
@@ -42,11 +43,13 @@
                     value => vehicle_route_obj.start_time_back
                 )|none%]
 
-                    [%select_field('vehicle_parking_type_id','
-                        Tipo de estacionamento: ', array => select_parking_types,
-                        value => vehicle_route_obj.vehicle_parking_type_id,
-                        classes => ['span3', 'parking']
-                    )|none%]
+                [%select_field(
+                    'vehicle_parking_type_id','
+                    Tipo de estacionamento: ',
+                    array => select_parking_types,
+                    value => vehicle_route_obj.vehicle_parking_type_id,
+                    classes => ['span3', 'parking']
+                )|none%]
 
             <div class="subtitle center">Clique sobre os dias da semana que você normalmente efetua essa rota</div>
             <div class="center">
@@ -95,4 +98,14 @@
             </div>
         </fieldset>
     </form>
+</div>
+
+<div id="new_address" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Novo endereço</h3>
+    </div>
+    <div class="modal-body">
+        [%INCLUDE 'user/dashboard/parts/new_address.tt' NO_TITLE=>1%]
+    </div>
 </div>

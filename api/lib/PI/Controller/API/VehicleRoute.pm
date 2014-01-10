@@ -52,6 +52,7 @@ sub result_GET {
                   start_time_gone
                   start_time_back
                   vehicle_route_polyline
+                  vehicle_parking_type_id
                   distance
                   /
             ),
@@ -227,6 +228,7 @@ sub list_GET {
                                 days_of_week
                                 vehicle_route_polyline
                                 distance
+                                vehicle_parking_type_id
                                 /
                             ),
                             origin => {
