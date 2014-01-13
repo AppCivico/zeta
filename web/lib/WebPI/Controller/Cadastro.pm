@@ -14,11 +14,18 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 
 sub cadastro : Chained('base') : PathPart('cadastro') : Args(0) {
     my ( $self, $c ) = @_;
+    my $api = $c->model('API');
+
     if ( $c->user ) {
         $c->detach( 'Form::Login' => 'after_login' );
     }
 
-    my $api = $c->model('API');
+    if($c->req->params->{pre_id}) {
+        $api->stash_result(
+            $c, ['pre_registrations', $c->req->params->{pre_id}],
+            stash => 'pre_registrations'
+        );
+    }
 
     $api->stash_result( $c, 'states' );
     $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];

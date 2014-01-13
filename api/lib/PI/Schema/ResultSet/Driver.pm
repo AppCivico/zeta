@@ -112,7 +112,7 @@ sub verifiers_specs {
                             || $r->get_value('email') ne $r->get_value('email_confirm') );
 
                         return 1;
-                      }
+                    }
                 }
             },
         ),
