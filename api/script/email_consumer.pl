@@ -99,11 +99,19 @@ sub send_emails {
 
 sub error_queue {
     my (@params) = @_;
+    my $message;
+    if($params[0]) {
+        $message = $params[0]->message;
+    } else {
+        $message = $params[0];
+    }
 
     my $error = {
-        'message'    => $params[0] ? $params[0] : undef,
+        'message'    => $message ? $message : undef,
         'recipients' => $params[1] ? $params[1] : undef
     };
+
+    use DDP; p $error;
 
     PI::EmailQueue->add_error( encode_json($error) );
 

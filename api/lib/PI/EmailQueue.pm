@@ -17,8 +17,6 @@ sub add {
 
     die 'email required' if !exists $params{email};
     $email_p{email} = $params{email};
-    die 'name required' if !exists $params{name};
-    $email_p{name} = $params{name};
     die 'content required' if !exists $params{content};
     $email_p{content} = $params{content};
     die 'template required' if !exists $params{template};

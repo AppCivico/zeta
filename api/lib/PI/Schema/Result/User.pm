@@ -77,6 +77,11 @@ __PACKAGE__->table("user");
   data_type: 'text'
   is_nullable: 0
 
+=head2 reset_password_key
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -102,6 +107,8 @@ __PACKAGE__->add_columns(
   },
   "password",
   { data_type => "text", is_nullable => 0 },
+  "reset_password_key",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -298,8 +305,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-31 15:12:26
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TdNh/rpHYnmRSfQwbtGFlg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-08 18:19:42
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5g9RzD/K8fjAzUek9YT5KA
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 
@@ -383,6 +390,10 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Bool'
                 },
+                reset_password_key => {
+                    required    => 0,
+                    type        => 'Str'
+                }
             },
         ),
     };

@@ -73,6 +73,10 @@ sub verifiers_specs {
                 }
             }
         ),
+        reset_password_key => {
+            required    => 0,
+            type        => 'Str'
+        }
     };
 }
 

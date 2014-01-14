@@ -34,14 +34,10 @@
 	<input type="hidden" name="destino" value="[%c.req.params.destino%]"/>
 	<input type="hidden" name="rotas" value="[%c.req.params.rotas%]"/>
 
-		[%select_field('origin_id','Saindo de: ', array => select_routes, value => orig_id, classes => ['span3', 'route_addr'])|none%]
+		[%select_field('origin_id','Saindo de: ', array => select_routes value => orig_id, classes => ['span3', 'route_addr'])|none%]
         <div class="control-group ">
             <label class="control-label"></label>
-            <div class="text controls">
-				<a href="#new_address" id="origin" class="addr btn btn-modal" role="button" data-toggle="modal"><i class="icon-plus"></i> Novo local</a>
-            </div>
         </div>
-
 		[%input_text('start_time_gone','Às',
             app => '<i class="icon-time"></i>',
             classes => ['span1','timepicker-me'],

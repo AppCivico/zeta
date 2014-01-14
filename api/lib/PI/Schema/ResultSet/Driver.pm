@@ -57,7 +57,7 @@ sub verifiers_specs {
                     filters    => [$PI::Types::ONLY_DIGITY],
                     post_check => sub {
                         my $r   = shift;
-			my $ret = 1;
+                        my $ret = 1;
                         eval {
                             my $str = $r->get_value('cpf');
 
@@ -148,4 +148,3 @@ sub action_specs {
 }
 
 1;
-

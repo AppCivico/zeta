@@ -9,8 +9,8 @@
     <fieldset>
         <form id="user_filter" action="/admin/driver" method="post">
             <strong>Filtrar por data de cadastro</strong><br />
-            De: <br /><input class="datepicker" type="text" name="start"><br />
-            Até: <br /><input class="datepicker" type="text" name="end"><br />
+            De: <br /><input class="date" type="text" name="start" value="[%start%]"><br />
+            Até: <br /><input class="date" type="text" name="end" value="[%end%]"><br />
             <button class="btn btn-primary" data-loading-text="Processando...">Pesquisar</button>
         </form>
 
@@ -41,6 +41,10 @@
                         </td>
                     </tr>
                 [%END%]
+                <tr>
+                    <td colspan="4"><strong>Total</strong></td>
+                    <td>[%count%]</td>
+                </tr>
             </tbody>
             </table>
         [%ELSE%]

@@ -114,8 +114,8 @@ sub list_GET {
     my $rs = $c->stash->{collection};
 
     if($c->req->params->{filters}) {
-        my $conditions;
-        my $now = DateTime->now();
+        my $conditions  = undef;
+        my $now         = DateTime->now();
 
         if($c->req->params->{start} && $c->req->params->{end}) {
             $conditions = {
@@ -135,7 +135,7 @@ sub list_GET {
                     ],
                 }
             };
-        } else {
+        } elsif($c->req->params->{end}) {
             $conditions = {
                 'me.created_at' => {
                     '<=' => $c->req->params->{end}
@@ -144,7 +144,7 @@ sub list_GET {
         }
 
         $rs = $rs->search(
-            { %$conditions },
+            $conditions ? { %$conditions } : undef,
             { order_by => { '-asc' => 'me.created_at' } }
         );
     }
@@ -200,15 +200,16 @@ sub list_POST {
     my $driver = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
 
     my $email_model = $c->model('EmailQueue');
+    my $email       = lc $c->req->params->{email};
 
     my $validation_link =
         $config->{domain}{default}
       . '/driver/validate_email?email='
-      . $c->req->params->{email} . '&key='
+      . $email . '&key='
       . encode_base64( $driver->validation_key );
 
     $email_model->add(
-        email     => $c->req->params->{email},
+        email     => $email,
         name      => $driver->name,
         content   => $validation_link,
         subject   => 'Publicidade Inteligente - Validação de cadastro',

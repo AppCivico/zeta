@@ -12,7 +12,7 @@ __PACKAGE__->config(
     result => 'DB::Vehicle',
     result_attr => {
         prefetch =>
-            [ 'vehicle_model', 'vehicle_brand', 'vehicle_color', 'vehicle_body_style' ]
+            [ 'vehicle_model', 'vehicle_brand', 'vehicle_color' ]
     },
 
 );
@@ -55,11 +55,9 @@ sub result_GET {
                     vehicle_model_id
                     model_year
                     vehicle_brand_id
-                    vehicle_body_style_id
                     km
                     vehicle_color_id
                     fuel_type
-                    observations
                     vehicle_owner_id
                     driver_id
                     state_id
@@ -69,7 +67,6 @@ sub result_GET {
                 model      => { ( map { $_ => $vehicle->vehicle_model->$_ } qw/name/ ), },
                 color      => { ( map { $_ => $vehicle->vehicle_color->$_ } qw/name/ ), },
                 brand      => { ( map { $_ => $vehicle->vehicle_brand->$_ } qw/name/ ), },
-                body_style => { ( map { $_ => $vehicle->vehicle_body_style->$_ } qw/name/ ), },
                 ( map { $_ => ( $vehicle->$_ ? $vehicle->$_->datetime : undef ) } qw/created_at/ ),
 #                 token_id   => $token->id,
             }
