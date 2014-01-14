@@ -27,7 +27,7 @@ sub process : Chained('base') : PathPart('pre-registration') : Args(0) {
     );
 
     if ( !$c->stash->{error} ) {
-        $c->detach('/pre-cadastro/registration_successfully');
+        $c->detach( '/form/redirect_ok2', [ '/preregistration/registration_successfully', [], {}, 'Cadastrado com sucesso!' ] );
     } else {
         $c->detach( '/form/redirect_error', [] );
     }
