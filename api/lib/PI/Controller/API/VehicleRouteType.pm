@@ -95,6 +95,18 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 sub list_GET {
     my ( $self, $c ) = @_;
 
+    my $rs = $c->stash->{collection};
+
+    if($c->req->params->{route_org}) {
+        $rs = $rs->search(
+            {
+                'address.user_id'   => $c->req->params->{user_id},
+                'me.name'           => $c->req->params->{name}
+            },
+            { '-join' => 'address' }
+        );
+    }
+
     $self->status_ok(
         $c,
         entity => {
@@ -125,7 +137,7 @@ sub list_GET {
                             ),
                         },
                       }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->as_hashref->all
             ]
         }
     );

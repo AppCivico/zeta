@@ -28,6 +28,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 
 sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
+
     my $api = $c->model('API');
 
     $api->stash_result(
@@ -44,11 +45,26 @@ sub edit : Chained('object') : PathPart('') : Args(0) {
 sub add : Chained('base') : PathPart('new') : Args(0) {
     my ( $self, $c ) = @_;
 
+    my $api = $c->model('API');
+
     if ( exists $c->req->params->{dest_time} && $c->req->params->{dest_time} =~ /^[0-9]{4}$/ ) {
         $c->stash->{orig_time} = $c->req->params->{dest_time};
         substr( $c->stash->{orig_time}, 2, 0 ) = ':';
 
         $c->stash->{orig_id} = $c->req->params->{destino};
+    } else {
+        $api->stash_result(
+            $c, 'vehicle_route_types',
+            params => {
+                user_id     => $c->user->id,
+                route_org   => 1,
+                name        => 'Casa'
+            }
+        );
+
+        if(!$c->stash->{error}) {
+            $c->stash->{addr_home_id} = $c->stash->{vehicle_route_types}[0]{address}{id};
+        }
     }
 
     if ( exists $c->req->params->{dow} ) {
@@ -58,8 +74,6 @@ sub add : Chained('base') : PathPart('new') : Args(0) {
     $c->stash->{step} = $c->stash->{orig_id} ? 2 : 1;
 
     if ( exists $c->req->params->{finalizado} ) {
-        my $api = $c->model('API');
-
         my @routes;
         my %chosen = map { $_ => 1 } split /-/, $c->req->params->{rotas};
         foreach my $r ( @{ $c->stash->{vehicle_routes} } ) {

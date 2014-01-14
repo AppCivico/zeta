@@ -67,19 +67,11 @@ var $new_add = function () {
 
 var $route = function() {
 
-    function swap_route_point(elm) {
-        $('.route_addr option').show();
+    function swap_route_point() {
+        var target = 'elm_destination_id';
 
-        var target;
-
-        if(elm == 'elm_origin_id') {
-            target = 'elm_destination_id';
-        } else {
-            target = 'elm_origin_id';
-        }
-
-        var id = $('#'+elm+' option:selected').attr('data-address_id');
-        $('#'+target+' option[data-address_id=' + id + ']').hide();
+        var id = $('#elm_origin option:selected').attr('data-address_id');
+        $('#'+target+' option[data-address_id=' + id + ']').remove();
     }
 
     return {
@@ -104,6 +96,7 @@ $(document).ready(function () {
 
 
     var $route_addr = $('.route_addr');
+    $route.swap_route_point();
     if($route_addr.length) {
         $route.swap_route_point('elm_destination_id');
         $route.swap_route_point('elm_origin_id');
