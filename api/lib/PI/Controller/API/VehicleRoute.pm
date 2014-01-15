@@ -155,7 +155,7 @@ sub list_GET {
             push(@conditions, {
                 'me.id' => {
                     '-in'       => \@ids,
-                    'not in'    => \"(select vehicle_id from campaign_vehicle)"
+                    'not in'    => \"(select vehicle_id from campaign_vehicle where status <> 3)"
                 },
             });
 
