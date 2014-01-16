@@ -20,35 +20,37 @@
                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
                                 <td>
-                                    <div style="text-align: center;">
-                                        <a href="http://[%domain%]" target="_blank"><img src="cid:logo.png" alt="Publicidade Inteligente" border="0"/></a>
-                                    </div>
+                                <div style="text-align: center;">
+                                    <a href="http://[%domain%]" target="_blank"><img src="cid:logo.png" alt="Publicidade Inteligente" border="0"/></a>
+                                </div>
                                 </td>
                             </tr>
                         </table>
-                    </td>
-                </tr>
-            </table>
-            <br />
-            <!--// fim header //-->
+                        <br />
 
-            <table cellspacing="0" cellpadding="20" border="0" style="border: 1px solid #efefef;">
-              <tr>
-                <td style="background-color: #FAFAFA; text-align: left;" bgcolor="#FAFAFA" width="634">
-                    <p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666;">
-                        [%content%]!<br/ ><br/ >
-                    </p>
-                    <p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666;">
-                        <strong>Publicidade Inteligente</strong><br />
-                        <span style="font-family: tahoma, verdana, arial; font-size: 10pt; color: #999999;">A mídia que vai onde seu público está</span>
-                    </p>
-                </td>
-              </tr>
-            </table>
-            <br />
+                        <table cellspacing="0" cellpadding="20" border="0" style="border: 1px solid #efefef;">
+                            <tr>
+                                <td style="background-color: #FAFAFA; text-align: left;" bgcolor="#FAFAFA" width="634">
+                                    <p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666;">
+                                        Parabéns, seu pré-cadastro foi realizado com sucesso!<br/ ><br/ >
 
-            <!--// footer //-->
-           <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                        Para completar o seu cadastro e aumentar suas chances de participação em campanhas publicitárias, acesse o link abaixo:<br />
+                                    </p>
+                                    <div style="background-color: #FFFFFF; text-align: left;padding: 5px 10px;">
+                                        <p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666; background-color: #FFFFFF; padding: 10px;">
+                                            <a href="http://[%content%]" target="_blank">http://[%content%]</a>
+                                        </p>
+                                    </div>
+                                    <p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666;">
+                                        <strong>Publicidade Inteligente</strong><br />
+                                        <span style="font-family: tahoma, verdana, arial; font-size: 10pt; color: #999999;">A mídia que vai onde seu público está</span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
                                 <td style="background-color: #f0f0f0; padding: 4px 15px;" bgcolor="#f0f0f0">
                                     <p style="font-family: tahoma, verdana, arial; font-size: 10pt; color: #666666;">
@@ -68,7 +70,7 @@
                 </tr>
             </table>
         </td>
-    </tr>
+	</tr>
 </table>
 </body>
 </html>

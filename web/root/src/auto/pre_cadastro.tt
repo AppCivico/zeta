@@ -1,0 +1,132 @@
+[%-CALL assets.include("js/jquery.maskedinput.js")%]
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/cadastro.js")%]
+[%-CALL assets.include("js/address.js")%]
+<section id="land-page">
+
+  <div class="page-header bg-dark">
+    <h1>Como funciona?</h1>
+    <p>Veja como é fácil ganhar um dinheiro extra sem alterar a sua rotina!</p>
+  </div>
+
+  <div class="row">
+  
+	<div class="steps">
+		<div class="item span3 white-alpha">
+			<div class="number">1</div>
+			<div class="image"><img src="/static/img/landing/cadastro.gif"></div>
+			<div class="description">Você preenche o <a href="#CADASTRO">cadastro</a> fornecendo informações do seu perfil, as características do seu automóvel e sua rota diária</div>
+		</div>
+		<div class="item span3 white-alpha">
+			<div class="number">2</div>
+			<div class="image"><img src="/static/img/landing/marca.png"></div>
+			<div class="description">Um parceiro inicia uma Campanha Publicitária e você é convidado caso seu perfil seja compatível</div>
+		</div>
+		<div class="item span3 white-alpha">
+			<div class="number">3</div>
+			<div class="image"><img src="/static/img/landing/carro.png"></div>
+			<div class="description">Caso você aceite o convite, nós enviamos um kit de instalação dos adesivos e agendamos uma vistoria</div>
+		</div>
+		<div class="item span3 white-alpha">
+			<div class="number">4</div>
+			<div class="image"><img src="/static/img/landing/pagamento.png"></div>
+			<div class="description">A partir de agora você já está faturando! Viu como é fácil? <a href="#CADASTRO">Clique aqui</a> e cadastre-se agora mesmo!</div>
+		</div>
+	</div>
+  
+  </div>
+</section>
+<div class="clear"></div>
+<section id="forms" class="form-landing-page">
+  <a name="CADASTRO"></a>
+  <div class="page-header bg-dark">
+    <h1>Faça o seu cadastro!</h1>
+    <p>Para ser nosso parceiro, precisamos que você preencha o formulário abaixo</p>
+  </div>
+  <div class="row page-content">
+    <div class="span11">
+    [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
+    [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
+      <form class="form-horizontal" method="post" action="/form/pre-registration" autocomplete="off">
+        <fieldset>
+            <legend>Informações pessoais</legend>
+			
+			<div class="row-fluid">
+				<div class="span6">
+					[%input_text('name','Nome completo', req=>1)|none%]
+				</div>
+				<div class="span6">
+					[%input_text('email','E-mail', req=>1)|none%]
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
+					[%input_text('telephone','Celular', classes => ['span3', 'mobile_phone'])|none%]
+				</div>
+				<div class="span6">
+					[%input_text('birth_date','Data de nascimento', classes => ['span3', 'date'], req=>1, birth_date => 1)|none%]
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
+					[%select_field('gender', 'Sexo',  array => [
+						['m','Masculino'],
+						['f','Feminino'],
+					], req=>1)|none%]
+				</div>
+				<div class="span6">
+					[%select_field('marital_state', 'Estado civil',  array => [
+						['C','Casado (a)'],
+						['D','Divorciado(a)'],
+						['S','Solteiro (a)'],
+						['E','União estável'],
+						['V','Viúvo(a)'],
+					], req=>1)|none%]
+				</div>
+			</div>
+            <legend>Dados do veículo</legend>
+			<div class="row-fluid">
+				<div class="span6">
+					[%input_text('manufactured_year','Ano de fabricação do veículo', req=>1)|none%]
+				</div>
+				<div class="span6">
+					[%input_text('average_mileage','Média de quilômetros trafegados por mês', req=>1)|none%]
+				</div>
+			</div>
+            <legend>Localização</legend>
+			<div class="row-fluid">
+				<div class="span6">
+					[%select_field('state_id', 'Estado',  array => select_states, req=>1)|none%]
+				</div>
+				<div class="span6">
+					<div id="cities">
+						[%select_field('city_id', 'Cidade', req=>1)|none%]
+					</div>
+					<input type="hidden" id="city_aux" name="city_aux"/>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
+					[%select_field('zone_id', 'Zona',  array => select_zones, req=>1)|none%]
+				</div>
+			</div>
+
+			<div class="obs">
+				Campos marcados com * são obrigatórios
+			</div>
+
+
+        </fieldset>
+
+        <fieldset>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success uppercase" data-loading-text="Processando...">Participar</button>
+            </div>
+        </fieldset>
+
+      </form>
+    </div>
+  </div>
+
+</section>
+

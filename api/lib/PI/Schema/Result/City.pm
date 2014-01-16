@@ -169,6 +169,21 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head2 pre_registrations
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::PreRegistration>
+
+=cut
+
+__PACKAGE__->has_many(
+  "pre_registrations",
+  "PI::Schema::Result::PreRegistration",
+  { "foreign.city_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 regions
 
 Type: has_many
@@ -235,8 +250,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-28 10:28:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1HCFR3e19+yC/UfjPivUYg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-13 11:01:46
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:L9jIux9WLZkhqyCDthUbGw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

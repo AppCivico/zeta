@@ -27,7 +27,7 @@ body.grey{
 	background-image: url(/static/img/bg4.gif);
 	background-color: #b8b8b8;
 }
-a{
+a,a:visited{
 	color: #000;
 }
 a:hover{
@@ -50,7 +50,9 @@ a:hover{
 	font-size: 1.1em;
 	color: #666;
 }
-
+.uppercase{
+	text-transform:uppercase;
+}
 .container{
     position: relative;
 }
@@ -127,6 +129,7 @@ a:hover{
 	padding: 20px;
 }
 .panel-home .text .contents a.button{
+	color: #fff;
 	position: absolute;
 	bottom: 20px;
 	left: 20px;
@@ -212,8 +215,10 @@ legend{
 	margin-top: 20px;
 }
 .footer .copy{
+	padding: 0 20px;
 	clear: both;
 	font-size: 0.9em;
+	padding: 0 10px;
 }
 
 .menu-footer{
@@ -542,6 +547,67 @@ div.faq .buttons{
 	clear: both;
 }
 
+#land-page{
+	margin-bottom: 20px;
+}
+
+.steps{
+	margin: 20px 0;
+}
+
+.steps .item .image{
+	text-align: center;
+	height: 170px;
+	padding-top: 15px;
+}
+.steps .item .number{
+	margin: 10px 80% -35px 10px;
+	text-align: center;
+	padding: 10px;
+	background-color: #fff;
+	border-radius:50px;
+	-moz-border-radius:50px;
+	-webkit-border-radius:50px;
+	font-weight: bold;
+}
+.steps .item .description{
+	margin: 5px;
+	padding: 10px;
+	background-color: #fff;
+	font-size: 0.9em;
+	min-height: 80px;
+}
+
+.form-landing-page .form-horizontal .control-label {
+	text-align: left;
+	float: none;
+	width: auto;
+}
+.form-landing-page .form-horizontal .controls{
+	float: none;
+	margin-left: 0;
+}
+
+.form-landing-page input.span3,
+.form-landing-page select.span3{
+	width: 100%;
+}
+
+.form-landing-page .form-actions{
+	padding: 0;
+	text-align: center;
+}
+.form-landing-page .obs{
+	font-size: 0.8em;
+	font-weight: bold;
+}
+.form-landing-page .btn-success{
+	font-size: 1.2em;
+	font-weight: bolder;
+	letter-spacing: 0.2em;
+	padding: 10px 50px;
+}
+
 @media (min-width: 978px) {
 	.panel-home .text .contents p.lead{
 		font-size: 1.4em;
@@ -552,5 +618,70 @@ div.faq .buttons{
 		font-size: 1em;
 		line-height: 1.4em;
 	}
+
+	.masthead .pull-left{
+		float: none;
+	}
+	.masthead .pull-right{
+		float: none;
+	}
+	.masthead .menu-top{
+		margin: 0;
+		margin-top: 10px;
+	}
+	.masthead .menu-top li a{
+		padding: 5px 10px;
+	}
+	.steps .item .description{
+		margin: 5px;
+		padding: 10px;
+		background-color: #fff;
+		font-size: 0.8em;
+		min-height: 120px;
+	}
+	.steps .item .number{
+		margin-bottom: -5px;
+		padding: 2px;
+	}
+}
+@media (max-width: 767px) {
+	.masthead .menu-top li{
+		float: none;
+	}
+	.form-landing-page .row-fluid [class*="span6"]{
+		width: 49%;
+		float: left;
+	}
+	.form-landing-page .row-fluid [class*="span6"]:first-child{
+		margin-right: 10px;
+	}
+
+	#land-page .steps [class*="span"]{
+		width: 50%;
+		float: left;
+	}
+	.steps .item .number{
+		margin: 10px 88% -35px 10px;
+		padding: 5px;
+	}
+
+/**
+	.masthead .pull-right,
+	.masthead .pull-left{
+		float: none;
+	}
+	.menu-top{
+		margin: 10px 0 0 0;
+	}
+	.root-index .menu-top{
+		margin-bottom: 25px;
+	}
+	.menu-top li{
+		float: none;
+	}
+	.menu-top li a{
+		padding: 4px 10px;
+	}
+**/
 }
 
