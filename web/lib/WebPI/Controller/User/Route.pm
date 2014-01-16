@@ -63,7 +63,7 @@ sub add : Chained('base') : PathPart('new') : Args(0) {
         );
 
         if(!$c->stash->{error}) {
-            $c->stash->{addr_home_id} = $c->stash->{vehicle_route_types}[0]{address}{id};
+            $c->stash->{addr_home_id} = $c->stash->{vehicle_route_types}[0]{id};
         }
     }
 
