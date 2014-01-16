@@ -80,11 +80,18 @@ sub result_PUT {
 sub result_DELETE {
     my ( $self, $c ) = @_;
 
-    my $campaign = $c->stash->{campaign};
+    my $campaign    = $c->stash->{campaign};
+    my $vehicles    = $c->model('DB::CampaignVehicle')->search({campaign_id => $campaign->id});
+    my $invitation  = $c->model('DB::Invitation')->search({campaign_id => $campaign->id})->next;
 
-    my $vehicles = $c->model('DB::CampaignVehicle')->search({campaign_id => $campaign->id});
-    $vehicles->delete;
+    $vehicles->update_all( { status => 3 } );
     $campaign->update( { status => 3 } );
+
+    if($invitation) {
+        my $vehicle_invitations =  $c->model('DB::VehicleInvitation')->search({invitation_id => $invitation->id});
+
+        $vehicle_invitations->update_all( { status => 3 } );
+    }
 
     $self->status_no_content($c);
 }

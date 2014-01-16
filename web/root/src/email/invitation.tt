@@ -8,24 +8,26 @@
 <table cellspacing="0" cellpadding="0" border="0" width="100%" height="100%" style="background-color: #ffefe0;">
     <tr>
         <td align="center" vertical-align="top">
-      <table cellspacing="0" cellpadding="0" border="0" width="650" height="25">
-        <tr>
-          <td align="center" vertical-align="top">
-          </td>
-        </tr>
-      </table>
-      <table cellspacing="0" cellpadding="20" border="0" width="610">
-        <tr>
-          <td align="center" vertical-align="top" style="background-color: #FFFFFF;">
-            <!--// header //-->
-            <table cellspacing="0" cellpadding="0" border="0" width="100%">
-              <tr>
-                <td>
-                  <div style="text-align: center;">
-                    <a href="http://pi.b-datum.com" target="_blank"><img src="http://pi.b-datum.com/static/img/logo.png" alt="Publicidade Inteligente" border="0"/></a>
-                  </div>
+            <table cellspacing="0" cellpadding="0" border="0" width="650" height="25">
+                <tr>
+                <td align="center" vertical-align="top">
                 </td>
-              </tr>
+                </tr>
+            </table>
+            <table cellspacing="0" cellpadding="20" border="0" width="610">
+                <tr>
+                    <td align="center" vertical-align="top" style="background-color: #FFFFFF;">
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center;">
+                                        <a href="http://[%domain%]" target="_blank"><img src="cid:logo.png" alt="Publicidade Inteligente" border="0"/></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
             <br />
             <!--// fim header //-->
@@ -35,7 +37,6 @@
                 <td style="background-color: #FAFAFA; text-align: left;" bgcolor="#FAFAFA" width="634">
                     <p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666;">
                         [%content%]!<br/ ><br/ >
-
                     </p>
                     <p style="font-family: tahoma, verdana, arial; font-size: 11pt; color: #666666;">
                         <strong>Publicidade Inteligente</strong><br />
@@ -45,28 +46,27 @@
               </tr>
             </table>
             <br />
-            <!--// footer //-->
-            <table cellspacing="0" cellpadding="0" border="0" width="100%">
-              <tr>
-                <td style="background-color: #f0f0f0; padding: 4px 15px;" bgcolor="#f0f0f0">
-                  <p style="font-family: tahoma, verdana, arial; font-size: 10pt; color: #666666;">
-                    &copy; Publicidade Inteligente 2013. Todos os direitos reservados.<br>
-                    <a href="http://pi.b-datum.com" target="_blank" style="color: #666666; text-decoration: none;">http://pi.b-datum.com</a><br>
-                  </p>
-                </td>
-              </tr>
-            </table>
-            <!--// fim footer //-->
 
-          </td>
-        </tr>
-      </table>
-      <table cellspacing="0" cellpadding="0" border="0" width="650" height="25">
-        <tr>
-          <td align="center" vertical-align="top">
-          </td>
-        </tr>
-      </table>
+            <!--// footer //-->
+           <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td style="background-color: #f0f0f0; padding: 4px 15px;" bgcolor="#f0f0f0">
+                                    <p style="font-family: tahoma, verdana, arial; font-size: 10pt; color: #666666;">
+                                        &copy; Publicidade Inteligente 2013. Todos os direitos reservados.<br>
+                                        <a href="http://[%domain%]" target="_blank" style="color: #666666; text-decoration: none;">http://[%domain%]</a><br>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <table cellspacing="0" cellpadding="0" border="0" width="650" height="25">
+                <tr>
+                <td align="center" vertical-align="top"></td>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>

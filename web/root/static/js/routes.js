@@ -81,7 +81,6 @@ var $route = function() {
 }();
 
 $(document).ready(function () {
-
     $('#origin').click(function () {
         $new_add.initialize('new_address', 'elm_origin_id');
         $('#btn_save').button('reset');
@@ -94,18 +93,6 @@ $(document).ready(function () {
         $('.clear_addr_rt').val('');
     });
 
-
     var $route_addr = $('.route_addr');
     $route.swap_route_point();
-    if($route_addr.length) {
-        $route.swap_route_point('elm_destination_id');
-        $route.swap_route_point('elm_origin_id');
-
-        $route_addr.on('change', function(){
-            var $elm = $(this).attr('id');
-            $('.route_addr option').show();
-            $route.swap_route_point($elm)
-        });
-    }
-
 });
