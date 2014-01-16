@@ -218,6 +218,7 @@ legend{
 	padding: 0 20px;
 	clear: both;
 	font-size: 0.9em;
+	padding: 0 10px;
 }
 
 .menu-footer{
@@ -566,7 +567,7 @@ div.faq .buttons{
 	background-color: #fff;
 	border-radius:50px;
 	-moz-border-radius:50px;
-	-webkit-border-radius:50px;	
+	-webkit-border-radius:50px;
 	font-weight: bold;
 }
 .steps .item .description{
@@ -617,6 +618,7 @@ div.faq .buttons{
 		font-size: 1em;
 		line-height: 1.4em;
 	}
+
 	.masthead .pull-left{
 		float: none;
 	}
@@ -653,7 +655,7 @@ div.faq .buttons{
 	.form-landing-page .row-fluid [class*="span6"]:first-child{
 		margin-right: 10px;
 	}
-	
+
 	#land-page .steps [class*="span"]{
 		width: 50%;
 		float: left;
@@ -662,6 +664,24 @@ div.faq .buttons{
 		margin: 10px 88% -35px 10px;
 		padding: 5px;
 	}
-	
+
+/**
+	.masthead .pull-right,
+	.masthead .pull-left{
+		float: none;
+	}
+	.menu-top{
+		margin: 10px 0 0 0;
+	}
+	.root-index .menu-top{
+		margin-bottom: 25px;
+	}
+	.menu-top li{
+		float: none;
+	}
+	.menu-top li a{
+		padding: 4px 10px;
+	}
+**/
 }
 
