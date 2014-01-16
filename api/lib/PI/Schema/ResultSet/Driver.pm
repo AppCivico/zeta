@@ -62,7 +62,7 @@ sub verifiers_specs {
                             my $str = $r->get_value('cpf');
 
                            $ret = 0 if $str =~ /^(\d)\1*$/ || $self->find( { cpf => $str } );
-                       };
+                        };
                         return 0 if $@;
 
                         return $ret;
