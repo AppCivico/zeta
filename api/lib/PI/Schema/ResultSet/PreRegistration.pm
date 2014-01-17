@@ -5,7 +5,7 @@ use utf8;
 use Moose;
 use MooseX::Types::Email qw/EmailAddress/;
 use PI::Types qw /DataStr/;
-use MooseX::Types::CPF qw(CPF);
+
 extends 'DBIx::Class::ResultSet';
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -25,14 +25,14 @@ sub verifiers_specs {
                     post_check => sub {
                         my $r = shift;
                         my $ret = 1;
-                        eval {
+#                         eval {
                             $ret = 0
                             if (
                                 $self->resultset('User')->find( { email => lc $r->get_value('email') } )
                                 || $self->resultset('PreRegistration')->find( { email => lc $r->get_value('email') } )
                             );
-                        };
-                        return 0 if $@;
+#                         };
+#                         return 0 if $@;
 
                         return $ret;
                     }
