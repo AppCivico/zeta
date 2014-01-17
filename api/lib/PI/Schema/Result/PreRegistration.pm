@@ -216,8 +216,23 @@ sub verifiers_specs {
             filters => [qw(trim)],
             profile => {
                 email=> {
-                    required => 0,
-                    type     => 'Str',
+                    required    => 0,
+                    type        => 'Str',
+                    post_check  => sub {
+                        my $r   = shift;
+                        my $ret = 1;
+
+                        eval {
+                            $ret = 0
+                            if (
+                                $self->resultset('User')->find( { email => lc $r->get_value('email') } )
+                                || $self->resultset('PreRegistration')->find( { email => lc $r->get_value('email') } )
+                            );
+                        };
+                        return 0 if $@;
+
+                        return $ret;
+                    }
                 },
                 name=> {
                     required => 0,
