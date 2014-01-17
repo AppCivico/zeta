@@ -16,9 +16,11 @@ sub process : Chained('base') : PathPart('pre-registration') : Args(0) {
 
     my $api  = $c->model('API');
     my $form = $c->model('Form');
+    my $ceps = ['postal_code_job', 'postal_code_home', 'postal_code_college'];
 
     $form->only_number( $params, 'mobile_number');
     $form->format_date( $params, 'birth_date');
+    $form->only_number($params, @$ceps);
 
     $api->stash_result(
         $c, 'pre_registrations',

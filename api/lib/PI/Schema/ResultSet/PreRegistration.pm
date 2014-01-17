@@ -73,6 +73,18 @@ sub verifiers_specs {
                 gender => {
                     required => 1,
                     type     => 'Str',
+                },
+                postal_code_college => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                postal_code_home=> {
+                    required => 0,
+                    type     => 'Int',
+                },
+                postal_code_job => {
+                    required => 0,
+                    type     => 'Int',
                 }
             }
         ),

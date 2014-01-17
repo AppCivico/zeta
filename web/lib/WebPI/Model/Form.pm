@@ -60,6 +60,8 @@ sub only_number {
     my ( $self, $ref, @fields ) = @_;
 
     foreach my $f (@fields) {
+        next unless $ref->{$f};
+
         $ref->{$f} =~ s/[^\d]//g;
     }
 }

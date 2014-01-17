@@ -50,9 +50,7 @@ sub cadastro : Chained('base') : PathPart('') : Args(0) {
     $c->stash->{template} = 'auto/pre_cadastro.tt';
 }
 
-sub registration_successfully : Chained('base') : PathPart('registration_successfully') : Args(0) {
-
-}
+sub registration_successfully : Chained('base') : PathPart('registration_successfully') : Args(0) { }
 
 __PACKAGE__->meta->make_immutable;
 
