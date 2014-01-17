@@ -10,7 +10,7 @@
   </div>
 
   <div class="row">
-  
+
 	<div class="steps">
 		<div class="item span3 white-alpha">
 			<div class="number">1</div>
@@ -33,14 +33,14 @@
 			<div class="description">A partir de agora você já está faturando! Viu como é fácil? <a href="#CADASTRO">Clique aqui</a> e cadastre-se agora mesmo!</div>
 		</div>
 	</div>
-  
+
   </div>
 </section>
 <div class="clear"></div>
 <section id="forms" class="form-landing-page">
   <a name="CADASTRO"></a>
   <div class="page-header bg-dark">
-    <h1>Faça o seu cadastro!</h1>
+    <h1>Faça o seu pré-cadastro!</h1>
     <p>Para ser nosso parceiro, precisamos que você preencha o formulário abaixo</p>
   </div>
   <div class="row page-content">
@@ -50,7 +50,7 @@
       <form class="form-horizontal" method="post" action="/form/pre-registration" autocomplete="off">
         <fieldset>
             <legend>Informações pessoais</legend>
-			
+
 			<div class="row-fluid">
 				<div class="span6">
 					[%input_text('name','Nome completo', req=>1)|none%]
