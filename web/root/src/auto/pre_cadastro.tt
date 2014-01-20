@@ -2,8 +2,12 @@
 [%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/cadastro.js")%]
 [%-CALL assets.include("js/address.js")%]
-<section id="land-page">
 
+[%IF fb_tab%]
+    [%no_menu = 1%]
+[%END%]
+
+<section id="land-page">
   <div class="page-header bg-dark">
     <h1>Como funciona?</h1>
     <p>Veja como é fácil ganhar um dinheiro extra sem alterar a sua rotina!</p>
@@ -47,7 +51,7 @@
     <div class="span11">
     [%IF error_msg %]<div class="alert alert-error"><p>[%error_msg%]</p></div>[%END%]
     [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
-      <form class="form-horizontal" method="post" action="/form/pre-registration" autocomplete="off">
+      <form class="form-horizontal" method="post" action="/form/pre-registration" id="pre_reg" autocomplete="off">
         <fieldset>
             <legend>Informações pessoais</legend>
 
@@ -102,9 +106,8 @@
 				</div>
 				<div class="span6">
 					<div id="cities">
-						[%select_field('city_id', 'Cidade', req=>1)|none%]
+						[%select_field('city_id', 'Cidade', req=>1, array => select_cities)|none%]
 					</div>
-					<input type="hidden" id="city_aux" name="city_aux"/>
 				</div>
 			</div>
 			<div class="row-fluid">
@@ -118,22 +121,26 @@
 			<div class="row-fluid">
                 <div class="span6">
                     <label>Usa o carro para ir ao trabalho?</label>
-                    <input type="radio" name="job" class="span3">Sim</input>
-                    <input type="radio" name="job" class="span3">Não</input>
+                    <input type="radio" id="job_yes" name="job" value="yes" class="span3 job">Sim</input>
+                    <input type="radio" id="job_no" name="job" value="no" class="span3 job">Não</input>
                     [%input_text('postal_code_job','CEP do trabalho', classes => ['span3', 'postal_code_pre'])|none%]
+                    <span class="help-inline" id="error_job">Esse campo deve ser preenchido quando a opção acima foi Sim</span>
                 </div>
                 <div class="span6">
                     <label>Usa o carro para ir à escola ou à faculdade?</label>
-                    <input type="radio" name="college" class="span3">Sim</input>
-                    <input type="radio" name="college" class="span3">Não</input>
+                    <input type="radio" id="college_yes" name="college" value="yes"  class="span3 college">Sim</input>
+                    <input type="radio" id="college_no" name="college" value="no" class="span3 college">Não</input>
                     [%input_text('postal_code_college','CEP da escola ou faculdade', classes => ['span3', 'postal_code_pre'])|none%]
+                    <span class="help-inline" id="error_college">Esse campo deve ser preenchido quando a opção acima foi Sim</span>
                 </div>
             </div>
 
 			<div class="obs">
 				Campos marcados com * são obrigatórios
 			</div>
-
+            [%IF fb_tab%]
+                <input type="hidden" value="facebook_tab" name="record_origin"></input>
+            [%END%]
 
         </fieldset>
 

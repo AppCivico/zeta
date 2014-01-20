@@ -10,14 +10,11 @@ sub format_date {
     my ( $self, $ref, @fields ) = @_;
 
     foreach my $f (@fields) {
-        if(!$ref->{$f}) {
-            $ref->{$f} = undef;
-        } else {
-            my $date = $ref->{$f};
+        next unless $ref->{$f};
 
-            my ( $d, $m, $y ) = $date =~ m/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-            $ref->{$f} = "$y-$m-$d";
-        }
+        my $date            = $ref->{$f};
+        my ( $d, $m, $y )   = $date =~ m/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+        $ref->{$f}          = "$y-$m-$d";
     }
 }
 

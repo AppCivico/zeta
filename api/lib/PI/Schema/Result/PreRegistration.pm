@@ -125,6 +125,12 @@ __PACKAGE__->table("pre_registration");
   data_type: 'integer'
   is_nullable: 1
 
+=head2 record_origin
+
+  data_type: 'text'
+  default_value: 'site'
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -172,6 +178,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 1 },
   "postal_code_college",
   { data_type => "integer", is_nullable => 1 },
+  "record_origin",
+  { data_type => "text", default_value => "site", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -219,8 +227,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-17 19:10:58
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wOEmgGLfGDRsNOYItpJFdA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-20 15:18:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1jZ+Kai0NtDN5cRLzeM6hQ
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -302,6 +310,10 @@ sub verifiers_specs {
                 postal_code_job => {
                     required => 0,
                     type     => 'Int',
+                },
+                record_origin => {
+                    required => 0,
+                    type     => 'Str',
                 }
             }
         ),

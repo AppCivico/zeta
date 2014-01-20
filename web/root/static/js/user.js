@@ -103,19 +103,19 @@ $(document).ready(function () {
 
     $('.timepicker-me').timepicker();
 
-    if ($('#elm_state_id').length) {
-        var city_id;
-        if ($('#city_aux').val()) {
-            city_id = $('#city_aux').val();
-        }
+//     if ($('#elm_state_id').length) {
+//         var city_id;
+//         if ($('#city_aux').val()) {
+//             city_id = $('#city_aux').val();
+//         }
+//
+//         $address.get_cities($('#elm_state_id').val(), city_id);
+//     }
 
-        $address.get_cities($('#elm_state_id').val(), city_id);
-    }
-
-    var $brand_id = $("#elm_vehicle_brand_id");
-    if ($brand_id.length && $brand_id.val()) {
-        filter_vehicle($brand_id.val());
-    }
+//     var $brand_id = $("#elm_vehicle_brnd_id");
+//     if ($brand_id.length && $brand_id.val()) {
+//         filter_vehicle($brand_id.val());
+//     }
 
     $("#elm_vehicle_brand_id").change(function () {
         filter_vehicle($(this).val());

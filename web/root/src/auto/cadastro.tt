@@ -84,7 +84,7 @@
 
             [%select_field('state_id', 'Estado',  array => select_states, classes => ['span3', 'clear_addr'], req=>1)|none%]
             <div id="cities">
-                [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'], req=>1)|none%]
+                [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'], array => select_cities, req=>1)|none%]
             </div>
             <input type="hidden" id="city_aux" name="city_aux"/>
 

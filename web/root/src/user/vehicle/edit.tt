@@ -21,8 +21,11 @@
         |none%]
         <input type="hidden" id="city_aux" value="[%vehicle_obj.city_id%]">
         <div id="cities">
-            [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'],
-            req => 1, value => vehicle_obj.city_id)
+            [%select_field(
+                'city_id', 'Cidade', classes => ['span3', 'clear_addr'],
+                array => select_cities
+                req => 1,
+                value => vehicle_obj.city_id)
             |none%]
         </div>
 

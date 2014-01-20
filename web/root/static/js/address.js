@@ -99,14 +99,6 @@ var $address = function () {
             complete: function () {
                 $me.removeClass('input-loading');
                 $me.addClass('required');
-
-                if ($('#city_aux').val()) {
-                    $('#elm_city_id').val($('#city_aux').val());
-                }
-
-                $('#elm_city_id').on('change', function () {
-                    $('#city_aux').val($(this).val());
-                });
             }
         });
     }
@@ -166,11 +158,12 @@ $(document).ready(function () {
 
     if ($('.postal_code').val()) {
         $address.get_address($('.postal_code'), true);
-    } else {
-        if ($('#elm_state_id').val() != '') {
-            $address.get_cities($('#elm_state_id').val());
-        }
     }
+//     else {
+//         if ($('#elm_state_id').val() != '') {
+//             $address.get_cities($('#elm_state_id').val());
+//         }
+//     }
 
     $('.postal_code').click(function () {
         cep_val = $(this).val();

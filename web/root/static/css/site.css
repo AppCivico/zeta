@@ -685,3 +685,7 @@ div.faq .buttons{
 **/
 }
 
+#error_college, #error_job {
+    display: none;
+}
+

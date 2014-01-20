@@ -47,4 +47,45 @@ $(document).ready(function () {
             format: 'dd/mm/yyyy'
         });
     }
+
+    var $prereg_form = $('#pre_reg');
+    if($prereg_form.length) {
+        var $job        = $('input:radio[name="job"]');
+        var $college    = $('input:radio[name="college"]');
+        var $job_val;
+        var $coll_val;
+
+        $job.change(function(){
+            $job_val = $(this).val();
+        });
+        $college.change(function(){
+            $coll_val = $(this).val();
+        });
+
+        $prereg_form.on('submit', function(e) {
+            var $ret        = true;
+            var $post_job   = $('#elm_postal_code_job').val();
+            var $post_col   = $('#elm_postal_code_college').val();
+
+            if( $job.is(':checked') && $job_val == 'yes' ) {
+                if(!$post_job) {
+                    $('#error_job').show();
+
+                    $ret = false;
+                }
+            }
+
+            if( $college.is(':checked') && $coll_val == 'yes') {
+                if(!$post_col) {
+                    $('#error_college').show();
+
+                    $ret = false;
+                }
+            }
+
+            if(!$ret) {
+                e.preventDefault();
+            }
+        });
+    }
 });

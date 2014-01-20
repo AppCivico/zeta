@@ -9,9 +9,20 @@ sub base : Chained('/user/base') : PathPart('vehicle') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
     my $api = $c->model('API');
+    my $b = $c->stash->{vehicles};
+    use DDP; p $b;
 
     $api->stash_result( $c, 'states' );
     $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+
+    $api->stash_result(
+        $c, 'cities',
+        params => {
+            order       => 'name',
+            state_id    => $c->stash->{vehicles}[0]{state_id}
+        }
+    );
+    $c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
 
     $api->stash_result(
         $c, 'vehicle_colors',
@@ -28,6 +39,15 @@ sub base : Chained('/user/base') : PathPart('vehicle') : CaptureArgs(0) {
         }
     );
     $c->stash->{select_brands} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_brands} } ];
+
+    $api->stash_result(
+        $c, 'vehicle_models',
+         params => {
+            order               => 'name',
+            vehicle_brand_id    => $c->stash->{vehicles}[0]{brand}{id}
+        }
+    );
+    $c->stash->{select_models} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{vehicle_models} } ];
 
     $api->stash_result(
         $c, 'insurance_companies',

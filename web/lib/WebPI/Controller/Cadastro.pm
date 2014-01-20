@@ -30,6 +30,18 @@ sub cadastro : Chained('base') : PathPart('cadastro') : Args(0) {
     $api->stash_result( $c, 'states' );
     $c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 
+    if( $c->stash->{body}{state_id} && !$c->stash->{body}{postal_code}) {
+        $api->stash_result(
+            $c, 'cities',
+            params => {
+                state_id    => $c->{stash}->{body}{state_id},
+                order       => 'name'
+            }
+        );
+
+        $c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
+    }
+
     if ( exists( $c->stash->{form_error}{birth_date} ) ) {
         my $now = DateTime->now;
 
