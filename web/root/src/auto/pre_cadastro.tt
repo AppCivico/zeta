@@ -121,15 +121,15 @@
 			<div class="row-fluid">
                 <div class="span6">
                     <label>Usa o carro para ir ao trabalho?</label>
-                    <input type="radio" id="job_yes" name="job" value="yes" class="span3 job">Sim</input>
-                    <input type="radio" id="job_no" name="job" value="no" class="span3 job">Não</input>
+                    <input type="radio" id="job_yes" name="job" value="yes" class="radio-form job">Sim</input>
+                    <input type="radio" id="job_no" name="job" value="no" class="radio-form job">Não</input>
                     [%input_text('postal_code_job','CEP do trabalho', classes => ['span3', 'postal_code_pre'])|none%]
                     <span class="help-inline" id="error_job">Esse campo deve ser preenchido quando a opção acima foi Sim</span>
                 </div>
                 <div class="span6">
                     <label>Usa o carro para ir à escola ou à faculdade?</label>
-                    <input type="radio" id="college_yes" name="college" value="yes"  class="span3 college">Sim</input>
-                    <input type="radio" id="college_no" name="college" value="no" class="span3 college">Não</input>
+                    <input type="radio" id="college_yes" name="college" value="yes"  class="radio-form college">Sim</input>
+                    <input type="radio" id="college_no" name="college" value="no" class="radio-form college">Não</input>
                     [%input_text('postal_code_college','CEP da escola ou faculdade', classes => ['span3', 'postal_code_pre'])|none%]
                     <span class="help-inline" id="error_college">Esse campo deve ser preenchido quando a opção acima foi Sim</span>
                 </div>

@@ -578,6 +578,15 @@ div.faq .buttons{
 	min-height: 80px;
 }
 
+input.radio-form{
+    margin-top: -2px;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+input.radio-form:first-child{
+    margin-left: 0px;
+}
+
 .form-landing-page .form-horizontal .control-label {
 	text-align: left;
 	float: none;
