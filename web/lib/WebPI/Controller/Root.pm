@@ -34,6 +34,10 @@ sub index : Path : Args(0) {
 
 }
 
+sub fb_login : Path('fb_login'): Args(0) {
+
+}
+
 sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
