@@ -28,7 +28,9 @@
 </head>
 <body class="[% body_class %]"><script>var actions=[];</script>
 <div class="container">
-    [%INCLUDE parts/menu.tt%]
+    [%IF !no_menu%]
+        [%INCLUDE parts/menu.tt%]
+    [%END%]
 	<div class="divider"></div>
 
     [%content|none%]

@@ -43,16 +43,20 @@ sub result_GET {
         entity => {
             (
                 map { $_ => $attrs{$_}, }
-                  qw/
-                  id
-                  name
-                  gender
-                  marital_state
-                  email
-                  telephone
-                  manufactured_year
-                  average_mileage
-                  /
+                qw/
+                    id
+                    name
+                    gender
+                    marital_state
+                    email
+                    telephone
+                    manufactured_year
+                    average_mileage
+                    postal_code_college
+                    postal_code_home
+                    postal_code_job
+                    record_origin
+                /
             ),
             city => {
                 map {$_ => $attrs{$_}, }
@@ -76,8 +80,8 @@ sub result_PUT {
     $pre_registration->execute( $c, for => 'update', with => $c->req->params );
     $self->status_accepted(
         $c,
-        location => $c->uri_for( $self->action_for('result'), [ $pre_registration->id ] )->as_string,
-        entity => { name => $pre_registration->name, id => $pre_registration->id }
+        location    => $c->uri_for( $self->action_for('result'), [ $pre_registration->id ] )->as_string,
+        entity      => { name => $pre_registration->name, id => $pre_registration->id }
       ),
       $c->detach
       if $pre_registration;
@@ -116,6 +120,10 @@ sub list_GET {
                                 telephone
                                 manufactured_year
                                 average_mileage
+                                postal_code_college
+                                postal_code_home
+                                postal_code_job
+                                record_origin
                               /
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string

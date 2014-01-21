@@ -10,7 +10,7 @@
 
 			[%select_field('vehicle_brand_id', 'Marca', req=>1, array => select_brands)|none%]
 			<div id="vehicle_model">
-                [%select_field('vehicle_model_id', 'Modelo', req=>1, array => select_models)|none%]
+                [%select_field('vehicle_model_id', 'Modelo', array => select_models, req=>1)|none%]
 			</div>
 			<input type="hidden" id="vehicle_model_aux" value="[%vehicle_obj.vehicle_model_id%]">
             [%select_field('model_year','Ano do modelo', array => vehicle_years, req=>1)|none%]
@@ -24,7 +24,7 @@
 
             [%select_field('state_id', 'Estado de registro',  array => select_states, classes => ['span3', 'clear_addr'], req => 1)|none%]
             <div id="cities">
-                [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'], req => 1)|none%]
+                [%select_field('city_id', 'Cidade', classes => ['span3', 'clear_addr'], array => select_cities, req => 1)|none%]
             </div>
 
 			[%select_field('doors_number', 'Número de portas', req=>1, array => [

@@ -110,6 +110,27 @@ __PACKAGE__->table("pre_registration");
   is_nullable: 1
   original: {default_value => \"now()"}
 
+=head2 postal_code_job
+
+  data_type: 'integer'
+  is_nullable: 1
+
+=head2 postal_code_home
+
+  data_type: 'integer'
+  is_nullable: 1
+
+=head2 postal_code_college
+
+  data_type: 'integer'
+  is_nullable: 1
+
+=head2 record_origin
+
+  data_type: 'text'
+  default_value: 'site'
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -151,6 +172,14 @@ __PACKAGE__->add_columns(
     is_nullable   => 1,
     original      => { default_value => \"now()" },
   },
+  "postal_code_job",
+  { data_type => "integer", is_nullable => 1 },
+  "postal_code_home",
+  { data_type => "integer", is_nullable => 1 },
+  "postal_code_college",
+  { data_type => "integer", is_nullable => 1 },
+  "record_origin",
+  { data_type => "text", default_value => "site", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -198,8 +227,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-13 17:35:04
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:YTzRvFu1ZockpAPTYabZoQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-20 15:18:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1jZ+Kai0NtDN5cRLzeM6hQ
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -267,6 +296,22 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 gender => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                postal_code_college => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                postal_code_home=> {
+                    required => 0,
+                    type     => 'Int',
+                },
+                postal_code_job => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                record_origin => {
                     required => 0,
                     type     => 'Str',
                 }

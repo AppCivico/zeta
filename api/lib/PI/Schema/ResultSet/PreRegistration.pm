@@ -42,9 +42,19 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Str',
                 },
-                birth_date=> {
-                    required => 1,
-                    type     => DataStr,
+                birth_date => {
+                    required   => 1,
+                    type       => DataStr,
+                    post_check => sub {
+                        my $r        = shift;
+                        my $now      = DateTime->now();
+                        my $date     = eval { DateTime::Format::Pg->parse_datetime( $r->get_value('birth_date') ) };
+                        my $interval = eval { $now->subtract_datetime($date) };
+
+                        return 1 if $interval->years >= 18 && $interval->years < 120;
+
+                        return 0;
+                      }
                 },
                 telephone=> {
                     required => 0,
@@ -72,6 +82,22 @@ sub verifiers_specs {
                 },
                 gender => {
                     required => 1,
+                    type     => 'Str',
+                },
+                postal_code_college => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                postal_code_home=> {
+                    required => 0,
+                    type     => 'Int',
+                },
+                postal_code_job => {
+                    required => 0,
+                    type     => 'Int',
+                },
+                record_origin => {
+                    required => 0,
                     type     => 'Str',
                 }
             }

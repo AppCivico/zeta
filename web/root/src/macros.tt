@@ -70,8 +70,8 @@ IF (opt.req); opt.classes.push('required'); END;
     IF body.$name && body.$name.defined;
         opt.checked = body.$name == opt.value ? 1 : 0;
     END;
-
 %]
+
 <div class="control-group [%IF form_error.$name == 'invalid'%]error[%ELSIF form_error.$name%]warning[%END%]">
  <label class="control-label" for="[%id%]">[%label|none%]</label>
  <div class="[% opt.type || 'text' %] controls">
