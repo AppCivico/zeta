@@ -40,7 +40,7 @@
 		<ul class="menu-footer">
 			<li class="title">Associados</li>
 			[%IF !c.user%]
-				<li class="item"><a href="/participar">Cadastro</a></li>
+				<li class="item"><a href="/pre-cadastro">Cadastro</a></li>
 				<li class="item"><a href="/login">Login</a></li>
 			[%ELSE%]
 				<li class="item"><a href="[%c.uri_for_action("/$role_controller/dashboard/index")%]">Meu Perfil</a></li>
