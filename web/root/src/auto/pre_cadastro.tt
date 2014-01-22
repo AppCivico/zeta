@@ -2,6 +2,7 @@
 [%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/cadastro.js")%]
 [%-CALL assets.include("js/address.js")%]
+[%-CALL assets.include("js/facebook_login.js")%]
 
 [%IF fb_tab%]
     [%no_menu = 1%]
@@ -55,6 +56,12 @@
         <fieldset>
             <legend>Informações pessoais</legend>
 
+        [%IF fb_login%]
+<!--             Facebook -->
+            <div id="fb-root"></div>
+            <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+<!--             Fim FB -->
+        [%END%]
 			<div class="row-fluid">
 				<div class="span6">
 					[%input_text('name','Nome completo', req=>1)|none%]

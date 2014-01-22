@@ -59,6 +59,10 @@ sub cadastro : Chained('base') : PathPart('') : Args(0) {
         $c->stash->{fb_tab} = 1;
     }
 
+    if($c->req->params->{fb_login}) {
+        $c->stash->{fb_login} = 1;
+    }
+
     $c->stash->{template} = 'auto/pre_cadastro.tt';
 }
 
