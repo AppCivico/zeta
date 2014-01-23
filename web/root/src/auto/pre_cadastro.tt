@@ -2,7 +2,10 @@
 [%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/cadastro.js")%]
 [%-CALL assets.include("js/address.js")%]
-[%-CALL assets.include("js/facebook_login.js")%]
+
+[%IF fb_login%]
+    [%-CALL assets.include("js/facebook_login.js")%]
+[%END%]
 
 [%IF fb_tab%]
     [%no_menu = 1%]

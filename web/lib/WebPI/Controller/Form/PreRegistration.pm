@@ -2,6 +2,9 @@ package WebPI::Controller::Form::PreRegistration;
 use Moose;
 use namespace::autoclean;
 use Digest::SHA1 qw(sha1 sha1_hex sha1_base64);
+use MIME::Base64;
+use JSON::XS;
+use Mhash qw( mhash_hmac_hex ) ;
 use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -34,6 +37,26 @@ sub process : Chained('base') : PathPart('pre-registration') : Args(0) {
         $c->detach( '/form/redirect_error', [] );
     }
 
+}
+
+sub process_fb_auth : Chained('base') : PathPart('fb-auth') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $api         = $c->model('API');
+    my $api_secret  = '85fc748647d6c6deaa4ee076fb396d6c';
+
+    my ( $signed_request, $payload ) = split ('.', $c->req->params->{signed_request});
+
+    $signed_request = decode_base64($signed_request);
+    my $data        = decode_json(decode_base64($payload));
+    my $hash_hex    = mhash_hmac_hex(Mhash::MHASH_SHA1, $payload, $api_secret);
+
+    if($signed_request != $hash_hex) {
+        die 'error. Bad signed JSON signature';
+    }
+    use DDP; p $data;
+    $c->res->header( 'content-type', 'application/json;charset=UTF-8' );
+    $c->res->body( encode_json($data) );
 }
 
 __PACKAGE__->meta->make_immutable;
