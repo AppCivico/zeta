@@ -103,7 +103,15 @@ sub verifiers_specs {
                 fb_id => {
                     required => 0,
                     type     => 'Int',
-                }
+                },
+                fb_code => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                fb_timestamp => {
+                    required => 0,
+                    type     => 'Str',
+                },
             }
         ),
 

@@ -57,6 +57,8 @@ sub result_GET {
                     postal_code_job
                     record_origin
                     fb_id
+                    fb_code
+                    fb_timestamp
                 /
             ),
             city => {
@@ -126,6 +128,8 @@ sub list_GET {
                                 postal_code_job
                                 record_origin
                                 fb_id
+                                fb_code
+                                fb_timestamp
                               /
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
