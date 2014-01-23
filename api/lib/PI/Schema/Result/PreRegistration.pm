@@ -136,6 +136,16 @@ __PACKAGE__->table("pre_registration");
   data_type: 'integer'
   is_nullable: 1
 
+=head2 fb_code
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 fb_timestamp
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -187,6 +197,10 @@ __PACKAGE__->add_columns(
   { data_type => "text", default_value => "site", is_nullable => 0 },
   "fb_id",
   { data_type => "integer", is_nullable => 1 },
+  "fb_code",
+  { data_type => "text", is_nullable => 1 },
+  "fb_timestamp",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -234,8 +248,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-22 17:31:18
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:I6n0B9nmnN7Ur7AuBv1rNg
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-23 16:46:07
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LVTvtP4LzKBipV2/nIJcqQ
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
@@ -325,7 +339,15 @@ sub verifiers_specs {
                 fb_id => {
                     required => 0,
                     type     => 'Int',
-                }
+                },
+                fb_code => {
+                    required => 0,
+                    type     => 'Str',
+                },
+                fb_timestamp => {
+                    required => 0,
+                    type     => 'Str',
+                },
             }
         ),
     };

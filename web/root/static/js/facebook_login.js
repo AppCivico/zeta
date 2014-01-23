@@ -87,7 +87,11 @@ function processAuth(auth_resp) {
         dataType: 'json',
         data: { signed_request: auth_resp.authResponse.signedRequest },
         success: function (result) {
-            console.log(result);
+            $('#pre_reg').append(
+                '<input type="hidden" value='+result[0].code+' name="fb_code">'+
+                '<input type="hidden" value='+result[0].user_id+' name="fb_id">'+
+                '<input type="hidden" value='+result[0].issued_at+' name="fb_timestamp">'
+            );
         },
         error: function (err) {
             console.log(err);
