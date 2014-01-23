@@ -79,6 +79,7 @@ function complete_pre_registration (response) {
 
 function processAuth(auth_resp) {
     console.log(auth_resp);
+    console.log(auth_resp.signedRequest);
 //     $.ajax({
 //         url: '/form/fb-auth',
 //         dataType: 'json',
