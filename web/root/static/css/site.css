@@ -617,6 +617,14 @@ input.radio-form:first-child{
 	padding: 10px 50px;
 }
 
+.facebook-login{
+    font-size: 0.8em;
+    color: #666;
+}
+.facebook-login .title{
+    color: #444;
+}
+
 @media (min-width: 978px) {
 	.panel-home .text .contents p.lead{
 		font-size: 1.4em;
