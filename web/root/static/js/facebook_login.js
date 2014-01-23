@@ -76,3 +76,18 @@ function complete_pre_registration (response) {
         }
     }
 }
+
+function processAuth(auth_resp) {
+    console.log(auth_resp);
+//     $.ajax({
+//         url: '/form/fb-auth',
+//         dataType: 'json',
+//
+//         success: function (result) {
+//             console.log(result);
+//         },
+//         error: function (err) {
+//             console.log(err);
+//         }
+//     });
+}
