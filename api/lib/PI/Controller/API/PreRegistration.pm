@@ -56,6 +56,7 @@ sub result_GET {
                     postal_code_home
                     postal_code_job
                     record_origin
+                    fb_id
                 /
             ),
             city => {
@@ -124,6 +125,7 @@ sub list_GET {
                                 postal_code_home
                                 postal_code_job
                                 record_origin
+                                fb_id
                               /
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string

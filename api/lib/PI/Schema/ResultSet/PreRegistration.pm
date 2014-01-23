@@ -99,6 +99,10 @@ sub verifiers_specs {
                 record_origin => {
                     required => 0,
                     type     => 'Str',
+                },
+                fb_id => {
+                    required => 0,
+                    type     => 'Int',
                 }
             }
         ),
