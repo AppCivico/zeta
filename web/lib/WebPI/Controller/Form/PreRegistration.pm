@@ -1,4 +1,5 @@
 package WebPI::Controller::Form::PreRegistration;
+use parent qw/Catalyst::Controller::ActionRole/;
 use Moose;
 use namespace::autoclean;
 use Digest::SHA1 qw(sha1 sha1_hex sha1_base64);

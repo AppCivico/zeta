@@ -38,6 +38,12 @@ sub fb_login : Path('fb_login'): Args(0) {
 
 }
 
+sub login : Does('RequireSSL') : Path('login') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{template} = 'auto/login.tt';
+}
+
 sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
