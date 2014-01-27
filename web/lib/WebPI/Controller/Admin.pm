@@ -1,12 +1,11 @@
 package WebPI::Controller::Admin;
 use Moose;
 use namespace::autoclean;
-use parent qw/Catalyst::Controller::ActionRole/;
 use URI;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base :Does('RequireSSL') : Chained('/root') : PathPart('admin') : CaptureArgs(0) {
+sub base : Chained('/root') : PathPart('admin') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
     if ( !$c->user || !grep { /^admin$/ } $c->user->roles ) {
@@ -19,7 +18,6 @@ sub base :Does('RequireSSL') : Chained('/root') : PathPart('admin') : CaptureArg
     if ( $c->req->method eq 'POST' ) {
         return;
     }
-
 
 }
 
