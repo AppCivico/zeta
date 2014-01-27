@@ -1,9 +1,9 @@
 package WebPI::Controller::Cadastro;
 use Moose;
 use DateTime;
+use JSON::XS;
 use DateTime::Format::Pg;
 use namespace::autoclean;
-use JSON::XS;
 
 BEGIN { extends 'Catalyst::Controller' }
 

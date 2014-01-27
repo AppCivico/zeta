@@ -57,14 +57,25 @@
     [%IF status_msg %]<div class="alert"><p>[%status_msg%]</p></div>[%END%]
       <form class="form-horizontal" method="post" action="/form/pre-registration" id="pre_reg" autocomplete="off">
         <fieldset>
+            [%IF fb_login%]
+            <legend>Vincular meu cadastro com minha conta do facebook</legend>
+            <div class="facebook-login row-fluid">
+                <div class="span4">
+            <!--             Facebook -->
+                        <div id="fb-root"></div>
+                        <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+            <!--             Fim FB -->
+                </div>
+                <div class="span8">
+                    <span class="title">Por que vincular minha conta do Facebook?</span><br />
+                    Vinculando sua conta do Facebook com a Publicidade Inteligente você bla bla bla<br />
+                </div>
+            </div>
+            <br /><br />
+            [%END%]
+
             <legend>Informações pessoais</legend>
 
-        [%IF fb_login%]
-<!--             Facebook -->
-            <div id="fb-root"></div>
-            <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
-<!--             Fim FB -->
-        [%END%]
 			<div class="row-fluid">
 				<div class="span6">
 					[%input_text('name','Nome completo', req=>1)|none%]

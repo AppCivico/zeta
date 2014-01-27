@@ -19,7 +19,6 @@ sub base : Chained('/root') : PathPart('admin') : CaptureArgs(0) {
         return;
     }
 
-
 }
 
 __PACKAGE__->meta->make_immutable;
