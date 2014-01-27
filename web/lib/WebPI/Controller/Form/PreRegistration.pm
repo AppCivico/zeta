@@ -10,8 +10,7 @@ use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) {
-}
+sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) { }
 
 sub process : Chained('base') : PathPart('pre-registration') : Args(0) {
     my ( $self, $c ) = @_;

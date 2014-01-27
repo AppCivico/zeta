@@ -1,9 +1,10 @@
 package WebPI::Controller::PreRegistration;
 use Moose;
 use DateTime;
+use JSON::XS;
 use DateTime::Format::Pg;
 use namespace::autoclean;
-use JSON::XS;
+use parent qw/Catalyst::Controller::ActionRole/;
 
 BEGIN { extends 'Catalyst::Controller' }
 

@@ -1,6 +1,7 @@
 package WebPI::Controller::User;
 use Moose;
 use namespace::autoclean;
+use parent qw/Catalyst::Controller::ActionRole/;
 use URI;
 
 BEGIN { extends 'Catalyst::Controller' }

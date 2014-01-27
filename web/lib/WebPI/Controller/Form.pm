@@ -7,7 +7,7 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub root : Does('RequireSSL') : Chained('/root') : PathPart('form') : CaptureArgs(0) {
+sub root : Chained('/root') : PathPart('form') : CaptureArgs(0) {
 }
 
 sub redirect_ok : Private {

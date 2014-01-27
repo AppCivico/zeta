@@ -1,13 +1,14 @@
 package WebPI::Controller::Cadastro;
 use Moose;
 use DateTime;
+use JSON::XS;
 use DateTime::Format::Pg;
 use namespace::autoclean;
-use JSON::XS;
+use parent qw/Catalyst::Controller::ActionRole/;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
+sub base :Does('RequireSSL') : Chained('/root') : PathPart('') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
     $c->response->headers->header( 'charset' => 'utf-8' );
 }
