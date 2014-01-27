@@ -66,7 +66,7 @@ sub redirect_error : Private {
 
     my $host  = $c->req->uri->host;
     my $refer = $c->req->headers->referer;
-    if ( !$refer || $refer !~ /^http?s:\/\/$host/ ) {
+    if ( !$refer || $refer !~ /^https?:\/\/$host/ ) {
         $refer = $c->uri_for('/');
     }
 
