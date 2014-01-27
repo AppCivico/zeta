@@ -1,11 +1,12 @@
 package WebPI::Controller::User;
 use Moose;
 use namespace::autoclean;
+use parent qw/Catalyst::Controller::ActionRole/;
 use URI;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/root') : PathPart('user') : CaptureArgs(0) {
+sub base : Does('RequireSSL') : Chained('/root') : PathPart('user') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
     if ( !$c->user || !grep { /^user$/ } $c->user->roles ) {

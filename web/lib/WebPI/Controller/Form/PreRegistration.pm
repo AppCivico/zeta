@@ -1,4 +1,5 @@
 package WebPI::Controller::Form::PreRegistration;
+use parent qw/Catalyst::Controller::ActionRole/;
 use Moose;
 use namespace::autoclean;
 use Digest::SHA1 qw(sha1 sha1_hex sha1_base64);
@@ -9,8 +10,7 @@ use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) {
-}
+sub base : Chained('/form/root') : PathPart('') : CaptureArgs(0) { }
 
 sub process : Chained('base') : PathPart('pre-registration') : Args(0) {
     my ( $self, $c ) = @_;
