@@ -133,7 +133,7 @@ __PACKAGE__->table("pre_registration");
 
 =head2 fb_id
 
-  data_type: 'integer'
+  data_type: 'bigint'
   is_nullable: 1
 
 =head2 fb_code
@@ -196,7 +196,7 @@ __PACKAGE__->add_columns(
   "record_origin",
   { data_type => "text", default_value => "site", is_nullable => 0 },
   "fb_id",
-  { data_type => "integer", is_nullable => 1 },
+  { data_type => "bigint", is_nullable => 1 },
   "fb_code",
   { data_type => "text", is_nullable => 1 },
   "fb_timestamp",
@@ -248,8 +248,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-23 16:46:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:LVTvtP4LzKBipV2/nIJcqQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-27 16:13:12
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:M+pUp0GcQ78YBGOJMbQFaA
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';

@@ -1,13 +1,13 @@
 package WebPI::Controller::PreRegistration;
 use Moose;
 use DateTime;
+use JSON::XS;
 use DateTime::Format::Pg;
 use namespace::autoclean;
-use JSON::XS;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Does('RequireSSL') : Chained('/root') : PathPart('pre-cadastro') : CaptureArgs(0) {
+sub base : Chained('/root') : PathPart('pre-cadastro') : CaptureArgs(0) {
     my ( $self, $c ) = @_;
     $c->response->headers->header( 'charset' => 'utf-8' );
 }
