@@ -49,6 +49,8 @@ sub root : Chained('/') : PathPart('') : CaptureArgs(0) {
 
     $c->stash->{c_req_path} = $c->req->path;
 
+    $c->session->{foobar}++;
+
     $c->load_status_msgs;
     my $status_msg = $c->stash->{status_msg};
     my $error_msg  = $c->stash->{error_msg};
