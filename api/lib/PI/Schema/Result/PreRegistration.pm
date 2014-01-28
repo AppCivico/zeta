@@ -129,7 +129,7 @@ __PACKAGE__->table("pre_registration");
 
   data_type: 'text'
   default_value: 'site'
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 fb_id
 
@@ -194,7 +194,7 @@ __PACKAGE__->add_columns(
   "postal_code_college",
   { data_type => "integer", is_nullable => 1 },
   "record_origin",
-  { data_type => "text", default_value => "site", is_nullable => 0 },
+  { data_type => "text", default_value => "site", is_nullable => 1 },
   "fb_id",
   { data_type => "bigint", is_nullable => 1 },
   "fb_code",
@@ -248,8 +248,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-27 16:13:12
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:M+pUp0GcQ78YBGOJMbQFaA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-01-28 11:00:32
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4wnHRxd1WaZNUAdyeQx6Hg
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
 with 'PI::Schema::Role::ResultsetFind';
