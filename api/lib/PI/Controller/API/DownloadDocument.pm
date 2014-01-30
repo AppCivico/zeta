@@ -2,6 +2,7 @@ package PI::Controller::API::DownloadDocument;
 
 use Moose;
 use File::Spec;
+use PI::S3Client;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -24,13 +25,29 @@ sub download: Chained('object') : PathPart('') : Args(0) {
 
     my $document = $c->stash->{document};
 
-    if (-f $document->private_path){
-        open(my $fh, '<:raw', $document->private_path);
+    my $client      = PI::S3Client->new();
+    my $bucket_name = 'PI-BKT01';
+    my $bucket      = $client->s3->bucket($bucket_name);
+
+    my $response;
+    my $local_path;
+
+    eval {
+        my($a1, $b2, $c3)   = split('/', $document->private_path);
+        $local_path         = '/www/aware/web-pi/etc/s3/'.$c3;
+
+        $response = $bucket->get_key_filename($document->private_path, 'GET', $local_path)
+        or die $client->s3->err . ": " . $client->s3->errstr;
+    };
+
+    if (-f $local_path) {
+        open(my $fh, '<:raw', $local_path);
 
         $c->res->body($fh);
         $c->detach;
-    }else{
-        $self->status_gone( $c,
+    } else {
+        $self->status_gone(
+            $c,
             message => "The document have been deleted!",
         );
     }

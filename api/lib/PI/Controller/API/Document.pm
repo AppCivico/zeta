@@ -1,7 +1,7 @@
 package PI::Controller::API::Document;
 
 use Moose;
-use File::Spec;
+use PI::S3Client;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -190,30 +190,29 @@ sub list_POST {
 sub _upload_file {
     my ( $self, $c, $document ) = @_;
 
+    my $client      = PI::S3Client->new();
+    my $bucket_name = 'PI-BKT01';
+    my $bucket      = $client->s3->bucket($bucket_name);
+
     my $upload     = $c->req->upload('file');
-    my $path       = $c->config->{private_path};
     my $user_id    = $c->user->id;
     my $class_name = $document->class_name;
 
-    my $dir_path =
-      $path =~ /^\//o
-      ? dir($path)->resolve . '/' . $user_id
-      : PI->path_to( $path . '/' . $user_id )->stringify;
-    mkdir($dir_path);
+    my $filename        = sprintf( '%i_%s', $document->id, $class_name );
+    my $private_path    = "documents/$user_id/$filename";
 
-    my $filename = sprintf( '%i_%i_%s', $document->id, $user_id, $class_name );
-    my $private_path =
-      $path =~ /^\//o
-      ? dir($path)->resolve . '/' . $user_id . '/' . $filename
-      : PI->path_to( $path . '/' . $user_id, $filename )->stringify;
+    eval {
+        $bucket->add_key_filename(
+            $private_path, $upload->tempname,
+            { content_type => $upload->type },
+        ) or die $client->s3->err . ": " . $$client->s3->errstr;
+    };
 
-    unless ( $upload->copy_to($private_path) ) {
-
+    unless ( !$@ ) {
         $self->status_bad_request( $c, message => "Copy failed: $!" ), $c->detach;
     }
-    chmod 0644, $private_path;
 
-    $document->update( { private_path => File::Spec->rel2abs($private_path) } );
+    $document->update( { private_path => $private_path } );
 
     return 1;
 }
