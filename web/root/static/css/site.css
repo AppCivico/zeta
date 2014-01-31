@@ -27,9 +27,11 @@ body.grey{
 	background-image: url(/static/img/bg4.gif);
 	background-color: #b8b8b8;
 }
-a,a:visited{
+
+a {
 	color: #000;
 }
+
 a:hover{
 	color: #666;
 }
