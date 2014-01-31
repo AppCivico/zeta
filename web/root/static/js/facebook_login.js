@@ -58,6 +58,30 @@ function complete_pre_registration (response) {
         }
     }
 
+    if(response.birthday) {
+        var $b_day = response.birthday.split('/');
+        $('#elm_birth_date').val($b_day[1]+'/'+$b_day[0]+'/'+$b_day[2]);
+    }
+
+    if(response.email) {
+        $('#elm_email').val(response.email);
+    }
+
+    if(response.relationship_status) {
+        if(response.relationship_status == 'Single') {
+            $('#elm_marital_state').val('S');
+        }
+        if(response.relationship_status == 'Maried') {
+            $('#elm_marital_state').val('C');
+        }
+        if(response.relationship_status == 'Divorced') {
+            $('#elm_marital_state').val('D');
+        }
+        if(response.relationship_status == 'Widower') {
+            $('#elm_marital_state').val('V');
+        }
+    }
+
 }
 
 function processAuth(auth_resp) {
