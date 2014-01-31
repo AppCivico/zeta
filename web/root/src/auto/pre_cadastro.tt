@@ -63,7 +63,7 @@
                 <div class="span4">
             <!--             Facebook -->
                         <div id="fb-root"></div>
-                        <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+                        <fb:login-button show-faces="true" width="200" max-rows="1" scope="user_birthday,email,user_relationships"></fb:login-button>
             <!--             Fim FB -->
                 </div>
                 <div class="span8">

@@ -12,11 +12,9 @@ window.fbAsyncInit = function() {
         if (response.status === 'connected') {
             connectAPI(response);
         } else if (response.status === 'not_authorized') {
-            FB.login(function(response) {
-            }, {scope: 'email,user_birthday,user_hometown,user_relationships'});
+            FB.login();
         } else {
-            FB.login(function(response) {
-            }, {scope: 'email,user_birthday,user_hometown,user_relationships'});
+            FB.login();
         }
     });
 };
