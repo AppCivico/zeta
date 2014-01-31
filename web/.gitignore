@@ -14,7 +14,7 @@ META.yml
 MYMETA.yml
 nytprof.out
 pm_to_blib
-*_local*
+#*_local*
 root/static/user/
 root/static/built/
 .tidyall.d/
