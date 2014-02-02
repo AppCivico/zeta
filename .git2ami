@@ -10,7 +10,8 @@ GIT2AMI_DEBUG=1
 FROM=ami-6aad335a
 
 # AWS instance type
-INSTANCE_TYPE=t1.micro
+#INSTANCE_TYPE=t1.micro
+INSTANCE_TYPE=m1.xlarge
 
 # Specify REGION as the web service region to use.
 REGION=us-west-2
