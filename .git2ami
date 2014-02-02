@@ -46,5 +46,5 @@ PREFIX_AMI=GIT2AMI
 PACKAGER=aptitude
 PACKAGES="build-essential nginx libmhash-dev libexpat-dev libpq-dev libxml2-dev"
 
-RUN=deploy.sh
+RUN=git2ami.deploy.sh
 
