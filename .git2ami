@@ -7,14 +7,16 @@
 GIT2AMI_DEBUG=1
 
 # Define base AMI for deploy git repository
-FROM=ami-6aad335a
+#FROM=ami-6aad335a
+FROM=ami-a73264ce
 
 # AWS instance type
 #INSTANCE_TYPE=t1.micro
 INSTANCE_TYPE=m1.xlarge
 
 # Specify REGION as the web service region to use.
-REGION=us-west-2
+#REGION=us-west-2
+REGION=us-east-1
 
 # Private key to use
 KEY_PAIR=aws-pi
