@@ -17,7 +17,7 @@ INSTANCE_TYPE=m1.xlarge
 REGION=us-west-2
 
 # Private key to use
-KEY_PAIR=justtest
+KEY_PAIR=aws-pi
 
 # Private key file
 PEM=$KEY_PAIR.pem
