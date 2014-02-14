@@ -29,6 +29,8 @@ if( !$config{redis}{host} ) {
 
 sub _build_redis {
     my $self = shift;
+    use DDP;
+    my $q = $self->queue_key;
 
     my @a = (
         reconnect => 60,

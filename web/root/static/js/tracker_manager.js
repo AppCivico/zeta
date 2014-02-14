@@ -35,7 +35,11 @@ $(document).ready(function () {
                 success: function (result) {
                     $("#car_info").html(result);
                     reset_button();
+                },
+                complete: function() {
+                    $('#vinculate').show();
                 }
+
             });
         }
     });

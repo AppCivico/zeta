@@ -64,16 +64,34 @@ sub result_DELETE {
 sub result_PUT {
     my ( $self, $c ) = @_;
 
-    my $tracker = $c->stash->{tracker};
+    my $tracker         = $c->stash->{tracker};
 
     $tracker->execute( $c, for => 'update', with => $c->req->params );
+
+    if ($tracker) {
+        my $tracker_cache   = $c->model('TrackingCache');
+        my $verb            = 'delete';
+        my $vehicle_id      = undef;
+
+        if( $c->req->params->{vehicle_id} ) {
+            $verb       = 'post',
+            $vehicle_id = $c->req->params->{vehicle_id};
+        }
+
+        $tracker_cache->update_cache(
+            $tracker->code,
+            $vehicle_id,
+            $verb
+        );
+    }
+
     $self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $tracker->id ] )->as_string,
         entity => { vehicle_id => $tracker->vehicle_id, id => $tracker->id }
-      ),
-      $c->detach
-      if $tracker;
+    ),
+    $c->detach
+    if $tracker;
 }
 
 sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {

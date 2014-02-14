@@ -87,9 +87,6 @@ sub check_token : Chained('base') : PathPart('check_token') : Args(0) {
         params  => $params
     );
 
-    my $re = $c->stash->{vehicle_token_check};
-    use DDP; p $re;
-
     my $result = $c->stash->{vehicle_token_check};
 
     if ( $result->{error} ) {
