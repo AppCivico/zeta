@@ -44,6 +44,7 @@ sub result_GET {
                   lng
                   vehicle_id
                   speed
+                  sat_number
                   /
             ),
             ( map { $_ => $vehicle_tracker->$_->datetime } qw/created_at track_event/ )
@@ -118,6 +119,7 @@ sub list_GET {
                                 lng
                                 speed
                                 track_event
+                                sat_number
                                 /
                             ),
                         },
@@ -145,6 +147,7 @@ sub list_GET {
                                 vehicle_id
                                 speed
                                 track_event
+                                sat_number
                                 /
                             ),
                             url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string

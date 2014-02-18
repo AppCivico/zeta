@@ -36,14 +36,19 @@ sub process {
         my $i = 0;
 
         while (1) {
-            my $message     = $sqs->sqs->ReceiveMessage();
-            my %msg_trans   = PI::TrackerMessageParser::parser($message->MessageBody);
+            my $message = $sqs->sqs->ReceiveMessage();
 
-            p %msg_trans;
+            if( $message ) {
+                my %msg_trans = PI::TrackerMessageParser::parser($message->MessageBody);
 
-            exit;
+                next unless $tracking_manager->add(%msg_trans);
 
+                $sqs->sqs->DeleteMessage($message->ReceiptHandle);
+            }
+
+            next;
         }
     };
 
+    print $@ if $@;
 }

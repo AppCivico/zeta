@@ -222,11 +222,12 @@ sub verifiers_specs {
 
 sub action_specs {
     my $self = shift;
+    use DDP;
     return {
         update => sub {
             my %values = shift->valid_values;
 
-            not defined $values{$_} and delete $values{$_} for keys %values;
+            not defined $values{$_} and delete $values{$_} for grep {$_ !~ /vehicle_id/} keys %values;
 
             my $tracker = $self->update( \%values );
 

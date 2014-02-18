@@ -45,6 +45,10 @@ sub verifiers_specs {
                 transaction => {
                     required => 0,
                     type     => 'Str',
+                },
+                sat_number => {
+                    required => 0,
+                    type     => 'Num',
                 }
             }
         )

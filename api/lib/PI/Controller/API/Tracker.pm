@@ -80,6 +80,7 @@ sub result_PUT {
 
         $tracker_cache->update_cache(
             $tracker->code,
+            $tracker->id,
             $vehicle_id,
             $verb
         );

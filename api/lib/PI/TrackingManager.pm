@@ -1,7 +1,8 @@
 package PI::TrackingManager;
+
 use Moose;
 use PI::Redis;
-use PI::TrackingManager::Message;
+use PI::TrackingManager::Cache;
 use JSON::XS;
 
 has schema => (
@@ -9,53 +10,47 @@ has schema => (
     isa => 'PI::Schema',
 );
 
+my $tracker_cache = PI::TrackingManager::Cache->new();
+
 sub add {
-    my ( $self, @message ) = @_;
-    my $message;
+    my ( $self, %message ) = @_;
 
-    if ( @message == 1 ) {
-        $message = $message[0];
-    }
-    else {
-        $message = PI::TrackingManager::Message->new(@message);
-    }
-
-    die 'invalid object type' if ref $message ne 'PI::TrackingManager::Message';
-
-    #todo: ajustar where de status
-    my $tracker_data =
-      $self->schema->resultset('Tracker')->search( { code => $message->tracker_code, status => 1 } )->next;
+    my $tracker_data = $tracker_cache->check_status( $message{imei} );
 
     if ( !$tracker_data ) {
-        die "Tracker code not found.\n code: $message->tracker_code\n";
+        print "Tracker not vinculated with a vehicle. IMEI: $message{imei}\n";
+
+        return 0;
     }
 
     my $vehicle_tracker = $self->schema->resultset('VehicleTracker');
 
     $vehicle_tracker->create(
         {
-            tracker_id  => $tracker_data->id,
-            vehicle_id  => $tracker_data->vehicle_id,
-            track_event => $message->track_event,
-            lat         => $message->latitude,
-            lng         => $message->longitude,
-            speed       => $message->speed,
-            transaction => $message->transaction
+            tracker_id      => $tracker_data->{tracker_id},
+            vehicle_id      => $tracker_data->{vehicle_id},
+            lat             => $message{latitude},
+            lng             => $message{longitude},
+            speed           => $message{speed},
+            transaction     => $message{position_counter},
+            track_event     => $message{package_date},
+            sat_number      => $message{satellite_hdop},
         }
     );
 
-    my $statis_data = {
-        vehicle_id  => $tracker_data->vehicle_id,
-        track_event => $message->track_event,
-        lat         => $message->latitude,
-        lng         => $message->longitude,
-        speed       => $message->speed,
-    };
+#     my $statis_data = {
+#         vehicle_id  => $tracker_data->vehicle_id,
+#         track_event => $message->track_event,
+#         lat         => $message->latitude,
+#         lng         => $message->longitude,
+#         speed       => $message->speed,
+#     };
+#
+#     eval { $self->build_statistic_queue($statis_data); };
 
-    eval { $self->build_statistic_queue($statis_data); };
-
-    use DDP;
-    p $@ if $@;
+#     use DDP;
+#     p $@ if $@;
+    return 1;
 }
 
 sub add_error {

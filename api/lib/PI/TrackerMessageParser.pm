@@ -1,8 +1,8 @@
 package PI::TrackerMessageParser;
 
+use utf8;
 use strict;
 use warnings;
-use utf8;
 use Time::Piece;
 use Math::BigInt;
 use DDP;
@@ -55,11 +55,9 @@ sub parse_flag_status {
 }
 
 sub parse_lat_lng {
-    my $value = shift;
+    my $value   = shift;
+    $value      = unpack 'f*', pack 'L', hex $value;
 
-     $value      = unpack( 'l*', pack('l', hex $value) );
-#     $value      = unpack( 'd*',  hex $value);
-    p $value;
     return $value;
 }
 
