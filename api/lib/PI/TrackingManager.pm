@@ -34,7 +34,8 @@ sub add {
             speed           => $message{speed},
             transaction     => $message{position_counter},
             track_event     => $message{package_date},
-            sat_number      => $message{satellite_hdop},
+            sat_number      => $message{sat_number},
+            hdop            => $message{hdop},
         }
     );
 

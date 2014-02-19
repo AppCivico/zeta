@@ -38,14 +38,19 @@ sub process {
         while (1) {
             my $message = $sqs->sqs->ReceiveMessage();
 
+            open(my $fh, '>>', 'tracker_message.log');
+
             if( $message ) {
                 my %msg_trans = PI::TrackerMessageParser::parser($message->MessageBody);
 
-                next unless $tracking_manager->add(%msg_trans);
+                if( !$tracking_manager->add(%msg_trans) ) {
+                    print $fh "Error saving data on database Message: ".$message->MessageBody."\n";
+                }
 
                 $sqs->sqs->DeleteMessage($message->ReceiptHandle);
             }
 
+            close $fh;
             next;
         }
     };

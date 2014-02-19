@@ -38,9 +38,13 @@ sub parser {
         }
     }
 
-    $result{'flag_status'}  = &parse_flag_status($result{'flag_status'});
-    $result{'latitude'}     = &parse_lat_lng($result{'latitude'});
-    $result{'longitude'}    = &parse_lat_lng($result{'longitude'});
+    my $sat_hdop                = &parse_sat_hdop($result{'satellite_hdop'});
+    $result{'flag_status'}      = &parse_flag_status($result{'flag_status'});
+    $result{'latitude'}         = &parse_lat_lng($result{'latitude'});
+    $result{'longitude'}        = &parse_lat_lng($result{'longitude'});
+
+    $result{'sat_number'}       = $sat_hdop->{sat};
+    $result{'hdop'}             = $sat_hdop->{hdop};
 
     my %resp = (%result, %decimals);
 
@@ -59,6 +63,33 @@ sub parse_lat_lng {
     $value      = unpack 'f*', pack 'L', hex $value;
 
     return $value;
+}
+
+sub parse_sat_hdop {
+    my $str = &dec2bin(hex shift);
+    $str    =~ s/^0+(?=\d)//;
+
+    my @val = unpack("A4A4", $str);
+
+    my $data = {
+        sat   => &bin2dec($val[0]),
+        hdop  => &bin2dec($val[1]),
+    };
+
+    return $data;
+}
+
+sub bin2dec {
+    my $bin = shift;
+
+    return unpack("N", pack("B32", substr("0" x 32 . $bin, -32)))
+}
+
+sub dec2bin {
+    my $str = unpack("B32", pack("N", shift));
+    $str    =~ s/^0+(?=\d)//;   # otherwise you'll get leading zeros
+
+    return $str;
 }
 
 sub build_array {

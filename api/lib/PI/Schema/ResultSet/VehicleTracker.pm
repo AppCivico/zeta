@@ -49,6 +49,10 @@ sub verifiers_specs {
                 sat_number => {
                     required => 0,
                     type     => 'Num',
+                },
+                hdop => {
+                    required => 0,
+                    type     => 'Num',
                 }
             }
         )

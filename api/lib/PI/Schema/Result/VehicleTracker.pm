@@ -98,6 +98,11 @@ __PACKAGE__->table("vehicle_tracker");
   data_type: 'integer'
   is_nullable: 1
 
+=head2 hdop
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -130,6 +135,8 @@ __PACKAGE__->add_columns(
   "transaction",
   { data_type => "text", is_nullable => 1 },
   "sat_number",
+  { data_type => "integer", is_nullable => 1 },
+  "hdop",
   { data_type => "integer", is_nullable => 1 },
 );
 
@@ -178,8 +185,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-02-18 17:43:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7yH1Z+9QfXO1sR53gsi/WQ
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-02-18 23:27:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Hbh6wiwBsYjFQwdmSpaxNA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -220,6 +227,10 @@ sub verifiers_specs {
                     type     => 'Str',
                 },
                 sat_number => {
+                    required => 0,
+                    type     => 'Num',
+                },
+                hdop => {
                     required => 0,
                     type     => 'Num',
                 }
