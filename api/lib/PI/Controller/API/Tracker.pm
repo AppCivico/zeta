@@ -16,7 +16,8 @@ __PACKAGE__->config(
 
     search_ok => {
         vehicle_id  => 'Int',
-        code        => 'Str'
+        code        => 'Str',
+        status      => 'Int'
     }
 );
 with 'PI::TraitFor::Controller::DefaultCRUD';

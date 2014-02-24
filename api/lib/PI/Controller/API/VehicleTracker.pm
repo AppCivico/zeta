@@ -90,20 +90,20 @@ sub list_GET {
 
     my $rs = $c->stash->{collection};
 
-    if ( $c->req->params->{date} ) {
+    if ( $c->req->params->{date}  || $c->req->params->{positions} ) {
 
         my $rs = $c->model('DB::ViewVehicleTracker');
 
         my $data = $rs->search_rs(
             undef,
-            {
-                bind  => [
-                    $c->req->params->{date} . ' 00:00:00',
-                    $c->req->params->{date} . ' 23:59:59',
-                    $c->req->params->{tracker_id},
-                    $c->req->params->{vehicle_id}
-                ],
-            }
+#             {
+#                 bind  => [
+#                     $c->req->params->{date} . ' 00:00:00',
+#                     $c->req->params->{date} . ' 23:59:59',
+#                     $c->req->params->{tracker_id},
+#                     $c->req->params->{vehicle_id}
+#                 ],
+#             }
         );
 
         $self->status_ok(
@@ -120,8 +120,7 @@ sub list_GET {
                                 lng
                                 speed
                                 track_event
-                                sat_number
-                                hdop
+                                tracker_id
                                 /
                             ),
                         },

@@ -30,8 +30,6 @@ var $maps = function () {
         }
     }
 
-    //
-
     function codeAddress(address) {
         if (address.length != 0 && addr != address) {
             geocoder.geocode({
@@ -152,23 +150,25 @@ var $maps = function () {
         if (!positions) {
             clearPolyline();
             clearOverlays();
+
             return false;
         }
 
         clearOverlays();
 
-        var path = [];
-        path.length = 0;
+        var path         = [];
+        path.length      = 0;
         var latLngBounds = new google.maps.LatLngBounds();
-
-        for (var i = 0; i < positions.vehicle_trackers.length; i++) {
-            path.push(new google.maps.LatLng(positions.vehicle_trackers[i].lat, positions.vehicle_trackers[i].lng));
+        console.log(positions);
+        for (var i = 0; i < positions.length; i++) {
+            path.push(new google.maps.LatLng(positions[i].lat, positions[i].lng));
             latLngBounds.extend(path[i]);
 
             var $date;
             var $hour;
-            if (positions.vehicle_trackers[i].track_event.length) {
-                $date = positions.vehicle_trackers[i].track_event.split(' ');
+            console.log(positions[i]);
+            if (positions[i].track_event.length) {
+                $date = positions[i].track_event.split(' ');
                 $hour = $date[1].substr(0, 5);
                 $date = $date[0].substr(8, 2) + '/' + $date[0].substr(5, 2) + '/' + $date[0].substr(0, 4);
             }
@@ -178,7 +178,7 @@ var $maps = function () {
                 position: path[i],
                 //                 icon: '/static/img/invisible.png',
                 icon: '/static/img/1381172153_Map-Marker-Marker-Outside-Azure.png',
-                info: 'Data: ' + $date + '<br /> Hora: ' + $hour + '<br />Velocidade :' + positions.vehicle_trackers[i].speed + ' Km/h'
+                info: 'Data: ' + $date + '<br /> Hora: ' + $hour + '<br />Velocidade :' + positions[i].speed + ' Km/h'
             });
 
             markersArray.push(marker);
@@ -191,7 +191,6 @@ var $maps = function () {
                     infowindow.open(map, marker);
                 }
             })(marker));
-
         }
 
         clearPolyline();
@@ -215,18 +214,24 @@ var $maps = function () {
 
     function getPoints(form_data) {
         $.ajax({
-            url: "/user/vehicle_tracker/get_positions",
+            url: "/tracker-manager/get_positions",
             data: form_data,
             dataType: 'json',
             success: function (result) {
-                console.log(result)
-                if (result.vehicle_trackers.length > 0) {
-                    $('#empty_tracker').hide();
-                    printPolyline(result);
-                } else {
-                    printPolyline(false);
-                    $('#empty_tracker').show();
-                }
+
+                printPolyline(result[0]);
+//                 for(i=0; i<result.length; i++) {
+//                     console.log(result[i]);
+//                     printPolyline(result[i]);
+//                 }
+
+//                 if (result.vehicle_trackers.length > 0) {
+//                     $('#empty_tracker').hide();
+//                     printPolyline(result);
+//                 } else {
+//                     printPolyline(false);
+//                     $('#empty_tracker').show();
+//                 }
             },
             error: function (err) {
                 console.log(err);
