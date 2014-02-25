@@ -2,7 +2,6 @@ package WebPI::Controller::TrackerManager::Position;
 use Moose;
 use JSON::XS;
 use namespace::autoclean;
-
 use Geo::Coordinates::DecimalDegrees;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -25,21 +24,21 @@ sub get_positions : Chained('/trackermanager/base') : PathPart('get_positions') 
     );
 
     my $data;
-
-    my $id  = $c->stash->{vehicle_trackers}[0]{tracker_id};
     my $i   = 0;
     my $j   = 0;
-    use DDP;
+    my $id  = $c->stash->{vehicle_trackers}[0]{tracker_id};
 
     foreach my $item ( @{ $c->stash->{vehicle_trackers} } ) {
 
         if ( $id != $item->{tracker_id} ) {
             $id = $item->{tracker_id};
             $i  = 0;
+
             $j++;
         }
 
         my @pos = $self->parse_lat_lng($item->{lat}, $item->{lng});
+
         $data->{$j}[$i] = {
             'lat'           => $pos[0],
             'lng'           => $pos[1],
@@ -63,12 +62,11 @@ sub get_positions : Chained('/trackermanager/base') : PathPart('get_positions') 
 }
 
 sub parse_lat_lng {
-    my ($self, @val) = @_;
+    my ( $self, @val ) = @_;
 
     my @data;
 
     for my $item ( @val ) {
-        p $item;
         $item =~ /^(-?\d*)(\d{2})\.(\d{2})(\d+)$/;
 
         my $part = "$3";

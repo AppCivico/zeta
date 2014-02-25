@@ -154,37 +154,44 @@ var $maps = function () {
             return false;
         }
 
-        clearOverlays();
+//         clearOverlays();
 
         var path         = [];
         path.length      = 0;
         var latLngBounds = new google.maps.LatLngBounds();
-        console.log(positions);
+
+
         for (var i = 0; i < positions.length; i++) {
+
             path.push(new google.maps.LatLng(positions[i].lat, positions[i].lng));
+
             latLngBounds.extend(path[i]);
 
             var $date;
             var $hour;
-            console.log(positions[i]);
+
             if (positions[i].track_event.length) {
+
                 $date = positions[i].track_event.split(' ');
                 $hour = $date[1].substr(0, 5);
                 $date = $date[0].substr(8, 2) + '/' + $date[0].substr(5, 2) + '/' + $date[0].substr(0, 4);
+
             }
 
             var marker = new google.maps.Marker({
                 map: map,
                 position: path[i],
-                //                 icon: '/static/img/invisible.png',
+//                 icon: '/static/img/invisible.png',
                 icon: '/static/img/1381172153_Map-Marker-Marker-Outside-Azure.png',
                 info: 'Data: ' + $date + '<br /> Hora: ' + $hour + '<br />Velocidade :' + positions[i].speed + ' Km/h'
+                      +'<br />Tracker Id: '+ positions[i].tracker_id
             });
 
             markersArray.push(marker);
 
             var infowindow = new google.maps.InfoWindow(),
-                marker;
+            marker;
+
             google.maps.event.addListener(marker, 'mouseover', (function (marker, i) {
                 return function () {
                     infowindow.setContent(this.info);
@@ -193,14 +200,14 @@ var $maps = function () {
             })(marker));
         }
 
-        clearPolyline();
+//         clearPolyline();
 
         polyline = new google.maps.Polyline({
             map: map,
             path: path,
             strokeColor: '#0000FF',
             strokeOpacity: 0.7,
-            strokeWeight: 10
+            strokeWeight: 5
         });
 
         map.fitBounds(latLngBounds);
@@ -218,20 +225,10 @@ var $maps = function () {
             data: form_data,
             dataType: 'json',
             success: function (result) {
-
-                printPolyline(result[0]);
-//                 for(i=0; i<result.length; i++) {
-//                     console.log(result[i]);
-//                     printPolyline(result[i]);
-//                 }
-
-//                 if (result.vehicle_trackers.length > 0) {
-//                     $('#empty_tracker').hide();
-//                     printPolyline(result);
-//                 } else {
-//                     printPolyline(false);
-//                     $('#empty_tracker').show();
-//                 }
+                var key;
+                for(key in result) {
+                    printPolyline(result[key]);
+                }
             },
             error: function (err) {
                 console.log(err);
