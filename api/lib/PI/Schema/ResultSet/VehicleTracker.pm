@@ -53,6 +53,10 @@ sub verifiers_specs {
                 hdop => {
                     required => 0,
                     type     => 'Num',
+                },
+                reason_generator => {
+                    required => 0,
+                    type     => 'Int',
                 }
             }
         )

@@ -27,15 +27,16 @@ sub add {
 
     $vehicle_tracker->create(
         {
-            tracker_id      => $tracker_data->{tracker_id},
-            vehicle_id      => $tracker_data->{vehicle_id},
-            lat             => $message{latitude},
-            lng             => $message{longitude},
-            speed           => $message{speed},
-            transaction     => $message{position_counter},
-            track_event     => $message{package_date},
-            sat_number      => $message{sat_number},
-            hdop            => $message{hdop},
+            tracker_id          => $tracker_data->{tracker_id},
+            vehicle_id          => $tracker_data->{vehicle_id},
+            lat                 => $message{latitude},
+            lng                 => $message{longitude},
+            speed               => $message{speed},
+            transaction         => $message{position_counter},
+            track_event         => $message{package_date},
+            sat_number          => $message{sat_number},
+            hdop                => $message{hdop},
+            reason_generator    => $message{reason_generator},
         }
     );
 

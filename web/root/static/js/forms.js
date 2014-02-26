@@ -88,4 +88,36 @@ $(document).ready(function () {
             }
         });
     }
+
+
+    var $contact_form = $('#contact');
+    if($contact_form.length) {
+        $($contact_form).submit(function(){
+            var valid = true;
+            $('.contact_error').hide();
+
+            if(!$('#elm_name').val()) {
+                $('#name_err').show();
+                valid = false;
+            }
+
+            if(!$('#elm_email').val()) {
+                $('#email_err').show();
+                valid = false;
+            }
+
+            if(!$('#elm_telephone_number').val()) {
+                $('#tel_err').show();
+                valid = false;
+            }
+
+            if(!$('#elm_motive').val()) {
+                $('#motive_err').show();
+                valid = false;
+            }
+
+            return valid;
+        });
+    }
+
 });

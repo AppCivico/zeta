@@ -708,3 +708,8 @@ input.radio-form:first-child{
     display: none;
 }
 
+.contact_error {
+    display: none;
+    color: #b94a48;
+    margin-left: 182px;
+}

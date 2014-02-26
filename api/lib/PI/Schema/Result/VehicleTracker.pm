@@ -103,6 +103,11 @@ __PACKAGE__->table("vehicle_tracker");
   data_type: 'integer'
   is_nullable: 1
 
+=head2 reason_generator
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -137,6 +142,8 @@ __PACKAGE__->add_columns(
   "sat_number",
   { data_type => "integer", is_nullable => 1 },
   "hdop",
+  { data_type => "integer", is_nullable => 1 },
+  "reason_generator",
   { data_type => "integer", is_nullable => 1 },
 );
 
@@ -185,8 +192,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-02-18 23:27:54
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Hbh6wiwBsYjFQwdmSpaxNA
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-02-26 11:23:38
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QT+bQtCdt1dXXZyU31GcaQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -233,6 +240,10 @@ sub verifiers_specs {
                 hdop => {
                     required => 0,
                     type     => 'Num',
+                },
+                reason_generator => {
+                    required => 0,
+                    type     => 'Int',
                 }
             }
         ),

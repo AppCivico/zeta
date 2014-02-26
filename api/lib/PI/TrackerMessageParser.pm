@@ -25,6 +25,7 @@ sub parser {
         position_counter
         speed
         temperature
+        reason_generator
     /;
 
     my %decimals;
@@ -62,8 +63,6 @@ sub parse_flag_status {
 sub parse_lat_lng {
     my $value   = shift;
     $value      = unpack 'f*', pack 'L', hex $value;
-
-
 
     return $value;
 }
@@ -111,7 +110,7 @@ sub build_array {
         position_amount
         position_counter
         position_size
-        generate_reason
+        reason_generator
         package_date
         latitude
         longitude

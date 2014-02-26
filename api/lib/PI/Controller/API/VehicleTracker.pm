@@ -46,6 +46,7 @@ sub result_GET {
                   speed
                   sat_number
                   hdop
+                  reason_generator
                   /
             ),
             ( map { $_ => $vehicle_tracker->$_->datetime } qw/created_at track_event/ )
@@ -82,8 +83,7 @@ sub result_PUT {
       if $vehicle_tracker;
 }
 
-sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
-}
+sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 
 sub list_GET {
     my ( $self, $c ) = @_;
@@ -150,6 +150,7 @@ sub list_GET {
                                 track_event
                                 sat_number
                                 hdop
+                                reason_generator
                                 /
                             ),
                             url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
@@ -158,7 +159,6 @@ sub list_GET {
                 ]
             }
         );
-
     }
 }
 
@@ -174,7 +174,6 @@ sub list_POST {
             id => $vehicle_tracker->id
         }
     );
-
 }
 
 1;
