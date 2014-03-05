@@ -74,7 +74,7 @@ sub parse_lat_lng {
             $part = "0";
         }
 
-        my $p = dms2decimal("$1", "$2", "$3.$4");
+        my $p = dms2decimal("$1", "$2", "$part.$4");
 
         push(@data, $p);
     }
