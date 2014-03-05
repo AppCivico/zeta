@@ -4,6 +4,7 @@ use Moose;
 use PI::Redis;
 use PI::TrackingManager::Cache;
 use JSON::XS;
+use DDP;
 
 has schema => (
     is  => 'rw',
@@ -15,7 +16,28 @@ my $tracker_cache = PI::TrackingManager::Cache->new();
 sub add {
     my ( $self, %message ) = @_;
 
-    my $tracker_data = $tracker_cache->check_status( $message{imei} );
+    my $tracker_data    = $tracker_cache->check_status($message{imei});
+
+#   Verifica se o contador das mensagens bate com as mensagens recebidas e monta fila de mensagens perdidas
+    my $counter = $tracker_cache->check_counter("counter-$message{imei}");
+
+    if(
+        !$counter || $counter+1 == $message{position_counter}
+        || ($message{position_counter} == 0 && ( $counter == 0 || $counter == 38332 ))
+    ) {
+        $tracker_cache->update_counter($message{imei}, $message{position_counter});
+    }
+    else {
+        my $interval = $message{position_counter} - $counter;
+
+        my @missing_messages;
+
+        for(1 ... $interval-1) {
+            push(@missing_messages, $counter+=1);
+        }
+
+        $tracker_cache->push_missing_messages($message{imei}, @missing_messages);
+    }
 
     if ( !$tracker_data ) {
         print "Tracker not vinculated with a vehicle. IMEI: $message{imei}\n";

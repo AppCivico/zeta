@@ -6,6 +6,7 @@ use warnings;
 use Time::Piece;
 use Math::BigInt;
 use Geo::Coordinates::DecimalDegrees;
+
 use DDP;
 
 sub parser {
@@ -64,7 +65,17 @@ sub parse_lat_lng {
     my $value   = shift;
     $value      = unpack 'f*', pack 'L', hex $value;
 
-    return $value;
+    $value =~ /^(-?\d*)(\d{2})\.(\d{2})(\d+)$/;
+
+    my $part = "$3";
+
+    if ($part eq "00") {
+        $part = "0";
+    }
+
+    my $point = dms2decimal("$1", "$2", "$part.$4");
+
+    return $point;
 }
 
 sub parse_sat_hdop {

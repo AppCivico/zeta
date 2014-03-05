@@ -3,7 +3,7 @@ package PI::TrackingManager::Cache;
 use Moose;
 use JSON::XS;
 use PI::Redis;
-
+use DDP;
 my $redis = PI::Redis->new();
 
 sub update_cache {
@@ -43,6 +43,49 @@ sub check_status {
     return 0  unless @ { $tracker || ! [] } ;
 
     return decode_json($tracker->[0]) ;
+}
+
+sub check_counter {
+    my ( $self, $key ) = @_;
+
+    my $counter;
+
+    eval { $counter = $redis->redis->lrange($key, 0, -1); };
+
+    print $@ unless ! $@;
+
+    return 0  unless @ { $counter || ! [] };
+
+    return $counter->[0];
+}
+
+sub update_counter {
+    my ($self, $imei, $counter) = @_;
+
+    p $counter;
+
+    $redis->queue_key("counter-$imei");
+
+    eval {
+        $redis->redis->del("counter-$imei");
+        $redis->redis->rpush("counter-$imei" => $counter );
+    };
+
+    die $@ unless ! $@;
+
+    return 1;
+}
+
+sub push_missing_messages {
+    my ($self, $imei, @data) = @_;
+
+    $redis->queue_key("missing-$imei");
+
+    eval { $redis->redis->rpush("missing-$imei" => encode_json(\@data) ); };
+
+    die $@ unless ! $@;
+
+    return 1;
 }
 
 1;

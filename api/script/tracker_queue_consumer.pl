@@ -44,7 +44,7 @@ sub process {
                 my %msg_trans = PI::TrackerMessageParser::parser($message->MessageBody);
 
                 if( !$tracking_manager->add(%msg_trans) ) {
-                    print $fh "Error saving data on database Message: ".$message->MessageBody."\n";
+                    print $fh "Error saving data on database, message: ".$message->MessageBody."\n";
                 }
 
                 $sqs->sqs->DeleteMessage($message->ReceiptHandle);
