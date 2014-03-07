@@ -15,7 +15,7 @@ sub parser {
     my @pack    = unpack("A4A2A16A2A2A4A2A4A4A2A8A8A8A2A2A8A6A2A2A2A2A2A8A4", $message);
     my %result  = &build_array(@pack, 0);
 
-    my @numbers = qw /
+    my @numbers = qw/
         battery_voltage
         battery_voltage_bkp
         hourmeter
@@ -32,9 +32,8 @@ sub parser {
     my %decimals;
 
     foreach my $index (@numbers) {
-        my $number = eval("0x".$result{$index});
-
-        $decimals{$index} = $number;
+        my $number          = eval("0x".$result{$index});
+        $decimals{$index}   = $number;
 
         if($index eq 'package_date') {
             $decimals{$index} = localtime($decimals{$index})->strftime('%F %T');
