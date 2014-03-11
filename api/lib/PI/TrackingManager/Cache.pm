@@ -62,8 +62,6 @@ sub check_counter {
 sub update_counter {
     my ($self, $imei, $counter) = @_;
 
-    p $counter;
-
     $redis->queue_key("counter-$imei");
 
     eval {
@@ -82,6 +80,21 @@ sub push_missing_messages {
     $redis->queue_key("missing-$imei");
 
     eval { $redis->redis->rpush("missing-$imei" => encode_json(\@data) ); };
+
+    die $@ unless ! $@;
+
+    return 1;
+}
+
+sub update_firmware_version {
+    my ( $self, $version ) = @_;
+
+    $redis->queue_key("firmware-version");
+
+    eval {
+        $redis->redis->del("firmware-version");
+        $redis->redis->rpush("firmware-version" => $version);
+    };
 
     die $@ unless ! $@;
 

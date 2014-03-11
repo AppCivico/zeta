@@ -142,6 +142,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 tracker_firmware_informations
+
+Type: has_many
+
+Related object: L<PI::Schema::Result::TrackerFirmwareInformation>
+
+=cut
+
+__PACKAGE__->has_many(
+  "tracker_firmware_informations",
+  "PI::Schema::Result::TrackerFirmwareInformation",
+  { "foreign.status" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 vehicle_invitations
 
 Type: has_many
@@ -158,8 +173,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-11-05 13:57:03
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:WwIqBTeLb55B5o84Kg3hyw
+# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-03-10 10:49:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZK/6ZjHwFV1kY5MA3xe/wQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
