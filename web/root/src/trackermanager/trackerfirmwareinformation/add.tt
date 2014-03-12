@@ -13,7 +13,7 @@
         [%input_text('version','Versão')|none%]
         [%select_field('status', 'Status',  array => [
             [1,'Ativo'],
-            [0,'Inativo'],
+            [2,'Inativo'],
         ])|none%]
         [%input_text('file','Arquivo', type => 'file')|none%]
 

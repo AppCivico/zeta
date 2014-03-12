@@ -1,6 +1,8 @@
 package PI::Controller::API::TrackerFirmwareInformation;
 
 use Moose;
+use File::Spec;
+use Archive::Extract;
 use PI::TrackingManager::Cache;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
@@ -126,15 +128,22 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
+    my $rs = $c->stash->{collection};
+
+    if($c->req->params->{status} == 1) {
+        $rs->update_all( { status => 2 } );
+    }
+
     my $tracker_cache = PI::TrackingManager::Cache->new();
 
-    my $tracker_firmware_information = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    my $tracker_firmware_information = $rs->execute( $c, for => 'create', with => $c->req->params );
 
     if (  $c->req->upload('file') ) {
         my $updated_entity = $self->_upload_file( $c, $tracker_firmware_information );
 
         $tracker_cache->update_firmware_version($updated_entity->version);
     }
+
 
     $self->status_created(
         $c,
@@ -147,20 +156,54 @@ sub list_POST {
 
 sub _upload_file {
     my ( $self, $c, $tracker_firmware_information ) = @_;
+    use DDP;
 
     my $client      = PI::S3Client->new();
     my $bucket_name = 'PI-FMWR';
     my $bucket      = $client->s3->bucket($bucket_name);
+    my $clientObj   = Net::Amazon::S3::Client->new( s3 => $client->s3 );
+    my $bucketObj   = $clientObj->bucket(name => 'PI-FMWR');
 
     my $upload          = $c->req->upload('file');
     my $filename        = sprintf( '%i_%s', $tracker_firmware_information->id, $tracker_firmware_information->version);
-    my $private_path    = "documents/$filename";
+    my $private_path    = "backup/$filename";
+
+    my $files = $self->_unzip_file($c, $upload->tempname);
 
     eval {
+        my $keys    = $bucket->list;
+        my $size    = scalar keys $keys->{'keys'};
+        my @objs;
+
+        for(my $i; $i < $size; $i++) {
+            if( $keys->{'keys'}[$i]{'key'} && $keys->{'keys'}[$i]{'key'} =~ m/^(documents)/ ) {
+                push(@objs, $bucketObj->object( key => $keys->{'keys'}[$i]{'key'} ));
+            }
+        }
+
+        $bucketObj->delete_multi_object(@objs);
+
         $bucket->add_key_filename(
-            $private_path, $upload->tempname,
+            $private_path,
+            $upload->tempname,
             { content_type => $upload->type },
         ) or die $client->s3->err . ": " . $$client->s3->errstr;
+
+        foreach my $fl ( @{ $files } ) {
+
+            my @part    = split '/', $fl;
+            my $obj     = 'documents/'.$part[scalar @part-1];
+
+            if(scalar @part > 1) {
+                $bucket->add_key_filename(
+                    $obj,
+                    File::Spec->catfile('/tmp', $fl),
+                    { content_type => $upload->type },
+                ) or die $client->s3->err . ": " . $$client->s3->errstr;
+            }
+
+        }
+
     };
 
     unless ( !$@ ) {
@@ -170,6 +213,16 @@ sub _upload_file {
     $tracker_firmware_information->update( { private_path => $private_path } );
 
     return $tracker_firmware_information;
+}
+
+sub _unzip_file {
+    my ($self, $c, $file) = @_;
+
+    my $ufile   = Archive::Extract->new( archive => $file );
+
+    $ufile->extract( to => '/tmp' );
+
+    return $ufile->files;
 }
 
 1;
