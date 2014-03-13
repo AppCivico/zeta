@@ -22,6 +22,27 @@ sub base : Chained('/root') : PathPart('tracker-manager') : CaptureArgs(0) {
 
 }
 
+sub download_firmware : Chained('base') : PathPart('download') : Args(1) {
+    my ( $self, $c, $file ) = @_;
+
+    my $api = $c->model('API');
+
+    my $content = $api->get_result(
+        $c,
+        'download-firmware',
+        params => {
+            file => $file
+        },
+        get_as_content => 1
+    );
+
+    $c->res->header('content-type', 'application/octet-stream');
+
+    $c->res->body($content);
+
+    $c->detach();
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

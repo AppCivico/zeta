@@ -66,6 +66,7 @@ sub result_GET {
 
 sub result_DELETE {
     my ( $self, $c ) = @_;
+
     my $tracker_firmware_information = $c->stash->{tracker_firmware_information};
 
     $tracker_firmware_information->delete;
@@ -156,19 +157,19 @@ sub list_POST {
 
 sub _upload_file {
     my ( $self, $c, $tracker_firmware_information ) = @_;
-    use DDP;
 
     my $client      = PI::S3Client->new();
     my $bucket_name = 'PI-FMWR';
     my $bucket      = $client->s3->bucket($bucket_name);
+
     my $clientObj   = Net::Amazon::S3::Client->new( s3 => $client->s3 );
-    my $bucketObj   = $clientObj->bucket(name => 'PI-FMWR');
+    my $bucketObj   = $clientObj->bucket(name => $bucket_name);
 
     my $upload          = $c->req->upload('file');
     my $filename        = sprintf( '%i_%s', $tracker_firmware_information->id, $tracker_firmware_information->version);
-    my $private_path    = "backup/$filename";
 
-    my $files = $self->_unzip_file($c, $upload->tempname);
+    my $private_path    = "backup/$filename";
+    my $files           = $self->_unzip_file($c, $upload->tempname);
 
     eval {
         my $keys    = $bucket->list;
@@ -210,7 +211,7 @@ sub _upload_file {
         $self->status_bad_request( $c, message => "Copy failed: $@" ), $c->detach;
     }
 
-    $tracker_firmware_information->update( { private_path => $private_path } );
+    $tracker_firmware_information->update( { private_path => $bucket_name.'/'.$private_path } );
 
     return $tracker_firmware_information;
 }

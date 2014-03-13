@@ -20,10 +20,6 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         }
     );
 
-    my $s = $c->stash->{tracker_firmware_informations};
-    use DDP; p $s;
-
-    my $s = $c->stash->{tracker_firmware_informations};
 }
 
 sub add : Chained('base') : PathPart('new') : Args(0) { }

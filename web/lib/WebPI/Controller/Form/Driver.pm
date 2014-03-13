@@ -21,7 +21,7 @@ sub process : Chained('base') : PathPart('driver') : Args(0) {
 
     $form->only_number( $param, 'telephone_number', 'mobile_number', 'postal_code', 'cpf' );
 
-    $param->{validation_key} = sha1_hex( $param->{email} . $param->{nome} );
+    $param->{validation_key} = sha1_hex( $param->{email} . $param->{name} );
     $param->{password}       = $param->{validation_key};
 
     $api->stash_result(

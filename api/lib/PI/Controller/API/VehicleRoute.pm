@@ -143,8 +143,8 @@ sub list_GET {
         );
 
     } elsif( $c->req->params->{gis_polyline} ) {
-        $rs         = $c->model('DB::Vehicle');
         my $filters = $c->req->params;
+        $rs         = $c->model('DB::Vehicle');
 
         my $distance    = $c->req->params->{distance} ? $c->req->params->{distance} : 500;
         my @ids         = $self->_get_assoc_by_region($c, $c->req->params->{gis_polyline}, $distance);
