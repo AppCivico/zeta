@@ -173,16 +173,19 @@ sub _upload_file {
 
     eval {
         my $keys    = $bucket->list;
-        my $size    = scalar keys $keys->{'keys'};
         my @objs;
 
-        for(my $i; $i < $size; $i++) {
-            if( $keys->{'keys'}[$i]{'key'} && $keys->{'keys'}[$i]{'key'} =~ m/^(documents)/ ) {
-                push(@objs, $bucketObj->object( key => $keys->{'keys'}[$i]{'key'} ));
-            }
-        }
+        if( $keys->{'keys'} ) {
+            my $size    = scalar keys $keys->{'keys'};
 
-        $bucketObj->delete_multi_object(@objs);
+            for(my $i; $i < $size; $i++) {
+                if( $keys->{'keys'}[$i]{'key'} && $keys->{'keys'}[$i]{'key'} =~ m/^(documents)/ ) {
+                    push(@objs, $bucketObj->object( key => $keys->{'keys'}[$i]{'key'} ));
+                }
+            }
+
+            $bucketObj->delete_multi_object(@objs);
+        }
 
         $bucket->add_key_filename(
             $private_path,
