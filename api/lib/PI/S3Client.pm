@@ -24,7 +24,7 @@ sub _connect_s3 {
         aws_access_key_id       => $config{aws}{access_key_id},
         aws_secret_access_key   => $config{aws}{secret_access_key},
         retry                   => 1,
-        secure                  => 1,
+        secure                  => 0,
     );
 
     return Net::Amazon::S3->new(@credentials);
