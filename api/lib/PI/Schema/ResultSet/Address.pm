@@ -46,6 +46,10 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
+                complement => {
+                    required => 0,
+                    type     => 'Str',
+                },
             }
         )
     };

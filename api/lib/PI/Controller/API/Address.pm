@@ -47,6 +47,7 @@ sub result_GET {
                   lat_lng
                   user_id
                   city_id
+                  complement
                   /
             ),
             postal_code => $address->{postal_code} ? sprintf("%08d", $address->{postal_code}) : undef,
@@ -104,6 +105,7 @@ sub list_GET {
                               lat_lng
                               user_id
                               city_id
+                              complement
                               /
                         ),
                         postal_code => $r->{postal_code} ? sprintf("%08d", $r->{postal_code}) : undef,
