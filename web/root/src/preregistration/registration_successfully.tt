@@ -17,6 +17,25 @@
 </noscript>
 <!-- Fim FB pixel tag -->
 
+<!-- Google Code for Cadastro_sucesso Conversion Page (Olgivy)-->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 972794181;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "Cj6vCIP81REQxdLuzwM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/972794181/?label=Cj6vCIP81REQxdLuzwM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+
 <div class="page-header bg-dark">
 	<h3>Pré-cadastro realizado com sucesso!</h3>
 </div>
