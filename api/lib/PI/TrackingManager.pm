@@ -62,18 +62,6 @@ sub add {
         }
     );
 
-#     my $statis_data = {
-#         vehicle_id  => $tracker_data->vehicle_id,
-#         track_event => $message->track_event,
-#         lat         => $message->latitude,
-#         lng         => $message->longitude,
-#         speed       => $message->speed,
-#     };
-#
-#     eval { $self->build_statistic_queue($statis_data); };
-
-#     use DDP;
-#     p $@ if $@;
     return 1;
 }
 
@@ -133,6 +121,25 @@ sub build_statistic_queue {
     my $data  = encode_json($params);
 
     $redis->redis->rpush( 'vehicle_statistics' => $data );
+}
+
+sub new_tracker {
+    my ( $self, $params ) = @_;
+
+    my @records;
+    my $tracker = decode_json($params);
+
+    push(@records, {
+        code    => $tracker->{imei},
+        iccid   => $tracker->{iccid},
+        status  => 1
+    });
+
+    my $rs_tracker = $self->schema->resultset('Tracker');
+
+    return 0 unless $rs_tracker->populate(\@records);
+
+    return 1;
 }
 
 1;
