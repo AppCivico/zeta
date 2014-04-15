@@ -199,7 +199,7 @@ a:hover{
 }
 .button:hover{
 	text-decoration: none;
-	background-color: #fff;
+	background-color: #4d9f6d;
 	color: #000;
 }
 
@@ -676,7 +676,6 @@ input.radio-form:first-child{
 	}
 
 	#land-page .steps [class*="span"]{
-		width: 50%;
 		float: left;
 	}
 	.steps .item .number{
