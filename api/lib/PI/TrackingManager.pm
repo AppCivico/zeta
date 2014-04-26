@@ -18,6 +18,12 @@ sub add {
 
     my $tracker_data    = $tracker_cache->check_status($message{imei});
 
+    if ( !$tracker_data ) {
+        print "Tracker is not registered on system. IMEI: $message{imei}\n";
+
+        return 0;
+    }
+    
 #   Verifica se o contador das mensagens bate com as mensagens recebidas e monta fila de mensagens perdidas
     my $counter = $tracker_cache->check_counter("counter-$message{imei}");
 
@@ -39,18 +45,13 @@ sub add {
         $tracker_cache->push_missing_messages($message{imei}, @missing_messages);
     }
 
-    if ( !$tracker_data ) {
-        print "Tracker not vinculated with a vehicle. IMEI: $message{imei}\n";
-
-        return 0;
-    }
 
     my $vehicle_tracker = $self->schema->resultset('VehicleTracker');
 
     $vehicle_tracker->create(
         {
             tracker_id          => $tracker_data->{tracker_id},
-            vehicle_id          => $tracker_data->{vehicle_id},
+            vehicle_id          => $tracker_data->{vehicle_id} ? $tracker_data->{vehicle_id} : undef ,
             lat                 => $message{latitude},
             lng                 => $message{longitude},
             speed               => $message{speed},
@@ -126,18 +127,25 @@ sub build_statistic_queue {
 sub new_tracker {
     my ( $self, $params ) = @_;
 
-    my @records;
-    my $tracker = decode_json($params);
+    my $tracker 	= decode_json($params);
+    my $rs_tracker 	= $self->schema->resultset('Tracker');
 
-    push(@records, {
-        code    => $tracker->{imei},
+    my $tracker_reg = $rs_tracker->create({
+		code    => $tracker->{imei},
         iccid   => $tracker->{iccid},
         status  => 1
     });
+    
+    if ($tracker_reg) {
+        $tracker_cache->update_cache(
+            $tracker->{imei},
+            $tracker_reg->id,
+            undef,
+            'post'
+        );
+    }
 
-    my $rs_tracker = $self->schema->resultset('Tracker');
-
-    return 0 unless $rs_tracker->populate(\@records);
+    return 0 unless $tracker_reg;
 
     return 1;
 }
