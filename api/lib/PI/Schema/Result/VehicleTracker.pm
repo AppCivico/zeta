@@ -53,7 +53,7 @@ __PACKAGE__->table("vehicle_tracker");
 
   data_type: 'integer'
   is_foreign_key: 1
-  is_nullable: 0
+  is_nullable: 1
 
 =head2 tracker_id
 
@@ -119,7 +119,7 @@ __PACKAGE__->add_columns(
     sequence          => "vehicle_tracker_id_seq",
   },
   "vehicle_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "tracker_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "track_event",
@@ -188,12 +188,17 @@ __PACKAGE__->belongs_to(
   "vehicle",
   "PI::Schema::Result::Vehicle",
   { id => "vehicle_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2014-02-26 11:23:38
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QT+bQtCdt1dXXZyU31GcaQ
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-04-26 13:41:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RQIFYP2RCA4AJ56QDv+2bA
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
