@@ -142,6 +142,18 @@ sub list_POST {
     my ( $self, $c ) = @_;
 
     my $tracker = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    
+# disponibiliza rastreador mesmo se nao vinculado a nenhum veiculo
+    if ($tracker) {
+        my $tracker_cache   = $c->model('TrackingCache');
+        
+        $tracker_cache->update_cache(
+            $tracker->code,
+            $tracker->id,
+            undef,
+            'post'
+        );
+    }
 
     $self->status_created(
         $c,
