@@ -22,7 +22,7 @@ sub base : Chained('/root') : PathPart('tracker-manager') : CaptureArgs(0) {
 
 }
 
-sub download_firmware : Chained('base') : PathPart('download') : Args(1) {
+sub download_firmware : Chained('/root') : PathPart('download-firmware') : Args(1) {
     my ( $self, $c, $file ) = @_;
 
     my $api = $c->model('API');
