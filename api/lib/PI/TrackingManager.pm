@@ -129,12 +129,16 @@ sub new_tracker {
 
     my $tracker 	= decode_json($params);
     my $rs_tracker 	= $self->schema->resultset('Tracker');
-
-    my $tracker_reg = $rs_tracker->create({
-		code    => $tracker->{imei},
-        iccid   => $tracker->{iccid},
-        status  => 1
-    });
+    
+	my $tracker_reg;
+	
+    eval {
+		$tracker_reg = $rs_tracker->create({
+			code    => $tracker->{imei},
+			iccid   => $tracker->{iccid},
+			status  => 1
+		});
+    };
     
     if ($tracker_reg) {
         $tracker_cache->update_cache(
