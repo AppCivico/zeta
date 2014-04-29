@@ -33,10 +33,10 @@ sub download_firmware : Chained('/root') : PathPart('download-firmware') : Args(
         params => {
             file => $file
         },
-        get_as_content => 1
+         get_as_content => 1
     );
 
-    $c->res->header('content-type', 'application/octet-stream');
+    $c->res->header('content-type', ' text/html');
 
     $c->res->body($content);
 
