@@ -36,7 +36,7 @@ sub download_firmware : Chained('/root') : PathPart('download-firmware') : Args(
          get_as_content => 1
     );
 
-    $c->res->header('content-type', ' text/html');
+    $c->res->header('content-type', ' text/plain');
 
     $c->res->body($content);
 
