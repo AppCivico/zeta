@@ -211,7 +211,7 @@ sub _upload_file {
     };
 
     unless ( !$@ ) {
-        $self->status_bad_request( $c, message => "Copy failed: $@" ), $c->detach;
+        $self->status_bad_request( $c, message => "Upload failed: $@" ), $c->detach;
     }
 
     $tracker_firmware_information->update( { private_path => $bucket_name.'/'.$private_path } );
