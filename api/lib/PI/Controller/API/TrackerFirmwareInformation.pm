@@ -202,7 +202,7 @@ sub _upload_file {
                 $bucket->add_key_filename(
                     $obj,
                     File::Spec->catfile('/tmp', $fl),
-                    { content_type => $upload->type },
+                    { content_type => 'text/plain' },
                 ) or die $client->s3->err . ": " . $$client->s3->errstr;
             }
 
