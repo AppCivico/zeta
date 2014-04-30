@@ -29,11 +29,11 @@ my $tracking_manager        = PI::TrackingManager->new( { schema => $schema } );
 sub process {
     print "Consumer initialized successfully, waiting for data.......\n";
 
+	open(my $fh, '>>', 'tracker_new.log');
+	
     eval {
         while (1) {
             my ( $list, $trackers ) = $redis->redis->blpop( 'new_trackers', 0 );
-
-            open(my $fh, '>>', 'tracker_new.log');
 
             if( $trackers ) {
 				my $ret = $tracking_manager->new_tracker($trackers);
@@ -47,11 +47,11 @@ sub process {
                 }
             }
 
-            close $fh;
-
             next;
         }
     };
 
-    print $@ if $@;
+    print $fh $@ if $@;
+    
+    close $fh;
 }
