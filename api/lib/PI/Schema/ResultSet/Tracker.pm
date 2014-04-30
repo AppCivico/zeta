@@ -29,6 +29,14 @@ sub verifiers_specs {
                 status => {
                     required => 0,
                     type     => 'Str'
+                },
+                iccid => {
+					required 	=> 0,
+					type		=> 'Num'
+                },
+                mobile_number => {
+					required 	=> 0,
+					type		=> 'Num'
                 }
             }
         )
