@@ -36,8 +36,14 @@ sub process {
             open(my $fh, '>>', 'tracker_new.log');
 
             if( $trackers ) {
-                if ( !$tracking_manager->new_tracker($trackers) ) {
+				my $ret = $tracking_manager->new_tracker($trackers);
+				
+                if ( !$ret ) {
                     print $fh "Error adding new trackers: ".$trackers."\n";
+                } elsif ( $ret == 2 ) {
+					print $fh "Tracker already exist: ".$trackers."\n";
+                } else {
+					print $fh "Tracker added successfully: ".$trackers."\n";
                 }
             }
 
