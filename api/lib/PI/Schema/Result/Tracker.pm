@@ -73,12 +73,12 @@ __PACKAGE__->table("tracker");
 
 =head2 iccid
 
-  data_type: 'bigint'
+  data_type: 'numeric'
   is_nullable: 1
 
 =head2 mobile_number
 
-  data_type: 'integer'
+  data_type: 'numeric'
   is_nullable: 1
 
 =cut
@@ -105,9 +105,9 @@ __PACKAGE__->add_columns(
   "status",
   { data_type => "text", is_nullable => 1 },
   "iccid",
-  { data_type => "bigint", is_nullable => 1 },
+  { data_type => "numeric", is_nullable => 1 },
   "mobile_number",
-  { data_type => "integer", is_nullable => 1 },
+  { data_type => "numeric", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -186,8 +186,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07036 @ 2013-10-30 19:37:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RpaEQa7Fpxn6St21vyp6nA
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-04-30 11:06:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:niXR0Ap7xaJv4V6+HwsfUQ
 
 with 'PI::Role::Verification';
 with 'PI::Role::Verification::TransactionalActions::DBIC';
@@ -214,6 +214,14 @@ sub verifiers_specs {
                 vehicle_id => {
                     required => 0,
                     type     => 'Int'
+                },
+                iccid => {
+					required 	=> 0,
+					type		=> 'Num'
+                },
+                mobile_number => {
+					required 	=> 0,
+					type		=> 'Num'
                 }
             }
         ),
