@@ -133,6 +133,8 @@ sub new_tracker {
 	my $tracker_reg;
 	
     eval {
+		return 2 if $rs_tracker->search( { code => $tracker->{imei} } )->next;
+    
 		$tracker_reg = $rs_tracker->create({
 			code    => $tracker->{imei},
 			iccid   => $tracker->{iccid},
