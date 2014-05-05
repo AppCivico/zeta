@@ -18,6 +18,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 
 sub index : Chained('base') : PathPart('') : Args(0) {
     my ( $self, $c ) = @_;
+    
     my $api = $c->model('API');
 
     my %params;
