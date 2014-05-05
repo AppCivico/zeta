@@ -1,3 +1,8 @@
+var tracker_manager = function () {
+
+
+};
+
 function reset_button() {
     setTimeout(function () {
         $("#check_token").button('reset');
