@@ -13,6 +13,9 @@ sub base : Chained('/trackermanager/base') : PathPart('positions') : CaptureArgs
 	
     $api->stash_result(
         $c, ['trackers'],
+		params => {
+			order => 'code'
+		}
     );
     
     $c->stash->{trackers_obj} = [ map { [ $_->{id}, $_->{code} ] } @{ $c->stash->{trackers} } ];
@@ -37,24 +40,10 @@ sub get_positions : Chained('/trackermanager/base') : PathPart('get_positions') 
     );
     
     my $t = $c->stash->{vehicle_trackers};
-    
-    use DDP; p $t;
-
     my @data;
-#     my $i   = 0;
-#     my $j   = 0;
-#     my $id  = $c->stash->{vehicle_trackers}[0]{tracker_id};
-
+    
     foreach my $item ( @{ $c->stash->{vehicle_trackers} } ) {
-
-#         if ( $id != $item->{tracker_id} ) {
-#             $id = $item->{tracker_id};
-#             $i  = 0;
-# 
-#             $j++;
-#         }
-
-         my @pos = $self->parse_lat_lng($item->{lat}, $item->{lng});
+		my @pos = $self->parse_lat_lng($item->{lat}, $item->{lng});
 
         push(@data, {
              'lat'           => $pos[0],
@@ -65,12 +54,11 @@ sub get_positions : Chained('/trackermanager/base') : PathPart('get_positions') 
             'speed'         => $item->{speed},
         });
 
-#         $i++;
     }
 
     $c->res->header( 'content-type', 'application/json;charset=UTF-8' );
 
-    if ( $c->stash->{vehicle_trackers} ) {
+    if ( @data ) {
 
         $c->res->body( encode_json( \@data ) );
     } else {
