@@ -12,10 +12,9 @@
 </div>
 <div class="row page-content">
     <form class="form-horizontal" method="post" id="form_tracker">
-            <label for="date">Escolha uma data</label>
-            <input type="text" name="date" class="span3 datepicker" id="elm_date">
-            <input type="hidden" id="vehicle_tracker_vehicle" name="vehicle_id" value=[%vehicles.0.id%]>
-            <input type="hidden" id="tracker_id" name="tracker_id" value=[%trackers.0.id%]>
+            [%select_field('tracker_id', 'Escolha um rastreador',  array => trackers_obj)|none%]
+            [%input_text('date', 'Escolha uma data', classes => ['span3', 'datepicker'])|none%]
+            
             <button type="submit" id="search_track" class="btn btn-success" data-loading-text="Processando...">Pesquisar</button>
             <p id="empty_tracker" style="display:none;"> Não existem registros para esta data<p>
     </form>
