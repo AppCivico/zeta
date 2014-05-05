@@ -10,6 +10,10 @@
         <li><a href="[%href%]"><i class="icon-road"></i>Vincular</a></li>
         [%href = c.uri_for_action('/trackermanager/trackerfirmwareinformation/index')%]
         <li><a href="[%href%]"><i class="icon-wrench"></i>Firmware</a></li>
+        
+        <li class="nav-header">Posições</li>
+        [%href = c.uri_for_action('/trackermanager/position/index')%]
+        <li><a href="[%href%]"><i class="icon-flag"></i>Mapa</a></li>
 
         <li class="nav-header">Outros</li>
         <li><a href="/contato">Contato</a></li>
