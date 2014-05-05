@@ -171,11 +171,9 @@ var $maps = function () {
             var $hour;
 
             if (positions[i].track_event.length) {
-
                 $date = positions[i].track_event.split(' ');
                 $hour = $date[1].substr(0, 5);
                 $date = $date[0].substr(8, 2) + '/' + $date[0].substr(5, 2) + '/' + $date[0].substr(0, 4);
-
             }
 
             var marker = new google.maps.Marker({
@@ -184,7 +182,6 @@ var $maps = function () {
 //                 icon: '/static/img/invisible.png',
                 icon: '/static/img/1381172153_Map-Marker-Marker-Outside-Azure.png',
                 info: 'Data: ' + $date + '<br /> Hora: ' + $hour + '<br />Velocidade :' + positions[i].speed + ' Km/h'
-                      +'<br />Tracker Id: '+ positions[i].tracker_id
             });
 
             markersArray.push(marker);
@@ -225,10 +222,14 @@ var $maps = function () {
             data: form_data,
             dataType: 'json',
             success: function (result) {
-                var key;
-                for(key in result) {
-                    printPolyline(result[key]);
-                }
+				if(result) {
+					printPolyline(result);	
+				} else {
+					alert("Nenhuma posição encontrada");
+					clearPolyline();
+					clearOverlays();
+				}
+				
             },
             error: function (err) {
                 console.log(err);
@@ -389,18 +390,20 @@ $(document).ready(function () {
     });
 
     if ($('#form_tracker').length) {
-        var $date = new Date();
-
-        $date = $date.getDate() + '/' + ($date.getMonth() + 1) + '/' + $date.getFullYear();
-        $('#elm_date').val($date);
-
-
-        $maps.getPoints($('#form_tracker').serialize());
-
-        $('#form_tracker').on('submit', function () {
-            event.preventDefault();
-            $maps.getPoints($(this).serialize());
-        });
+	
+		$('#form_tracker').on('submit', function () {
+			
+			if(! $('#elm_tracker_id').val() || ! $('#elm_date').val()) {
+				alert('Preencha os campos corretamente');
+				$('#search_track').button('reset');
+				return false;
+			}
+			
+			$maps.getPoints($(this).serialize());
+			
+			event.preventDefault();
+		});
+		
     }
 
     if (('#route_filter').length) {
