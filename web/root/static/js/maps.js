@@ -178,13 +178,19 @@ var $maps = function () {
 				var marker = new google.maps.Marker({
 					map: map,
 					position: path[i],
-// 					icon: '/static/img/invisible.png',
 	                icon: '/static/img/1381172153_Map-Marker-Marker-Outside-Azure.png',
 					info: 'Data: ' + $date + '<br /> Hora: ' + $hour + '<br />Velocidade :' + positions[i].speed + ' Km/h'
 				});
 				
-				markersArray.push(marker);
+			} else {
+				var marker = new google.maps.Marker({
+					map: map,
+					position: path[i],
+					icon: '/static/img/invisible.png',
+					info: 'Data: ' + $date + '<br /> Hora: ' + $hour + '<br />Velocidade :' + positions[i].speed + ' Km/h'
+				});
 			}
+			markersArray.push(marker);
 
             var infowindow = new google.maps.InfoWindow(),
             marker;
