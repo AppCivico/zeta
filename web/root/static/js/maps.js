@@ -147,10 +147,10 @@ var $maps = function () {
     }
 
     function printPolyline(positions) {
+		clearPolyline();
+		clearOverlays();
+		
         if (!positions) {
-            clearPolyline();
-            clearOverlays();
-
             return false;
         }
 
