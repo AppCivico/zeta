@@ -173,16 +173,18 @@ var $maps = function () {
                 $hour = $date[1].substr(0, 5);
                 $date = $date[0].substr(8, 2) + '/' + $date[0].substr(5, 2) + '/' + $date[0].substr(0, 4);
             }
-
-            var marker = new google.maps.Marker({
-                map: map,
-                position: path[i],
-//                 icon: '/static/img/invisible.png',
-                icon: '/static/img/1381172153_Map-Marker-Marker-Outside-Azure.png',
-                info: 'Data: ' + $date + '<br /> Hora: ' + $hour + '<br />Velocidade :' + positions[i].speed + ' Km/h'
-            });
-
-            markersArray.push(marker);
+            
+            if(i == 0 || i == positions.length -1) {
+				var marker = new google.maps.Marker({
+					map: map,
+					position: path[i],
+// 					icon: '/static/img/invisible.png',
+	                icon: '/static/img/1381172153_Map-Marker-Marker-Outside-Azure.png',
+					info: 'Data: ' + $date + '<br /> Hora: ' + $hour + '<br />Velocidade :' + positions[i].speed + ' Km/h'
+				});
+				
+				markersArray.push(marker);
+			}
 
             var infowindow = new google.maps.InfoWindow(),
             marker;
