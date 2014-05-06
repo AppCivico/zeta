@@ -158,6 +158,10 @@ body.admin footer .container{
     display: none;
 }
 
+.map-grid {
+	margin-bottom: 2cm;
+}
+
 @media (max-width: 979px) {
 	body.admin{
 		margin-top: 0;

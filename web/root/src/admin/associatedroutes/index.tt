@@ -7,7 +7,7 @@
 
 <div id="x-container">
     <div class="x-dummy"></div>
-        <div class="x-element">
+        <div class="x-element" class="map-grid">
             <div id="map_canvas" style="width:100%; height:100%" class="map-route"></div>
         </div>
     </div>
@@ -18,7 +18,7 @@
                 ['f', 'Feminino']
             ])|none%]
             <label class="control-label" for="elm_age">Idade</label>
-            de <input type="text" name="start_age"> até <input type="text" name="end_age">
+            <input type="text" name="start_age"> até <input type="text" name="end_age">
             [%select_field('brand','Montadora',array => select_brands)|none%]
             [%input_text('distance', 'Quilometragem', 'placeholder' => 'Mínimo 500 Km / mês')|none%]
             <p id="distance_error">Você deve preencher este campo com um valor maior ou igual a 500 ou deixá-lo em branco<p>

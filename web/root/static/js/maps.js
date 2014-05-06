@@ -154,8 +154,6 @@ var $maps = function () {
             return false;
         }
 
-//         clearOverlays();
-
         var path         = [];
         path.length      = 0;
         var latLngBounds = new google.maps.LatLngBounds();
@@ -367,7 +365,7 @@ $(document).ready(function () {
         });
 
     }
-
+    
     $('#elm_address').blur(function () {
         $maps.codeAddress('#elm_lat_lng', '#elm_address');
     });
@@ -406,8 +404,8 @@ $(document).ready(function () {
 		
     }
 
-    if (('#route_filter').length) {
-        $maps.drawingManager();
+    if (('#route_filter').length && !$('#form_tracker').length) {
+         $maps.drawingManager();
     }
 
 });

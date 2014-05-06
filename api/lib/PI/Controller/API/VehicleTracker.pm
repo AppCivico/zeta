@@ -104,8 +104,6 @@ sub list_GET {
                  ],
              }
         );
-        
-        use DDP; p $data;
 
         $self->status_ok(
             $c,
