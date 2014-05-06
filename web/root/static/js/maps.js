@@ -19,7 +19,7 @@ var $maps = function () {
 
         map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
-        if (!$('#elm_origin').length && !$('#vehicle_tracker_vehicle').length) {
+		if (!$('#elm_origin').length && !$('#vehicle_tracker_vehicle').length && !$('#form_tracker').length) {
             google.maps.event.addListener(map, 'click', function (event) {
                 clearOverlays();
                 addMarker(event.latLng);
