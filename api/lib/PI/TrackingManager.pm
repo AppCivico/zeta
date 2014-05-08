@@ -4,23 +4,27 @@ use Moose;
 use PI::Redis;
 use PI::TrackingManager::Cache;
 use JSON::XS;
-use DDP;
+use Log::Log4perl qw(get_logger :levels);
 
 has schema => (
     is  => 'rw',
     isa => 'PI::Schema',
 );
 
-my $tracker_cache = PI::TrackingManager::Cache->new();
+my $tracker_cache 	= PI::TrackingManager::Cache->new();
+
+Log::Log4perl::init('log.conf');
 
 sub add {
     my ( $self, %message ) = @_;
+    
+    my $logger 			= Log::Log4perl->get_logger("tracker_message");
 
     my $tracker_data    = $tracker_cache->check_status($message{imei});
 
     if ( !$tracker_data ) {
-        print "Tracker is not registered on system. IMEI: $message{imei}\n";
-
+		$logger->warn('Tracker is not registered on system. IMEI: '.$message{imei});
+		
         return 0;
     }
     
@@ -45,24 +49,27 @@ sub add {
         $tracker_cache->push_missing_messages($message{imei}, @missing_messages);
     }
 
-
     my $vehicle_tracker = $self->schema->resultset('VehicleTracker');
 
-    $vehicle_tracker->create(
-        {
-            tracker_id          => $tracker_data->{tracker_id},
-            vehicle_id          => $tracker_data->{vehicle_id} ? $tracker_data->{vehicle_id} : undef ,
-            lat                 => $message{latitude},
-            lng                 => $message{longitude},
-            speed               => $message{speed},
-            transaction         => $message{position_counter},
-            track_event         => $message{package_date},
-            sat_number          => $message{sat_number},
-            hdop                => $message{hdop},
-            reason_generator    => $message{reason_generator},
-        }
-    );
-
+    eval {
+		$vehicle_tracker->create(
+			{
+				tracker_id          => $tracker_data->{tracker_id},
+				vehicle_id          => $tracker_data->{vehicle_id} ? $tracker_data->{vehicle_id} : undef ,
+				lat                 => $message{latitude},
+				lng                 => $message{longitude},
+				speed               => $message{speed},
+				transaction         => $message{position_counter},
+				track_event         => $message{package_date},
+				sat_number          => $message{sat_number},
+				hdop                => $message{hdop},
+				reason_generator    => $message{reason_generator},
+			}
+		);
+	};
+	
+	$logger->error('Error saving position on database. Tracker_id: '.$tracker_data->{tracker_id}.' Message: '.$@) if $@;
+	
     return 1;
 }
 
@@ -126,7 +133,8 @@ sub build_statistic_queue {
 
 sub new_tracker {
     my ( $self, $params ) = @_;
-
+    
+    my $logger 		= Log::Log4perl->get_logger("new_tracker");
     my $tracker 	= decode_json($params);
     my $rs_tracker 	= $self->schema->resultset('Tracker');
     
@@ -141,6 +149,8 @@ sub new_tracker {
 			status  => 1
 		});
     };
+    
+    $logger->error('Error creating new tracker. IMEI: '.$tracker->{imei}.' Message: '.$@) if $@;
     
     if ($tracker_reg) {
         $tracker_cache->update_cache(

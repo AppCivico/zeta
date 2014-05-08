@@ -9,8 +9,7 @@ use lib "$Bin/../lib";
 use JSON::XS;
 use PI::Redis;
 use PI::TrackingManager;
-
-use DDP;
+use Log::Log4perl qw(get_logger :levels);
 
 package PI;
 use Catalyst qw( ConfigLoader  );
@@ -19,17 +18,18 @@ __PACKAGE__->setup();
 
 package main;
 
+Log::Log4perl::init('log.conf');
+
 my $coder                   = JSON::XS->new;
 my $redis                   = PI::Redis->new();
 my $schema                  = PI->model('DB')->schema;
 my $tracking_manager        = PI::TrackingManager->new( { schema => $schema } );
+my $logger 					= Log::Log4perl->get_logger("new_tracker");
 
 &process;
 
 sub process {
-    print "Consumer initialized successfully, waiting for data.......\n";
-
-	open(my $fh, '>>', 'tracker_new.log');
+	$logger->info("Consumer initialized successfully, waiting for data.......");
 	
     eval {
         while (1) {
@@ -39,11 +39,11 @@ sub process {
 				my $ret = $tracking_manager->new_tracker($trackers);
 				
                 if ( !$ret ) {
-                    print $fh "Error adding new trackers: ".$trackers."\n";
+                    $logger->error("Error adding new trackers: $trackers");
                 } elsif ( $ret == 2 ) {
-					print $fh "Tracker already exist: ".$trackers."\n";
+					$logger->warn("Tracker already exist: $trackers");
                 } else {
-					print $fh "Tracker added successfully: ".$trackers."\n";
+					$logger->info("Tracker added successfully: $trackers");
                 }
             }
 
@@ -51,7 +51,5 @@ sub process {
         }
     };
 
-    print $fh $@ if $@;
-    
-    close $fh;
+    $logger->error($@) if $@;
 }

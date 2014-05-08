@@ -11,8 +11,7 @@ use JSON::XS;
 use PI::SqsManager;
 use PI::TrackingManager;
 use PI::TrackerMessageParser;
-
-use DDP;
+use Log::Log4perl qw(get_logger :levels);
 
 package PI;
 use Catalyst qw( ConfigLoader  );
@@ -21,16 +20,19 @@ __PACKAGE__->setup();
 
 package main;
 
+Log::Log4perl::init('log.conf');
+
 my $schema     = PI->model('DB')->schema;
 my $coder      = JSON::XS->new;
 
 my $tracking_manager    = PI::TrackingManager->new( { schema => $schema } );
 my $sqs                 = PI::SqsManager->new();
+my $logger 				= Log::Log4perl->get_logger("tracker_queue");
 
 &process;
 
 sub process {
-    print "Consumer initialized successfully, waiting for data.......\n";
+    $logger->info("Consumer initialized successfully, waiting for data.......");
 
     eval {
         my $i = 0;
@@ -38,22 +40,19 @@ sub process {
         while (1) {
             my $message = $sqs->sqs->ReceiveMessage();
 
-            open(my $fh, '>>', 'tracker_message.log');
-
             if( $message ) {
                 my %msg_trans = PI::TrackerMessageParser::parser($message->MessageBody);
 
                 if( !$tracking_manager->add(%msg_trans) ) {
-                    print $fh "Error saving data on database, message: ".$message->MessageBody."\n";
+                    $logger->error("Error saving data. Message: $message->MessageBody");
                 }
 
                 $sqs->sqs->DeleteMessage($message->ReceiptHandle);
             }
-
-            close $fh;
+            
             next;
         }
     };
 
-    print $@ if $@;
+    $logger->error($@) if $@;
 }
