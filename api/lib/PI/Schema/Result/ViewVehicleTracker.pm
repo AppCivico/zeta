@@ -27,7 +27,7 @@ __PACKAGE__->result_source_instance->view_definition(
 		SELECT
 			lat,
 			lng,
-			min(track_event) as track_event,
+			min(track_event) - interval '3 hours' as track_event,
 			max(speed) as speed
 		FROM
 			vehicle_tracker
