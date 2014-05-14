@@ -1,4 +1,5 @@
 package WebPI::Controller::PreRegistration;
+
 use Moose;
 use DateTime;
 use JSON::XS;

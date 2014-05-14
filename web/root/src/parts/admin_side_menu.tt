@@ -8,8 +8,9 @@
         <li class="nav-header">Campanhas</li>
         <li><a href="/admin/campaign"><i class="icon-th-list"></i>Listar</a></li>
         <li><a href="/admin/associated_routes"><i class="icon-road"></i>Cadastrar</a></li>
-        <li class="nav-header">Outros</li>
-        <li><a href="/admin/driver"><i class="icon-list"></i>Lista de usuários</a></li>
+        <li class="nav-header">Usuários</li>
+        <li><a href="/admin/driver"><i class="icon-list"></i>Motoristas</a></li>
+        <li><a href="/admin/pre-user"><i class="icon-list"></i>Pré-cadastros</a></li>
         <li><a href="/logout">Sair</a></li>
     </ul>
 </div>

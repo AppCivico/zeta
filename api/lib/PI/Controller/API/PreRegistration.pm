@@ -1,7 +1,8 @@
 package PI::Controller::API::PreRegistration;
 
-use Moose;
 use utf8;
+use Moose;
+use DateTime;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -20,7 +21,10 @@ __PACKAGE__->config(
         order   => 'Str'
     },
     result_attr => {
-        prefetch => ['city', 'zone']
+        prefetch => [
+			 { 'city' => 'state' },
+			, 'zone'
+		]
     },
 
 );
@@ -62,11 +66,15 @@ sub result_GET {
                 /
             ),
             city => {
-                map {$_ => $attrs{$_}, }
-                 qw /id name/
+				( map { $_ => $pre_registration->city->$_ }
+                 qw /id name/ ),
+                 'state' => {
+					map { $_ => $pre_registration->city->state->$_ }
+					qw /id name/
+                 }
             },
             zone => {
-                map {$_ => $attrs{$_}, }
+                map { $_ => $pre_registration->zone->$_ }
                  qw /id name/
             },
             ( map { $_ => ( $attrs{$_} ? $attrs{$_}->datetime : undef ) } qw/birth_date created_at/ ),
@@ -104,6 +112,52 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    
+    my $rs = $c->stash->{collection};
+    
+    my $count;
+    
+    if( $c->req->params->{filters} ) {
+        my $conditions  = undef;
+        my $now         = DateTime->now();
+
+        if($c->req->params->{start} && $c->req->params->{end}) {
+            $conditions = {
+                'me.created_at' => {
+                    '-between' => [
+                        $c->req->params->{start},
+                        $c->req->params->{end}
+                    ],
+                }
+            };
+        } elsif ($c->req->params->{start} && !$c->req->params->{end}) {
+            $conditions = {
+                'me.created_at' => {
+                    '-between' => [
+                        $c->req->params->{start},
+                        $now->format_cldr('Y-M-d H:m:s')
+                    ],
+                }
+            };
+        } elsif($c->req->params->{end}) {
+            $conditions = {
+                'me.created_at' => {
+                    '<=' => $c->req->params->{end}
+                }
+            };
+        }
+        
+        $count = $rs->search( $conditions ? { %$conditions } : undef )->count;
+
+        $rs = $rs->search(
+            $conditions ? { %$conditions } : undef,
+             {
+				page 		=> $c->req->params->{page},
+				rows 		=> 10,
+				order_by 	=> { '-asc' => 'me.created_at' }
+			},
+        );
+    }
 
     $self->status_ok(
         $c,
@@ -130,12 +184,15 @@ sub list_GET {
                                 fb_id
                                 fb_code
                                 fb_timestamp
+                                created_at
+                                birth_date
                               /
                         ),
-                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
-                      }
-                } $c->stash->{collection}->as_hashref->all
-            ]
+                        url 	=> $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string,
+                      },
+                } $rs->as_hashref->all
+            ],
+            count => $count
         }
     );
 }

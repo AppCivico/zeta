@@ -5,16 +5,16 @@
 [%-CALL assets.include("js/admin.js")%]
 
 <div id="x-container">
-<h2>Lista de motoristas</h2>
+<h2>Lista de pré-cadastros</h2>
     <fieldset>
-        <form id="user_filter" action="/admin/driver" method="get">
+        <form id="user_filter" action="/admin/pre-user" method="get">
             <strong>Filtrar por data de cadastro</strong><br />
             De: <br /><input class="date" type="text" name="start" value="[%start%]"><br />
             Até: <br /><input class="date" type="text" name="end" value="[%end%]"><br />
             <button class="btn btn-primary" data-loading-text="Processando...">Pesquisar</button>
         </form>
 
-        [%IF drivers.size > 0%]
+        [%IF pre_registrations.size > 0%]
             <table class="table table-striped table-condensed">
             <col style="width: 25%">
             <col style="width: 25%">
@@ -28,14 +28,14 @@
             </tr>
             </thead>
             <tbody>
-                [%FOREACH dr IN drivers%]
+                [%FOREACH pr IN pre_registrations%]
                     <tr>
-                        <td>[%dr.name%]</td>
-                        <td>[%dr.email%]</td>
-                        <td>[%birthdate_to_age(dr.birth_date)%]</td>
-                        <td>[%format_date_to_human(dr.created_at)%]</td>
+                        <td>[%pr.name%]</td>
+                        <td>[%pr.email%]</td>
+                        <td>[%birthdate_to_age(pr.birth_date)%]</td>
+                        <td>[%format_date_to_human(pr.created_at)%]</td>
                         <td>
-                            <a class="btn btn-mini" href="/admin/campaign_associated/profile?driver_id=[%dr.id%]">
+                            <a class="btn btn-mini" href="/admin/pre-user/[%pr.id%]/profile">
                                 Visualizar perfil
                             </a>
                         </td>
@@ -53,7 +53,7 @@
             </table>
         [%ELSE%]
             <ul style=" list-style-type: none;">
-                <li>Nenhum motorista associado</li>
+                <li>Nenhum pré-cadastro realizado</li>
             </ul>
         [%END%]
     </fieldset>

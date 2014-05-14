@@ -111,6 +111,7 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 sub list_GET {
     my ( $self, $c ) = @_;
 
+    my $count;
     my $rs = $c->stash->{collection};
 
     if($c->req->params->{filters}) {
@@ -142,10 +143,16 @@ sub list_GET {
                 }
             };
         }
+        
+        $count = $rs->search( $conditions ? { %$conditions } : undef )->count;
 
         $rs = $rs->search(
             $conditions ? { %$conditions } : undef,
-            { order_by => { '-asc' => 'me.created_at' } }
+             {
+				page 		=> $c->req->params->{page},
+				rows 		=> 10,
+				order_by 	=> { '-asc' => 'me.created_at' }
+			},
         );
     }
 
@@ -188,7 +195,8 @@ sub list_GET {
                         url         => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
                 } $rs->as_hashref->all
-            ]
+            ],
+            count => $count
         }
     );
 }
