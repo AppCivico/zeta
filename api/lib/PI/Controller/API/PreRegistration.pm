@@ -154,7 +154,7 @@ sub list_GET {
              {
 				page 		=> $c->req->params->{page},
 				rows 		=> 10,
-				order_by 	=> { '-asc' => 'me.created_at' }
+				order_by 	=> { '-asc' => 'me.name' }
 			},
         );
     }
