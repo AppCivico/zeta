@@ -50,7 +50,8 @@ sub index : Chained('base') : PathPart('') : Args(0) {
                 end     => $params->{end} ? $params->{end}.' 23:59:59' : undef,
                 start   => $params->{start} ? $params->{start}.' 00:00:00' : undef,
                 filters => 1,
-                page	=> $page
+                page	=> $page,
+                order	=> $c->req->params->{order}
             }
         );
     } else {
@@ -58,7 +59,8 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             $c, 'pre_registrations',
             params => {
                 filters => 1,
-                page	=> $page
+                page	=> $page,
+                order	=> $c->req->params->{order}
             }
         );
     }
