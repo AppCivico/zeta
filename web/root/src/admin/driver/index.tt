@@ -8,9 +8,13 @@
 <h2>Lista de motoristas</h2>
     <fieldset>
         <form id="user_filter" action="/admin/driver" method="get">
-            <strong>Filtrar por data de cadastro</strong><br />
-            De: <br /><input class="date" type="text" name="start" value="[%start%]"><br />
-            Até: <br /><input class="date" type="text" name="end" value="[%end%]"><br />
+            <strong>Filtros</strong><br />
+            De: <br /><input class="date span3" type="text" name="start" value="[%start%]"><br />
+            Até: <br /><input class="date span3" type="text" name="end" value="[%end%]"><br />
+            [%select_field('order', 'Ordenar por',  array => [
+				['me.created_at','Data de cadastro'],
+				['me.name','Nome'],
+			])|none%]
             <button class="btn btn-primary" data-loading-text="Processando...">Pesquisar</button>
         </form>
 
