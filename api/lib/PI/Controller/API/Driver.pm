@@ -113,6 +113,8 @@ sub list_GET {
 
     my $count;
     my $rs = $c->stash->{collection};
+    
+    my $order = $c->req->params->{order} ? $c->req->params->{order} : 'me.name';
 
     if($c->req->params->{filters}) {
         my $conditions  = undef;
@@ -125,7 +127,8 @@ sub list_GET {
                         $c->req->params->{start},
                         $c->req->params->{end}
                     ],
-                }
+                },
+                'user.email' => { 'not_like' => '%test%' }
             };
         } elsif ($c->req->params->{start} && !$c->req->params->{end}) {
             $conditions = {
@@ -134,24 +137,26 @@ sub list_GET {
                         $c->req->params->{start},
                         $now->format_cldr('Y-M-d H:m:s')
                     ],
-                }
+                },
+                'user.email' => { 'not_like' => '%test%' }
             };
         } elsif($c->req->params->{end}) {
             $conditions = {
                 'me.created_at' => {
                     '<=' => $c->req->params->{end}
-                }
+                },
+                'user.email' => { 'not_like' => '%test%' }
             };
         }
         
-        $count = $rs->search( $conditions ? { %$conditions } : undef )->count;
+        $count = $rs->search( $conditions ? { %$conditions } : { 'user.email' => { 'not_like' => '%test%' } } )->count;
 
         $rs = $rs->search(
-            $conditions ? { %$conditions } : undef,
+            $conditions ? { %$conditions } : { 'user.email' => { 'not_like' => '%test%' } },
              {
 				page 		=> $c->req->params->{page},
 				rows 		=> 10,
-				order_by 	=> { '-asc' => 'me.name' }
+				order_by 	=> { '-asc' => $order }
 			},
         );
     }
