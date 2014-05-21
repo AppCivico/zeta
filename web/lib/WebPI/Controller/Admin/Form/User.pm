@@ -25,16 +25,22 @@ sub process : Chained('base') : PathPart('user') : Args(0) {
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
     } else {
-		my @roles = @{ $params->{roles} };
 		my @r;
 		
-		foreach my $r (@roles) {
+		if ( ref $params->{roles} eq 'ARRAY' ) {
+			foreach my $r ( @{ $params->{roles} } ) {
+				push(@r, {
+					user_id	=> $c->stash->{id},
+					role_id	=> $r
+				});
+			}
+			
+		} else {
 			push(@r, {
 				user_id	=> $c->stash->{id},
-				role_id	=> $r
+				role_id	=> $params->{roles}
 			});
 		}
-
 		my $roles = encode_json(\@r);
 
 		$api->stash_result(
@@ -61,7 +67,7 @@ sub process_edit : Chained('base') : PathPart('user') : Args(1) {
     my $params 	= { %{ $c->req->params } };
     
     my @r;
-    if ( $params->{roles} eq 'ARRAY' ) {
+    if ( ref $params->{roles} eq 'ARRAY' ) {
     
 		foreach my $r ( @{ $params->{roles} } ) {
 			push(@r, {
