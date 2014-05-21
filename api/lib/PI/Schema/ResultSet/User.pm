@@ -37,7 +37,7 @@ sub verifiers_specs {
                     },
                 },
                 role => {
-                    required => 1,
+                    required => 0,
                     type     => 'Str',
                 },
                 email => {
@@ -87,18 +87,20 @@ sub action_specs {
 
         create => sub {
             my %values = shift->valid_values;
+            
             delete $values{password_confirm};
-            $values{email} = lc $values{email};
-
-            my $role = delete $values{role};
-
+            
+            $values{email} 	= lc $values{email};
+            my $role 		= delete $values{role};
+            
             my $user = $self->create( \%values );
+            
             if ($role) {
                 $user->set_roles( { name => $role } );
             }
 
             return $user;
-          }
+        }
 
     };
 }

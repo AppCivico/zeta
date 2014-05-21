@@ -1,6 +1,7 @@
 package PI::Controller::API::User;
 
 use Moose;
+use JSON::XS;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -10,12 +11,13 @@ __PACKAGE__->config(
     result     => 'DB::User',
     object_key => 'user',
 
-    update_roles => [qw/superadmin webapi/],
-    create_roles => [qw/superadmin/],
-    delete_roles => [qw/superadmin/],
+    update_roles => [qw/superadmin webapi admin/],
+    create_roles => [qw/superadmin admin/],
+    delete_roles => [qw/superadmin admin/],
     search_ok   => {
         email => 'Str',
-        reset_password_key => 'Str'
+        order => 'Str',	
+        reset_password_key => 'Str',
     }
 
 );
@@ -35,7 +37,8 @@ sub result_GET {
     $self->status_ok(
         $c,
         entity => {
-            roles => [ map { $_->name } $user->roles ],
+            roles 		=> [ map { $_->name } $user->roles ],
+            role_ids 	=> [ map {$_->id } $user->roles ],
 
             map { $_ => $attrs{$_}, }
                 qw/
@@ -53,6 +56,15 @@ sub result_PUT {
     my ( $self, $c ) = @_;
 
     my $user = $c->stash->{user};
+
+    if( $c->req->params->{change_roles} ) {
+ 		my $rel 	= $c->model('DB::UserRole')->search( { user_id => $user->id } )->delete;
+		my @roles 	= decode_json($c->req->params->{roles});
+		
+		eval {	$c->model('DB::UserRole')->populate($roles[0]); };
+		
+		delete $c->req->params->{roles};
+    }
 
     $user->execute( $c, for => 'update', with => $c->req->params );
 
@@ -85,6 +97,13 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') {
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    
+    my $conditions = undef;
+    if( $c->req->params->{role} ) {
+		$conditions = {
+ 			'role.id' => $c->req->params->{role} == 99 ? { 'in' => [1,4,5,6,8] } : $c->req->params->{role} #administrative roles, 99 is just to define the undefined
+		}
+    }
 
     $self->status_ok(
         $c,
@@ -93,14 +112,12 @@ sub list_GET {
                 map {
                     my $r = $_;
                     +{
-                        ( map { $_ => $r->{$_} } qw/id name email active reset_password_key/ ),
-
-                        roles => [ map { $r->{role}{name} } @{ $r->{user_roles} } ],
-
-                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
+                        ( map { $_ => $r->{$_} } qw/id name email active reset_password_key created_at/ ),
+                        roles 	=> [ map { $_->{role}{name} } @{ $r->{user_roles} } ],
+                        url 	=> $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                       }
-                  } $c->stash->{collection}->search( undef, { prefetch => [ { user_roles => 'role' } ] } )
-                  ->as_hashref->all
+				} $c->stash->{collection}->search( $conditions ? {%$conditions} : undef, { prefetch => [ { user_roles => 'role' } ] } )
+				->as_hashref->all
             ]
         }
     );
@@ -109,7 +126,9 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $user = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+    my $params = { %{ $c->req->params } };
+    
+    my $user = $c->stash->{collection}->execute( $c, for => 'create', with => $params );
 
     $self->status_created(
         $c,
