@@ -29,7 +29,7 @@ sub api_key_check : Private {
         )->first;
         my $user = $user_session ? $c->find_user( { id => $user_session->user_id } ) : undef;
 
-        $self->status_forbidden( $c, message => "access denied", ),
+        $self->status_forbidden( $c, message => "key expired", ),
 
           #$c->logx(
           #'sys', "API_KEY invalida chave " . ( $api_key ? $api_key : '' )
