@@ -39,6 +39,12 @@ sub after_login {
     elsif ( grep { /^admin$/ } $c->user->roles ) {
         $url = '/admin/dashboard/index';
     }
+    
+	if ($c->req->params->{redirect_to} && $c->req->params->{redirect_to} =~ /^\//){
+		$url = $c->req->params->{redirect_to};
+		$c->res->redirect($url);
+		$c->detach;
+	}
 
     $c->detach( '/form/redirect_ok', [ $url, {}, 'Bem vindo, ' . $c->user->name ] );
 }
