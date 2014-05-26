@@ -81,6 +81,11 @@ sub stash_result {
         $c->stash( error => "$method $endpoint", error_content => $@ );
         $c->detach('/rest_error');
     }
+    
+    if ($res->code == 403 && $res->content =~ /key expired/){
+        $c->logout;
+        $c->detach( '/form/redirect_relogin', [] );
+    }
 
     if ( !exists $opts{exp_code} && $res->code !~ /^(200|201|202|204|404|410|400)$/ ) {
         $c->stash(
