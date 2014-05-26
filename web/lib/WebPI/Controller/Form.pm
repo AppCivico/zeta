@@ -1,6 +1,7 @@
 package WebPI::Controller::Form;
 use Moose;
 use URI;
+use utf8;
 use URI::QueryParam;
 
 use namespace::autoclean;
@@ -84,6 +85,37 @@ sub redirect_error : Private {
 
     $c->res->redirect( $uri->as_string );
 
+}
+
+sub redirect_relogin : Private {
+    my ( $self, $c, %args ) = @_;
+
+    my $host  = $c->req->uri->host;
+    my $port  = $c->req->uri->port == 80 ? '' : ":" . $c->req->uri->port;
+    my $refer = $c->req->headers->referer;
+
+    if ( !$refer || $refer !~ /^https?:\/\/$host$port/i) {
+        $refer = '/erro';
+    }
+    if ($c->req->method eq 'GET'){
+        $refer = $c->req->uri->as_string;
+    }
+
+    my $mid = $c->set_error_msg(
+        {
+            form_error => {},
+            body       => {},
+            error_msg  => 'Sessão expirada. Faça o login novamente.',
+        }
+    );
+
+    $refer =~ s/^https?:\/\/$host$port//g;
+
+    my $uri = URI->new('/login');
+    $uri->query_param( 'mid', $mid );
+    $uri->query_param( 'redirect_to', $refer );
+
+    $c->res->redirect( $uri->as_string );
 }
 
 __PACKAGE__->meta->make_immutable;
