@@ -13,6 +13,8 @@
         <li><a href="/admin/pre-user"><i class="icon-list"></i>Pré-cadastros</a></li>
         <li class="nav-header">Gerenciamento</li>
         <li><a href="/admin/user"><i class="icon-user"></i>Usuários</a></li>
+        <li class="nav-header">Relatórios</li>
+        <li><a href="/admin/reports/driver-by-region"><i class="icon-user"></i>Motoristas por região</a></li>
         <li><a href="/logout">Sair</a></li>
     </ul>
 </div>

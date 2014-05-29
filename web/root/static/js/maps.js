@@ -278,6 +278,10 @@ var $maps = function () {
             }
 
             points.push(aux);
+			
+			if( $('#report_driver').length ) {
+				buildDriversReportPoints(points);
+			}
         });
 
         drawingManager.setMap(map);
@@ -341,6 +345,22 @@ var $maps = function () {
             }
         });
     }
+    
+    function buildDriversReportPoints($points) {
+		if ($points.length <= 0) {
+			setTimeout(function () {
+				$("#search_points").button('reset');
+			})
+			
+			alert('Nenhum critério de pesquisa');
+			
+			return false;
+		}
+		var $z = $('<input type="hidden" name="points" value='+$points+'/>');
+		$z.val($points);
+		
+		$('#report_driver').append($z);
+	}
 
     return {
         initialize: initialize,

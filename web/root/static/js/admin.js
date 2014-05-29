@@ -145,5 +145,12 @@ $(document).ready(function () {
             $maps.searchAssociateds();
         });
     }
+    
+    var $report_driver = $('#report_driver');
+    if($report_driver.length) {
+		$('#search_driver_report').click(function(){
+			$report_driver.submit();
+		});
+    }
 
 });
