@@ -43,14 +43,14 @@ sub drivers_by_region: Chained('base') : PathPart('drivers-by-region') : Args(0)
 		
 		if($campaign_filter) {
 			push(@conditions, {
-				'me.id' => {
+				'vehicle.id' => {
 					'-in'       => \@ids,
 					$campaign_filter ? { %$campaign_filter } : undef
 				},
 			});
 		} else {
 			push(@conditions, {
-				'me.id' => {
+				'vehicle.id' => {
 					'-in'       => \@ids
 				},
 			});
@@ -77,50 +77,43 @@ sub drivers_by_region: Chained('base') : PathPart('drivers-by-region') : Args(0)
 		}
 
 		if( $filters->{brand} ) {
-			push( @conditions, {'me.vehicle_brand_id' => $filters->{brand}} );
+			push( @conditions, {'vehicle.vehicle_brand_id' => $filters->{brand}} );
 		}
 
-		my @result = $rs->search(
+		my @result = $c->model('DB::VehicleRoute')->search(
 			{ '-and' => \@conditions },
 			{
 				select 	=> [ 
-					{ sum => 'vehicle_routes.distance' },
-					'driver.id',
+					{ sum => 'me.distance' },
 					'user.name',
 					'user.email',
-					'addresses.address',
-					'addresses.number',
-					'city.name',
-					'state.uf'
+					'vehicle.id'
 				],
-				as		=> ['total', 'driver_id', 'name', 'email', 'address', 'number', 'city', 'state'],
+				as		=> ['total', 'name', 'email', 'vehicle_id'],
 				join	=> [
-					'driver',
-					'vehicle_routes',
-					'vehicle_model',
-					{ 'driver', 
-						{ 
-							'user' => { 'addresses' => { 'city' => 'state'} }
-						} 
-					},
+					{'vehicle', {'driver' => 'user'} }
 				],
 				group_by => [
-					'driver.id',
+					
 					'user.name',
 					'user.email',
-					'addresses.address',
-					'addresses.number',
-					'city.name',
-					'state.uf'
+					'vehicle.id'
 				],
-				order_by => 'city.name'
+				order_by => 'user.name'
 			}
 		)->as_hashref->all;
-		
-		$self->status_ok(
-			$c,
-			entity => { associateds => \@result }
-		);
+
+		if(@result) {
+			$self->status_ok(
+				$c,
+				entity => { associateds => \@result }
+			);
+		} else {
+			$self->status_ok(
+				$c,
+				entity => { associateds => 0 }
+			);
+		}
 		
 	} else {
 		$self->status_ok(

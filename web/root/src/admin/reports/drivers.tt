@@ -14,10 +14,8 @@
 		<tr>
 			<th>Nome</th>
 			<th>Email</th>
-			<th>Endereço</th>
-			<th>Cidade</th>
-			<th>UF</th>
 			<th>Média de Km/mês</th>
+<!-- 		<th>Visualizar rotas</th> -->
 		</tr>
 		</thead>
 		<tbody>
@@ -25,14 +23,15 @@
 				<tr>
 					<td>[%a.name%]</td>
 					<td>[%a.email%]</td>
-					<td>[%a.address%], [%a.number%]</td>
-					<td>[%a.city%]</td>
-					<td>[%a.state%]</td>
 					<td>[%a.total / 1000%]</td>
+<!-- 					<td> -->
+<!-- 						<a class="btn btn-mini" href="/admin/routes/[%pr.id%]/profile">Rotas</a> -->
+<!-- 					</td> -->
 				</tr>
 			[%END%]
-			<tr colspan="4">
-				<td >Total: [%count%]</td>
+			<tr>
+				<td colspan="2">Total: </td>
+				<td>[%count%]</td>
 			</tr>
 		</tbody>
 		</table>
