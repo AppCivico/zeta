@@ -1,0 +1,48 @@
+<script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqzgv3oZ3sIleufGf1AoskyItrYun-GRA&sensor=false&region=br">
+</script>
+[%-CALL assets.include("js/maps.js")%]
+[%-CALL assets.include("js/admin.js")%]
+[%-CALL assets.include("js/bootstrap-datepicker.js")%]
+[%-CALL assets.include("js/bootstrap-datepicker.pt-BR.js")%]
+
+<div class="page-header bg-dark">
+	<h3>Última posição recebida pelo sistema</h3>
+</div>
+<div class="row page-content">
+	<table class="table table-tracker-info">
+		<thead>
+			<tr>
+				<th>Informações</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><strong>Velocidade</strong></td>
+				<td id="speed"></td>
+			</tr>
+			<tr>
+				<td><strong>Horário</strong></td>
+				<td id="hour"></td>
+			</tr>
+			<tr>
+				<td><strong>Data</strong></td>
+				<td id="date_position"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<button type="button" id="upload_position_real" class="btn btn-success" data-loading-text="Processando...">Atualizar</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+    <div id="x-container">
+        <div class="x-dummy"></div>
+            <div class="x-element" id="real_time_map">
+                <div id="map_canvas" style="width:100%; height:100%" class="map-route"></div>
+            </div>
+        </div>
+	</div>
+</div>

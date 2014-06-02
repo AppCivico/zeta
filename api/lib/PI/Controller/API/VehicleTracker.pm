@@ -174,4 +174,58 @@ sub list_POST {
     );
 }
 
+sub get_last_position : Chained('base') : PathPart('get_last_position') : Args(0) {
+	my ( $self, $c ) = @_;
+	
+	my $rs = $c->model('DB::ViewVehicleLastPosition');
+
+	my $data = $rs->search_rs(
+		undef,
+			{ bind  => [ $c->req->params->{vehicle_id} ] }
+	);
+	
+	$self->status_ok(
+		$c,
+		entity => {
+			real_time_position => [
+				map {
+					my $r = $_;
+					+{
+						(
+							map { $_ => $r->get_column($_) }
+							qw/
+							lat
+							lng
+							speed
+							track_event
+							/
+						),
+					},
+				} $data->all
+			]
+		}
+	);
+	
+# 	my @rs = $c->model('DB::VehicleTracker')->search(
+# 		{
+# 			vehicle_id 	=> $c->req->params->{vehicle_id},
+# 			lat			=> {'<>' => ['and' => [0,-91] ] },
+# 			lng			=> {'<>' => ['and' => [0,-181] ] },
+# 		},
+# 		{ 
+# 			select 	=> [ 
+# 				'me.track_event',
+# 				'me.lat',
+# 				'me.lng',
+# 				'me.speed',
+# 				'me.created_at',
+# 			],
+# 			as			=> [ 'last_position', 'lat', 'lng', 'speed', 'created_at' ],
+# 			limit 		=> 1,
+# 			order_by 	=> { '-desc' => 'me.track_event' },
+# 		}
+# 	)->as_hashref->all;
+	
+}
+
 1;

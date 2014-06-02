@@ -81,12 +81,46 @@ var $admin = function () {
             }
         });
     }
+    
+    function getRealTimePosition() {
+		
+		var $control;
+		
+		$.ajax({
+			url: '/user/vehicle_tracker/get_real_time_position',
+//  			data:{vehicle_id: 5}, //TIRAR ESSE PARAMETRO ANTES DE IR PRO AR
+			dataType: 'json',
+			success: function (result) {
+				if(result.lat && result.lng) {
+					$('#date_position').text(result.date);
+					$('#speed').text(result.speed+' Km/h');
+					$('#hour').text(result.hour);
+					
+					$maps.real_time_position(result.lat, result.lng);
+					$control = 0;
+				} else {
+					alert('Parece não haver rastreador instalado para esse veículo');
+					
+					$control = 1;
+				}
+			},
+			error: function (err) {
+				console.log(err);
+			},
+			complete: function() {
+				$("#upload_position_real").button('reset');
+			}
+		});
+		
+		return $control;
+	}
 
     return {
         getCostumers: getCostumers,
         analiseDriverDocuments: analiseDriverDocuments,
         sendInvitation: sendInvitation,
-        getAssociatedLatLnt: getAssociatedLatLnt
+        getAssociatedLatLnt: getAssociatedLatLnt,
+		getRealTimePosition: getRealTimePosition
     };
 }();
 
@@ -152,5 +186,20 @@ $(document).ready(function () {
 			$report_driver.submit();
 		});
     }
+    
+    var $real_time_map = $('#real_time_map');
+	if($real_time_map.length) {
+		stop = $admin.getRealTimePosition();
+		alert(stop);
+		//problema para controlar a exibiçao quando nao tem nenhuma posicao
+		if(!stop){
+			setInterval(function(stop){
+				$admin.getRealTimePosition();
+			},180000);
+		}
+		$('#upload_position_real').click(function(){
+			$admin.getRealTimePosition();
+		});
+	}
 
 });

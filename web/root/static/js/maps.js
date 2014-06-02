@@ -7,9 +7,9 @@ var $maps = function () {
     var polyline;
 
     function initialize() {
-        var latlng = new google.maps.LatLng(-23.5505233, -46.63429819999999); //praça da sé
-        geocoder = new google.maps.Geocoder();
-        directionsDisplay = new google.maps.DirectionsRenderer();
+        var latlng 			= new google.maps.LatLng(-23.5505233, -46.63429819999999); //praça da sé
+        geocoder 			= new google.maps.Geocoder();
+        directionsDisplay 	= new google.maps.DirectionsRenderer();
 
         var mapOptions = {
             zoom: 8,
@@ -65,7 +65,12 @@ var $maps = function () {
         });
     }
 
-    function addMarker(location) {
+    function addMarker(location, customMap) {
+		
+		if(customMap) {
+			map = customMap;
+		}
+		
         marker = new google.maps.Marker({
             position: location,
             map: map
@@ -361,6 +366,19 @@ var $maps = function () {
 		
 		$('#report_driver').append($z);
 	}
+	
+	function real_time_position(lat, lng) {
+		var myLatlng = new google.maps.LatLng(lat,lng);
+		clearOverlays();
+		
+		options = {
+			zoom: 15,
+			center: myLatlng
+		}
+		customMap = new google.maps.Map(document.getElementById('map_canvas'), options);
+		
+		addMarker(myLatlng, customMap);
+	}
 
     return {
         initialize: initialize,
@@ -370,7 +388,8 @@ var $maps = function () {
         getPoints: getPoints,
         buildHeatMap: buildHeatMap,
         drawingManager: drawingManager,
-        searchAssociateds: searchAssociateds
+        searchAssociateds: searchAssociateds,
+		real_time_position: real_time_position
     };
 
 }();
@@ -432,7 +451,7 @@ $(document).ready(function () {
 		
     }
 
-    if (('#route_filter').length && !$('#form_tracker').length) {
+    if ( ('#route_filter').length && !$('#form_tracker').length && !$('#real_time_map').length ) {
          $maps.drawingManager();
     }
 
