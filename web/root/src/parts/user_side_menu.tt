@@ -20,8 +20,8 @@
         [%href = c.uri_for_action('/user/vehicletracker/real_time_position')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-road icon-white"></i> Posicionamento</a></li>
         
-        [%href = c.uri_for_action('/user/vehicletracker/index')%]
-        <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-road icon-white"></i> Histórico de deslocamento</a></li>
+        [%#href = c.uri_for_action('/user/vehicletracker/index')#%]
+<!--         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-road icon-white"></i> Histórico de deslocamento</a></li> -->
 
         [%href = c.uri_for_action('/user/invitation/index')%]
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="[%href%]"><i class="icon-envelope icon-white"></i> Convites</a></li>

@@ -88,7 +88,7 @@ var $admin = function () {
 		
 		$.ajax({
 			url: '/user/vehicle_tracker/get_real_time_position',
-//  			data:{vehicle_id: 5}, //TIRAR ESSE PARAMETRO ANTES DE IR PRO AR
+//   			data:{vehicle_id: 5}, //TIRAR ESSE PARAMETRO ANTES DE IR PRO AR
 			dataType: 'json',
 			success: function (result) {
 				if(result.lat && result.lng) {
@@ -99,7 +99,7 @@ var $admin = function () {
 					$maps.real_time_position(result.lat, result.lng);
 					$control = 0;
 				} else {
-					alert('Parece não haver rastreador instalado para esse veículo');
+					alert('Não foram encontradas posições para esse veículo.');
 					
 					$control = 1;
 				}
@@ -109,10 +109,19 @@ var $admin = function () {
 			},
 			complete: function() {
 				$("#upload_position_real").button('reset');
+				if(!$control) {
+					assignReload();
+				}
 			}
 		});
 		
 		return $control;
+	}
+	
+	function assignReload() {
+		setInterval(function(){
+			$admin.getRealTimePosition();
+		},180000); //3 minutos
 	}
 
     return {
@@ -189,14 +198,7 @@ $(document).ready(function () {
     
     var $real_time_map = $('#real_time_map');
 	if($real_time_map.length) {
-		stop = $admin.getRealTimePosition();
-		alert(stop);
-		//problema para controlar a exibiçao quando nao tem nenhuma posicao
-		if(!stop){
-			setInterval(function(stop){
-				$admin.getRealTimePosition();
-			},180000);
-		}
+		$admin.getRealTimePosition();
 		$('#upload_position_real').click(function(){
 			$admin.getRealTimePosition();
 		});

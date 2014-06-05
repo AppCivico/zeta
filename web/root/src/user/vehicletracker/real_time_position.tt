@@ -10,11 +10,9 @@
 	<h3>Última posição recebida pelo sistema</h3>
 </div>
 <div class="row page-content">
-	<table class="table table-tracker-info">
+	<table class="table table-striped table-condensed">
 		<thead>
-			<tr>
-				<th>Informações</th>
-			</tr>
+			<h4>Informações</h4>
 		</thead>
 		<tbody>
 			<tr>
@@ -29,14 +27,12 @@
 				<td><strong>Data</strong></td>
 				<td id="date_position"></td>
 			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<button type="button" id="upload_position_real" class="btn btn-success" data-loading-text="Processando...">Atualizar</button>
-				</td>
-			</tr>
 		</tbody>
 	</table>
+	
+	<div class="form-actions">
+		<button type="button" id="upload_position_real" class="btn pull-right btn-success" data-loading-text="Processando...">Atualizar</button>
+	</div>
 	
     <div id="x-container">
         <div class="x-dummy"></div>
