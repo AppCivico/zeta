@@ -27,20 +27,54 @@ __PACKAGE__->result_source_instance->view_definition(
 		SELECT
 			lat,
 			lng,
-			min(track_event) - interval '3 hours' as track_event,
-			max(speed) as speed
+			track_event as track_event,
+			speed as speed
 		FROM
 			vehicle_tracker
-		WHERE
-			track_event
-		BETWEEN ? AND ?
-		AND lat <> -91
-		AND lng <> -181
-		AND tracker_id = ?
-		AND speed >= 0
-		GROUP BY lat,lng
-		ORDER BY track_event
-     ]
+		WHERE 
+			id
+		IN
+		(
+			SELECT
+				min(id)
+			FROM
+				vehicle_tracker
+			WHERE
+				tracker_id = ?
+			AND
+				track_event
+				BETWEEN ? AND ?
+				AND lat <> -91
+				AND lng <> -181
+				AND lat <> 0
+				AND lng <> 0
+				AND speed >= 0
+			GROUP BY 
+				date_trunc('hour', track_event) + date_part('minute', track_event)::int / 2 * interval '2 minutes'
+		)
+    ]
+     
+     
+# SELECT
+# lat,
+# lng,
+# min(track_event) - interval '3 hours' as track_event,
+# max(speed) as speed
+# FROM
+# vehicle_tracker
+# WHERE
+# track_event
+# BETWEEN ? AND ?
+# AND lat <> -91
+# AND lng <> -181
+# AND lat <> 0
+# AND lng <> 0
+# AND tracker_id = ?
+# AND speed >= 0
+# GROUP BY lat,lng
+# ORDER BY track_event
+     
+     
 #     q[
 #         SELECT
 #             lat,
@@ -57,6 +91,7 @@ __PACKAGE__->result_source_instance->view_definition(
 #         GROUP BY tracker_id,lat,lng
 #         ORDER BY track_event
 #     ]
+
 );
 
 1;

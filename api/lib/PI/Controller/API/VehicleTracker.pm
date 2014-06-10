@@ -99,9 +99,9 @@ sub list_GET {
             undef,
              {
                  bind  => [
-                     $c->req->params->{date} . ' 00:00:00',
-                     $c->req->params->{date} . ' 23:59:59',
-                     $c->req->params->{tracker_id},
+					$c->req->params->{tracker_id},
+                    $c->req->params->{date} . ' 00:00:00',
+                    $c->req->params->{date} . ' 23:59:59',
                  ],
              }
         );
@@ -116,12 +116,11 @@ sub list_GET {
                             (
                                 map { $_ => $r->get_column($_) }
                                 qw/
-                                lat
-                                lng
                                 speed
                                 track_event
                                 /
                             ),
+                            ( map { $_ => ( $r->get_column($_) ? $self->parse_position($r->get_column($_)) : undef ) } qw/lat lng/ ),
                         },
                     } $data->all
                 ]
@@ -142,8 +141,6 @@ sub list_GET {
                                 qw/
                                 id
                                 tracker_id
-                                lat
-                                lng
                                 vehicle_id
                                 speed
                                 track_event
@@ -152,6 +149,7 @@ sub list_GET {
                                 reason_generator
                                 /
                             ),
+                            ( map { $_ => ( $r->get_column($_) ? $self->parse_position($r->get_column($_)) : undef ) } qw/lat lng/ ),
                             url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                         },
                     } $rs->as_hashref->all

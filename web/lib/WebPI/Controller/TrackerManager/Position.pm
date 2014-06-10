@@ -39,19 +39,13 @@ sub get_positions : Chained('/trackermanager/base') : PathPart('get_positions') 
         params => $params
     );
     
-    my $t = $c->stash->{vehicle_trackers};
     my @data;
-    
     foreach my $item ( @{ $c->stash->{vehicle_trackers} } ) {
-		my @pos = $self->parse_lat_lng($item->{lat}, $item->{lng});
-
         push(@data, {
-             'lat'           => $pos[0],
-             'lng'           => $pos[1],
-#             'lat'           => $item->{lat},
-#             'lng'           => $item->{lng},
-            'track_event'   => $item->{track_event},
-            'speed'         => $item->{speed},
+			'lat'           => $item->{lat},
+			'lng'           => $item->{lng},
+			'track_event'   => $item->{track_event},
+			'speed'         => $item->{speed},
         });
 
     }
@@ -65,27 +59,6 @@ sub get_positions : Chained('/trackermanager/base') : PathPart('get_positions') 
 
         $c->res->body(0);
     }
-}
-
-sub parse_lat_lng {
-    my ( $self, @val ) = @_;
-
-    my @data;
-
-    for my $item ( @val ) {
-        $item =~ /^(-?\d*)(\d{2})\.(\d{2})(\d+)$/;
-
-        my $part = "$3";
-        if ($part eq "00") {
-            $part = "0";
-        }
-
-        my $p = dms2decimal("$1", "$2", "$part.$4");
-
-        push(@data, $p);
-    }
-
-    return @data;
 }
 
 __PACKAGE__->meta->make_immutable;
