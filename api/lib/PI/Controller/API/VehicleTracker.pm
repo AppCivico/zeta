@@ -1,6 +1,7 @@
 package PI::Controller::API::VehicleTracker;
 
 use Moose;
+use Geo::Coordinates::DecimalDegrees;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -194,38 +195,25 @@ sub get_last_position : Chained('base') : PathPart('get_last_position') : Args(0
 						(
 							map { $_ => $r->get_column($_) }
 							qw/
-							lat
-							lng
 							speed
 							track_event
 							/
 						),
+						( map { $_ => ( $r->get_column($_) ? $self->parse_position($r->get_column($_)) : undef ) } qw/lat lng/ ),
 					},
 				} $data->all
 			]
 		}
 	);
+}
+
+sub parse_position : Private() {
+	my ($self, $position) = @_;
 	
-# 	my @rs = $c->model('DB::VehicleTracker')->search(
-# 		{
-# 			vehicle_id 	=> $c->req->params->{vehicle_id},
-# 			lat			=> {'<>' => ['and' => [0,-91] ] },
-# 			lng			=> {'<>' => ['and' => [0,-181] ] },
-# 		},
-# 		{ 
-# 			select 	=> [ 
-# 				'me.track_event',
-# 				'me.lat',
-# 				'me.lng',
-# 				'me.speed',
-# 				'me.created_at',
-# 			],
-# 			as			=> [ 'last_position', 'lat', 'lng', 'speed', 'created_at' ],
-# 			limit 		=> 1,
-# 			order_by 	=> { '-desc' => 'me.track_event' },
-# 		}
-# 	)->as_hashref->all;
+	my $g = substr $position, 0, 3;
+	my $s = substr $position, 3,-1;
 	
+	return dm2decimal($g, $s);
 }
 
 1;

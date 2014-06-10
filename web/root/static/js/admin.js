@@ -88,7 +88,6 @@ var $admin = function () {
 		
 		$.ajax({
 			url: '/user/vehicle_tracker/get_real_time_position',
-//   			data:{vehicle_id: 5}, //TIRAR ESSE PARAMETRO ANTES DE IR PRO AR
 			dataType: 'json',
 			success: function (result) {
 				if(result.lat && result.lng) {

@@ -79,16 +79,13 @@ sub get_real_time_position : Chained('base') : PathPart('get_real_time_position'
     );
     
     if( $c->stash->{real_time_position} ) {
-		my $position = $c->stash->{real_time_position};
-		my @lat_lng	 = $self->parse_lat_lng($position->[0]{lat}, $position->[0]{lng});
-
-		my @time = split ' ', $position->[0]{track_event};
-		
-		my $date = $self->format_date_to_human($time[0]);
+		my $position 	= $c->stash->{real_time_position};
+		my @time 		= split ' ', $position->[0]{track_event};
+		my $date 		= $self->format_date_to_human($time[0]);
 		
 		my $point = {
-			lat 	=> $lat_lng[0],
-			lng 	=> $lat_lng[1],
+			lat 	=> $position->[0]{lat},
+			lng 	=> $position->[0]{lng},
 			speed	=> $position->[0]{speed},
 			date	=> $date,
 			hour	=> $time[1]
