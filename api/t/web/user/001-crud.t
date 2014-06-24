@@ -2,7 +2,7 @@ use utf8;
 use FindBin qw($Bin);
 use lib "$Bin/../../lib";
 
-use PI::Test::Further;
+use Zeta::Test::Further;
 
 api_auth_as user_id => 1, roles => ['superadmin'];
 
@@ -17,7 +17,8 @@ db_transaction {
         email            => 'foo1@email.com',
         password         => 'foobarquux1',
         password_confirm => 'foobarquux1',
-        role             => 'user'
+        role             => 'user',
+		is_active		 => 1
       ];
 
     stash_test 'user.get', sub {
@@ -31,11 +32,11 @@ db_transaction {
         my ($me) = @_;
 
         ok( $me = delete $me->{users}, 'users list exists' );
-        is( @$me, 5, '5 users' );
+        is( @$me, 4, '4 users' );
 
         $me = [ sort { $a->{id} <=> $b->{id} } @$me ];
 
-        is( $me->[4]{email}, 'foo1@email.com', 'listing ok' );
+        is( $me->[3]{email}, 'foo1@email.com', 'listing ok' );
     };
 
     rest_put stash 'user.url',
@@ -45,7 +46,8 @@ db_transaction {
         email            => 'foo2@email.com',
         password         => 'foobarquux1',
         password_confirm => 'foobarquux1',
-        role             => 'user'
+        role             => 'user',
+		is_active		 => 1
       ];
 
     rest_reload 'user';
@@ -58,7 +60,13 @@ db_transaction {
 
     rest_delete stash 'user.url';
 
-    rest_reload 'user', 404;
+    rest_reload 'user';
+    
+    stash_test 'user.get', sub {
+		my ($me) = @_;
+		
+		is( $me->{is_active}, 0, 'user deactivated' );
+	};
 
     rest_reload_list 'user';
 

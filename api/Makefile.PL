@@ -6,8 +6,8 @@ use Module::Install::Catalyst; # Complain loudly if you don't have
                                # Catalyst::Devel installed or haven't said
                                # 'make dist' to create a standalone tarball.
 
-name 'PI';
-all_from 'lib/PI.pm';
+name 'Zeta';
+all_from 'lib/Zeta.pm';
 
 requires 'Catalyst::Runtime' => '5.90010';
 requires 'Catalyst::Plugin::ConfigLoader';

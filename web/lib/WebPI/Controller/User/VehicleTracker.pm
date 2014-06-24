@@ -99,27 +99,6 @@ sub get_real_time_position : Chained('base') : PathPart('get_real_time_position'
     }
 }
 
-sub parse_lat_lng {
-    my ( $self, @val ) = @_;
-
-    my @data;
-
-    for my $item ( @val ) {
-        $item =~ /^(-?\d*)(\d{2})\.(\d{2})(\d+)$/;
-
-        my $part = "$3";
-        if ($part eq "00") {
-            $part = "0";
-        }
-
-        my $p = dms2decimal("$1", "$2", "$part.$4");
-
-        push(@data, $p);
-    }
-
-    return @data;
-}
-
 sub format_date_to_human {
     my ( $self, $date ) = @_;
 

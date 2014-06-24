@@ -2,7 +2,7 @@ use utf8;
 use FindBin qw($Bin);
 use lib "$Bin/../../lib";
 
-use PI::Test::Further;
+use Zeta::Test::Further;
 
 api_auth_as user_id => 1, roles => ['superadmin'];
 
@@ -59,7 +59,7 @@ db_transaction {
       stash => 'vehicle',
       [
         renavam               => '123456789',
-        car_plate             => 'LPI2672',
+        car_plate             => 'LZeta2672',
         doors_number          => '5',
         manufacture_year      => '2009',
         vehicle_model_id      => stash 'vehicle_model.id',

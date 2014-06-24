@@ -1,12 +1,12 @@
 use lib './lib';
 use utf8;
 use strict;
-use PI::Schema;
-use PI::Redis;
+use Zeta::Schema;
+use Zeta::Redis;
 use Email::Sender::Simple qw(sendmail);
 use JSON::XS;
 
-package PI;
+package Zeta;
 use Catalyst qw( ConfigLoader  );
 
 __PACKAGE__->setup();
@@ -15,10 +15,10 @@ package main;
 
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
-use Catalyst::Test q(PI);
+use Catalyst::Test q(Zeta);
 
-my $config          = PI->config;
-my $redis           = PI::Redis->new();
+my $config          = Zeta->config;
+my $redis           = Zeta::Redis->new();
 my $transport_class = 'Email::Sender::Transport::' . $config->{email}{transport}{class};
 
 eval("use $transport_class");

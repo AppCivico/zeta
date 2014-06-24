@@ -1,18 +1,18 @@
 use lib './lib';
 use utf8;
 use strict;
-use PI::Schema;
-# use PI::EmailQueue;
+use Zeta::Schema;
+# use Zeta::EmailQueue;
 use Furl;
 use MIME::Lite;
-use PI::Redis;
+use Zeta::Redis;
 use Email::Sender::Simple qw(sendmail);
 use Email::Sender::Transport::SMTP::TLS;
 use JSON::XS;
 use Template;
 use Encode;
 
-package PI;
+package Zeta;
 use Catalyst qw( ConfigLoader  );
 
 __PACKAGE__->setup();
@@ -21,12 +21,12 @@ package main;
 
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
-use Catalyst::Test q(PI);
+use Catalyst::Test q(Zeta);
 use FindBin;
 use  File::Slurp qw/read_file/;
 
-my $config          = PI->config;
-my $redis           = PI::Redis->new();
+my $config          = Zeta->config;
+my $redis           = Zeta::Redis->new();
 my $transport_class = 'Email::Sender::Transport::' . $config->{email}{transport}{class};
 my $logo            =  scalar read_file("$FindBin::Bin/../../web/root/static/img/logo.png");
 
@@ -113,7 +113,7 @@ sub error_queue {
 
     use DDP; p $error;
 
-    PI::EmailQueue->add_error( encode_json($error) );
+    Zeta::EmailQueue->add_error( encode_json($error) );
 
     return 1;
 }

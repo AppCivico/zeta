@@ -17,12 +17,13 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     my $item_per_page 	= 10;
 	my $page 			= $c->req->params->{page} || 1;
 
-    if($c->req->params->{start} || $c->req->params->{end}) {
+    if($c->req->params->{start} || $c->req->params->{end} || $c->req->params->{name}) {
         my @fields;
         my $params = { %{ $c->req->params } };
 
         $c->stash->{start}  = $c->req->params->{start};
         $c->stash->{end}    = $c->req->params->{end};
+        $c->stash->{name}	= $c->req->params->{name};
 
         push(@fields, 'start','end');
 
@@ -33,9 +34,10 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             params => {
                 end     => $params->{end} ? $params->{end}.' 23:59:59' : undef,
                 start   => $params->{start} ? $params->{start}.' 00:00:00' : undef,
-                filters => 1,
+                name	=> $params->{name} ? $params->{name} : undef,
                 page	=> $page,
-                order	=> $c->req->params->{order}
+                order	=> $c->req->params->{order},
+                filters => 1,
             }
         );
     } else {

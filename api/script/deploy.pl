@@ -1,22 +1,22 @@
 use lib './lib';
 use utf8;
 
-use PI::Schema;
+use Zeta::Schema;
 
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
 
-use Catalyst::Test q(PI);
-my $config = PI->config;
+use Catalyst::Test q(Zeta);
+my $config = Zeta->config;
 
-my $schema = PI::Schema->connect(
+my $schema = Zeta::Schema->connect(
     $config->{'Model::DB'}{connect_info}{dsn},
     $config->{'Model::DB'}{connect_info}{user},
     $config->{'Model::DB'}{connect_info}{password}
 );
 
-&run_sql( $schema, "$Bin/deploy/before_schema.sql" );
-$schema->deploy;
+#&run_sql( $schema, "$Bin/deploy/before_schema.sql" );
+#$schema->deploy;
 &run_sql( $schema, "$Bin/deploy/after_schema.sql" );
 
 sub run_sql {

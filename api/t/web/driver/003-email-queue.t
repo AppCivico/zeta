@@ -8,10 +8,10 @@ use lib "$Bin/../../lib";
 
 use Test::More;
 
-use_ok('PI::Redis');
-use_ok('PI::EmailQueue');
+use_ok('Zeta::Redis');
+use_ok('Zeta::EmailQueue');
 
-ok( my $redis = PI::Redis->new(), 'sucesso ao instanciar Redis Manager' );
+ok( my $redis = Zeta::Redis->new(), 'sucesso ao instanciar Redis Manager' );
 
 $redis->redis->del('test');
 
@@ -24,7 +24,7 @@ my $mail_info = {
     queue_key => 'test'
 };
 
-is( PI::EmailQueue->add(%$mail_info), 1, 'registro adicionado na fila' );
+is( Zeta::EmailQueue->add(%$mail_info), 1, 'registro adicionado na fila' );
 
 my $email = decode_json( $redis->redis->lpop('test') );
 

@@ -8,25 +8,25 @@ use Furl;
 use Net::Stomp;
 use JSON::XS;
 use XML::LibXML::Simple;
-use PI::TrackingManager;
-use PI::TrackingManager::Message;
+use Zeta::TrackingManager;
+use Zeta::TrackingManager::Message;
 
-package PI;
+package Zeta;
 use Catalyst qw( ConfigLoader  );
 
 __PACKAGE__->setup();
 
 package main;
 
-my $schema     = PI->model('DB')->schema;
+my $schema     = Zeta->model('DB')->schema;
 my $coder      = JSON::XS->new;
 my $host       = '184.106.196.147';
 my $port       = 61613;
 my $user_id    = "pi";
 my $pass       = "Inte11Ad";
-my $queue_name = "/queue/DEVREP.PIPE.PI";
+my $queue_name = "/queue/DEVREP.ZetaPE.Zeta";
 
-my $tracking_manager = PI::TrackingManager->new( { schema => $schema } );
+my $tracking_manager = Zeta::TrackingManager->new( { schema => $schema } );
 my $stomp = Net::Stomp->new( { hostname => $host, port => $port } );
 
 eval { $stomp->connect( { login => $user_id, passcode => $pass } ); };
@@ -65,7 +65,7 @@ sub process {
 
             if ( $data->{class} ne 'com.sensorlogic.device.report.LocationReport' ) {
                 eval {
-                    my $tracking_message = PI::TrackingManager::Message->new(
+                    my $tracking_message = Zeta::TrackingManager::Message->new(
                         {
                             tracker_code      => $data->{deviceIdentifier},
                             event_information => {
@@ -84,7 +84,7 @@ sub process {
             }
             else {
                 eval {
-                    my $tracking_message = PI::TrackingManager::Message->new(
+                    my $tracking_message = Zeta::TrackingManager::Message->new(
                         {
                             tracker_code => $data->{deviceIdentifier},
                             latitude     => $data->{latitude},

@@ -5,7 +5,7 @@ use utf8;
 use FindBin qw($Bin);
 use lib "$Bin/../../lib";
 
-use PI::Test::Further;
+use Zeta::Test::Further;
 
 api_auth_as user_id => 1, roles => ['superadmin'];
 
