@@ -183,7 +183,7 @@ sub verifiers_specs {
                 },
                 'link' => {
                     required => 0,
-                    type     => 'Int',
+                    type     => 'Str',
                 },
                 created_by => {
                     required => 0,

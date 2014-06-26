@@ -45,7 +45,9 @@ __PACKAGE__->table("political_party");
 =head2 id
 
   data_type: 'integer'
+  is_auto_increment: 1
   is_nullable: 0
+  sequence: 'political_party_id_seq'
 
 =head2 name
 
@@ -72,7 +74,12 @@ __PACKAGE__->table("political_party");
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "integer", is_nullable => 0 },
+  {
+    data_type         => "integer",
+    is_auto_increment => 1,
+    is_nullable       => 0,
+    sequence          => "political_party_id_seq",
+  },
   "name",
   { data_type => "text", is_nullable => 0 },
   "acronym",
@@ -128,8 +135,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:13:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sN5bBFh2VgtTjwW/ldhOHw
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-25 17:00:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1sJmi0/j5eqAxcYshKyDEg
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';

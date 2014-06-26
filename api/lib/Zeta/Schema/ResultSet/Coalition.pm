@@ -25,7 +25,7 @@ sub verifiers_specs {
                     required => 0,
                     type     => DataStr
                 },
-                political_position_id => {
+                election_campaign_id => {
                     required => 0,
                     type     => 'Int',
                 }

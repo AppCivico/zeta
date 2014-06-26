@@ -45,6 +45,18 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Str',
                 },
+                city_id => {
+					required => 0,
+                    type     => 'Int',
+                },
+                state_id => {
+					required => 0,
+                    type     => 'Int',
+                },
+                country_id => {
+					required => 0,
+                    type     => 'Int',
+                },
             },
         ),
     };

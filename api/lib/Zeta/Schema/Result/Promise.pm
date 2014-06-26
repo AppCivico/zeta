@@ -94,6 +94,24 @@ __PACKAGE__->table("promise");
   data_type: 'text'
   is_nullable: 1
 
+=head2 city_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
+=head2 state_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
+=head2 country_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -125,6 +143,12 @@ __PACKAGE__->add_columns(
   },
   "source",
   { data_type => "text", is_nullable => 1 },
+  "city_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "state_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "country_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -171,6 +195,46 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 city
+
+Type: belongs_to
+
+Related object: L<Zeta::Schema::Result::City>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "city",
+  "Zeta::Schema::Result::City",
+  { id => "city_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
+=head2 country
+
+Type: belongs_to
+
+Related object: L<Zeta::Schema::Result::Country>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "country",
+  "Zeta::Schema::Result::Country",
+  { id => "country_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
 =head2 election_campaign
 
 Type: belongs_to
@@ -206,9 +270,29 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 state
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:13:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:WFoBzqpc51VjbO3wUEJl1g
+Type: belongs_to
+
+Related object: L<Zeta::Schema::Result::State>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "state",
+  "Zeta::Schema::Result::State",
+  { id => "state_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-25 20:18:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8fJrtw3/d+L7dEMffn9KtQ
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
@@ -250,6 +334,18 @@ sub verifiers_specs {
                 source => {
                     required => 0,
                     type     => 'Str',
+                },
+                city_id => {
+					required => 0,
+                    type     => 'Int',
+                },
+                state_id => {
+					required => 0,
+                    type     => 'Int',
+                },
+                country_id => {
+					required => 0,
+                    type     => 'Int',
                 },
             }
         ),

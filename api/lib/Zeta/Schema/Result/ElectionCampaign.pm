@@ -142,6 +142,21 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head2 coalitions
+
+Type: has_many
+
+Related object: L<Zeta::Schema::Result::Coalition>
+
+=cut
+
+__PACKAGE__->has_many(
+  "coalitions",
+  "Zeta::Schema::Result::Coalition",
+  { "foreign.election_campaign_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 country
 
 Type: belongs_to
@@ -248,8 +263,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:13:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tp3qjrCbI2RP0AjZGuwR5g
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-25 17:45:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Vufv3gG7bG2mRr/QXwCMhQ
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';

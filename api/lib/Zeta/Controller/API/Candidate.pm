@@ -33,13 +33,13 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $candidate 	= $c->stash->{candidate};
-    my %attrs    	= $candidate->get_inflated_columns;
+#     my %attrs    	= $candidate->get_inflated_columns;
     
     $self->status_ok(
         $c,
         entity => {
             (
-                map { $_ => $attrs{$_}, }
+                map { $_ => $candidate->$_, }
                   qw/
                   id
                   name
@@ -50,7 +50,7 @@ sub result_GET {
             ),
             political_party => {
                 (
-                    map { $_ => $attrs{$_}, }
+                    map { $_ => $candidate->political_party->$_, }
                     qw/
                     id
                     name

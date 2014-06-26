@@ -59,6 +59,11 @@ __PACKAGE__->table("country");
   data_type: 'text'
   is_nullable: 0
 
+=head2 name_url
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -73,6 +78,8 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 0 },
   "acronym",
   { data_type => "text", is_nullable => 0 },
+  "name_url",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -119,6 +126,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 promises
+
+Type: has_many
+
+Related object: L<Zeta::Schema::Result::Promise>
+
+=cut
+
+__PACKAGE__->has_many(
+  "promises",
+  "Zeta::Schema::Result::Promise",
+  { "foreign.country_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 states
 
 Type: has_many
@@ -135,8 +157,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:18:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:mSMniJ6Vf2yaooQypF1UZQ
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-25 20:18:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/itAQT+qBInvaUFyrNWVQg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

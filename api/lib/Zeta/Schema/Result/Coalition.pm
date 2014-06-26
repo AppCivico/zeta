@@ -59,7 +59,7 @@ __PACKAGE__->table("coalition");
   data_type: 'date'
   is_nullable: 1
 
-=head2 political_position_id
+=head2 election_campaign_id
 
   data_type: 'integer'
   is_foreign_key: 1
@@ -79,7 +79,7 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 1 },
   "creation_date",
   { data_type => "date", is_nullable => 1 },
-  "political_position_id",
+  "election_campaign_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
@@ -112,18 +112,18 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 political_position
+=head2 election_campaign
 
 Type: belongs_to
 
-Related object: L<Zeta::Schema::Result::PoliticalPosition>
+Related object: L<Zeta::Schema::Result::ElectionCampaign>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "political_position",
-  "Zeta::Schema::Result::PoliticalPosition",
-  { id => "political_position_id" },
+  "election_campaign",
+  "Zeta::Schema::Result::ElectionCampaign",
+  { id => "election_campaign_id" },
   {
     is_deferrable => 0,
     join_type     => "LEFT",
@@ -133,8 +133,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:13:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rkMmVfinpJaepyx5DcsYuA
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-25 17:45:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5zqWkBOrNYYeojxyWwVesg
 
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
@@ -158,7 +158,7 @@ sub verifiers_specs {
                     required => 0,
                     type     => DataStr
                 },
-                political_position_id => {
+                election_campaign_id => {
                     required => 0,
                     type     => 'Int',
                 }

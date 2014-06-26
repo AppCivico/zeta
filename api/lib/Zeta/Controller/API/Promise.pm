@@ -1,0 +1,222 @@
+package Zeta::Controller::API::Promise;
+
+use Moose;
+
+BEGIN { extends 'Catalyst::Controller::REST' }
+
+__PACKAGE__->config(
+    default => 'application/json',
+
+    result     	=> 'DB::Promise',
+    object_key 	=> 'promise',
+    result_attr => {
+        prefetch =>  [
+			{ 'candidate' => 'political_party' },
+			'category',
+			'election_campaign'
+		]
+    },
+    searck_ok => {
+		candidate_id	=> 'Int',
+		city_id			=> 'Int',
+		state_id		=> 'Int',
+		country_id		=> 'Int'
+    },
+
+    update_roles => [qw/superadmin user admin/],
+    create_roles => [qw/superadmin user/],
+    delete_roles => [qw/superadmin user/],
+);
+with 'Zeta::TraitFor::Controller::DefaultCRUD';
+
+sub base : Chained('/api/base') : PathPart('promises') : CaptureArgs(0) { }
+
+sub object : Chained('base') : PathPart('') : CaptureArgs(1) { }
+
+sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { }
+
+sub result_GET {
+    my ( $self, $c ) = @_;
+
+    my $promise 	= $c->stash->{promise};
+#     my %attrs    	= $promise->get_inflated_columns;
+    
+    $self->status_ok(
+        $c,
+        entity => {
+            (
+                map { $_ => $promise->$_, }
+                  qw/
+					id
+					name
+					description
+					created_by
+					source
+					city_id
+					state_id
+					country_id
+                  /
+            ),
+            candidate => {
+                (
+                    map { $_ => $promise->candidate->$_, }
+                    qw/
+                    id
+                    name
+                    /
+                ),
+                political_party => {
+					(
+						map { $_ => $promise->candidate->political_party->$_, }
+						qw/
+						id
+						name
+						acronym
+						party_number
+						/
+					)
+                }
+            },
+            category => {
+                (
+                    map { $_ => $promise->category->$_, }
+                    qw/
+                    id
+                    name
+                    /
+                ),
+			},
+			election_campaign => {
+				(
+					map { $_ => $promise->election_campaign->$_, }
+					qw/
+					id
+					year
+					city_id
+					state_id
+					country_id
+					/
+				)
+			}
+        }
+    );
+
+}
+
+sub result_DELETE {
+    my ( $self, $c ) 	= @_;
+    my $promise		= $c->stash->{promise};
+
+    $promise->delete;
+
+    $self->status_no_content($c);
+}
+
+sub result_PUT {
+    my ( $self, $c ) = @_;
+
+    my $promise = $c->stash->{promise};
+
+    my $params = $c->req->params;
+
+    $promise->execute( $c, for => 'update', with => $params );
+    $self->status_accepted(
+        $c,
+        location 	=> $c->uri_for( $self->action_for('result'), [ $promise->id ] )->as_string,
+        entity 		=> { id => $promise->id }
+      ),
+      $c->detach
+      if $promise;
+}
+
+sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
+
+sub list_GET {
+    my ( $self, $c ) = @_;
+    my $rs = $c->stash->{collection};
+
+    $self->status_ok(
+        $c,
+        entity => {
+            promises => [
+                map {
+                    my $r = $_;
+                    +{
+                        (
+                            map { $_ => $r->{$_} }
+                              qw/
+								id
+								name
+								description
+								created_by
+								source
+								city_id
+								state_id
+								country_id
+                              /
+                        ),
+                        candidate => {
+							(
+								map { $_ => $r->{candidate}{$_}, }
+								qw/
+								id
+								name
+								/
+							),
+							political_party => {
+								(
+									map { $_ => $r->{candidate}{political_party}{$_}, }
+									qw/
+									id
+									name
+									acronym
+									party_number
+									/
+								)
+							}
+						},
+						category => {
+							(
+								map { $_ => $r->{category}{$_}, }
+								qw/
+								id
+								name
+								/
+							),
+						},
+						election_campaign => {
+							(
+								map { $_ => $r->{election_campaign}{$_}, }
+								qw/
+								id
+								year
+								city_id
+								state_id
+								country_id
+								/
+							)
+						},
+                        url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
+                     }
+                } $c->stash->{collection}->as_hashref->all
+            ]
+        }
+    );
+}
+
+sub list_POST {
+    my ( $self, $c ) = @_;
+
+    my $promise = $c->stash->{collection}
+      ->execute( $c, for => 'create', with => { %{ $c->req->params }, created_by => $c->user->id } );
+
+    $self->status_created(
+        $c,
+        location => $c->uri_for( $self->action_for('result'), [ $promise->id ] )->as_string,
+        entity => {
+            id => $promise->id
+        }
+    );
+}
+
+1;
