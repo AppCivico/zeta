@@ -1,0 +1,39 @@
+[%-CALL assets.include("js/forms.js")%]
+<div class="container-fluid grid-custom">
+	<div class="rows">
+	<h2 class="sub-header">Editar promessa</h2>
+		<form role="form" method="post" action="/admin/form/promise/[%promise_obj.id%]">
+			<div class="form-group">
+				[%input_text('name','Nome', req=>1, value=>promise_obj.name)|none%]
+			</div>
+			<div class="form-group">
+				[%input_text('description','Descrição', req=>1, value=>promise_obj.description)|none%]
+			</div>
+			<div class="form-group">
+				[%select_field('candidate_id','Candidato', array => select_candidates, value=>promise_obj.candidate.id, req=>1)|none%]
+			</div>
+			<div class="form-group">
+				[%select_field('category_id','Categoria', array => select_categories, value=>promise_obj.category.id, req=>1)|none%]
+			</div>
+			<div class="form-group">
+				[%select_field(
+					'election_campaign_id',
+					'Campanha eleitoral', 
+					array 	=> select_election_campaigns, 
+					value	=> promise_obj.election_campaign.id,
+					req		=> 1
+				)|none%]
+			</div>
+			<div class="form-group">
+				[%select_field('state_id','Estado', array => select_states, value=>promise_obj.state_id, req=>0)|none%]
+			</div>
+			<div class="form-group">
+				[%select_field('city_id','Cidade', array => select_cities, value=>promise_obj.city_id, req=>0)|none%]
+			</div>
+			<div class="form-group">
+				[%input_text('source','Fonte', req=>0, value=>promise_obj.source)|none%]
+			</div>
+		<button type="submit" class="btn btn-success pull-right">Salvar</button>
+		</form>
+	</div>
+</div>

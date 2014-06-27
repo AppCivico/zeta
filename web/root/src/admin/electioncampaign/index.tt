@@ -9,6 +9,7 @@
 				<th>#</th>
                 <th>Ano</th>
                 <th>Cargo disputado</th>
+                <th>Ações</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -18,8 +19,8 @@
 					<td>[%ec.year%]</td>
 					<td>[%ec.political_position.position%]</td>
 					<td>
-						<a href="/admin/election_campaign/[%ec.id%]">Editar</a> |
-						<a href="/admin/form/remove_election_campaign/[%ec.id%]">Excluir</a>
+						<a href="/admin/election_campaign/[%ec.id%]">Editar</a>
+<!-- 						<a href="/admin/form/remove_election_campaign/[%ec.id%]">Excluir</a> -->
 					</td>
 				</tr>
             [%END%]

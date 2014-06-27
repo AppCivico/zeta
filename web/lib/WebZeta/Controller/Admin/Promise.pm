@@ -1,30 +1,30 @@
-package WebZeta::Controller::Admin::ElectionCampaign;
+package WebZeta::Controller::Admin::Promise;
 use Moose;
 use namespace::autoclean;
 use POSIX;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/admin/base') : PathPart('election_campaign') : CaptureArgs(0) {
+sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 
 	my $api = $c->model('API');
 	
 	$api->stash_result(
-		$c, 'political_positions',
-		params => {
-			order   => 'position',
-		}
-	);
-	$c->stash->{select_positions} = [ map { [ $_->{id}, $_->{position} ] } @{ $c->stash->{political_positions} } ];
-
-	$api->stash_result(
-		$c, 'cities',
+		$c, 'categories',
 		params => {
 			order   => 'name',
 		}
 	);
-	$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
+	$c->stash->{select_categories} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{categories} } ];
+	
+	$api->stash_result(
+		$c, 'candidates',
+		params => {
+			order   => 'name',
+		}
+	);
+	$c->stash->{select_candidates} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{candidates} } ];
 	
 	$api->stash_result(
 		$c, 'states',
@@ -33,6 +33,22 @@ sub base : Chained('/admin/base') : PathPart('election_campaign') : CaptureArgs(
 		}
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+	
+	$api->stash_result(
+		$c, 'cities',
+		params => {
+			order   => 'name',
+		}
+	);
+	$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
+
+	$api->stash_result(
+		$c, 'election_campaigns',
+		params => {
+			order   => 'year',
+		}
+	);
+	$c->stash->{select_election_campaigns} = [ map { [ $_->{id}, $_->{year}.' - '.$_->{political_position}{position} ] } @{ $c->stash->{election_campaigns} } ];
 }
 
 sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
@@ -41,9 +57,12 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 	my $api = $c->model('API');
 
 	$api->stash_result(
-		$c, [ 'election_campaigns', $id ],
-		stash => 'election_campaign_obj'
+		$c, [ 'promises', $id ],
+		stash => 'promise_obj'
 	);
+	
+# 	my $o = $c->stash->{promise_obj};
+# 	use DDP; p $o; exit;
 }
 
 sub index : Chained('base') : PathPart('') : Args(0) {
@@ -62,26 +81,24 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         $c->stash->{name}	= $c->req->params->{name};
 
         $api->stash_result(
-            $c, 'election_campaigns',
+            $c, 'promises',
             params => {
-#                 name		=> $params->{name} ? $params->{name} : undef,
-                page		=> $page,
-                pagination 	=> 1
+                name	=> $params->{name} ? $params->{name} : undef,
+                page	=> $page,
             }
         );
     } else {
         $api->stash_result(
-            $c, 'election_campaigns',
+            $c, 'promises',
             params => {
-                page		=> $page,
-                pagination 	=> 1
+                page => $page,
             }
         );
     }
     
-    $c->stash->{count_partial} 	= scalar keys $c->stash->{election_campaigns};
+    $c->stash->{count_partial} 	= scalar keys $c->stash->{promises};
 	$c->stash->{total}   		= $c->stash->{count};
-	$c->stash->{results} 		= $c->stash->{election_campaigns};
+	$c->stash->{results} 		= $c->stash->{promises};
 
 	$c->stash(
 		current_page  => $page,
@@ -98,11 +115,9 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 }
 
 sub add : Chained('base') : PathPart('new') : Args(0) {
-
 }
 
-sub edit : Chained('object') : PathPart('') : Args(0) {
-
+sub edit: Chained('object') : PathPart('') : Args(0) {
 }
 
 __PACKAGE__->meta->make_immutable;

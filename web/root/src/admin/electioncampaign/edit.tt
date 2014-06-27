@@ -1,11 +1,26 @@
+[%-CALL assets.include("js/forms.js")%]
 <div class="container-fluid grid-custom">
 	<div class="rows">
-	<h2 class="sub-header">Editar categoria</h2>
-	<form role="form" method="post" action="/admin/form/category/[%category_obj.id%]">
+	<h2 class="sub-header">Editar campanha eleitoral</h2>
+	<form role="form" method="post" action="/admin/form/election_campaign">
 		<div class="form-group">
-			[%input_text('name','Nome', req=>1, value=>category_obj.name)|none%]
+			[%input_text('year','Ano', req=>1, value=>election_campaign_obj.year)|none%]
 		</div>
-	<button type="submit" class="btn btn-default pull-right">Salvar</button>
+		<div class="form-group">
+			[%select_field('state_id','Estado', array => select_states, value=>election_campaign_obj.state_id, req=>0)|none%]
+		</div>
+		<div class="form-group">
+			[%select_field('city_id','Cidade', array => select_cities, value=>election_campaign_obj.city_id, req=>0)|none%]
+		</div>
+		<div class="form-group">
+			[%select_field('political_position_id',
+				'Cargo político', 
+				array => select_positions, 
+				value=>election_campaign_obj.political_position_id,
+				req=>1
+			)|none%]
+		</div>
+	<button type="submit" class="btn btn-success pull-right">Salvar</button>
 	</form>
 	</div>
 </div>

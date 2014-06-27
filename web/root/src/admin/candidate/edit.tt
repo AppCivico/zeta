@@ -20,7 +20,7 @@
 			)|none%]
 		</div>
 		<input type="hidden" value="1" name="status"></input>
-	<button type="submit" class="btn btn-default pull-right">Salvar</button>
+	<button type="submit" class="btn btn-success pull-right">Salvar</button>
 	</form>
 	</div>
 </div>

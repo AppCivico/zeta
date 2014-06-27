@@ -7,7 +7,8 @@
 				[%input_text('name','Nome', req=>1)|none%]
 			</div>
 			<div class="form-group">
-				[%input_text('description','Descrição', req=>1)|none%]
+				<label class="control-label" for="elm_description">Descrição</label>
+				<textarea class="form-control" rows="3" name="description"></textarea>
 			</div>
 			<div class="form-group">
 				[%select_field('candidate_id','Candidato', array => select_candidates, req=>1)|none%]

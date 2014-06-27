@@ -13,7 +13,9 @@ __PACKAGE__->config(
         prefetch =>  [
 			{ 'candidate' => 'political_party' },
 			'category',
-			'election_campaign'
+			'election_campaign',
+			'state',
+			'city'
 		]
     },
     searck_ok => {
@@ -24,8 +26,8 @@ __PACKAGE__->config(
     },
 
     update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user/],
-    delete_roles => [qw/superadmin user/],
+    create_roles => [qw/superadmin user admin/],
+    delete_roles => [qw/superadmin user admin/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
@@ -92,12 +94,9 @@ sub result_GET {
 					qw/
 					id
 					year
-					city_id
-					state_id
-					country_id
 					/
 				)
-			}
+			},
         }
     );
 
