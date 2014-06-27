@@ -1,3 +1,108 @@
+body *{
+	font-family: "Crete Round", Georgia, arial, tahoma, verdana;
+}
+body{
+	background-color: #e6e66;
+	font-size: 2em;
+}
+
+h1,h2, h2 *,h3{
+	font-weight: 700;
+}
+
+header.header-top{
+	background-color: #333333;
+	color: #cccccc;
+}
+
+header .eleicoes-title{
+	padding: 5px 0;
+	text-transform: uppercase;
+}
+
+header .menu-top{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+header .menu-top li{
+	padding: 3px 10px;
+}
+header .menu-top li a{
+	color: #cccccc;
+	text-transform: uppercase;
+	font-size: 0.7em;
+	font-family: "Open Sans", sans-serif, helvetica, tahoma;
+}
+header .menu-top li a:hover{
+	color: #fff;
+}
+
+span.blue{
+	color: #03a3ff;
+}
+span.green{
+	color: #0b8342;
+}
+span.white{
+	color: #ffffff;
+}
+span.yellow{
+	color: #ffcc29;
+}
+
+.slide-home{
+	background-color: #000;
+	color: #fff;
+	text-align: center;
+}
+
+.content-yellow{
+	background-color: #ffcc29;
+	color: #333;
+	text-align: center;
+}
+.content-green{
+	background-color: #8cc63f;
+	color: #333;
+	text-align: center;
+}
+
+.slide-home p{
+	margin: 0 auto;
+	width: 80%;
+	color: #fff;
+	text-shadow: 0px 2px 2px rgba(0, 0, 0, 1);
+	padding: 50px;
+	text-align: center;
+}
+.content-yellow p,
+.content-green p{
+	margin: 50px auto;
+	max-width: 80%;
+	text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+}
+.content-yellow p{
+	font-size: 2em;
+	text-transform: uppercase;
+}
+.slide-home .container{
+	background-image: url('/static/images/bg-home.jpg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	min-height: 405px;
+}
+
+
+.bs-footer{
+	background-color: #e6e66;
+	
+}
+
+.bs-footer .container{
+	padding: 30px 20px;
+}
+
 .grid-custom {
 	padding-left: 155px;
 	margin-bottom: 50px;

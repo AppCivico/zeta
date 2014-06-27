@@ -25,11 +25,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="[% body_class %]"><script>var actions=[];</script>
-<div class="container">
+<!--<div class="container">
     [%IF !no_menu%]
         [%#INCLUDE parts/menu.tt#%]
     [%END%]
-	<div class="divider"></div>
+	<div class="divider"></div>-->
 
     [%content|none%]
 </div> <!-- /container -->
