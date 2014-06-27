@@ -1,0 +1,11 @@
+<div class="container-fluid grid-custom">
+	<div class="rows">
+	<h2 class="sub-header">Editar categoria</h2>
+	<form role="form" method="post" action="/admin/form/category/[%category_obj.id%]">
+		<div class="form-group">
+			[%input_text('name','Nome', req=>1, value=>category_obj.name)|none%]
+		</div>
+	<button type="submit" class="btn btn-default pull-right">Salvar</button>
+	</form>
+	</div>
+</div>

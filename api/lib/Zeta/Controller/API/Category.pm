@@ -11,8 +11,8 @@ __PACKAGE__->config(
     object_key 	=> 'category',
 
     update_roles => [qw/superadmin user admin webapi/],
-    create_roles => [qw/superadmin user webapi/],
-    delete_roles => [qw/superadmin user webapi/],
+    create_roles => [qw/superadmin user webapi admin/],
+    delete_roles => [qw/superadmin user webapi admin/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 

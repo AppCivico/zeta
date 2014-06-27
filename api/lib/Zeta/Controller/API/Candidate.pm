@@ -14,8 +14,8 @@ __PACKAGE__->config(
     },
 
     update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user/],
-    delete_roles => [qw/superadmin user/],
+    create_roles => [qw/superadmin admin/],
+    delete_roles => [qw/superadmin admin/],
 
     search_ok => {
         political_party_id => 'Int'

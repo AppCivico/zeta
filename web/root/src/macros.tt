@@ -1,7 +1,7 @@
 [%~
 SET ID_COUNT=0;
 MACRO input_text(name, label, opt) BLOCK;
-IF (!opt.classes) ; opt.classes = ['span3']; END;
+IF (!opt.classes) ; opt.classes = ['form-control']; END;
 
 IF (opt.req); opt.classes.push('required'); END;
 
@@ -90,7 +90,7 @@ IF (opt.req); opt.classes.push('required'); END;
 [% END;
 
 MACRO select_field(name, label, opt) BLOCK;
-IF (!opt.classes) ; opt.classes = ['span3']; END;
+IF (!opt.classes) ; opt.classes = ['form-control']; END;
 IF (opt.req); opt.classes.push('required'); END;
 
     SET id = "elm_${name}";

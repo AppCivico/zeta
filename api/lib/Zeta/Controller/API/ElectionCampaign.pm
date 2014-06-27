@@ -9,10 +9,13 @@ __PACKAGE__->config(
 
     result     	=> 'DB::ElectionCampaign',
     object_key 	=> 'election_campaign',
+    result_attr => {
+		prefetch => 'political_position'
+    },
 
     update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user/],
-    delete_roles => [qw/superadmin user/],
+    create_roles => [qw/superadmin user admin/],
+    delete_roles => [qw/superadmin user admin/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
@@ -25,14 +28,14 @@ sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { 
 sub result_GET {
     my ( $self, $c ) = @_;
 
-    my $election_campaign 	= $c->stash->{election_campaign};
-    my %attrs    	= $election_campaign->get_inflated_columns;
+    my $election_campaign = $c->stash->{election_campaign};
+#     my %attrs    	= $election_campaign->get_inflated_columns;
     
     $self->status_ok(
         $c,
         entity => {
             (
-                map { $_ => $attrs{$_}, }
+                map { $_ => $election_campaign->$_, }
                   qw/
 					id
 					year
@@ -43,6 +46,13 @@ sub result_GET {
 					elected_candidate_id
                   /
             ),
+            political_position => {
+				map { $_ => $election_campaign->political_position->$_, }
+				qw/
+				 id
+				 position
+				/
+            }
         }
     );
 
@@ -100,6 +110,13 @@ sub list_GET {
 								elected_candidate_id
                               /
                         ),
+                        political_position => {
+							map { $_ => $r->{political_position}{$_}, }
+							qw/
+							id
+							position
+							/
+						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
                 } $c->stash->{collection}->as_hashref->all

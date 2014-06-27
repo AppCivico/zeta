@@ -1,4 +1,4 @@
-<div class="sidebar-nav" style="width: 130px" data-spy="affix" data-offset-top="0">
+<!--<div class="sidebar-nav" style="width: 130px" data-spy="affix" data-offset-top="0">
     <ul class="well nav nav-list">
         <li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]><a href="/admin/dashboard">Dashboard</a></li>
 
@@ -17,4 +17,26 @@
         <li><a href="/admin/reports/driver-by-region"><i class="icon-user"></i>Motoristas por região</a></li>
         <li><a href="/logout">Sair</a></li>
     </ul>
+</div>-->
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li class="active"><a href="#">Dashboard</a></li>
+				<li><a href="#">Perfil</a></li>
+				<li><a href="#">Usuários</a></li>
+				<li><a href="#">Organizações</a></li>
+			</ul>
+			<ul class="nav nav-sidebar">
+				<li><a href="">Partidos</a></li>
+				<li><a href="">Candidatos</a></li>
+				<li><a href="">Campanhas eleitorais</a></li>
+				<li><a href="">Categorias</a></li>
+				<li><a href="">Promessas</a></li>
+<!-- 				<li><a href="">More navigation</a></li> -->
+			</ul>
+		</div>
+	</div>
 </div>

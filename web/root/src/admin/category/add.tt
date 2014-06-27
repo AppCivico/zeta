@@ -1,0 +1,12 @@
+[%-CALL assets.include("js/forms.js")%]
+<div class="container-fluid grid-custom">
+	<div class="rows">
+	<h2 class="sub-header">Adicionar categoria</h2>
+	<form role="form" method="post" action="/admin/form/category">
+		<div class="form-group">
+			[%input_text('name','Nome', req=>1)|none%]
+		</div>
+	<button type="submit" class="btn btn-default pull-right">Salvar</button>
+	</form>
+	</div>
+</div>

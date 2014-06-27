@@ -11,8 +11,12 @@ __PACKAGE__->config(
     object_key 	=> 'political_party',
 
     update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user/],
-    delete_roles => [qw/superadmin user/],
+    create_roles => [qw/superadmin user admin/],
+    delete_roles => [qw/superadmin user admin/],
+    search_ok => {
+		status 	=> 'Int',
+		order	=> 'Str',
+    }
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
@@ -76,7 +80,29 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    
     my $rs = $c->stash->{collection};
+    
+    my $conditions;
+    my $count;
+    
+    if( $c->req->params->{name} ) {
+		$conditions = {
+			name => $c->req->params->{name}
+		};
+    }
+    
+    if( $c->req->params->{pagination} ) {
+		$count = $rs->search( $conditions ? { %$conditions } :  undef )->count;
+
+		$rs = $rs->search(
+			$conditions ? { %$conditions } : undef,
+			{
+				page 	=> $c->req->params->{page},
+				rows 	=> 10,
+			},
+		);
+	}
 
     $self->status_ok(
         $c,
@@ -97,8 +123,9 @@ sub list_GET {
                         ),
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $c->stash->{collection}->as_hashref->all
-            ]
+                } $rs->as_hashref->all
+            ],
+            count => $count
         }
     );
 }

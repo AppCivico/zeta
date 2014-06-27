@@ -1,0 +1,26 @@
+[%-CALL assets.include("js/forms.js")%]
+<div class="container-fluid grid-custom">
+	<div class="rows">
+	<h2 class="sub-header">Editar candidato</h2>
+	<form role="form" method="post" action="/admin/form/candidate/[%candidate_obj.id%]">
+		<div class="form-group">
+			[%input_text('name','Nome', req=>1, value=>candidate_obj.name)|none%]
+		</div>
+		<div class="form-group">
+			[%input_text('email','E-mail', req=>0, value=>candidate_obj.email)|none%]
+		</div>
+		<div class="form-group">
+			[%input_text('phone','Telefone', req=>0, value=>candidate_obj.phone, classes=>['form-control', 'mobile_phone'])|none%]
+		</div>
+		<div class="form-group">
+			[%select_field('political_party_id','Partido', 
+				array 	=> select_parties,
+				value	=>candidate_obj.political_party.id,
+				req		=>1
+			)|none%]
+		</div>
+		<input type="hidden" value="1" name="status"></input>
+	<button type="submit" class="btn btn-default pull-right">Salvar</button>
+	</form>
+	</div>
+</div>

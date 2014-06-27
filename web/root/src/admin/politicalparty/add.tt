@@ -1,0 +1,18 @@
+<div class="container-fluid grid-custom">
+	<div class="rows">
+	<h2 class="sub-header">Adicionar partido político</h2>
+	<form role="form" method="post" action="/admin/form/political_party">
+		<div class="form-group">
+			[%input_text('name','Nome', req=>1)|none%]
+		</div>
+		<div class="form-group">
+			[%input_text('acronym','Sigla', req=>1)|none%]
+		</div>
+		<div class="form-group">
+			[%input_text('party_number','Legenda', req=>1)|none%]
+		</div>
+		<input type="hidden" value="1" name="status"></input>
+	<button type="submit" class="btn btn-default">Salvar</button>
+	</form>
+	</div>
+</div>

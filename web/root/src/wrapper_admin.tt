@@ -5,7 +5,7 @@
       type="image/png"
       href="/static/img/favicon.png" />
 <meta charset="UTF-8">
-<title>[% template.title or site.title or title or 'Publicidade Inteligente' %]</title>
+<title>[% template.title or site.title or title or 'De olho nas promessas' %]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <!--[if lt IE 9]>
@@ -13,14 +13,10 @@
 <![endif]-->
 
 [%-CALL assets.include("css/bootstrap.min.css")%]
-[%-CALL assets.include("css/bootstrap-timepicker.min.css")%]
-[%-CALL assets.include("css/system.css")%]
-
-
+[%-CALL assets.include("css/dashboard.css")%]
+[%-CALL assets.include("css/site.css")%]
 [%-CALL assets.include("js/bootstrap.min.js")%]
-[%-CALL assets.include("js/bootstrap-timepicker.min.js")%]
 [%-CALL assets.include("js/jquery.maskedinput.js")%]
-[%-CALL assets.include("js/user.js")%]
 
 [%- assets.export("css") |none-%]
 
@@ -48,11 +44,11 @@
 
 </div> <!-- /container -->
 <div class="clear"></div>
-<footer>
+<!--<footer>
 	<div class="container">
 		© Publicidade Inteligente 2014. Todos os direitos reservados.
 	</div>
-</footer>
+</footer>-->
 
 <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
 [% assets.export("js")|none %]

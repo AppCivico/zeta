@@ -81,7 +81,7 @@ sub login_POST {
         }
 
         delete $attrs{password};
-        $attrs{created_at} = $attrs{created_at}->datetime;
+#         $attrs{created_at} = $attrs{created_at}->datetime;
 
         $self->status_ok( $c, entity => \%attrs );
     }
