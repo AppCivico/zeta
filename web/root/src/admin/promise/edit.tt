@@ -1,4 +1,5 @@
 [%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/address.js")%]
 <div class="container-fluid grid-custom">
 	<div class="rows">
 	<h2 class="sub-header">Editar promessa</h2>

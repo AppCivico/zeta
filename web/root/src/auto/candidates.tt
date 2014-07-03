@@ -1,0 +1,6 @@
+
+
+<label class="control-label">Candidatos</label>
+[%FOREACH candidate IN candidates%]
+	[%checkbox(candidate.id,candidate.name)|none%]
+[%END%]

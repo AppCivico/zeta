@@ -33,6 +33,14 @@ sub base : Chained('/admin/base') : PathPart('election_campaign') : CaptureArgs(
 		}
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+	
+	$api->stash_result(
+		$c, 'political_parties',
+		params => {
+			order   => 'name',
+		}
+	);
+	$c->stash->{select_parties} = [ map { [ $_->{id}, $_->{acronym} ] } @{ $c->stash->{political_parties} } ];
 }
 
 sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
@@ -103,6 +111,26 @@ sub add : Chained('base') : PathPart('new') : Args(0) {
 
 sub edit : Chained('object') : PathPart('') : Args(0) {
 
+}
+
+sub filter_candidate_by_party : Chained('base') : PathPart('filter_candidate') : Args(1) {
+	my ( $self, $c, $party_id ) = @_;
+	
+	 my $api = $c->model('API');
+	
+	$api->stash_result(
+		$c, 'candidates',
+		params => {
+			order   			=> 'name',
+			political_party_id 	=> $party_id
+		}
+	);
+	
+	$c->stash(
+        candidates 		=>$c->stash->{candidates},
+        template        => 'auto/candidates.tt',
+        without_wrapper => 1,
+    );
 }
 
 __PACKAGE__->meta->make_immutable;

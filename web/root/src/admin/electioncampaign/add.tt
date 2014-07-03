@@ -1,4 +1,6 @@
 [%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/address.js")%]
+[%-CALL assets.include("js/admin.js")%]
 <div class="container-fluid grid-custom">
 	<div class="rows">
 	<h2 class="sub-header">Adicionar campanha eleitoral</h2>
@@ -15,6 +17,15 @@
 		<div class="form-group">
 			[%select_field('political_position_id','Cargo político', array => select_positions, req=>1)|none%]
 		</div>
+		
+		<h4 class="sub-header">Vincular candidatos à campanha eleitoral</h4>
+		
+		<div class="form-group">
+			[%select_field('political_party','Partido político', array => select_parties)|none%]
+		</div>
+		
+		<div id="candidates"></div>
+		
 	<button type="submit" class="btn btn-success pull-right">Salvar</button>
 	</form>
 	</div>
