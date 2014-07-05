@@ -37,6 +37,10 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
+                vice => {
+					required 	=> 0,
+					type		=> 'Str'
+                }
             },
         ),
     };

@@ -59,7 +59,7 @@ SET id = "elm_${name}";
 END;
 
 MACRO checkbox(name, label, opt) BLOCK;
-IF (!opt.classes) ; opt.classes = ['span3']; END;
+IF (!opt.classes) ; opt.classes = ['checkbox']; END;
 IF (opt.req); opt.classes.push('required'); END;
     SET id = "elm_${name}";
 

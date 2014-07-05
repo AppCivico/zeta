@@ -1,6 +1,10 @@
-
-
-<label class="control-label">Candidatos</label>
-[%FOREACH candidate IN candidates%]
-	[%checkbox(candidate.id,candidate.name)|none%]
+[%IF candidates.size > 0%]
+	<strong><h5>Candidatos:</h5></strong>
+	[%FOREACH candidate IN candidates%]
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" value="[%candidate.id%]" name="candidate">[%candidate.name%]</input>
+			</label>
+		</div>
+	[%END%]
 [%END%]

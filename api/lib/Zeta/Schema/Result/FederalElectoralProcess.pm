@@ -77,6 +77,12 @@ __PACKAGE__->table("federal_electoral_process");
   data_type: 'text'
   is_nullable: 0
 
+=head2 electoral_superior_court_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -102,6 +108,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "name",
   { data_type => "text", is_nullable => 0 },
+  "electoral_superior_court_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -133,9 +141,24 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
+=head2 electoral_superior_court
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:13:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bl/St5sjV5rb4KbxgzOSXg
+Type: belongs_to
+
+Related object: L<Zeta::Schema::Result::ElectoralSuperiorCourt>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "electoral_superior_court",
+  "Zeta::Schema::Result::ElectoralSuperiorCourt",
+  { id => "electoral_superior_court_id" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-05 19:06:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7xdqq93hmimT5FM6u4Wv0A
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';

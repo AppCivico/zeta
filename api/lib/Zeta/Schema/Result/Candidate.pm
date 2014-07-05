@@ -75,6 +75,11 @@ __PACKAGE__->table("candidate");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 vice
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -95,6 +100,8 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 1 },
   "political_party_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "vice",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -172,8 +179,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:13:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:JVy18NYhpf6JqdJPTnHqzQ
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-05 18:38:52
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:3Ub2Yf3yeIuCcmLIPssQ6A
 
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
@@ -209,6 +216,10 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
+                vice => {
+					required 	=> 0,
+					type		=> 'Str'
+                }
             }
         ),
     };

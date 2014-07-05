@@ -1,6 +1,7 @@
 package Zeta::Controller::API::ElectionCampaign;
 
 use Moose;
+use JSON::XS;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -140,4 +141,64 @@ sub list_POST {
     );
 }
 
+sub add_candidates : Chained('base') : PathPart('add_candidates') : Args(0) {
+	my ( $self, $c ) = @_;
+	
+	my $data	= decode_json( $c->req->params->{data} );
+    my $msg     = 'OK';
+
+    eval { my $election_campaign_candidate = $c->model('DB::ElectionCampaignCandidate')->populate(\@$data); };
+
+    $msg = $@ unless $@;
+
+    $self->status_ok(
+        $c,
+        entity => {
+            'created' => $msg
+        }
+    );
+    
+}
+
+sub get_candidates : Chained('base') : PathPart('get_candidates') : Args(1) {
+	my ( $self, $c, $election_campaign_id ) = @_;
+	
+	my $candidates_rs = 
+		$c->model('DB::ElectionCampaignCandidate')->search_rs( { election_campaign_id => $election_campaign_id } );
+	
+	
+	$self->status_ok(
+        $c,
+        entity => {
+            candidates => [
+                map {
+                    my $r = $_;
+                    +{
+                        (
+                            map { $_ => $r->{$_} }
+                              qw/
+								id
+								name
+								email
+                              /
+                        ),
+                     }
+                } $candidates_rs->search_related('candidate')->as_hashref->all
+            ]
+        }
+    );
+}
+
+sub remove_candidates_relation : Chained('base') : PathPart('remove_candidate_relation') : Args(1) {
+	my ( $self, $c, $election_campaign_id ) = @_;
+	
+	$c->model('DB::ElectionCampaignCandidate')->search( 
+		{ 
+			election_campaign_id 	=> $election_campaign_id,
+			candidate_id 			=> $c->req->params->{candidate_id}
+		} 
+	)->delete;
+	
+	$self->status_no_content($c);
+}
 1;

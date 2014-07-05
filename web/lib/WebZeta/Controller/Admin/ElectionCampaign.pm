@@ -116,7 +116,7 @@ sub edit : Chained('object') : PathPart('') : Args(0) {
 sub filter_candidate_by_party : Chained('base') : PathPart('filter_candidate') : Args(1) {
 	my ( $self, $c, $party_id ) = @_;
 	
-	 my $api = $c->model('API');
+	my $api = $c->model('API');
 	
 	$api->stash_result(
 		$c, 'candidates',
@@ -131,6 +131,21 @@ sub filter_candidate_by_party : Chained('base') : PathPart('filter_candidate') :
         template        => 'auto/candidates.tt',
         without_wrapper => 1,
     );
+}
+
+sub vinculate_candidate : Chained('base') : PathPart('vinculate_candidate') : Args(1) {
+	my ( $self, $c, $election_campaign_id ) = @_;
+	
+	$c->stash->{election_campaign_id} = $election_campaign_id;
+	
+	my $api = $c->model('API');
+	
+	$api->stash_result(
+		$c, ['election_campaigns/get_candidates', $election_campaign_id],
+		params => {
+			order => 'name',
+		}
+	);
 }
 
 __PACKAGE__->meta->make_immutable;

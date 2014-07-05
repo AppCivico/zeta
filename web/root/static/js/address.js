@@ -94,7 +94,7 @@ var $address = function () {
                 $("#elm_city_id").html(result);
             },
             error: function (err) {
-                alert(err);
+                console.log(err);
             },
             complete: function () {
                 $me.removeClass('input-loading');

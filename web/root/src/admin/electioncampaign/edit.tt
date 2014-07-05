@@ -3,7 +3,7 @@
 <div class="container-fluid grid-custom">
 	<div class="rows">
 	<h2 class="sub-header">Editar campanha eleitoral</h2>
-	<form role="form" method="post" action="/admin/form/election_campaign">
+	<form role="form" method="post" action="/admin/form/election_campaign/[%election_campaign_obj.id%]">
 		<div class="form-group">
 			[%input_text('year','Ano', req=>1, value=>election_campaign_obj.year)|none%]
 		</div>
@@ -22,6 +22,7 @@
 			)|none%]
 		</div>
 	<button type="submit" class="btn btn-success pull-right">Salvar</button>
+	<a href="/admin/election_campaign/vinculate_candidate/[%election_campaign_obj.id%]"><button type="button"  class="btn btn-info">Candidatos vinculados</button></a>
 	</form>
 	</div>
 </div>

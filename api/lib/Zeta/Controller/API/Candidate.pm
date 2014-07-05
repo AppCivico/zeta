@@ -46,6 +46,7 @@ sub result_GET {
                   email
                   phone
                   img_profile
+                  vice
                   /
             ),
             political_party => {
@@ -111,6 +112,7 @@ sub list_GET {
 								email
 								phone
 								img_profile
+								vice
                               /
                         ),
                         political_party => {
