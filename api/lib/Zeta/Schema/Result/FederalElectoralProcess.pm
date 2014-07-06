@@ -189,6 +189,10 @@ sub verifiers_specs {
 					required => 0,
                     type     => 'Int'
                 },
+                electoral_superior_court_id => {
+					required 	=> 0,
+					type		=> 'Int'
+                }
             }
         ),
     };

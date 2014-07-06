@@ -133,6 +133,22 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 sub list_GET {
     my ( $self, $c ) = @_;
     my $rs = $c->stash->{collection};
+    
+    my @conditions;
+    
+    if( $c->req->params->{state_id} ) {
+		push( @conditions, { state_id => $c->req->params->{state_id} } );
+    }
+    
+    if( $c->req->params->{candidate_id} ) {
+		push( @conditions, { candidate_id => $c->req->params->{candidate_id} } );
+    }
+
+    if( $c->req->params->{category_id} ) {
+		push( @conditions, { category_id => $c->req->params->{category_id} } );
+    }
+    
+#     use DDP; p @conditions; exit;
 
     $self->status_ok(
         $c,
@@ -197,7 +213,7 @@ sub list_GET {
 						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->search(@conditions ? @{ \@conditions }: undef)->as_hashref->all
             ]
         }
     );

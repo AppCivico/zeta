@@ -8,22 +8,22 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result     	=> 'DB::PromiseContent',
-    object_key 	=> 'promise_content',
+    result     	=> 'DB::FederalElectoralProcess',
+    object_key 	=> 'federal_electoral_process',
     result_attr => {
-        prefetch =>  [ 'promise', 'created_by' ]
+        prefetch =>  [ 'electoral_superior_court', 'created_by' ]
     },
     searck_ok => {
-		promise_id => 'Int'
+		electoral_superior_court_id => 'Int'
     },
 
     update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user/],
-    delete_roles => [qw/superadmin user/],
+    create_roles => [qw/superadmin user admin/],
+    delete_roles => [qw/superadmin user admin/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
-sub base : Chained('/api/base') : PathPart('promise_contents') : CaptureArgs(0) { }
+sub base : Chained('/api/base') : PathPart('federal_electoral_processes') : CaptureArgs(0) { }
 
 sub object : Chained('base') : PathPart('') : CaptureArgs(1) { }
 
@@ -32,34 +32,33 @@ sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { 
 sub result_GET {
     my ( $self, $c ) = @_;
 
-    my $promise_content 	= $c->stash->{promise_content};
-#     my %attrs    	= $promise_content->get_inflated_columns;
+    my $federal_electoral_process 	= $c->stash->{federal_electoral_process};
     
     $self->status_ok(
         $c,
         entity => {
             (
-                map { $_ => $promise_content->$_, }
+                map { $_ => $federal_electoral_process->$_, }
                   qw/
 					id
 					name
-					link
+					content
 					source
                   /
             ),
-            ( map { $_ => ( $promise_content->$_ ? $promise_content->$_->datetime : undef ) } qw/created_at/ ),
-            promise => {
+            ( map { $_ => ( $federal_electoral_process->$_ ? $federal_electoral_process->$_->datetime : undef ) } qw/created_at/ ),
+            electoral_superior_court => {
                 (
-                    map { $_ => $promise_content->promise->$_, }
+                    map { $_ => $federal_electoral_process->electoral_superior_court->$_, }
                     qw/
                     id
-                    name
+                    country_id
                     /
                 ),
             },
             created_by => {
                 (
-                    map { $_ => $promise_content->created_by->$_, }
+                    map { $_ => $federal_electoral_process->created_by->$_, }
                     qw/
                     id
                     name
@@ -73,9 +72,9 @@ sub result_GET {
 
 sub result_DELETE {
     my ( $self, $c ) 	= @_;
-    my $promise_content		= $c->stash->{promise_content};
+    my $federal_electoral_process = $c->stash->{federal_electoral_process};
 
-    $promise_content->delete;
+    $federal_electoral_process->delete;
 
     $self->status_no_content($c);
 }
@@ -83,30 +82,31 @@ sub result_DELETE {
 sub result_PUT {
     my ( $self, $c ) = @_;
 
-    my $promise_content = $c->stash->{promise_content};
+    my $federal_electoral_process = $c->stash->{federal_electoral_process};
 
     my $params = $c->req->params;
 
-    $promise_content->execute( $c, for => 'update', with => $params );
+    $federal_electoral_process->execute( $c, for => 'update', with => $params );
     $self->status_accepted(
         $c,
-        location 	=> $c->uri_for( $self->action_for('result'), [ $promise_content->id ] )->as_string,
-        entity 		=> { id => $promise_content->id }
+        location 	=> $c->uri_for( $self->action_for('result'), [ $federal_electoral_process->id ] )->as_string,
+        entity 		=> { id => $federal_electoral_process->id }
       ),
       $c->detach
-      if $promise_content;
+      if $federal_electoral_process;
 }
 
 sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    
     my $rs = $c->stash->{collection};
 
     $self->status_ok(
         $c,
         entity => {
-            promise_contents => [
+            federal_electoral_processs => [
                 map {
                     my $r = $_;
                     +{
@@ -115,16 +115,17 @@ sub list_GET {
                               qw/
 								id
 								name
-								link
+								content
 								source
+								created_at
                               /
                         ),
-						promise => {
+						electoral_superior_court => {
 							(
-								map { $_ => $r->{promise}{$_}, }
+								map { $_ => $r->{electoral_superior_court}{$_}, }
 								qw/
 								id
-								name
+								country_id
 								/
 							)
 						},
@@ -148,14 +149,14 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $promise_content = $c->stash->{collection}
+    my $federal_electoral_process = $c->stash->{collection}
       ->execute( $c, for => 'create', with => { %{ $c->req->params }, created_by => $c->user->id } );
 
     $self->status_created(
         $c,
-        location => $c->uri_for( $self->action_for('result'), [ $promise_content->id ] )->as_string,
+        location => $c->uri_for( $self->action_for('result'), [ $federal_electoral_process->id ] )->as_string,
         entity => {
-            id => $promise_content->id
+            id => $federal_electoral_process->id
         }
     );
 }

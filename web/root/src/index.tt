@@ -1,43 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="De Olho Nas Promessas - http://www.deolhonaspromessas.org.br">
-	<meta name="keywords" content="de olho nas promessas">
-	<title>De Olho nas Promessas</title>
-    <!-- Bootstrap -->
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
-	<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href="static/css/site.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-	<header class="header-top">
-		<div class="header-content">
-			<div class="container">
-				<div class="col-sm-3 eleicoes-title">
-					<span class="yellow">Eleições</span> <span class="green">2014</span>
-				</div>
-				<div class="col-sm-6 text-center">
-					<div class="logo-top"><img src="static/images/logo-top.png" border="0"></div>
-				</div>				
-				<div class="col-sm-3 text-right">
-					<ul class="menu-top">
-						<li><a href="/login">Login</a></li>
-					</ul>
-				</div>				
-			</div>
-		</div>
-	</header>
+<body class="home">
 	<content class="home">
 		<div class="slide-home">
 			<div class="container">
@@ -50,35 +11,27 @@
 		<div class="content-yellow">
 			<div class="container">
 				<p>
-				Em breve
-				</p>
-			</div>
-		</div>
-		<div class="content-green">
-			<div class="container">
-				<p>
 				Confira, aqui, o que o seu candidato diz que vai fazer se for eleito. Acompanhe. E cobre depois.
+				<form action="/promises" method="post">
+					<div class="selectbox">
+						<img src="static/images/icon-01.png" border="0">
+						[%select_field('state_id','Selecione a região', array => select_states, req=>0)|none%]
+					</div>
+					<div class="selectbox">
+						<img src="static/images/icon-02.png" border="0">
+						[%select_field('candidate_id','Escolha o candidato', array => select_candidates, req=>1)|none%]
+		<!-- 					<select id="candidato"><option value="">Escolha o candidato</select> -->
+					</div>
+					<div class="selectbox">
+						<img src="static/images/icon-03.png" border="0">
+						[%select_field('category_id','Navegue pelos temas', array => select_categories, req=>1)|none%]
+		<!-- 					<select id="temas"><option value="">Navegue pelos temas</select> -->
+					</div>
+					
+					<button type="submit" class="btn btn-default">ver promessas</button>
+				</form>
 				</p>
 			</div>
 		</div>
 	</content>
-	<footer class="bs-footer" role="contentinfo">
-		<div class="container text-center">
-			<div class="col-xs-4">
-				<img src="static/images/logo-rnsp-footer.png">
-			</div>
-			<div class="col-xs-4 text-center">
-				<img src="static/images/logo-pcs-footer.png">
-			</div>
-			<div class="col-xs-4 text-center">
-				<img src="static/images/logo-redes-footer.png">
-			</div>
-		</div>
-	</footer>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="static/js/jquery-1.10.2.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="static/js/bootstrap.min.js"></script>
-  </body>
-</html>
+</body>

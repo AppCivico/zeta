@@ -1,23 +1,37 @@
 [%IF !without_wrapper%][%IF template_wrapper %][% INCLUDE "wrapper_${template_wrapper}.tt"|none%][%ELSE%]
-<!DOCTYPE HTML>
+
+<!DOCTYPE html>
 <html lang="pt-br">
-<head>
-<link rel="icon"
-      type="image/png"
-      href="/static/img/favicon.png" />
-<meta charset="UTF-8">
-<title>[% template.title or site.title or title or 'De olho nas metas' %]</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="De Olho Nas Promessas - http://www.deolhonaspromessas.org.br">
+	<meta name="keywords" content="de olho nas promessas">
+	<title>[% template.title or site.title or title or 'De olho nas metas' %]</title>
+    <!-- Bootstrap -->
+  
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
 
 <!--[if lt IE 9]>
     <script src="/static/js/html5shiv.js"></script>
 <![endif]-->
 
+<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
 [%-CALL assets.include("css/bootstrap.min.css")%]
 [%-CALL assets.include("css/bootstrap-theme.min.css")%]
 [%#-CALL assets.include("css/system.css")#%]
-[%#-CALL assets.include("css/site.css")#%]
-
+[%-CALL assets.include("css/site.css")%]
 [%-CALL assets.include("js/bootstrap.min.js")%]
 
 [%- assets.export("css") |none-%]
@@ -25,38 +39,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body class="[% body_class %]"><script>var actions=[];</script>
-<!--<div class="container">
-    [%IF !no_menu%]
-        [%#INCLUDE parts/menu.tt#%]
-    [%END%]
-	<div class="divider"></div>-->
-
+	<header class="header-top">
+		<div class="header-content">
+			<div class="container">
+				<div class="col-sm-3 eleicoes-title">
+					<span class="yellow">Eleições</span> <span class="green">2014</span>
+				</div>
+				<div class="col-sm-6 text-center">
+					<div class="logo-top"><img src="static/images/logo-top.png" border="0"></div>
+				</div>				
+				<div class="col-sm-3 text-right">
+					<ul class="menu-top">
+						<li><a href="/login">Login</a></li>
+					</ul>
+				</div>				
+			</div>
+		</div>
+	</header>
     [%content|none%]
-</div> <!-- /container -->
-<!--
-<div class="footer bg-dark">
-	<div class="container">
-	
-		<ul class="menu-footer">
-			<li class="title">Associados</li>
-			[%IF !c.user%]
-				<li class="item"><a href="/pre-cadastro">Cadastro</a></li>
-				<li class="item"><a href="/login">Login</a></li>
-			[%ELSE%]
-				<li class="item"><a href="[%c.uri_for_action("/$role_controller/dashboard/index")%]">Meu Perfil</a></li>
-				<li class="item"><a href="/logout">Sair</a></li>
-			[%END%]
-		</ul>
-		<ul class="menu-footer">
-			<li class="title">Saiba mais</li>
-			<li class="item"><a href="/sobre">Sobre</a></li>
-			<li class="item"><a href="/faq">Perguntas Frequentes</a></li>
-			<li class="item"><a href="/contato">Contato</a></li>
-		</ul>
-		<p class="copy">&copy; Publicidade Inteligente 2014. Todos os direitos reservados.</p>
-		
-	</div>
--->
+</div> 
+	<div class="content-green">
+			<div class="container">
+				<p>
+					Acompanhamento do processo eleitoral
+					
+					<div class="selectbox">
+						<select id="tribunal"><option value="">Tribunal Regional Eleitoral</select>
+					</div>
+					<a href="#" class="btn btn-green">Tribunal Regional Eleitoral</a>
+				</p>
+			</div>
+		</div>
+	</content>
+	<footer class="bs-footer" role="contentinfo">
+		<div class="container text-center">
+			<div class="col-xs-4">
+				<img src="static/images/logo-rnsp-footer.png">
+			</div>
+			<div class="col-xs-4 text-center">
+				<img src="static/images/logo-pcs-footer.png">
+			</div>
+			<div class="col-xs-4 text-center">
+				<img src="static/images/logo-redes-footer.png">
+			</div>
+		</div>
+	</footer>
 </div>
 
 <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>

@@ -1,0 +1,126 @@
+<content class="candidato">
+	<div class="content-yellow">
+		<div class="container">
+			<p>
+				<div class="selectbox">
+					<img src="static/images/icon-01.png" border="0">
+					<select id="regiao"><option value="">Selecione a região</select>
+				</div>
+				<div class="selectbox">
+					<img src="static/images/icon-02.png" border="0">
+					<select id="candidato"><option value="">Escolha o candidato</select>
+				</div>
+				<div class="selectbox">
+					<img src="static/images/icon-03.png" border="0">
+					<select id="temas"><option value="">Navegue pelos temas</select>
+				</div>
+				<a href="#" class="btn btn-default">ver promessas</a>
+				
+				<hr>
+				
+				<div class="candidato-stats row">
+					<div class="candidato-image col-xs-3 col-sm-2">
+						<img src="static/images/candidatos/001.jpg" class="img-circle">
+					</div>
+					<div class="candidato-info col-xs-9 col-sm-8">
+						<div class="item">
+							<div class="title">Candidato</div>
+							<div class="value">Dilma Rousseff</div>
+						</div>
+						<div class="item">
+							<div class="title">Região</div>
+							<div class="value">São Paulo</div>
+						</div>
+						<div class="item">
+							<div class="title">Tema</div>
+							<div class="value">Nome do Tema</div>
+						</div>
+					</div>
+					<div class="candidato-count col-xs-12 col-sm-2">
+						<div class="value">25</div>
+						<div class="legend">promessas</div>					
+					</div>
+				</div>
+			</p>
+							
+		</div>
+	</div>
+	<div class="content-yellow-chat">
+	</div>
+	<div class="content-white">
+	
+		<div class="container promessas">
+			<div class="row">
+				<div class="col-sm-6 item">
+					<a href="">
+					<div class="promessa">
+						<div class="content">
+							<div class="texto">
+								Candy sugar plum pie jelly lemon drops. Tart apple pie caramels dessert muffin wafer. Sweet muffin dragée chocolate bar biscuit applicake chupa chups. Pastry gingerbread pudding. Tiramisu cookie.
+							</div>
+							<div class="info">
+								Dilma Roussef, Presidência da República<br />
+								Nome do tema<br />
+								Nome da fonte em 15/07/2014<br />
+							</div>
+						</div>
+					</div>
+					</a>
+				</div>
+				<div class="col-sm-6 item">
+					<a href="">
+					<div class="promessa">
+						<div class="content">
+							<div class="texto">
+								Candy sugar plum pie jelly lemon drops. Tart apple pie caramels dessert muffin wafer. Sweet muffin dragée chocolate bar biscuit applicake chupa chups. Pastry gingerbread pudding. Tiramisu cookie.
+							</div>
+							<div class="info">
+								Dilma Roussef, Presidência da República<br />
+								Nome do tema<br />
+								Nome da fonte em 15/07/2014<br />
+							</div>
+						</div>
+					</div>
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 item">
+					<a href="">
+					<div class="promessa">
+						<div class="content">
+							<div class="texto">
+								Candy sugar plum pie jelly lemon drops. Tart apple pie caramels dessert muffin wafer. Sweet muffin dragée chocolate bar biscuit applicake chupa chups. Pastry gingerbread pudding. Tiramisu cookie.
+							</div>
+							<div class="info">
+								Dilma Roussef, Presidência da República<br />
+								Nome do tema<br />
+								Nome da fonte em 15/07/2014<br />
+							</div>
+						</div>
+					</div>
+					</a>
+				</div>
+				<div class="col-sm-6 item">
+					<a href="">
+					<div class="promessa">
+						<div class="content">
+							<div class="texto">
+								Candy sugar plum pie jelly lemon drops. Tart apple pie caramels dessert muffin wafer. Sweet muffin dragée chocolate bar biscuit applicake chupa chups. Pastry gingerbread pudding. Tiramisu cookie.
+							</div>
+							<div class="info">
+								Dilma Roussef, Presidência da República<br />
+								Nome do tema<br />
+								Nome da fonte em 15/07/2014<br />
+							</div>
+						</div>
+					</div>
+					</a>
+				</div>
+			</div>
+			<div class="text-center">
+				<a href="#" class="btn btn-default btn-yellow-green">Mais promessas</a>
+			</div>
+		</div>
+	</div>
+		

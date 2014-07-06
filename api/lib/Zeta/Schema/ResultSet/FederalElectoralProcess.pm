@@ -32,6 +32,10 @@ sub verifiers_specs {
                 created_by => {
 					required => 1,
                     type     => 'Int'
+                },
+                electoral_superior_court_id => {
+					required 	=> 1,
+					type		=> 'Int'
                 }
             },
         ),
