@@ -142,18 +142,18 @@ sub list_GET {
     my ( $self, $c ) = @_;
     my $rs = $c->stash->{collection};
     
-    my @conditions;
+    my %conditions;
     
     if( $c->req->params->{state_id} ) {
-		push( @conditions, { 'me.state_id' => $c->req->params->{state_id} } );
+		$conditions{'me.state_id'} = $c->req->params->{state_id};
     }
     
     if( $c->req->params->{candidate_id} ) {
-		push( @conditions, { 'me.candidate_id' => $c->req->params->{candidate_id} } );
+		$conditions{'me.candidate_id'} = $c->req->params->{candidate_id};
     }
 
     if( $c->req->params->{category_id} ) {
-		push( @conditions, { 'me.category_id' => $c->req->params->{category_id} } );
+		$conditions{'me.category_id'} = $c->req->params->{category_id};
     }
 
     $self->status_ok(
@@ -226,7 +226,7 @@ sub list_GET {
 						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $rs->search(@conditions ? @{ \@conditions }: undef)->as_hashref->all
+                } $rs->search(%conditions ? %{ \%conditions }: undef)->as_hashref->all
             ]
         }
     );

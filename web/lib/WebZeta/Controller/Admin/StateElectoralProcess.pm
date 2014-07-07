@@ -1,11 +1,23 @@
-package WebZeta::Controller::Admin::FederalElectoralProcess;
+package WebZeta::Controller::Admin::StateElectoralProcess;
 use Moose;
 use namespace::autoclean;
 use POSIX;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-sub base : Chained('/admin/base') : PathPart('federal_electoral_process') : CaptureArgs(0) {
+sub base : Chained('/admin/base') : PathPart('state_electoral_process') : CaptureArgs(0) {
+	my ( $self, $c ) = @_;
+
+	my $api = $c->model('API');
+	
+	$api->stash_result(
+		$c, 'electoral_regional_courts',
+		params => {
+			order   => 'state.name',
+		}
+	);
+	
+	$c->stash->{select_spe} = [ map { [ $_->{id}, $_->{state}{name} ] } @{ $c->stash->{electoral_regional_courts} } ];
 }
 
 sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
@@ -14,8 +26,8 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 	my $api = $c->model('API');
 
 	$api->stash_result(
-		$c, [ 'federal_electoral_processes', $id ],
-		stash => 'fep_obj'
+		$c, [ 'state_electoral_processes', $id ],
+		stash => 'sep_obj'
 	);
 	
 }
@@ -36,7 +48,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         $c->stash->{name}	= $c->req->params->{name};
 
         $api->stash_result(
-            $c, 'federal_electoral_processes',
+            $c, 'state_electoral_processes',
             params => {
                 name	=> $params->{name} ? $params->{name} : undef,
                 page	=> $page,
@@ -44,16 +56,16 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         );
     } else {
         $api->stash_result(
-            $c, 'federal_electoral_processes',
+            $c, 'state_electoral_processes',
             params => {
                 page => $page,
             }
         );
     }
     
-    $c->stash->{count_partial} 	= scalar keys $c->stash->{federal_electoral_processes};
+    $c->stash->{count_partial} 	= scalar keys $c->stash->{state_electoral_processes};
 	$c->stash->{total}   		= $c->stash->{count};
-	$c->stash->{results} 		= $c->stash->{federal_electoral_processes};
+	$c->stash->{results} 		= $c->stash->{state_electoral_processes};
 
 	$c->stash(
 		current_page  => $page,

@@ -56,6 +56,15 @@ sub index : Path : Args(0) {
 		}
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+	
+	$api->stash_result(
+		$c, 'electoral_regional_courts',
+		params => {
+			order   => 'state.name',
+		}
+	);
+	
+	$c->stash->{select_spe} = [ map { [ $_->{id}, $_->{state}{name} ] } @{ $c->stash->{electoral_regional_courts} } ];
     
     $self->root($c);
 }

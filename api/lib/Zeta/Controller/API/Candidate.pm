@@ -1,6 +1,7 @@
 package Zeta::Controller::API::Candidate;
 
 use Moose;
+use Cwd qw();
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -147,6 +148,34 @@ sub list_POST {
             id => $candidate->id
         }
     );
+}
+
+sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
+	my ( $self, $c ) = @_;
+	
+	my $path = Cwd::cwd();
+	
+	my $upload = $c->req->upload('file');
+	
+	if( $upload ) {
+		if( ! -d $path.'/../etc/uploads/'.$c->req->params->{candidate_id} ) {
+			mkdir($path.'/../etc/uploads/'.$c->req->params->{candidate_id});
+		}
+		
+		$upload->copy_to($path.'/../etc/uploads/'.$c->req->params->{candidate_id}.'/profile_'.$c->req->params->{candidate_id});
+	}
+	
+	my $candidate = $c->model('DB::Candidate')->search( { id => $c->req->params->{candidate_id} } );
+	
+	$candidate->update( { img_profile => 'profile_'.$c->req->params->{candidate_id} } );
+	
+    $self->status_accepted(
+        $c,
+        location => $c->uri_for( $self->action_for('result'), [ $c->req->params->{candidate_id} ] )->as_string,
+        entity => { id => $c->req->params->{candidate_id} }
+      ),
+      $c->detach
+      if $candidate;
 }
 
 1;

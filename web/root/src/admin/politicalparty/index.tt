@@ -11,7 +11,6 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>#</th>
                 <th>Nome</th>
                 <th>Sigla</th>
                 <th>Legenda</th>
@@ -20,7 +19,6 @@
 		<tbody>
 			[%FOREACH party IN political_parties%]
 				<tr>
-					<td>[%party.id%]</td>
 					<td>[%party.name%]</td>
 					<td>[%party.acronym%]</td>
 					<td>[%party.party_number%]</td>

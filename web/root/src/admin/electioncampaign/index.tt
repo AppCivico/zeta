@@ -6,7 +6,6 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>#</th>
                 <th>Ano</th>
                 <th>Cargo disputado</th>
                 <th>Ações</th>
@@ -15,7 +14,6 @@
 		<tbody>
 			[%FOREACH ec IN election_campaigns%]
 				<tr>
-					<td>[%ec.id%]</td>
 					<td>[%ec.year%]</td>
 					<td>[%ec.political_position.position%]</td>
 					<td>

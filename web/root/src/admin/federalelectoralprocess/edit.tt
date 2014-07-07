@@ -1,5 +1,4 @@
 [%-CALL assets.include("js/forms.js")%]
-[%-CALL assets.include("js/address.js")%]
 <div class="container-fluid grid-custom">
 	<div class="rows">
 	<h2 class="sub-header">Editar processo eleitoral - TSE</h2>
@@ -9,7 +8,7 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label" for="elm_description">Descrição</label>
-				<textarea class="form-control" rows="3" name="content" value="[%fep_obj.name%]"></textarea>
+				<textarea class="form-control" rows="3" name="content">[%fep_obj.content%]</textarea>
 			</div>
 			<input type="hidden" value="[%fep_obj.electoral_superior_court_id%]" name="electoral_superior_court_id"></input>
 			<div class="form-group">

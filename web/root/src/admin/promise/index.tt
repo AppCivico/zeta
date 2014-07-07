@@ -6,7 +6,6 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>#</th>
                 <th>Nome</th>
                 <th>Descrição</th>
                 <th>Candidato</th>
@@ -18,7 +17,6 @@
 		<tbody>
 			[%FOREACH promise IN promises%]
 				<tr>
-					<td>[%promise.id%]</td>
 					<td>[%promise.name%]</td>
 					<td>[%promise.description%]</td>
 					<td>[%promise.candidate.name%]</td>

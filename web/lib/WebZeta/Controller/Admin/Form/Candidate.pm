@@ -12,7 +12,7 @@ sub base : Chained('/admin/form/base') : PathPart('') : CaptureArgs(0) {
 
 sub process : Chained('base') : PathPart('candidate') : Args(0) {
     my ( $self, $c ) = @_;
-
+	
     my $api     = $c->model('API');
     my $form    = $c->model('Form');
     
@@ -25,10 +25,30 @@ sub process : Chained('base') : PathPart('candidate') : Args(0) {
 		method => 'POST',
 		body   => $params
     );
-
+    
     if ( $c->stash->{error} ) {
+    
         $c->detach( '/form/redirect_error', [] );
+        
     } else {
+    
+		if( $c->req->upload ) {
+			my $upload = $c->req->upload('img_profile');
+			
+			$api->stash_result(
+				$c, 'candidates/upload_file',
+				method => 'UPLOAD',
+				body   => [
+					candidate_id 	=> $c->stash->{id},
+					file 			=> [ $upload->tempname ]
+				]
+			);
+		
+			if ( $c->stash->{error} ) {
+				$c->detach( '/form/redirect_error', [ '/admin/candidate/index', {}, 'Problemas ao associar imagem de perfil ao candidato.' ] );
+			}
+		}
+		
 		$c->detach( '/form/redirect_ok', [ '/admin/candidate/index', {}, 'Cadastrado com sucesso!' ] );
 	}
     
@@ -47,8 +67,28 @@ sub process_edit : Chained('base') : PathPart('candidate') : Args(1) {
     );
 
     if ( $c->stash->{error} ) {
+    
         $c->detach( '/form/redirect_error', [] );
+        
     } else {
+    
+		if( $c->req->upload ) {
+			my $upload = $c->req->upload('img_profile');
+			
+			$api->stash_result(
+				$c, 'candidates/upload_file',
+				method => 'UPLOAD',
+				body   => [
+					candidate_id 	=> $c->stash->{id},
+					file 			=> [ $upload->tempname ]
+				]
+			);
+		
+			if ( $c->stash->{error} ) {
+				$c->detach( '/form/redirect_error', [ '/admin/candidate/index', {}, 'Problemas ao associar imagem de perfil ao candidato.' ] );
+			}
+		}
+    
         $c->detach( '/form/redirect_ok', [ '/admin/candidate/index', {}, 'Alterado com sucesso!' ] );
     }
 }

@@ -106,7 +106,7 @@ sub list_GET {
     $self->status_ok(
         $c,
         entity => {
-            state_electoral_processs => [
+            state_electoral_processes => [
                 map {
                     my $r = $_;
                     +{

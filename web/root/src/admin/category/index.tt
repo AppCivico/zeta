@@ -6,7 +6,6 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>#</th>
                 <th>Nome</th>
                 <th>Ações</th>
 			</tr>
@@ -14,7 +13,6 @@
 		<tbody>
 			[%FOREACH category IN categories%]
 				<tr>
-					<td>[%category.id%]</td>
 					<td>[%category.name%]</td>
 					<td>
 						<a href="/admin/category/[%category.id%]">Editar</a> |

@@ -116,8 +116,42 @@ __PACKAGE__->has_many(
 
 # Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-05 19:06:28
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:kJGyjmYOn78KA/ZRxQXnaw
+with 'Zeta::Role::Verification';
+with 'Zeta::Role::Verification::TransactionalActions::DBIC';
+with 'Zeta::Schema::Role::ResultsetFind';
 
+use Data::Verifier;
+use Zeta::Types qw /DataStr TimeStr/;
 
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                state_id => {
+                    required => 0,
+                    type     => 'Int',
+                },
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $state_electoral_processes = $self->update( \%values );
+
+            return $state_electoral_processes;
+        },
+    };
+}
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
 1;

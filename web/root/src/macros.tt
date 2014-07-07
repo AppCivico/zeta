@@ -107,7 +107,7 @@ IF (opt.req); opt.classes.push('required'); END;
   <select id="[% id %]" name="[% name %]"
    [% IF opt.classes %] class="[% opt.classes.join(' ') %]"[%~ END ~%]
    [% IF opt.disabled %] disabled="disabled"[%~ END ~%]>
-    <option value="">Selecione</option>
+    <option value="">[%IF opt.default_first%][%opt.default_first%][%ELSE%]Selecione[%END%]</option>
    [% IF opt.default_option %]<option value="[% opt.default_option.0 | html %]">[% opt.default_option.1 %]</option>[% END %]
    [% FOREACH item = opt.array;
 
