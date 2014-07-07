@@ -1,6 +1,7 @@
 package Zeta::Controller::API::Promise;
 
 use Moose;
+use utf8;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -12,8 +13,8 @@ __PACKAGE__->config(
     result_attr => {
         prefetch =>  [
 			{ 'candidate' => 'political_party' },
+			{'election_campaign' => 'political_position'},
 			'category',
-			'election_campaign',
 			'state',
 			'city'
 		]
@@ -95,7 +96,14 @@ sub result_GET {
 					id
 					year
 					/
-				)
+				),
+				political_position => {
+					map { $_ => $promise->election_campaign->political_position->$_, }
+					qw/
+					id
+					position
+					/
+				},
 			},
         }
     );
@@ -137,18 +145,16 @@ sub list_GET {
     my @conditions;
     
     if( $c->req->params->{state_id} ) {
-		push( @conditions, { state_id => $c->req->params->{state_id} } );
+		push( @conditions, { 'me.state_id' => $c->req->params->{state_id} } );
     }
     
     if( $c->req->params->{candidate_id} ) {
-		push( @conditions, { candidate_id => $c->req->params->{candidate_id} } );
+		push( @conditions, { 'me.candidate_id' => $c->req->params->{candidate_id} } );
     }
 
     if( $c->req->params->{category_id} ) {
-		push( @conditions, { category_id => $c->req->params->{category_id} } );
+		push( @conditions, { 'me.category_id' => $c->req->params->{category_id} } );
     }
-    
-#     use DDP; p @conditions; exit;
 
     $self->status_ok(
         $c,
@@ -209,7 +215,14 @@ sub list_GET {
 								state_id
 								country_id
 								/
-							)
+							),
+							political_position => {
+								map { $_ => $r->{election_campaign}{political_position}{$_}, }
+								qw/
+								id
+								position
+								/
+							},
 						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
