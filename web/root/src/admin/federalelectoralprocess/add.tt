@@ -1,0 +1,21 @@
+[%-CALL assets.include("js/forms.js")%]
+[%-CALL assets.include("js/address.js")%]
+<div class="container-fluid grid-custom">
+	<div class="rows">
+	<h2 class="sub-header">Adicionar processo eleitoral - TSE</h2>
+		<form role="form" method="post" action="/admin/form/federal_electoral_process">
+			<div class="form-group">
+				[%input_text('name','Nome', req=>1)|none%]
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="elm_description">Descrição</label>
+				<textarea class="form-control" rows="3" name="content"></textarea>
+			</div>
+			<input type="hidden" value="1" name="electoral_superior_court_id"></input>
+			<div class="form-group">
+				[%input_text('source','Fonte', req=>1)|none%]
+			</div>
+		<button type="submit" class="btn btn-success pull-right">Salvar</button>
+		</form>
+	</div>
+</div>

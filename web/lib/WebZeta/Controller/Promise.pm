@@ -55,8 +55,7 @@ sub index : Chained('base') : PathPart('promises') : Args(0) {
 	my $candidate_id = 0;
 	my @info;
 	my $i = 0;
-     my $p = $c->stash->{promises};
-     use DDP; p $p;
+     
 	foreach my $promise ( @{ $c->stash->{promises} } ) {
 	
 		if( $candidate_id != $promise->{candidate}{id} ) {
@@ -89,8 +88,6 @@ sub index : Chained('base') : PathPart('promises') : Args(0) {
 		$c->stash->{promises} = \%candidates;
     }
     
-     my $p = $c->stash->{promises};
-     use DDP; p $p;
 }
 
 __PACKAGE__->meta->make_immutable;

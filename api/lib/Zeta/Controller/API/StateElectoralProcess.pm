@@ -1,4 +1,4 @@
-package Zeta::Controller::API::FederalElectoralProcess;
+package Zeta::Controller::API::StateElectoralProcess;
 
 use Moose;
 use DateTime;
@@ -8,10 +8,10 @@ BEGIN { extends 'Catalyst::Controller::REST' }
 __PACKAGE__->config(
     default => 'application/json',
 
-    result     	=> 'DB::FederalElectoralProcess',
-    object_key 	=> 'federal_electoral_process',
+    result     	=> 'DB::StateElectoralProcess',
+    object_key 	=> 'state_electoral_process',
     result_attr => {
-        prefetch =>  [ 'electoral_superior_court', 'created_by' ]
+        prefetch =>  [ 'electoral_regional_court', 'created_by' ]
     },
     searck_ok => {
 		electoral_superior_court_id => 'Int'
@@ -23,7 +23,7 @@ __PACKAGE__->config(
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
-sub base : Chained('/api/base') : PathPart('federal_electoral_processes') : CaptureArgs(0) { }
+sub base : Chained('/api/base') : PathPart('state_electoral_processes') : CaptureArgs(0) { }
 
 sub object : Chained('base') : PathPart('') : CaptureArgs(1) { }
 
@@ -32,13 +32,13 @@ sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { 
 sub result_GET {
     my ( $self, $c ) = @_;
 
-    my $federal_electoral_process 	= $c->stash->{federal_electoral_process};
+    my $state_electoral_process = $c->stash->{state_electoral_process};
     
     $self->status_ok(
         $c,
         entity => {
             (
-                map { $_ => $federal_electoral_process->$_, }
+                map { $_ => $state_electoral_process->$_, }
                   qw/
 					id
 					name
@@ -46,19 +46,19 @@ sub result_GET {
 					source
                   /
             ),
-            ( map { $_ => ( $federal_electoral_process->$_ ? $federal_electoral_process->$_->datetime : undef ) } qw/created_at/ ),
-            electoral_superior_court => {
+            ( map { $_ => ( $state_electoral_process->$_ ? $state_electoral_process->$_->datetime : undef ) } qw/created_at/ ),
+            electoral_regional_court => {
                 (
-                    map { $_ => $federal_electoral_process->electoral_superior_court->$_, }
+                    map { $_ => $state_electoral_process->electoral_regional_court->$_, }
                     qw/
                     id
-                    country_id
+                    state_id
                     /
                 ),
             },
             created_by => {
                 (
-                    map { $_ => $federal_electoral_process->created_by->$_, }
+                    map { $_ => $state_electoral_process->created_by->$_, }
                     qw/
                     id
                     name
@@ -72,9 +72,9 @@ sub result_GET {
 
 sub result_DELETE {
     my ( $self, $c ) 	= @_;
-    my $federal_electoral_process = $c->stash->{federal_electoral_process};
+    my $state_electoral_process = $c->stash->{state_electoral_process};
 
-    $federal_electoral_process->delete;
+    $state_electoral_process->delete;
 
     $self->status_no_content($c);
 }
@@ -82,18 +82,18 @@ sub result_DELETE {
 sub result_PUT {
     my ( $self, $c ) = @_;
 
-    my $federal_electoral_process = $c->stash->{federal_electoral_process};
+    my $state_electoral_process = $c->stash->{state_electoral_process};
 
     my $params = $c->req->params;
 
-    $federal_electoral_process->execute( $c, for => 'update', with => $params );
+    $state_electoral_process->execute( $c, for => 'update', with => $params );
     $self->status_accepted(
         $c,
-        location 	=> $c->uri_for( $self->action_for('result'), [ $federal_electoral_process->id ] )->as_string,
-        entity 		=> { id => $federal_electoral_process->id }
+        location 	=> $c->uri_for( $self->action_for('result'), [ $state_electoral_process->id ] )->as_string,
+        entity 		=> { id => $state_electoral_process->id }
       ),
       $c->detach
-      if $federal_electoral_process;
+      if $state_electoral_process;
 }
 
 sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
@@ -106,7 +106,7 @@ sub list_GET {
     $self->status_ok(
         $c,
         entity => {
-            federal_electoral_processes => [
+            state_electoral_processs => [
                 map {
                     my $r = $_;
                     +{
@@ -120,12 +120,12 @@ sub list_GET {
 								created_at
                               /
                         ),
-						electoral_superior_court => {
+						electoral_regional_court => {
 							(
-								map { $_ => $r->{electoral_superior_court}{$_}, }
+								map { $_ => $r->{electoral_regional_court}{$_}, }
 								qw/
 								id
-								country_id
+								state_id
 								/
 							)
 						},
@@ -149,14 +149,14 @@ sub list_GET {
 sub list_POST {
     my ( $self, $c ) = @_;
 
-    my $federal_electoral_process = $c->stash->{collection}
+    my $state_electoral_process = $c->stash->{collection}
       ->execute( $c, for => 'create', with => { %{ $c->req->params }, created_by => $c->user->id } );
 
     $self->status_created(
         $c,
-        location => $c->uri_for( $self->action_for('result'), [ $federal_electoral_process->id ] )->as_string,
+        location => $c->uri_for( $self->action_for('result'), [ $state_electoral_process->id ] )->as_string,
         entity => {
-            id => $federal_electoral_process->id
+            id => $state_electoral_process->id
         }
     );
 }
