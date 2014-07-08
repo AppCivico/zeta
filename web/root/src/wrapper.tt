@@ -43,7 +43,7 @@
 		<div class="header-content">
 			<div class="container">
 				<div class="col-sm-3 eleicoes-title">
-					<span class="yellow">Eleições</span> <span class="green">2014</span>
+					<a href="/"><span class="yellow">Eleições</span> <span class="green">2014</span></a>
 				</div>
 				<div class="col-sm-6 text-center">
 					<div class="logo-top"><img src="/static/images/logo-top.png" border="0"></div>

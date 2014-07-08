@@ -2,7 +2,7 @@
 	<div class="content-yellow">
 		<div class="container">
 			<p>
-				<form action="/seps" method="post">
+				<form action="/promises" method="post">
 					<div class="selectbox">
 						<img src="/static/images/icon-01.png" border="0">
 						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione a região')|none%]
@@ -74,4 +74,4 @@
 				</div>
 			</div>
 		[%END%]
-		
+		[%INCLUDE parts/green_box.tt  %]

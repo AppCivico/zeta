@@ -1,12 +1,13 @@
-		<div class="content-green">
-			<div class="container">
-				<p>
-					Acompanhamento do processo eleitoral
-					
-					<div class="selectbox">
-						[%select_field('category_id', false, array =>select_spe, default_first=>'Tribunal Regional Eleitoral')|none%]
-					</div>
-					<a href="#" class="btn btn-green">Tribunal Superior Eleitoral</a>
-				</p>
+[%-CALL assets.include("js/site.js")%]
+<div class="content-green">
+	<div class="container">
+		<p>
+			Acompanhamento do processo eleitoral
+			
+			<div class="selectbox">
+				[%select_field('electoral_regional_court_select', false, array =>select_spe, default_first=>'Tribunal Regional Eleitoral')|none%]
 			</div>
-		</div>
+			<a href="#" class="btn btn-green">Tribunal Superior Eleitoral</a>
+		</p>
+	</div>
+</div>

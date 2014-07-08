@@ -1,4 +1,3 @@
-[%-CALL assets.include("js/site.js")%]
 	<content class="home">
 		<div class="slide-home">
 			<div class="container">

@@ -10,20 +10,21 @@ __PACKAGE__->config(
 
     result     	=> 'DB::StateElectoralProcess',
     object_key 	=> 'state_electoral_process',
-    result_attr => {
+    search_ok => {
+		electoral_regional_court_id => 'Int'
+	},
+	result_attr => {
 		prefetch =>  [ 
 			{ 'electoral_regional_court' => 'state' },
 			'created_by' 
        ]
-    },
-    searck_ok => {
-		electoral_regional_court_id => 'Int'
     },
 
     update_roles => [qw/superadmin user admin/],
     create_roles => [qw/superadmin user admin/],
     delete_roles => [qw/superadmin user admin/],
 );
+
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
 sub base : Chained('/api/base') : PathPart('state_electoral_processes') : CaptureArgs(0) { }

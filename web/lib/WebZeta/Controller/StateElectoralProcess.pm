@@ -15,7 +15,7 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'categories',
 		params => {
-			order   => 'name',
+			order => 'name',
 		}
 	);
 	$c->stash->{select_categories} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{categories} } ];
@@ -23,7 +23,7 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'candidates',
 		params => {
-			order   => 'name',
+			order => 'name',
 		}
 	);
 	$c->stash->{select_candidates} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{candidates} } ];
@@ -31,7 +31,7 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'states',
 		params => {
-			order   => 'name',
+			order => 'name',
 		}
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
@@ -39,7 +39,7 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 
 sub index : Chained('base') : PathPart('processos-tre') : Args(1) {
 	my ( $self, $c, $tre_id ) = @_;
-
+	
 	my $api = $c->model('API');
 	
 	$api->stash_result(
@@ -65,11 +65,19 @@ sub index : Chained('base') : PathPart('processos-tre') : Args(1) {
 		}
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+	
+	$api->stash_result(
+		$c, 'electoral_regional_courts',
+		params => {
+			order   => 'state.name',
+		}
+	);
+	$c->stash->{select_spe} = [ map { [ $_->{id}, $_->{state}{name} ] } @{ $c->stash->{electoral_regional_courts} } ];
 
  	$api->stash_result(
- 	$c, 'state_electoral_processes',
+		$c, 'state_electoral_processes',
  		params => {
- 			electoral_regional_court_id => 50
+ 			electoral_regional_court_id => $tre_id
  		}
  	);
 
