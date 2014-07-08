@@ -46,7 +46,7 @@
 					<span class="yellow">Eleições</span> <span class="green">2014</span>
 				</div>
 				<div class="col-sm-6 text-center">
-					<div class="logo-top"><img src="/static/images/logo-top.png" border="0"></div>
+					<div class="logo-top"><a href="/"><img src="/static/images/logo-top.png" border="0"></a></div>
 				</div>				
 				<div class="col-sm-3 text-right">
 					<ul class="menu-top">
