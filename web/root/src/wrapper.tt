@@ -46,7 +46,7 @@
 					<span class="yellow">Eleições</span> <span class="green">2014</span>
 				</div>
 				<div class="col-sm-6 text-center">
-					<div class="logo-top"><img src="static/images/logo-top.png" border="0"></div>
+					<div class="logo-top"><a href="/"><img src="static/images/logo-top.png" border="0"></a></div>
 				</div>				
 				<div class="col-sm-3 text-right">
 					<ul class="menu-top">
@@ -56,21 +56,7 @@
 			</div>
 		</div>
 	</header>
-    [%content|none%]
-</div> 
-	<div class="content-green">
-			<div class="container">
-				<p>
-					Acompanhamento do processo eleitoral
-					
-					<div class="selectbox">
-						[%select_field('category_id', false, array =>select_spe, default_first=>'Tribunal Regional Eleitoral')|none%]
-					</div>
-					<a href="#" class="btn btn-green">Tribunal Superior Eleitoral</a>
-				</p>
-			</div>
-		</div>
-	</content>
+	[%content|none%]
 	<footer class="bs-footer" role="contentinfo">
 		<div class="container text-center">
 			<div class="col-xs-4">
