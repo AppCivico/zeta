@@ -226,7 +226,7 @@ sub list_GET {
 						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $rs->search(%conditions ? %{ \%conditions }: undef)->as_hashref->all
+                } $rs->search( %conditions ? %{ \%conditions }: undef )->as_hashref->all
             ]
         }
     );

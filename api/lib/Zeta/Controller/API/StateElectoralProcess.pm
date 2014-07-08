@@ -11,10 +11,13 @@ __PACKAGE__->config(
     result     	=> 'DB::StateElectoralProcess',
     object_key 	=> 'state_electoral_process',
     result_attr => {
-        prefetch =>  [ 'electoral_regional_court', 'created_by' ]
+		prefetch =>  [ 
+			{ 'electoral_regional_court' => 'state' },
+			'created_by' 
+       ]
     },
     searck_ok => {
-		electoral_superior_court_id => 'Int'
+		electoral_regional_court_id => 'Int'
     },
 
     update_roles => [qw/superadmin user admin/],
@@ -55,6 +58,13 @@ sub result_GET {
                     state_id
                     /
                 ),
+                state => {
+					map { $_ => $state_electoral_process->electoral_regional_court->state->$_, }
+                    qw/
+                    id
+                    name
+                    /
+                }
             },
             created_by => {
                 (
@@ -127,7 +137,14 @@ sub list_GET {
 								id
 								state_id
 								/
-							)
+							),
+							state => {
+								map { $_ => $r->{electoral_regional_court}{state}{$_}, }
+								qw/
+								id
+								name
+								/
+							}	
 						},
 						created_by => {
 							(
