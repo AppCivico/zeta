@@ -32,5 +32,5 @@
 				</p>
 			</div>
 		</div>
-		[%PROCESS green_box.tt  %]
+		[%INCLUDE parts/green_box.tt  %]
 	</content>
