@@ -17,41 +17,40 @@
 					</div>
 					<button type="submit" class="btn btn-default">ver promessas</button>
 				</form>
-				
-				[%IF promises.size > 0%]
-					[%FOREACH promise IN promises.values%]
-						<hr>
-						<div class="content-yellow">
-							<div class="candidato-stats row">
-								<div class="candidato-image col-xs-3 col-sm-2">
-									<img src="/static/images/candidatos/001.jpg" class="img-circle">
-								</div>
-								<div class="candidato-info col-xs-9 col-sm-8">
-									<div class="item">
-										<div class="title">Candidato</div>
-										<div class="value">[%promise.name%]</div>
-									</div>
-									<div class="item">
-										<div class="title">Cargo concorrido</div>
-										<div class="value">[%promise.political_position%]</div>
-									</div>
-									<div class="item">
-										<div class="title">Partido</div>
-										<div class="value">[%promise.political_party.acronym%]</div>
-									</div>
-									<div class="item">
-										<div class="title">Ano eleitoral</div>
-										<div class="value">[%promise.campaign_year%]</div>
-									</div>
-								</div>
-								<div class="candidato-count col-xs-12 col-sm-2">
-									<div class="value">[%promise.promises.size%]</div>
-									<div class="legend">promessa[%IF promise.promises.size > 1%]s[%END%]</div>					
-								</div>
+			</p>
+		</div>
+	</div>
+	[%IF promises.size > 0%]
+		[%FOREACH promise IN promises.values%]
+			<div class="content-yellow">
+				<div class="container">
+					<div class="candidato-stats row">
+						<div class="candidato-image col-xs-3 col-sm-2">
+							<img src="static/images/candidatos/001.jpg" class="img-circle">
+						</div>
+						<div class="candidato-info col-xs-9 col-sm-8">
+							<div class="item">
+								<div class="title">Candidato</div>
+								<div class="value">[%promise.name%]</div>
+							</div>
+							<div class="item">
+								<div class="title">Cargo concorrido</div>
+								<div class="value">[%promise.political_position%]</div>
+							</div>
+							<div class="item">
+								<div class="title">Partido</div>
+								<div class="value">[%promise.political_party.acronym%]</div>
+							</div>
+							<div class="item">
+								<div class="title">Ano eleitoral</div>
+								<div class="value">[%promise.campaign_year%]</div>
 							</div>
 						</div>
-					</p>
-									
+						<div class="candidato-count col-xs-12 col-sm-2">
+							<div class="value">[%promise.promises.size%]</div>
+							<div class="legend">promessa[%IF promise.promises.size > 1%]s[%END%]</div>					
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="content-yellow-chat">
@@ -77,22 +76,20 @@
 							</div>
 						[%END%]
 					</div>
-					
 					<div class="text-center">
 						<a href="#" class="btn btn-default btn-yellow-green">Mais promessas</a>
 					</div>
 				</div>
 			</div>
-			[%END%]
-		[%ELSE%]
-			<div class="content-white">
-				<div class="container promessas">
-					<div class="row">
-						<div class="col-sm-6 item">
-						Nenhuma promessa encontrada
-						</div>
-					</div>
-				</div>
-			</div>
 		[%END%]
-		
+	[%ELSE%]
+	<div class="content-white">
+		<div class="container promessas">
+			<div class="row text-center">
+				Nenhuma promessa encontrada
+			</div>
+		</div>
+	</div>
+	[%END%]
+	[%INCLUDE parts/green_box.tt  %]
+</content>

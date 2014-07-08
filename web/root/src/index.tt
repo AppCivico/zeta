@@ -1,5 +1,4 @@
 [%-CALL assets.include("js/site.js")%]
-<body class="home">
 	<content class="home">
 		<div class="slide-home">
 			<div class="container">
@@ -32,5 +31,5 @@
 				</p>
 			</div>
 		</div>
+		[%INCLUDE parts/green_box.tt  %]
 	</content>
-</body>
