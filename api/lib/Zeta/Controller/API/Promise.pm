@@ -182,6 +182,7 @@ sub list_GET {
 								qw/
 								id
 								name
+								img_profile
 								/
 							),
 							political_party => {

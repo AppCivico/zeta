@@ -2,7 +2,7 @@
 <div class="container-fluid grid-custom">
 	<div class="rows">
 	<h2 class="sub-header">Editar candidato</h2>
-	<form role="form" method="post" action="/admin/form/candidate/[%candidate_obj.id%]">
+	<form role="form" method="post" action="/admin/form/candidate/[%candidate_obj.id%]" enctype="multipart/form-data">
 		<div class="form-group">
 			[%input_text('name','Nome', req=>1, value=>candidate_obj.name)|none%]
 		</div>

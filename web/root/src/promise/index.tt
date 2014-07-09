@@ -2,7 +2,7 @@
 	<div class="content-yellow">
 		<div class="container">
 			<p>
-				<form action="/promises" method="post">
+				<form action="/promessas" method="post">
 					<div class="selectbox">
 						<img src="/static/images/icon-01.png" border="0">
 						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione a região')|none%]
@@ -26,7 +26,11 @@
 				<div class="container">
 					<div class="candidato-stats row">
 						<div class="candidato-image col-xs-3 col-sm-2">
-							<img src="static/images/candidatos/001.jpg" class="img-circle">
+							[%IF promise.img_profile%]
+								<img src="/static/images/candidates/[%promise.id%]/[%promise.img_profile%]" class="img-circle">
+							[%ELSE%]
+								<img src="/static/images/sem_imagem.jpeg" class="img-circle">
+							[%END%]
 						</div>
 						<div class="candidato-info col-xs-9 col-sm-8">
 							<div class="item">
@@ -77,7 +81,7 @@
 						[%END%]
 					</div>
 					<div class="text-center">
-						<a href="#" class="btn btn-default btn-yellow-green">Mais promessas</a>
+						<a href="/promessas/[%promise.id%]" class="btn btn-default btn-yellow-green">Mais promessas</a>
 					</div>
 				</div>
 			</div>

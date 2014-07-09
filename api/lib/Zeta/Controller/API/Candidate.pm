@@ -2,6 +2,7 @@ package Zeta::Controller::API::Candidate;
 
 use Moose;
 use Cwd qw();
+use Image::Resize;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -153,21 +154,35 @@ sub list_POST {
 sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 	my ( $self, $c ) = @_;
 	
-	my $path = Cwd::cwd();
+	my $file;
+	my $path 	= Cwd::cwd();
+	$path 		= $path.'/../web/root/static/images/candidates/'.$c->req->params->{candidate_id};
 	
 	my $upload = $c->req->upload('file');
 	
 	if( $upload ) {
-		if( ! -d $path.'/../etc/uploads/'.$c->req->params->{candidate_id} ) {
-			mkdir($path.'/../etc/uploads/'.$c->req->params->{candidate_id});
+		if( ! -d $path ) {
+			mkdir($path);
 		}
 		
-		$upload->copy_to($path.'/../etc/uploads/'.$c->req->params->{candidate_id}.'/profile_'.$c->req->params->{candidate_id});
+		if( -e $path.'/profile_'.$c->req->params->{candidate_id} ) {
+			unlink $path.'/profile_'.$c->req->params->{candidate_id};
+		}
+		
+		my @type 	= split '/', $upload->type();
+		$file 		= 'profile_'.$c->req->params->{candidate_id}.'.'.$type[1];
+		
+		my $image 	= Image::Resize->new($upload->tempname);
+		my $gd 		= $image->resize(116, 116);
+		
+		open(FH, '>'.$path.'/'.$file);
+		print FH $gd->jpeg();
+		close(FH);
 	}
 	
 	my $candidate = $c->model('DB::Candidate')->search( { id => $c->req->params->{candidate_id} } );
 	
-	$candidate->update( { img_profile => 'profile_'.$c->req->params->{candidate_id} } );
+	$candidate->update( { img_profile => $file } );
 	
     $self->status_accepted(
         $c,

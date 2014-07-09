@@ -71,7 +71,6 @@ sub process_edit : Chained('base') : PathPart('candidate') : Args(1) {
         $c->detach( '/form/redirect_error', [] );
         
     } else {
-    
 		if( $c->req->upload ) {
 			my $upload = $c->req->upload('img_profile');
 			
