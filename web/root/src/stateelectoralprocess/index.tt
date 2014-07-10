@@ -1,4 +1,4 @@
-<content class="candidato">
+<content class="processo">
 	<div class="content-yellow">
 		<div class="container">
 			<p>
@@ -17,61 +17,40 @@
 					</div>
 					<button type="submit" class="btn btn-default">ver promessas</button>
 				</form>
+			</p>
+		</div>
+	</div>
+	<div class="content-white">
+		<div class="container promessas">
+			<div class="row">					
+				<div class="candidato-info col-xs-12">
+					<div class="item">
+						<div class="title">Tribunal Regional Eleitoral</div>
+						<div class="value">[%state_electoral_processes.0.electoral_regional_court.state.name%]</div>
+					</div>
+				</div>
+			</div>
 				
+			[%IF state_electoral_processes.size > 0%]
+				[%FOREACH sep IN state_electoral_processes%]
+				<div class="row">
+					<div class="value">[%state_electoral_processes.size%]</div>
+					<div class="legend">processo[%IF state_electoral_processes.size > 1%]s[%END%]</div>					
+					<div class="texto">
+						[%sep.content%]
+					</div>
+					<div class="info">
+						Fonte: [%sep.source%]<br />
+					</div>
+				</div>
 				<hr>
-				<div class="content-yellow">
-					<div class="candidato-stats row">
-						
-						<div class="candidato-info col-xs-9 col-sm-8">
-							<div class="item">
-								<div class="title">Tribunal Regional Eleitoral</div>
-								<div class="value">[%state_electoral_processes.0.electoral_regional_court.state.name%]</div>
-							</div>
-						</div>
-						
-					[%IF state_electoral_processes.size > 0%]
-						[%FOREACH sep IN state_electoral_processes%]
-							<div class="candidato-count col-xs-12 col-sm-2">
-									<div class="value">[%state_electoral_processes.size%]</div>
-									<div class="legend">processo[%IF state_electoral_processes.size > 1%]s[%END%]</div>					
-							</div>
-						</div>
-					</div>
-				</p>
-			</div>
-			</div>
-			<div class="content-yellow-chat">
-			</div>
-			<div class="content-white">
-				<div class="container promessas">
-					<div class="row">
-						<div class="col-sm-6 item">
-							<a href="">
-							<div class="promessa">
-								<div class="content">
-									<div class="texto">
-										[%sep.content%]
-									</div>
-									<div class="info">
-										Fonte: [%sep.source%]<br />
-									</div>
-								</div>
-							</div>
-							</a>
-						</div>
-					</div>
+				[%END%]
+			[%ELSE%]
+				<div class="row text-center">
+				Nenhum processo encontrado
 				</div>
-			</div>
 			[%END%]
-		[%ELSE%]
-			<div class="content-white">
-				<div class="container promessas">
-					<div class="row">
-						<div class="col-sm-6 item">
-						Nenhum processo encontrado
-						</div>
-					</div>
-				</div>
-			</div>
-		[%END%]
-		[%INCLUDE parts/green_box.tt  %]
+		</div>
+	</div>
+	[%INCLUDE parts/green_box.tt  %]
+</content>

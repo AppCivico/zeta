@@ -165,6 +165,19 @@ span.yellow{
 	border-color: #ffcc29;
 }
 
+.btn-tse{
+	color: #555;
+	background-color: #ffffff;
+	border: 2px solid #b4dbb9;
+	padding: 5px 15px;
+	border-radius: 4px;
+	margin-top: -5px;
+}
+.btn-tse:hover{
+	background-color: #fefefe;
+	border-color: #555;
+}
+
 .slide-home .container{
 	background-image: url('/static/images/bg-home.jpg');
 	background-repeat: no-repeat;
@@ -198,6 +211,8 @@ span.yellow{
 
 .candidato-image img{
 	border: 8px solid #ffda63;
+	width: 150px;
+	height: 150px;
 }
 
 .candidato-info{
