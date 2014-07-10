@@ -21,12 +21,12 @@
 		</div>
 	</div>
 	<div class="content-white">
-		<div class="container promessas">
+		<div class="container processo-info">
 			<div class="row">					
-				<div class="candidato-info col-xs-12">
-					<div class="item">
+				<div class="col-xs-12">
+					<div class="item text-center">
 						<div class="title">Tribunal Regional Eleitoral</div>
-						<div class="value">[%state_electoral_processes.0.electoral_regional_court.state.name%]</div>
+						<div class="state">[%state_electoral_processes.0.electoral_regional_court.state.name%]</div>
 					</div>
 				</div>
 			</div>
