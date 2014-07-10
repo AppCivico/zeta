@@ -46,12 +46,12 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 }
 
 sub index : Chained('base') : PathPart('promessas') {
-	my ( $self, $c, $candidate_id ) = @_;
+	my ( $self, $c, $candidate ) = @_;
 
 	my $api = $c->model('API');
 
-	if( $candidate_id ) {
-		$c->req->params->{candidate_id} = $candidate_id;
+	if( $candidate ) {
+		$c->req->params->{candidate_id} = $candidate;
 	}
 	
 	$api->stash_result(
