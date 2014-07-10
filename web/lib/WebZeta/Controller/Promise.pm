@@ -50,8 +50,10 @@ sub index : Chained('base') : PathPart('promessas') {
 
 	my $api = $c->model('API');
 
+	$c->stash->{no_link} = 0;
 	if( $candidate ) {
 		$c->req->params->{candidate_id} = $candidate;
+		$c->stash->{no_link} 			= 1;
 	}
 	
 	$api->stash_result(

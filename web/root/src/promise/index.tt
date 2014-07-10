@@ -80,9 +80,11 @@
 							</div>
 						[%END%]
 					</div>
-					<div class="text-center">
-						<a href="/promessas/[%promise.id%]" class="btn btn-default btn-yellow-green">Mais promessas</a>
-					</div>
+					[%IF ! no_link%]
+						<div class="text-center">
+							<a href="/promessas/[%promise.id%]" class="btn btn-default btn-yellow-green">Mais promessas</a>
+						</div>
+					[%END%]
 				</div>
 			</div>
 		[%END%]
