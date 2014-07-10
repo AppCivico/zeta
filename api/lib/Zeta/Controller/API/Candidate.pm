@@ -162,7 +162,7 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 	
 	if( $upload ) {
 		if( ! -d $path ) {
-			mkdir($path -p);
+			mkdir($path);
 		}
 		
 		if( -e $path.'/profile_'.$c->req->params->{candidate_id} ) {
