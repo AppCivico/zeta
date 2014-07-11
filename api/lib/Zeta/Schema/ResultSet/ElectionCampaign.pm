@@ -41,6 +41,10 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
+                is_active => {
+                    required => 0,
+                    type     => 'Bool'
+                },
             },
         ),
     };

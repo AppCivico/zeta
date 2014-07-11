@@ -84,6 +84,11 @@ __PACKAGE__->table("election_campaign");
   is_foreign_key: 1
   is_nullable: 1
 
+=head2 is_active
+
+  data_type: 'boolean'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -106,6 +111,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "elected_candidate_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "is_active",
+  { data_type => "boolean", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -263,8 +270,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-25 17:45:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Vufv3gG7bG2mRr/QXwCMhQ
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-10 18:22:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zT1ePhQv0a1VXQPOar/B8A
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
@@ -302,6 +309,10 @@ sub verifiers_specs {
                 elected_candidate_id => {
                     required => 0,
                     type     => 'Int',
+                },
+                is_active => {
+                    required => 0,
+                    type     => 'Bool'
                 },
             }
         ),

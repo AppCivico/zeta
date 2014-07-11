@@ -45,6 +45,7 @@ sub result_GET {
 					country_id
 					political_position_id
 					elected_candidate_id
+					is_active
                   /
             ),
             political_position => {
@@ -109,6 +110,7 @@ sub list_GET {
 								country_id
 								political_position_id
 								elected_candidate_id
+								is_active
                               /
                         ),
                         political_position => {

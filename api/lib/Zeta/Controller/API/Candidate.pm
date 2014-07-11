@@ -34,12 +34,23 @@ sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { 
 sub result_GET {
     my ( $self, $c ) = @_;
 
-    my $candidate 	= $c->stash->{candidate};
-#     my %attrs    	= $candidate->get_inflated_columns;
+    my $candidate	= $c->stash->{candidate};
+    my @campaigns 	= $candidate->election_campaign_candidates;
+    
+    my @election_campaigns;
+    foreach my $campaign ( @campaigns ) {
+		my $aux = $campaign->search_related('election_campaign')->next;
+		
+		if($aux->is_active) {
+			push(@election_campaigns, $aux->id);
+		}
+		
+    }
     
     $self->status_ok(
         $c,
         entity => {
+			election_campaigns => \@election_campaigns,
             (
                 map { $_ => $candidate->$_, }
                   qw/

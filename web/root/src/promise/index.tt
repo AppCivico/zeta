@@ -35,7 +35,7 @@
 						<div class="candidato-info col-xs-9 col-sm-8">
 							<div class="item">
 								<div class="title">Candidato</div>
-								<div class="value">[%promise.name%]</div>
+								<a href="javascript:;" class="profile_candidate" id="[%promise.id%]"><div class="value">[%promise.name%]</div></a>
 							</div>
 							<div class="item">
 								<div class="title">Cargo concorrido</div>
@@ -98,4 +98,15 @@
 	</div>
 	[%END%]
 	[%INCLUDE parts/green_box.tt  %]
+	
+	<div class="modal fade modal-candidato" id="modalCandidato" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
 </content>
+

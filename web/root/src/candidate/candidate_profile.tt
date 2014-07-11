@@ -1,0 +1,33 @@
+<div class="row">
+	<div class="col-xs-3 candidato-image">
+		<img src="/static/images/candidates/[%candidate_obj.id%]/[%candidate_obj.img_profile%]" class="img-circle img-responsive">
+	</div>
+	<div class="col-xs-9">
+		<div class="candidato-name">[%candidate_obj.name%]</div>
+		<div class="candidato-role">Candidato(a) à [%election_campaign_obj.political_position.position%]</div>
+		<div class="row info">
+			<div class="col-sm-4 label">VICE</div>
+			<div class="col-sm-8 value">[%candidate_obj.vice%]</div>
+		</div>
+		<div class="row info">
+			<div class="col-sm-4 label">PARTIDO</div>
+			<div class="col-sm-8 value">[%candidate_obj.political_party.name%] ([%candidate_obj.political_party.acronym%])</div>
+		</div>
+		<!--<div class="row info">
+			<div class="col-sm-4 label">COLIGAÇÃO</div>
+			<div class="col-sm-8 value">Para o Brasil seguir mudando (PT, PMDB, PCdoB, PDT, PRB, PR, PSB, PSC, PTC e PTN)</div>
+		</div>
+		<div class="row info">
+			<div class="col-sm-4 label">ELEITO</div>
+			<div class="col-sm-8 value"></div>
+		</div>
+		<div class="row info">
+			<div class="col-sm-4 label">SEGUNDO TURNO</div>
+			<div class="col-sm-8 value"></div>
+		</div>-->
+		
+		<div>
+			<a href="#" class="btn btn-default btn-yellow-green">Programa de governo</a>
+		</div>
+	</div>
+</div>
