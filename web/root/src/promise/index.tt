@@ -25,11 +25,11 @@
 			<div class="content-yellow">
 				<div class="container">
 					<div class="candidato-stats row">
-						<div class="candidato-image col-xs-3 col-sm-2">
+						<div class="candidato-image col-xs-3 col-sm-2 img-circle">
 							[%IF promise.img_profile%]
-								<img src="/static/images/candidates/[%promise.id%]/[%promise.img_profile%]" class="img-circle">
+								<img src="/static/images/candidates/[%promise.id%]/[%promise.img_profile%]">
 							[%ELSE%]
-								<img src="/static/images/sem_imagem.jpeg" class="img-circle">
+								<img src="/static/images/sem_imagem.jpeg">
 							[%END%]
 						</div>
 						<div class="candidato-info col-xs-9 col-sm-8">

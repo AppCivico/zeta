@@ -1,6 +1,6 @@
 <div class="row">
-	<div class="col-xs-3 candidato-image">
-		<img src="/static/images/candidates/[%candidate_obj.id%]/[%candidate_obj.img_profile%]" class="img-circle img-responsive">
+	<div class="col-xs-3 candidato-image img-circle">
+		<img src="/static/images/candidates/[%candidate_obj.id%]/[%candidate_obj.img_profile%]">
 	</div>
 	<div class="col-xs-9">
 		<div class="candidato-name">[%candidate_obj.name%]</div>

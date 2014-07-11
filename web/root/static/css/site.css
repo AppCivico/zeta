@@ -216,10 +216,20 @@ a, a:hover{
 .candidato-stats{
 }
 
-.candidato-image img{
+.candidato-image{
 	border: 8px solid #ffda63;
-	width: 150px;
-	height: 150px;
+	overflow: hidden;
+	width: 140px;
+	height: 140px;
+	position: relative;
+}
+
+.candidato-image img{
+	width: 124px;
+	margin: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 
 .candidato-info{
