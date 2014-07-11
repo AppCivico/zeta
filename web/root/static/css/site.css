@@ -305,3 +305,47 @@ a, a:hover{
 	font-family: "Open Sans", Helvetica, Arial;
 	color: #999;
 }
+
+.modal-candidato .modal-content{
+	border: none;
+	border-radius: 0px;
+	background: url('/static/images/letter-border.png') repeat-x top left #fff;
+}
+
+.modal-candidato .modal-content .modal-body{
+	background: url('/static/images/letter-border.png') repeat-x bottom right;
+	padding: 35px 20px;
+}
+
+.modal-candidato .modal-header,
+.modal-candidato .modal-footer{
+	display: none;
+}
+
+.modal-candidato *{
+	font-family: "Open Sans", Helvetica, Arial;	
+}
+
+.modal-candidato .candidato-name,
+.modal-candidato .candidato-role{
+	color: #009245;
+}
+.modal-candidato .candidato-name{
+	font-size: 1.4em;
+}
+.modal-candidato .candidato-role{
+	font-size: 0.6em;
+}
+
+.modal-candidato .info{
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+.modal-candidato .info .label{
+	color: #999;
+	font-size: 0.6em;
+	text-align: right;
+}
+.modal-candidato .info .value{
+	font-size: 0.6em;
+}
