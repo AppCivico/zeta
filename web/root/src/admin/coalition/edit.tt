@@ -1,0 +1,35 @@
+[%-CALL assets.include("js/admin.js")%]
+
+<div class="container-fluid grid-custom">
+	<div class="rows">
+	<h2 class="sub-header">Editar coligação partidária</h2>
+	<form role="form" method="post" action="/admin/form/coalition/[%coalition_obj.id%]">
+		<div class="form-group">
+			[%input_text('name','Nome', req=>1, value=>coalition_obj.name)|none%]
+		</div>
+		<div class="form-group">
+			[%select_field(
+				'political_position_id',
+				'Cargo concorrido', 
+				array => select_political_positions, 
+				value => coalition_obj.election_campaign.political_position.id,
+				req=>1
+			)|none%]
+		</div>
+		<div class="form-group">
+			[%select_field('state_id','Estado', array => select_states, value=>coalition_obj.election_campaign.state_id, req=>0)|none%]
+		</div>
+		<div class="form-group">
+			[%select_field('city_id','Cidade', array => select_cities, value=>coalition_obj.election_campaign.city_id, req=>0)|none%]
+		</div>
+		<div class="form-group">
+			[%input_text('year','Ano eleitoral',value=>coalition_obj.election_campaign.year, req=>1)|none%]
+		</div>
+		<input type="hidden" name="country_id" value="1"></input>
+		<input type="hidden" name="is_active" value="1"></input>
+		<div id="coalition"></div>
+		<button type="submit" class="btn btn-success pull-right">Salvar</button>
+		<a href="/admin/coalition/vinculate_parties/[%coalition_obj.id%]"><button type="button"  class="btn btn-info">Partidos vinculados</button></a>
+	</form>
+	</div>
+</div>

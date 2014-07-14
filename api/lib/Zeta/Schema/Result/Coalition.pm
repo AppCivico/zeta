@@ -54,16 +54,18 @@ __PACKAGE__->table("coalition");
   data_type: 'text'
   is_nullable: 1
 
-=head2 creation_date
-
-  data_type: 'date'
-  is_nullable: 1
-
 =head2 election_campaign_id
 
   data_type: 'integer'
   is_foreign_key: 1
   is_nullable: 1
+
+=head2 created_at
+
+  data_type: 'timestamp'
+  default_value: current_timestamp
+  is_nullable: 1
+  original: {default_value => \"now()"}
 
 =cut
 
@@ -77,10 +79,15 @@ __PACKAGE__->add_columns(
   },
   "name",
   { data_type => "text", is_nullable => 1 },
-  "creation_date",
-  { data_type => "date", is_nullable => 1 },
   "election_campaign_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "created_at",
+  {
+    data_type     => "timestamp",
+    default_value => \"current_timestamp",
+    is_nullable   => 1,
+    original      => { default_value => \"now()" },
+  },
 );
 
 =head1 PRIMARY KEY
@@ -133,8 +140,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-25 17:45:48
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5zqWkBOrNYYeojxyWwVesg
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-14 11:14:01
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:54BRSdu55FWCqnCdIhVj/Q
 
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
@@ -153,10 +160,6 @@ sub verifiers_specs {
                 name => {
                     required => 0,
                     type     => 'Str',
-                },
-                creation_date => {
-                    required => 0,
-                    type     => DataStr
                 },
                 election_campaign_id => {
                     required => 0,

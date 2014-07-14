@@ -13,6 +13,11 @@ __PACKAGE__->config(
     result_attr => {
 		prefetch => 'political_position'
     },
+#     search_ok => {
+#         state_id 	=> 'Int',
+#         city_id		=> 'Int',
+#         country_id	=> 'Int'
+#     },
 
     update_roles => [qw/superadmin user admin/],
     create_roles => [qw/superadmin user admin/],
@@ -91,7 +96,22 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    
     my $rs = $c->stash->{collection};
+    
+    my %conditions;
+    if( $c->req->params->{filter} ) {
+		if( $c->req->params->{state_id} ) {
+			$conditions{state_id} = $c->req->params->{state_id};
+		}
+		if( $c->req->params->{city_id} ) {
+			$conditions{city_id} = $c->req->params->{city_id};
+		}
+		
+		$conditions{is_active} 				= 1,
+		$conditions{year} 					= $c->req->params->{year},
+		$conditions{political_position_id} 	= $c->req->params->{political_position_id},
+    }
 
     $self->status_ok(
         $c,
@@ -122,7 +142,7 @@ sub list_GET {
 						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->search( \%conditions ? %{ \%conditions }: undef )->as_hashref->all
             ]
         }
     );

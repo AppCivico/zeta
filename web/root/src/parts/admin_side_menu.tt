@@ -20,6 +20,10 @@
 				<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
 					<a href="[%href%]">Campanhas eleitorais</a>
 				</li>
+				[%href = c.uri_for_action('/admin/coalition/index')%]
+				<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
+					<a href="[%href%]">Coligações</a>
+				</li>
 				[%href = c.uri_for_action('/admin/category/index')%]
 				<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
 					<a href="[%href%]">Categorias</a>

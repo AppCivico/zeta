@@ -110,7 +110,7 @@ sub remove_candidates : Chained('base') : PathPart('remove_candidate_relation') 
         $c->detach( '/form/redirect_error', [] );
     }
     else {
-		$c->detach( '/form/redirect_ok2', [ '/admin/electioncampaign/vinculate_candidate', [ $election_campaign_id ], {}, 'Adicionado com sucesso!' ] );
+		$c->detach( '/form/redirect_ok2', [ '/admin/electioncampaign/vinculate_candidate', [ $election_campaign_id ], {}, 'Removido com sucesso!' ] );
     }
 }
 
