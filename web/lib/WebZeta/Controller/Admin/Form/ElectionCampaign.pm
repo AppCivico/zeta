@@ -52,7 +52,13 @@ sub process_delete : Chained('base') : PathPart('remove_election_campaign') : Ar
 
     my $api = $c->model('API');
 
-    $api->stash_result( $c, [ 'election_campaigns', $id ], method => 'DELETE' );
+    $api->stash_result( 
+		$c, [ 'election_campaigns', $id ],
+		method 	=> 'PUT',
+		body	=> {
+			is_active => 0
+		},
+	);
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );

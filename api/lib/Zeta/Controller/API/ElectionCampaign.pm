@@ -13,11 +13,9 @@ __PACKAGE__->config(
     result_attr => {
 		prefetch => 'political_position'
     },
-#     search_ok => {
-#         state_id 	=> 'Int',
-#         city_id		=> 'Int',
-#         country_id	=> 'Int'
-#     },
+	search_ok => {
+		is_active => 'Int',
+	},
 
     update_roles => [qw/superadmin user admin/],
     create_roles => [qw/superadmin user admin/],

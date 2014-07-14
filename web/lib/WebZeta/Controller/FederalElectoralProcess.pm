@@ -41,6 +41,14 @@ sub index : Chained('base') : PathPart('processos-tse') : Args(0) {
 	my ( $self, $c ) = @_;
 	
 	my $api = $c->model('API');
+	
+	$api->stash_result(
+		$c, 'electoral_regional_courts',
+		params => {
+			order   => 'state.name',
+		}
+	);
+	$c->stash->{select_spe} = [ map { [ $_->{id}, $_->{state}{name} ] } @{ $c->stash->{electoral_regional_courts} } ];
 
  	$api->stash_result(
 		$c, 'federal_electoral_processes',

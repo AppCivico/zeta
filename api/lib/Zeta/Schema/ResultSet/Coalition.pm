@@ -24,7 +24,11 @@ sub verifiers_specs {
                 election_campaign_id => {
                     required => 0,
                     type     => 'Int',
-                }
+                },
+                is_active => {
+                    required => 0,
+                    type     => 'Bool'
+                },
             },
         ),
     };

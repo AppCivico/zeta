@@ -12,7 +12,8 @@ __PACKAGE__->config(
     result     	=> 'DB::Coalition',
     object_key 	=> 'coalition',
     search_ok => {
-		order => 'Str'
+		order 		=> 'Str',
+		is_active 	=> 'Int'
     },
     result_attr => {
 		prefetch => { 'election_campaign' => 'political_position' }
@@ -45,6 +46,7 @@ sub result_GET {
 					id
 					name
 					election_campaign_id
+					is_active
                   /
             ),
             ( map { $_ => ( $coalition->$_ ? $coalition->$_->datetime : undef ) } qw/created_at/ ),
@@ -117,6 +119,7 @@ sub list_GET {
 								name
 								election_campaign_id
 								created_at
+								is_active
                               /
                         ),
                         election_campaign => {

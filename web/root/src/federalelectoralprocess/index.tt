@@ -33,9 +33,9 @@
 			</div>
 						
 			[%IF federal_electoral_processes.size > 0%]
+				<div class="value">[%federal_electoral_processes.size%]</div>
 				[%FOREACH sep IN federal_electoral_processes%]
 				<div class="row">
-					<div class="value">[%federal_electoral_processes.size%]</div>
 					<div class="legend">processo[%IF federal_electoral_processes.size > 1%]s[%END%]</div>					
 					<div class="texto">
 						[%sep.content%]

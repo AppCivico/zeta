@@ -67,6 +67,11 @@ __PACKAGE__->table("coalition");
   is_nullable: 1
   original: {default_value => \"now()"}
 
+=head2 is_active
+
+  data_type: 'boolean'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -88,6 +93,8 @@ __PACKAGE__->add_columns(
     is_nullable   => 1,
     original      => { default_value => \"now()" },
   },
+  "is_active",
+  { data_type => "boolean", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -140,8 +147,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-14 11:14:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:54BRSdu55FWCqnCdIhVj/Q
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-14 16:29:39
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9KUKrky7c7uXe1VWDCn+hQ
 
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
@@ -164,7 +171,11 @@ sub verifiers_specs {
                 election_campaign_id => {
                     required => 0,
                     type     => 'Int',
-                }
+                },
+                is_active => {
+                    required => 0,
+                    type     => 'Bool'
+                },
             }
         ),
     };

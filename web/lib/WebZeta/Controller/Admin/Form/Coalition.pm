@@ -84,13 +84,19 @@ sub process_delete : Chained('base') : PathPart('remove_coalition') : Args(1) {
 
     my $api = $c->model('API');
 
-    $api->stash_result( $c, [ 'coalitions', $id ], method => 'DELETE' );
+    $api->stash_result( 
+		$c, [ 'coalitions', $id ],
+		method => 'PUT',
+		body	=> {
+			is_active => 0
+		},
+	);
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
     }
     else {
-        $c->detach( '/form/redirect_ok', [ '/admin/electioncampaign/index', {}, 'Removido com sucesso!' ] );
+        $c->detach( '/form/redirect_ok', [ '/admin/coalition/index', {}, 'Removido com sucesso!' ] );
     }
 }
 

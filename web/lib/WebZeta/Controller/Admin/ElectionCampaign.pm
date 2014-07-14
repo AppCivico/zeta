@@ -74,7 +74,8 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             params => {
 #                 name		=> $params->{name} ? $params->{name} : undef,
                 page		=> $page,
-                pagination 	=> 1
+                pagination 	=> 1,
+                is_active	=> 1
             }
         );
     } else {
@@ -82,7 +83,8 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             $c, 'election_campaigns',
             params => {
                 page		=> $page,
-                pagination 	=> 1
+                pagination 	=> 1,
+                is_active	=> 1
             }
         );
     }
