@@ -4,8 +4,11 @@
 			<ul class="nav nav-sidebar">
 				<li class=""><a href="/admin/dashboard">Dashboard</a></li>
 				<!--<li><a href="#">Perfil</a></li>
-				<li><a href="#">Usuários</a></li>
-				<li><a href="#">Organizações</a></li>-->
+				<li><a href="#">Usuários</a></li>-->
+				[%href = c.uri_for_action('/admin/organization/index')%]
+				<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
+					<a href="[%href%]">Organizações</a>
+				</li>
 			</ul>
 			<ul class="nav nav-sidebar">
 				[%href = c.uri_for_action('/admin/politicalparty/index')%]

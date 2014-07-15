@@ -17,8 +17,8 @@
 					<td>[%organization.name%]</td>
 					<td>[%organization.description%]</td>
 					<td>
-						<a href="/admin/organization/[%organization.id%]">Editar</a> |
-						<a href="/admin/form/remove_organization/[%organization.id%]">Excluir</a>
+						<a href="/admin/organization/[%organization.id%]">Editar</a>
+<!-- 						<a href="/admin/form/remove_organization/[%organization.id%]">Excluir</a> -->
 					</td>
 				</tr>
             [%END%]
