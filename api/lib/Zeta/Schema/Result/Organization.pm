@@ -75,6 +75,31 @@ __PACKAGE__->table("organization");
   data_type: 'text'
   is_nullable: 1
 
+=head2 email
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 website
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 phone
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 number
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 complement
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -94,6 +119,16 @@ __PACKAGE__->add_columns(
   "city_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "description",
+  { data_type => "text", is_nullable => 1 },
+  "email",
+  { data_type => "text", is_nullable => 1 },
+  "website",
+  { data_type => "text", is_nullable => 1 },
+  "phone",
+  { data_type => "text", is_nullable => 1 },
+  "number",
+  { data_type => "text", is_nullable => 1 },
+  "complement",
   { data_type => "text", is_nullable => 1 },
 );
 
@@ -147,8 +182,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:13:25
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fKE4R9lwWHKanW/mahT74w
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-15 17:59:03
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cVckL9bop4UaHXzOK19nNQ
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
@@ -181,6 +216,26 @@ sub verifiers_specs {
                 },
                 description => {
                     required => 0,
+                    type     => 'Str',
+                },
+                phone => {
+					required => 0,
+                    type     => 'Str',
+                },
+                email => {
+					required => 0,
+                    type     => 'Str',
+                },
+                website => {
+					required => 0,
+                    type     => 'Str',
+                },
+                complement => {
+					required => 0,
+                    type     => 'Str',
+                },
+                number => {
+					required => 0,
                     type     => 'Str',
                 },
             }

@@ -38,6 +38,26 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Str',
                 },
+                phone => {
+					required => 0,
+                    type     => 'Str',
+                },
+                email => {
+					required => 0,
+                    type     => 'Str',
+                },
+                website => {
+					required => 0,
+                    type     => 'Str',
+                },
+                complement => {
+					required => 0,
+                    type     => 'Str',
+                },
+                number => {
+					required => 0,
+                    type     => 'Str',
+                },
             }
         )
     };

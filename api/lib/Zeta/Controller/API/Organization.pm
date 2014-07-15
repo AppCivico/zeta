@@ -9,10 +9,13 @@ __PACKAGE__->config(
 
     result     	=> 'DB::Organization',
     object_key 	=> 'organization',
+    result_attr => {
+		prefetch => [ { 'city' => 'state' } ]
+    },
 
     update_roles => [qw/superadmin user admin webapi/],
-    create_roles => [qw/superadmin user webapi/],
-    delete_roles => [qw/superadmin user webapi/],
+    create_roles => [qw/superadmin admin webapi/],
+    delete_roles => [qw/superadmin admin webapi/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
@@ -26,22 +29,43 @@ sub result_GET {
     my ( $self, $c ) = @_;
 
     my $organization 	= $c->stash->{organization};
-    my %attrs    	= $organization->get_inflated_columns;
     
     $self->status_ok(
         $c,
         entity => {
             (
-                map { $_ => $attrs{$_}, }
+                map { $_ => $organization->$_, }
                   qw/
                   id
                   name
                   address
                   postal_code
-                  city_id
                   description
+                  phone
+                  email
+                  website
+                  complement
+				  number
                   /
             ),
+            city => {
+				(
+					map { $_ => $organization->city->$_, }
+					qw/
+						id
+						name
+					/
+				),
+				state => {
+					(
+						map { $_ => $organization->city->state->$_, }
+						qw/
+						id
+						name
+						/
+					)
+				}
+            }
         }
     );
 
@@ -92,10 +116,32 @@ sub list_GET {
 								name
 								address
 								postal_code
-								city_id
 								description
+								phone
+								email
+								website
+								complement
+								number
                               /
                         ),
+                        city => {
+							(
+								map { $_ => $r->{city}{$_}, }
+								qw/
+									id
+									name
+								/
+							),
+							state => {
+								(
+									map { $_ => $r->{city}{state}{$_}, }
+									qw/
+									id
+									name
+									/
+								)
+							}
+						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
                 } $c->stash->{collection}->as_hashref->all
