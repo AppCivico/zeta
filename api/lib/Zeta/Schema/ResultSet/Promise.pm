@@ -57,6 +57,10 @@ sub verifiers_specs {
 					required => 0,
                     type     => 'Int',
                 },
+                publication_date => {
+					required 	=> 0,
+					type		=> DataStr
+                },
             },
         ),
     };

@@ -29,6 +29,9 @@
 			<div class="form-group">
 				[%input_text('source','Fonte', req=>0)|none%]
 			</div>
+			<div class="form-group">
+				[%input_text('publication_date','Data da publicação', req=>0, classes => ['form-control', 'date'])|none%]
+			</div>
 		<button type="submit" class="btn btn-success pull-right">Salvar</button>
 		</form>
 	</div>

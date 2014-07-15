@@ -20,6 +20,9 @@
           <!--<form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
           /form>-->
+          <ul>
+			<a href="/logout"><button type="button" class="pull-right">Sair</button></a>
+          </ul>
 		</div>
 	</div>
 </div>

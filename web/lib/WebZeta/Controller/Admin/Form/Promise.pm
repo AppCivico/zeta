@@ -14,7 +14,11 @@ sub process : Chained('base') : PathPart('promise') : Args(0) {
     my ( $self, $c ) = @_;
 
     my $api     = $c->model('API');
+    my $form    = $c->model('Form');
+    
     my $params 	= { %{ $c->req->params } };
+    
+    $form->format_date($params, 'publication_date');
     
     $api->stash_result(
 		$c, ['promises'],
@@ -34,7 +38,11 @@ sub process_edit : Chained('base') : PathPart('promise') : Args(1) {
       my ( $self, $c, $id ) = @_;
 
     my $api 	= $c->model('API');
+    my $form    = $c->model('Form');
+    
     my $params 	= { %{ $c->req->params } };
+    
+    $form->format_date($params, 'publication_date');
    
     $api->stash_result(
         $c, [ 'promises', $id ],

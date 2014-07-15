@@ -60,7 +60,7 @@ sub result_GET {
 					country_id
                   /
             ),
-            ( map { $_ => ( $promise->$_ ? $promise->$_->datetime : undef ) } qw/created_at/ ),
+            ( map { $_ => ( $promise->$_ ? $promise->$_->datetime : undef ) } qw/created_at publication_date/ ),
             candidate => {
                 (
                     map { $_ => $promise->candidate->$_, }
@@ -175,6 +175,7 @@ sub list_GET {
 								city_id
 								state_id
 								country_id
+								publication_date
                               /
                         ),
                         candidate => {

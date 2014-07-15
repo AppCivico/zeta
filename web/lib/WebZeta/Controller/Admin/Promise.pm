@@ -54,15 +54,19 @@ sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 
-	my $api = $c->model('API');
-
+	my $api 	= $c->model('API');
+	my $form 	= $c->model('Form');
+	
 	$api->stash_result(
 		$c, [ 'promises', $id ],
 		stash => 'promise_obj'
 	);
 	
-# 	my $o = $c->stash->{promise_obj};
-# 	use DDP; p $o; exit;
+	my $params = { %{ $c->stash->{promise_obj} } };
+	
+	$form->format_date_to_human( $params, 'publication_date');
+	
+	$c->stash->{promise_obj} = $params;
 }
 
 sub index : Chained('base') : PathPart('') : Args(0) {

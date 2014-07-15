@@ -112,6 +112,11 @@ __PACKAGE__->table("promise");
   is_foreign_key: 1
   is_nullable: 1
 
+=head2 publication_date
+
+  data_type: 'date'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -149,6 +154,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "country_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "publication_date",
+  { data_type => "date", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -291,8 +298,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-25 20:18:02
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:8fJrtw3/d+L7dEMffn9KtQ
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-15 10:56:44
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tG0v3AVmvStINFYnNAy18A
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
@@ -346,6 +353,10 @@ sub verifiers_specs {
                 country_id => {
 					required => 0,
                     type     => 'Int',
+                },
+                publication_date => {
+					required 	=> 0,
+					type		=> DataStr
                 },
             }
         ),

@@ -49,10 +49,16 @@
 					<div class="logo-top"><a href="/"><img src="/static/images/logo-top.png" border="0"></a></div>
 				</div>				
 				<div class="col-sm-3 text-right">
-					<ul class="menu-top">
-						<li><a href="/login">Login</a></li>
-					</ul>
-				</div>				
+					[%IF ! c.user%]
+						<ul class="menu-top">
+							<li><a href="/login">Login</a></li>
+						</ul>
+					[%ELSE%]
+						<ul class="menu-top">
+							<li><a href="/admin/dashboard">Administração</a></li>
+						</ul>
+					[%END%]
+				</div>
 			</div>
 		</div>
 	</header>
