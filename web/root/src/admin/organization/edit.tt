@@ -3,7 +3,7 @@
 <div class="container-fluid grid-custom">
 	<div class="rows">
 	<h2 class="sub-header">Adicionar organização</h2>
-		<form role="form" method="post" action="/admin/form/organization">
+		<form role="form" method="post" action="/admin/form/organization/[%organization_obj.id%]">
 			<div class="form-group">
 				[%input_text('name','Nome', req=>1, value=organization_obj.name)|none%]
 			</div>
