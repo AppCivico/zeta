@@ -1,7 +1,6 @@
 package Zeta::Redis;
 use Moose;
 use Redis;
-use Zeta::ConfigFindLocal;
 use Config::General;
 
 has queue_key => (
