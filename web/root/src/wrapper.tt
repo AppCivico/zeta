@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="De Olho Nas Promessas - http://www.deolhonaspromessas.org.br">
 	<meta name="keywords" content="de olho nas promessas">
-	<title>[% template.title or site.title or title or 'De olho nas metas' %]</title>
+	<title>[% template.title or site.title or title or 'De olho nas promessas' %]</title>
     <!-- Bootstrap -->
   
 
