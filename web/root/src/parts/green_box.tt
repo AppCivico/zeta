@@ -2,12 +2,12 @@
 <div class="content-green">
 	<div class="container">
 		<p>
-			Acompanhamento do processo eleitoral
+<!-- 			Acompanhamento do processo eleitoral -->
 			
-			<div class="selectbox">
+			<!--<div class="selectbox">
 				[%select_field('electoral_regional_court_select', false, array =>select_spe, default_first=>'Tribunal Regional Eleitoral')|none%]
 			</div>
-			<a href="/processos-tse" class="btn btn-tse">Tribunal Superior Eleitoral</a>
+			<a href="/processos-tse" class="btn btn-tse">Tribunal Superior Eleitoral</a>-->
 		</p>
 	</div>
 </div>
