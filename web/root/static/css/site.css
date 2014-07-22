@@ -278,6 +278,7 @@ a, a:hover{
 	background-position: left top;
 	min-height: 80px;
 	margin: 0 20px;
+	word-break: break-all;
 }
 .promessas .item a{
 	text-decoration: none;
