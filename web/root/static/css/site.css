@@ -55,6 +55,13 @@ span.yellow{
 	color: #ffcc29;
 }
 
+a, a:visited{
+	color: #009245;
+}
+a:hover{
+	color: #00602d;
+}
+
 a, a:hover{
 	text-decoration: none;
 }
@@ -222,13 +229,14 @@ a, a:hover{
 	width: 140px;
 	height: 140px;
 	position: relative;
+	background-color: #fff;
 }
 
 .candidato-image img{
-	width: 124px;
+	height: 124px;
 	margin: 0;
 	position: absolute;
-	left: 0;
+	left: 18px;
 	top: 0;
 }
 
