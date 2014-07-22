@@ -221,6 +221,7 @@ a, a:hover{
 }
 
 .candidato-stats{
+	margin: 20px 0;
 }
 
 .candidato-image{
@@ -236,7 +237,7 @@ a, a:hover{
 	height: 124px;
 	margin: 0;
 	position: absolute;
-	left: 18px;
+	left: 8px;
 	top: 0;
 }
 
