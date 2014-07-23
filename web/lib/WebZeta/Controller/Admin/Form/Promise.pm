@@ -57,18 +57,18 @@ sub process_edit : Chained('base') : PathPart('promise') : Args(1) {
     }
 }
 
-sub process_delete : Chained('base') : PathPart('remove_user') : Args(1) {
+sub process_delete : Chained('base') : PathPart('remove_promise') : Args(1) {
     my ( $self, $c, $id ) = @_;
 
     my $api = $c->model('API');
 
-    $api->stash_result( $c, [ 'customers', $id ], method => 'DELETE' );
+    $api->stash_result( $c, [ 'promises', $id ], method => 'DELETE' );
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
     }
     else {
-        $c->detach( '/form/redirect_ok', [ '/admin/customer/index', {}, 'Removido com sucesso!' ] );
+        $c->detach( '/form/redirect_ok', [ '/admin/promise/index', {}, 'Removido com sucesso!' ] );
     }
 }
 
