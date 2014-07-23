@@ -3,7 +3,7 @@
 <!--    <a class="btn" href="/admin/user/new">Adicionar um novo usuário</a>
 </div>-->
 
-<div class="container-fluid grid-custom">
+<div>
 <div class="rows">
 <h2 class="sub-header">Partidos políticos cadastrados</h2>
 <div class="table-responsive">

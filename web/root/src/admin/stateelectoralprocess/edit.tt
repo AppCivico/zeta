@@ -1,22 +1,16 @@
 [%-CALL assets.include("js/forms.js")%]
-<div class="container-fluid grid-custom">
+<div>
 	<div class="rows">
 	<h2 class="sub-header">Editar processo eleitoral - TRE</h2>
-		<form role="form" method="post" action="/admin/form/state_electoral_process/[%sep_obj.id%]">
+		<form role="form" method="post" class="form-horizontal" action="/admin/form/state_electoral_process/[%sep_obj.id%]">
+			[%input_text('name','Nome', req=>1, value=>sep_obj.name)|none%]
 			<div class="form-group">
-				[%input_text('name','Nome', req=>1, value=>sep_obj.name)|none%]
-			</div>
-			<div class="form-group">
-				<label class="control-label" for="elm_description">Descrição</label>
+				<label class="col-lg-12" for="elm_description">Descrição</label>
 				<textarea class="form-control" rows="3" name="content">[%sep_obj.content%]</textarea>
 			</div>
-			<div class="form-group">
-				[%select_field('electoral_regional_court_id','TRE', array => select_spe, req=>1, value=>sep_obj.electoral_regional_court.id)|none%]
-			</div>
-			<div class="form-group">
-				[%input_text('source','Fonte', req=>1, value=>sep_obj.source)|none%]
-			</div>
-		<button type="submit" class="btn btn-success pull-right">Salvar</button>
+			[%select_field('electoral_regional_court_id','TRE', array => select_spe, req=>1, value=>sep_obj.electoral_regional_court.id)|none%]
+			[%input_text('source','Fonte', req=>1, value=>sep_obj.source)|none%]
+			<button type="submit" class="btn btn-success pull-right">Salvar</button>
 		</form>
 	</div>
 </div>

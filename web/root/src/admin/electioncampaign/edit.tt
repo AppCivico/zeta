@@ -1,28 +1,20 @@
 [%-CALL assets.include("js/forms.js")%]
 
-<div class="container-fluid grid-custom">
+<div>
 	<div class="rows">
 	<h2 class="sub-header">Editar campanha eleitoral</h2>
-	<form role="form" method="post" action="/admin/form/election_campaign/[%election_campaign_obj.id%]">
-		<div class="form-group">
-			[%input_text('year','Ano', req=>1, value=>election_campaign_obj.year)|none%]
-		</div>
-		<div class="form-group">
-			[%select_field('state_id','Estado', array => select_states, value=>election_campaign_obj.state_id, req=>0)|none%]
-		</div>
-		<div class="form-group">
-			[%select_field('city_id','Cidade', array => select_cities, value=>election_campaign_obj.city_id, req=>0)|none%]
-		</div>
-		<div class="form-group">
-			[%select_field('political_position_id',
-				'Cargo político', 
-				array => select_positions, 
-				value=>election_campaign_obj.political_position_id,
-				req=>1
-			)|none%]
-		</div>
-	<button type="submit" class="btn btn-success pull-right">Salvar</button>
-	<a href="/admin/election_campaign/vinculate_candidate/[%election_campaign_obj.id%]"><button type="button"  class="btn btn-info">Candidatos vinculados</button></a>
+	<form role="form" method="post" class="form-horizontal" action="/admin/form/election_campaign/[%election_campaign_obj.id%]">
+		[%input_text('year','Ano', req=>1, value=>election_campaign_obj.year)|none%]
+		[%select_field('state_id','Estado', array => select_states, value=>election_campaign_obj.state_id, req=>0)|none%]
+		[%select_field('city_id','Cidade', array => select_cities, value=>election_campaign_obj.city_id, req=>0)|none%]
+		[%select_field('political_position_id',
+			'Cargo político', 
+			array => select_positions, 
+			value=>election_campaign_obj.political_position_id,
+			req=>1
+		)|none%]
+		<button type="submit" class="btn btn-success pull-right">Salvar</button>
+		<a href="/admin/election_campaign/vinculate_candidate/[%election_campaign_obj.id%]"><button type="button"  class="btn btn-info">Candidatos vinculados</button></a>
 	</form>
 	</div>
 </div>

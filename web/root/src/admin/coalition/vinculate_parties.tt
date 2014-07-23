@@ -1,8 +1,8 @@
 [%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/address.js")%]
 [%-CALL assets.include("js/admin.js")%]
-<div class="container-fluid grid-custom">
-	<div class="rows">
+<div>
+	<div>
 	<h2 class="sub-header">Vincular partidos à coligação</h2>
 	<form role="form" method="post" action="/admin/form/add_parties/[%coalition_id%]">
 		[%IF avlb_parties.size > 0%]

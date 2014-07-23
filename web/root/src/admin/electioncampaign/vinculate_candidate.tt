@@ -1,7 +1,7 @@
 [%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/address.js")%]
 [%-CALL assets.include("js/admin.js")%]
-<div class="container-fluid grid-custom">
+<div>
 	<div class="rows">
 	<h2 class="sub-header">Vincular candidatos à campanha eleitoral</h2>
 	<form role="form" method="post" action="/admin/form/add_candidates/[%election_campaign_id%]">

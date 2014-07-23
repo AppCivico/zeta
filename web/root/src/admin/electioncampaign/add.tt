@@ -1,22 +1,14 @@
 [%-CALL assets.include("js/forms.js")%]
 [%-CALL assets.include("js/address.js")%]
 [%-CALL assets.include("js/admin.js")%]
-<div class="container-fluid grid-custom">
+<div>
 	<div class="rows">
 	<h2 class="sub-header">Adicionar campanha eleitoral</h2>
-	<form role="form" method="post" action="/admin/form/election_campaign">
-		<div class="form-group">
-			[%input_text('year','Ano', req=>1)|none%]
-		</div>
-		<div class="form-group">
-			[%select_field('state_id','Estado', array => select_states, req=>0)|none%]
-		</div>
-		<div class="form-group">
-			[%select_field('city_id','Cidade', array => select_cities, req=>0)|none%]
-		</div>
-		<div class="form-group">
-			[%select_field('political_position_id','Cargo político', array => select_positions, req=>1)|none%]
-		</div>
+	<form role="form" method="post" class="form-horizontal" action="/admin/form/election_campaign">
+		[%input_text('year','Ano', req=>1)|none%]
+		[%select_field('state_id','Estado', array => select_states, req=>0)|none%]
+		[%select_field('city_id','Cidade', array => select_cities, req=>0)|none%]
+		[%select_field('political_position_id','Cargo político', array => select_positions, req=>1)|none%]
 		<input type="hidden" name="is_active" value="1"></input>
 		<button type="submit" class="btn btn-success pull-right">Salvar e vincular candidatos</button>
 	</form>
