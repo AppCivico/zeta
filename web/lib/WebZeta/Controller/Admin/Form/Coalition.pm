@@ -49,6 +49,7 @@ sub process : Chained('base') : PathPart('coalition') : Args(0) {
 		body   => {
 			name 					=> $c->req->params->{name},
 			election_campaign_id 	=> $election_campaign_id,
+			is_active				=> 1
 		}
     );
     

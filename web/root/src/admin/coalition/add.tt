@@ -11,7 +11,6 @@
 			[%select_field('political_position_id','Escolha o cargo concorrido', array => select_political_positions, req=>0)|none%]
 		</div>
 		<input type="hidden" name="country_id" value="1"></input>
-		<input type="hidden" name="is_active" value="1"></input>
 		<div id="coalition"></div>
 		<button type="submit" class="btn btn-success pull-right">Salvar e vincular partidos</button>
 	</form>
