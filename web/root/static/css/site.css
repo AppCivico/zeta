@@ -369,3 +369,10 @@ a, a:hover{
 .modal-candidato .info .value{
 	font-size: 0.6em;
 }
+.aware{
+	margin-top: 35px;
+	font-size: 0.7em;
+}
+.aware img{
+	margin-left: 5px;
+}
