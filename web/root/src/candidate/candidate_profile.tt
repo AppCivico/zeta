@@ -32,9 +32,8 @@
 			<div class="col-sm-4 label">SEGUNDO TURNO</div>
 			<div class="col-sm-8 value"></div>
 		</div>-->
-		
-		<div>
-			<a href="#" class="btn btn-default btn-yellow-green">Programa de governo</a>
-		</div>
 	</div>
+</div>	
+<div class="row text-center">
+	<a href="#" class="btn btn-default btn-yellow-green">Programa de governo</a>
 </div>

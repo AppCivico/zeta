@@ -66,14 +66,22 @@
 	</content>
 	<footer class="bs-footer" role="contentinfo">
 		<div class="container text-center">
-			<div class="col-xs-4">
-				<img src="/static/images/logo-rnsp-footer.png">
+			<div class="row">
+				<div class="col-xs-3 text-center">
+					<img src="/static/images/logo-rnsp-footer.png">
+				</div>
+				<div class="col-xs-3 text-center">
+					<img src="/static/images/logo-pcs-footer.png">
+				</div>
+				<div class="col-xs-3 text-center">
+					<img src="/static/images/logo-redes-footer.png">
+				</div>
+				<div class="col-xs-3 text-center">
+					<img src="/static/images/logo-ethos-footer.png">
+				</div>
 			</div>
-			<div class="col-xs-4 text-center">
-				<img src="/static/images/logo-pcs-footer.png">
-			</div>
-			<div class="col-xs-4 text-center">
-				<img src="/static/images/logo-redes-footer.png">
+			<div class="row text-center">
+				<div class="aware">Desenvolvido por <a href="http://www.aware.com.br" target="_blank">Aware</a><img src="/static/images/logo-aware.gif" alt="Aware - Desenvolvendo conceitos, criando parceiros"></div>
 			</div>
 		</div>
 	</footer>
