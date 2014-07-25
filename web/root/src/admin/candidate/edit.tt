@@ -14,9 +14,14 @@
 			req		=>1
 		)|none%]
 		[%input_text('vice','Vice', req=>0, value=>candidate_obj.vice)|none%]
+		[%input_text('website','Website', value=>candidate_obj.website, req=>0)|none%]
 		<div class="form-group">
 			<label>Imagem de perfil</label>
 			<input type="file" name="img_profile"></input>
+		</div>
+		<div class="form-group">
+			<label>Programa de governo</label>
+			<input type="file" name="gvt_program"></input>
 		</div>
 		<input type="hidden" value="1" name="status"></input>
 	<button type="submit" class="btn btn-success pull-right">Salvar</button>

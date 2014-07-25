@@ -60,6 +60,7 @@ sub result_GET {
                   phone
                   img_profile
                   vice
+                  website
                   /
             ),
             political_party => {
@@ -126,6 +127,7 @@ sub list_GET {
 								phone
 								img_profile
 								vice
+								website
                               /
                         ),
                         political_party => {
@@ -166,34 +168,52 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 	my ( $self, $c ) = @_;
 	
 	my $file;
+	my $field;
 	my $path 	= Cwd::cwd();
-	$path 		= $path.'/../web/root/static/images/candidates/'.$c->req->params->{candidate_id};
+	
+	if( $c->req->params->{type} eq 'profile' ) {
+	
+		$path 	= $path.'/../web/root/static/images/candidates/'.$c->req->params->{candidate_id};
+		$file	= 'profile_'.$c->req->params->{candidate_id};
+		$field	= 'img_profile';
+		
+	} elsif( $c->req->params->{type} eq 'program' ) {
+	
+		$path 	= $path.'/../etc/uploads/'.$c->req->params->{candidate_id};
+		$file	= 'programa_de_governo';
+		$field	= 'government_program';
+	}
 	
 	my $upload = $c->req->upload('file');
 	
+	my $candidate = $c->model('DB::Candidate')->search( { id => $c->req->params->{candidate_id} } );
 	if( $upload ) {
+		
+		my @type = split '/', $upload->type();
+		
 		if( ! -d $path ) {
 			mkdir($path);
 		}
 		
-		if( -e $path.'/profile_'.$c->req->params->{candidate_id} ) {
-			unlink $path.'/profile_'.$c->req->params->{candidate_id};
+		if( -e $path.'/'.$file.'.'.$type[1] ) {
+			unlink $path.'/'.$file.'.'.$type[1];
 		}
 		
-		my @type 	= split '/', $upload->type();
-		$file 		= 'profile_'.$c->req->params->{candidate_id}.'.'.$type[1];
-		
-		my $image 	= Image::Resize->new($upload->tempname);
-		my $gd 		= $image->resize(116, 116);
-		
-		open(FH, '>'.$path.'/'.$file);
-		print FH $gd->jpeg();
-		close(FH);
+		if( $c->req->params->{type} eq 'profile' ) {
+			my $image 	= Image::Resize->new($upload->tempname);
+			my $gd 		= $image->resize(116, 116);
+			
+			open(FH, '>'.$path.'/'.$file.'.'.$type[1]);
+			print FH $gd->jpeg();
+			close(FH);
+			
+			$candidate->update( { $field => $file } );
+		} else {
+			eval { $upload->copy_to($path.'/'.$file.'.'.$type[1]); };
+			
+			$candidate->update( { $field => 1 } );
+		}
 	}
-	
-	my $candidate = $c->model('DB::Candidate')->search( { id => $c->req->params->{candidate_id} } );
-	
-	$candidate->update( { img_profile => $file } );
 	
     $self->status_accepted(
         $c,

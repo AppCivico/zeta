@@ -40,12 +40,31 @@ sub process : Chained('base') : PathPart('candidate') : Args(0) {
 				method => 'UPLOAD',
 				body   => [
 					candidate_id 	=> $c->stash->{id},
-					file 			=> [ $upload->tempname ]
+					file 			=> [ $upload->tempname ],
+					type			=> 'profile'
 				]
 			);
 		
 			if ( $c->stash->{error} ) {
 				$c->detach( '/form/redirect_error', [ '/admin/candidate/index', {}, 'Problemas ao associar imagem de perfil ao candidato.' ] );
+			}
+			
+			$upload = $c->req->upload('gvt_program');
+			
+			if($upload) {
+				$api->stash_result(
+					$c, 'candidates/upload_file',
+					method => 'UPLOAD',
+					body   => [
+						candidate_id 	=> $c->stash->{id},
+						file 			=> [ $upload->tempname ],
+						type			=> 'program'
+					]
+				);
+			}
+		
+			if ( $c->stash->{error} ) {
+				$c->detach( '/form/redirect_error', [ '/admin/candidate/index', {}, 'Problemas ao cadastrar programa de governo ao candidato.' ] );
 			}
 		}
 		

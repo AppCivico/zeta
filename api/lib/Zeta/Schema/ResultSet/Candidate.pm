@@ -40,6 +40,14 @@ sub verifiers_specs {
                 vice => {
 					required 	=> 0,
 					type		=> 'Str'
+                },
+                government_program => {
+					required 	=> 0,
+					type		=> 'Str'
+                },
+                website => {
+					required 	=> 0,
+					type		=> 'Str'
                 }
             },
         ),
