@@ -96,7 +96,7 @@ sub download: Chained('object') : PathPart('download') : Args(0) {
 	my $path 		= Cwd::cwd();
     my $full_path 	= $path.'/../etc/uploads/'.$c->stash->{candidate_obj}{id}.'/'.$c->stash->{candidate_obj}{government_program};
     
-    my $name = $self->slug_name($self, $c->stash->{candidate}{name});
+#     my $name = $self->slug_name($self, $c->stash->{candidate}{name});
     
 	my $content = $api->stash_result(
 		$c, 'download-files',
