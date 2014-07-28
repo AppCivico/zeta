@@ -29,6 +29,11 @@ sub download: Chained('base') : PathPart('') : Args(0) {
         open( my $fh, '<:raw', $local_path );
         
         $c->res->body($fh);
+        
+#         if($c->req->params->{name}) {
+# 			$res->headers->({ 'Content-Disposition' =>"attachment;filename=$c->req->params->{name}"} );
+#         }
+        
         $c->detach;
     } else {
         $self->status_gone(
