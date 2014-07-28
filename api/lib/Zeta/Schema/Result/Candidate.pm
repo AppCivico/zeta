@@ -147,6 +147,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 election_campaign_runoffs
+
+Type: has_many
+
+Related object: L<Zeta::Schema::Result::ElectionCampaignRunoff>
+
+=cut
+
+__PACKAGE__->has_many(
+  "election_campaign_runoffs",
+  "Zeta::Schema::Result::ElectionCampaignRunoff",
+  { "foreign.candidate_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 election_campaigns
 
 Type: has_many
@@ -159,21 +174,6 @@ __PACKAGE__->has_many(
   "election_campaigns",
   "Zeta::Schema::Result::ElectionCampaign",
   { "foreign.elected_candidate_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 election_campaing_runoffs
-
-Type: has_many
-
-Related object: L<Zeta::Schema::Result::ElectionCampaingRunoff>
-
-=cut
-
-__PACKAGE__->has_many(
-  "election_campaing_runoffs",
-  "Zeta::Schema::Result::ElectionCampaingRunoff",
-  { "foreign.candidate_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
@@ -208,8 +208,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-27 21:35:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iqz0lM2ZLY+jTNcPsEhD8w
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-28 15:34:22
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4PbVBdvQtH6geHFw8qvo6Q
 
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';

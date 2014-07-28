@@ -228,7 +228,7 @@ sub add_runoff : Chained('base') : PathPart('add_runoff') : Args(0) {
 	my $data	= decode_json( $c->req->params->{data} );
     my $msg     = 'OK';
 
-    eval { my $election_campaign_candidate = $c->model('DB::ElectionCampaingRunoff')->populate(\@$data); };
+    eval { my $election_campaign_candidate = $c->model('DB::ElectionCampaignRunoff')->populate(\@$data); };
 
     $msg = $@ unless $@;
 
@@ -245,7 +245,7 @@ sub get_candidates_runoff : Chained('base') : PathPart('get_candidates_runoff') 
 	my ( $self, $c, $election_campaign_id ) = @_;
 	
 	my $candidates_rs = 
-		$c->model('DB::ElectionCampaingRunoff')->search_rs( { election_campaign_id => $election_campaign_id } );
+		$c->model('DB::ElectionCampaignRunoff')->search_rs( { election_campaign_id => $election_campaign_id } );
 	
 	
 	$self->status_ok(
@@ -272,7 +272,7 @@ sub get_candidates_runoff : Chained('base') : PathPart('get_candidates_runoff') 
 sub remove_candidate_runoff : Chained('base') : PathPart('remove_candidate_runoff') : Args(1) {
 	my ( $self, $c, $election_campaign_id ) = @_;
 	
-	$c->model('DB::ElectionCampaingRunoff')->search( 
+	$c->model('DB::ElectionCampaignRunoff')->search( 
 		{ 
 			election_campaign_id 	=> $election_campaign_id,
 			candidate_id 			=> $c->req->params->{candidate_id}

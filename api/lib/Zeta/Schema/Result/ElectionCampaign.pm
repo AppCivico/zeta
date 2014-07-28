@@ -219,17 +219,17 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 election_campaing_runoffs
+=head2 election_campaign_runoffs
 
 Type: has_many
 
-Related object: L<Zeta::Schema::Result::ElectionCampaingRunoff>
+Related object: L<Zeta::Schema::Result::ElectionCampaignRunoff>
 
 =cut
 
 __PACKAGE__->has_many(
-  "election_campaing_runoffs",
-  "Zeta::Schema::Result::ElectionCampaingRunoff",
+  "election_campaign_runoffs",
+  "Zeta::Schema::Result::ElectionCampaignRunoff",
   { "foreign.election_campaign_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
@@ -285,8 +285,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-27 21:35:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QfZDmrtFQdZNvyPe+402Ow
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-28 15:34:22
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NFmiiG38/m7RwI8cJyjirA
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
