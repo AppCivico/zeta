@@ -2,6 +2,7 @@ package WebZeta::Controller::Admin::Candidate;
 use Moose;
 use namespace::autoclean;
 use POSIX;
+use Cwd qw();
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -85,6 +86,28 @@ sub add : Chained('base') : PathPart('new') : Args(0) {
 }
 
 sub edit: Chained('object') : PathPart('') : Args(0) {
+}
+
+sub download: Chained('object') : PathPart('download') : Args(0) {
+	my ( $self, $c ) = @_;
+
+	my $api = $c->model('API');
+
+	my $path = Cwd::cwd();
+    my $s = $path.'/../etc/uploads/'.$c->stash->{candidate_obj}{id}.'/'.$c->stash->{candidate_obj}{government_program};
+	my $content = $api->stash_result(
+		$c, 'download-files',
+		params => {
+			path			=> $path.'/../etc/uploads/'.$c->stash->{candidate_obj}{id}.'/'.$c->stash->{candidate_obj}{government_program},
+			get_as_content	=> 1
+		}
+	);
+	
+	$c->res->header( 'content-type', 'application/octet-stream' );
+
+    $c->res->body($content);
+    
+    $c->detach();
 }
 
 __PACKAGE__->meta->make_immutable;

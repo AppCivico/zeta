@@ -146,7 +146,11 @@ sub list_GET {
     my %conditions;
     
     if( $c->req->params->{state_id} ) {
-		$conditions{'me.state_id'} = $c->req->params->{state_id};
+		if( $c->req->params->{state_id} eq 'br' ) {
+			$conditions{'me.country_id'} = 1;
+		} else {
+			$conditions{'me.state_id'} = $c->req->params->{state_id};
+		}
     }
     
     if( $c->req->params->{candidate_id} ) {

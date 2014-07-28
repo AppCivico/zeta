@@ -87,7 +87,7 @@ __PACKAGE__->table("candidate");
 
 =head2 government_program
 
-  data_type: 'boolean'
+  data_type: 'text'
   is_nullable: 1
 
 =cut
@@ -115,7 +115,7 @@ __PACKAGE__->add_columns(
   "website",
   { data_type => "text", is_nullable => 1 },
   "government_program",
-  { data_type => "boolean", is_nullable => 1 },
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -162,6 +162,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 election_campaing_runoffs
+
+Type: has_many
+
+Related object: L<Zeta::Schema::Result::ElectionCampaingRunoff>
+
+=cut
+
+__PACKAGE__->has_many(
+  "election_campaing_runoffs",
+  "Zeta::Schema::Result::ElectionCampaingRunoff",
+  { "foreign.candidate_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 political_party
 
 Type: belongs_to
@@ -193,8 +208,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-25 12:20:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:uDU5yM+zEw0gAYOifPRbog
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-27 21:35:35
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:iqz0lM2ZLY+jTNcPsEhD8w
 
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';

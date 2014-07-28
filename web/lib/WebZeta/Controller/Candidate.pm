@@ -22,6 +22,23 @@ sub candidate_profile : Chained('base') : PathPart('perfil-candidato') : Args(1)
 		stash => 'election_campaign_obj',
 	);
 	
+	$api->stash_result(
+		$c, [ 'election_campaigns/get_candidates_runoff', $c->stash->{election_campaign_obj}{id} ],
+		stash => 'election_campaign_runoff_obj',
+	);
+
+	my @ids = ( map { $_->{id} } @{ $c->stash->{election_campaign_runoff_obj}{candidates} } );
+	
+	my $runoff = 0;
+	
+	for my $id (@ids) {
+		if($candidate_id == $id) {
+			$runoff = 1; 
+		}
+	}
+	
+	$c->stash->{runoff} = $runoff;
+	
 	$c->stash->{without_wrapper} = 1;
 }
 

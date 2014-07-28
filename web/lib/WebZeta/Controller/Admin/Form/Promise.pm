@@ -20,6 +20,10 @@ sub process : Chained('base') : PathPart('promise') : Args(0) {
     
     $form->format_date($params, 'publication_date');
     
+    if($c->req->params->{presidential}) {
+		$params->{country_id} = 1;
+    }
+    
     $api->stash_result(
 		$c, ['promises'],
 		method => 'POST',
@@ -29,6 +33,25 @@ sub process : Chained('base') : PathPart('promise') : Args(0) {
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
     } else {
+    
+		my $upload = $c->req->upload('promise_file');
+		
+		if( $upload ) {
+			$api->stash_result(
+				$c, 'promises/upload_file',
+				method => 'UPLOAD',
+				body   => [
+					promise_id 	=> $c->stash->{id},
+					file 		=> [ $upload->tempname ],
+					created_by	=> $c->user->id
+				]
+			);
+	
+			if ( $c->stash->{error} ) {
+				$c->detach( '/form/redirect_error', [ '/admin/promise/index', {}, 'Problemas ao cadastrar arquivo para a promessa.' ] );
+			}
+		}
+    
 		$c->detach( '/form/redirect_ok', [ '/admin/promise/index', {}, 'Cadastrado com sucesso!' ] );
 	}
     

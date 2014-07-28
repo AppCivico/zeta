@@ -57,6 +57,8 @@ sub index : Path : Args(0) {
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 	
+	unshift($c->stash->{select_states}, ['br', 'Brasil']);
+	
 	$api->stash_result(
 		$c, 'electoral_regional_courts',
 		params => {

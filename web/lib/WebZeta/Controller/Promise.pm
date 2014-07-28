@@ -43,6 +43,8 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 		}
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
+	
+	unshift($c->stash->{select_states}, ['br', 'Brasil']);
 }
 
 sub index : Chained('base') : PathPart('promessas') {

@@ -28,12 +28,14 @@
 				<div class="col-sm-8 value">Não</div>
 			</div>
 		[%END%]
-		<!--<div class="row info">
+		[%IF runoff %]
+		<div class="row info">
 			<div class="col-sm-4 label">SEGUNDO TURNO</div>
 			<div class="col-sm-8 value"></div>
-		</div>-->
+		</div>
+		[%END%]
 	</div>
 </div>	
 <div class="row text-center">
-	<a href="#" class="btn btn-default btn-yellow-green">Programa de governo</a>
+	<a href="/admin/candidate/[%candidate_obj.id%]/download" class="btn btn-default btn-yellow-green">Programa de governo</a>
 </div>

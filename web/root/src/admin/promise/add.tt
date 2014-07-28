@@ -16,8 +16,18 @@
 			[%select_field('election_campaign_id','Campanha eleitoral', array => select_election_campaigns, req=>1)|none%]
 			[%select_field('state_id','Estado', array => select_states, req=>0)|none%]
 			[%select_field('city_id','Cidade', array => select_cities, req=>0)|none%]
+			[%checkbox('presidential', 'Campanha presidencial')|none%]
 			[%input_text('source','Fonte', req=>0)|none%]
 			[%input_text('publication_date','Data da publicação', req=>0, classes => ['form-control', 'date'])|none%]
+			
+			<h4 class="sub-header">Enviar arquivo</h4>
+			<div class="form-group">
+				<label>Arquivo</label>
+				<input type="file" name="promise_file"></input>
+			</div>
+			[%input_text('source_file','Fonte', req=>0)|none%]
+			[%input_text('source_type','Tipo de fonte', req=>0)|none%]
+			
 		<button type="submit" class="btn btn-success pull-right">Salvar</button>
 		</form>
 	</div>

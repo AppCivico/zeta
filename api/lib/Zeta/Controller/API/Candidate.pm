@@ -61,6 +61,7 @@ sub result_GET {
                   img_profile
                   vice
                   website
+                  government_program
                   /
             ),
             political_party => {
@@ -128,6 +129,7 @@ sub list_GET {
 								img_profile
 								vice
 								website
+								government_program
                               /
                         ),
                         political_party => {
@@ -168,28 +170,29 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 	my ( $self, $c ) = @_;
 	
 	my $file;
-	my $field;
-	my $path 	= Cwd::cwd();
+	
+	my $path = Cwd::cwd();
 	
 	if( $c->req->params->{type} eq 'profile' ) {
 	
 		$path 	= $path.'/../web/root/static/images/candidates/'.$c->req->params->{candidate_id};
 		$file	= 'profile_'.$c->req->params->{candidate_id};
-		$field	= 'img_profile';
-		
+	
 	} elsif( $c->req->params->{type} eq 'program' ) {
 	
 		$path 	= $path.'/../etc/uploads/'.$c->req->params->{candidate_id};
 		$file	= 'programa_de_governo';
-		$field	= 'government_program';
+
 	}
 	
-	my $upload = $c->req->upload('file');
+	my $upload 		= $c->req->upload('file');
+	my $candidate 	= $c->model('DB::Candidate')->search( { id => $c->req->params->{candidate_id} } );
 	
-	my $candidate = $c->model('DB::Candidate')->search( { id => $c->req->params->{candidate_id} } );
 	if( $upload ) {
 		
 		my @type = split '/', $upload->type();
+		
+		$type[1] = 'jpg' unless $c->req->params->{type} ne 'profile';
 		
 		if( ! -d $path ) {
 			mkdir($path);
@@ -207,21 +210,21 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 			print FH $gd->jpeg();
 			close(FH);
 			
-			$candidate->update( { $field => $file } );
+			$candidate->update( { img_profile => $file.'.'.$type[1] } );
 		} else {
 			eval { $upload->copy_to($path.'/'.$file.'.'.$type[1]); };
 			
-			$candidate->update( { $field => 1 } );
+			$candidate->update( { government_program => $file.'.'.$type[1] } );
 		}
 	}
 	
-    $self->status_accepted(
+	$self->status_accepted(
         $c,
         location => $c->uri_for( $self->action_for('result'), [ $c->req->params->{candidate_id} ] )->as_string,
         entity => { id => $c->req->params->{candidate_id} }
-      ),
-      $c->detach
-      if $candidate;
+	),
+	$c->detach
+	if $candidate;
 }
 
 1;

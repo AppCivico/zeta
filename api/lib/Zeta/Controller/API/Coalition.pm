@@ -13,7 +13,7 @@ __PACKAGE__->config(
     object_key 	=> 'coalition',
     search_ok => {
 		order 		=> 'Str',
-		is_active 	=> 'Int'
+		is_active 	=> 'Int',
     },
     result_attr => {
 		prefetch => { 'election_campaign' => 'political_position' }

@@ -13,8 +13,14 @@
 			value=>election_campaign_obj.political_position_id,
 			req=>1
 		)|none%]
+		[%select_field('elected_candidate_id', 
+			'Candidato eleito', 
+			array=>select_candidates, 
+			value=>election_campaign_obj.elected_candidate_id
+		)|none%]
 		<button type="submit" class="btn btn-success pull-right">Salvar</button>
 		<a href="/admin/election_campaign/vinculate_candidate/[%election_campaign_obj.id%]"><button type="button"  class="btn btn-info">Candidatos vinculados</button></a>
+		<a href="/admin/election_campaign/runoff/[%election_campaign_obj.id%]"><button type="button"  class="btn btn-warning">Cadastrar segundo turno</button></a>
 	</form>
 	</div>
 </div>
