@@ -37,5 +37,7 @@
 	</div>
 </div>	
 <div class="row text-center">
-	<a href="/admin/candidate/[%candidate_obj.id%]/download" class="btn btn-default btn-yellow-green">Programa de governo</a>
+	[%IF candidate_obj.government_program%]
+		<a href="/admin/candidate/[%candidate_obj.id%]/download" class="btn btn-default btn-yellow-green">Programa de governo</a>
+	[%END%]
 </div>

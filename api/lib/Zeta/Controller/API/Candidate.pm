@@ -183,6 +183,11 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 		$path 	= $path.'/../etc/uploads/'.$c->req->params->{candidate_id};
 		$file	= 'programa_de_governo';
 
+	} elsif( $c->req->params->{type} eq 'promise' ) {
+	
+		$path 	= $path.'/../etc/uploads/'.$c->req->params->{candidate_id}.'/promises/'.$c->req->params->{promise_id};
+		$file	= $c->req->params->{file_name};
+		
 	}
 	
 	my $upload 		= $c->req->upload('file');
@@ -194,34 +199,53 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 		
 		$type[1] = 'jpg' unless $c->req->params->{type} ne 'profile';
 		
-		if( ! -d $path ) {
-			mkdir($path);
-		}
+		eval {
+			if( ! -d $path ) {
+				exec('mkdir -p '.$path);
+			}
+			
+			if( -e $path.'/'.$file.'.'.$type[1] ) {
+				unlink $path.'/'.$file.'.'.$type[1];
+			}
+			
+			if( $c->req->params->{type} eq 'profile' ) {
+				my $image 	= Image::Resize->new($upload->tempname);
+				my $gd 		= $image->resize(116, 116);
+				
+				open(FH, '>'.$path.'/'.$file.'.'.$type[1]);
+				print FH $gd->jpeg();
+				close(FH);
+				
+				$candidate->update( { img_profile => $file.'.'.$type[1] } );
+			} else {
+				$upload->copy_to($path.'/'.$file.'.'.$type[1]);
+			}
+		};
 		
-		if( -e $path.'/'.$file.'.'.$type[1] ) {
-			unlink $path.'/'.$file.'.'.$type[1];
-		}
+		$self->status_gone(
+			$c,
+			message => "Problem to upload document --- $@",
+		),
+		$c->detach
+		if $@;
 		
-		if( $c->req->params->{type} eq 'profile' ) {
-			my $image 	= Image::Resize->new($upload->tempname);
-			my $gd 		= $image->resize(116, 116);
-			
-			open(FH, '>'.$path.'/'.$file.'.'.$type[1]);
-			print FH $gd->jpeg();
-			close(FH);
-			
-			$candidate->update( { img_profile => $file.'.'.$type[1] } );
-		} else {
-			eval { $upload->copy_to($path.'/'.$file.'.'.$type[1]); };
-			
+		if ( $c->req->params->{type} eq 'program' ) {
+		
 			$candidate->update( { government_program => $file.'.'.$type[1] } );
+			
+		} elsif ( $c->req->params->{type} eq 'promise' ) {
+		
+			$c->req->params->{link} = $path.'/'.$file.'.'.$type[1];
+			$c->model('DB::PromiseContent')->execute( $c, for => 'create', with => $c->req->params );
+			
 		}
+		
 	}
 	
 	$self->status_accepted(
         $c,
-        location => $c->uri_for( $self->action_for('result'), [ $c->req->params->{candidate_id} ] )->as_string,
-        entity => { id => $c->req->params->{candidate_id} }
+        location 	=> $c->uri_for( $self->action_for('result'), [ $c->req->params->{candidate_id} ] )->as_string,
+        entity 		=> { id => $c->req->params->{candidate_id} }
 	),
 	$c->detach
 	if $candidate;

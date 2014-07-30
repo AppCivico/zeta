@@ -96,19 +96,23 @@ sub download: Chained('object') : PathPart('download') : Args(0) {
 	my $path 		= Cwd::cwd();
     my $full_path 	= $path.'/../etc/uploads/'.$c->stash->{candidate_obj}{id}.'/'.$c->stash->{candidate_obj}{government_program};
     
-#     my $name = $self->slug_name($self, $c->stash->{candidate}{name});
+    my $name = $self->slug_name($c->stash->{candidate_obj}{name});
+    
+    $c->detach() unless $name;
+    
+    $name = $name.'_'.$c->stash->{candidate_obj}{government_program};
     
 	my $content = $api->stash_result(
 		$c, 'download-files',
 		params => {
 			path	=> $full_path,
-			name	=> 'programa_de_governo'
 		},
 		get_as_content	=> 1
 	);
 	
 	$c->res->header( 'content-type', 'application/octet-stream' );
-
+	$c->res->header('Content-Disposition', qq[attachment; filename=$name]);
+		
     $c->res->body($content);
     
     $c->detach();
@@ -117,9 +121,11 @@ sub download: Chained('object') : PathPart('download') : Args(0) {
 sub slug_name: Private {
 	my ( $self, $name ) = @_;
 	
-	my @name = join '-', lc split /\s/, $name;
+	return 0 unless $name;
 	
-	use DDP; p @name; exit;
+	my $slug_name = lc join '_', split /\s/, $name;
+	
+	return $slug_name;
 }
 
 __PACKAGE__->meta->make_immutable;

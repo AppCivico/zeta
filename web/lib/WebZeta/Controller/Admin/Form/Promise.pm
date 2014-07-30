@@ -38,12 +38,16 @@ sub process : Chained('base') : PathPart('promise') : Args(0) {
 		
 		if( $upload ) {
 			$api->stash_result(
-				$c, 'promises/upload_file',
+				$c, 'candidates/upload_file',
 				method => 'UPLOAD',
 				body   => [
+					type		=> 'promise',
+					created_by	=> $c->user->id,
 					promise_id 	=> $c->stash->{id},
 					file 		=> [ $upload->tempname ],
-					created_by	=> $c->user->id
+					name 		=> $c->req->params->{name},
+					source		=> $c->req->params->{source},
+					source_type	=> $c->req->params->{source_type_id},
 				]
 			);
 	
