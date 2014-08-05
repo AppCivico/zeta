@@ -33,7 +33,7 @@ sub process : Chained('base') : PathPart('promise') : Args(0) {
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );
     } else {
-    
+		
 		my $upload = $c->req->upload('promise_file');
 		
 		if( $upload ) {
@@ -41,13 +41,15 @@ sub process : Chained('base') : PathPart('promise') : Args(0) {
 				$c, 'candidates/upload_file',
 				method => 'UPLOAD',
 				body   => [
-					type		=> 'promise',
-					created_by	=> $c->user->id,
-					promise_id 	=> $c->stash->{id},
-					file 		=> [ $upload->tempname ],
-					name 		=> $c->req->params->{name},
-					source		=> $c->req->params->{source},
-					source_type	=> $c->req->params->{source_type_id},
+					type			=> 'promise',
+					created_by		=> $c->user->id,
+					promise_id 		=> $c->stash->{id},
+					file_name		=> $upload->filename,
+					file 			=> [ $upload->tempname ],
+					name 			=> $c->req->params->{name},
+					source			=> $c->req->params->{source},
+					candidate_id	=> $c->req->params->{candidate_id},
+					source_type_id	=> $c->req->params->{source_type_id},
 				]
 			);
 	

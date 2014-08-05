@@ -100,7 +100,44 @@ __PACKAGE__->has_many(
 
 # Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-28 00:10:27
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RnfFasV2dtZhyacwp4gwDw
+with 'Zeta::Role::Verification';
+with 'Zeta::Role::Verification::TransactionalActions::DBIC';
+with 'Zeta::Schema::Role::ResultsetFind';
 
+use Data::Verifier;
+use MooseX::Types::Email qw/EmailAddress/;
+use Zeta::Types qw /DataStr TimeStr/;
+
+sub verifiers_specs {
+    my $self = shift;
+     return {
+        update => Data::Verifier->new(
+            filters => [qw(trim)],
+            profile => {
+                name => {
+                    required => 0,
+                    type     => 'Str',
+                },
+            }
+        ),
+    };
+}
+
+sub action_specs {
+    my $self = shift;
+    return {
+        update => sub {
+            my %values = shift->valid_values;
+
+            not defined $values{$_} and delete $values{$_} for keys %values;
+
+            my $source_type = $self->update( \%values );
+
+            return $source_type;
+        },
+
+    };
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

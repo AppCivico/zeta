@@ -41,7 +41,15 @@ sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 		}
 	);
 	$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
-
+	
+	$api->stash_result(
+		$c, 'source_types',
+		params => {
+			order   => 'name',
+		}
+	);
+	$c->stash->{select_source_types} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{source_types} } ];
+	
 	$api->stash_result(
 		$c, 'election_campaigns',
 		params => {

@@ -115,7 +115,11 @@ sub result_DELETE {
     my ( $self, $c ) 	= @_;
     my $promise		= $c->stash->{promise};
 
-    $promise->delete;
+    $c->model('DB')->txn_do(sub { 
+		$promise->search_related('promise_contents')->delete;
+		
+		$promise->delete;
+    });
 
     $self->status_no_content($c);
 }

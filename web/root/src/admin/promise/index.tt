@@ -7,7 +7,6 @@
 		<thead>
 			<tr>
                 <th>Nome</th>
-                <th>Descrição</th>
                 <th>Candidato</th>
                 <th>Categoria</th>
 <!--                 <th>Campanha eleitoral</th> -->
@@ -18,7 +17,6 @@
 			[%FOREACH promise IN promises%]
 				<tr>
 					<td>[%promise.name%]</td>
-					<td>[%promise.description%]</td>
 					<td>[%promise.candidate.name%]</td>
 					<td>[%promise.category.name%]</td>
 					<!--<td>[%promise.election_campaign.political_position.name%]</td>-->

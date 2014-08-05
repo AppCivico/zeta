@@ -42,6 +42,51 @@ sub candidate_profile : Chained('base') : PathPart('perfil-candidato') : Args(1)
 	$c->stash->{without_wrapper} = 1;
 }
 
+sub download: Chained('base') : PathPart('programa-de-governo') : Args(1) {
+	my ( $self, $c, $id ) = @_;
+
+	my $api = $c->model('API');
+	
+	$api->stash_result(
+		$c, [ 'candidates', $id ],
+		stash => 'candidate_obj'
+	);
+
+	my $path 		= Cwd::cwd();
+    my $full_path 	= $path.'/../etc/uploads/'.$c->stash->{candidate_obj}{id}.'/'.$c->stash->{candidate_obj}{government_program};
+    
+    my $name = $self->slug_name($c->stash->{candidate_obj}{name});
+    
+    $c->detach() unless $name;
+    
+    $name = $name.'_'.$c->stash->{candidate_obj}{government_program};
+    
+	my $content = $api->stash_result(
+		$c, 'download-files',
+		params => {
+			path	=> $full_path,
+		},
+		get_as_content	=> 1
+	);
+	
+	$c->res->header( 'content-type', 'application/octet-stream' );
+	$c->res->header('Content-Disposition', qq[attachment; filename=$name]);
+		
+    $c->res->body($content);
+    
+    $c->detach();
+}
+
+sub slug_name: Private {
+	my ( $self, $name ) = @_;
+	
+	return 0 unless $name;
+	
+	my $slug_name = lc join '_', split /\s/, $name;
+	
+	return $slug_name;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

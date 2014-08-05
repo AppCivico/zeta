@@ -38,6 +38,6 @@
 </div>	
 <div class="row text-center">
 	[%IF candidate_obj.government_program%]
-		<a href="/admin/candidate/[%candidate_obj.id%]/download" class="btn btn-default btn-yellow-green">Programa de governo</a>
+		<a href="/programa-de-governo/[%candidate_obj.id%]" class="btn btn-default btn-yellow-green">Programa de governo</a>
 	[%END%]
 </div>

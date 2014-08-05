@@ -31,6 +31,10 @@
 				<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
 					<a href="[%href%]">Categorias</a>
 				</li>
+				[%href = c.uri_for_action('/admin/sourcetype/index')%]
+				<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
+					<a href="[%href%]">Tipos de fonte</a>
+				</li>
 				[%href = c.uri_for_action('/admin/promise/index')%]
 				<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
 					<a href="[%href%]">Promessas</a>

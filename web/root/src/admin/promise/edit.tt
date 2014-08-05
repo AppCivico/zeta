@@ -3,7 +3,7 @@
 <div>
 	<div class="rows">
 	<h2 class="sub-header">Editar promessa</h2>
-		<form role="form" method="post" class="form-horizontal" action="/admin/form/promise/[%promise_obj.id%]">
+		<form role="form" method="post" class="form-horizontal" action="/admin/form/promise/[%promise_obj.id%]" enctype="multipart/form-data">
 			[%input_text('name','Nome', req=>1, value=>promise_obj.name)|none%]
 			[%input_text('description','Descrição', req=>1, value=>promise_obj.description)|none%]
 			[%select_field('candidate_id','Candidato', array => select_candidates, value=>promise_obj.candidate.id, req=>1)|none%]

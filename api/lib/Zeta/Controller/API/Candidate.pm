@@ -3,6 +3,7 @@ package Zeta::Controller::API::Candidate;
 use Moose;
 use Cwd qw();
 use Image::Resize;
+use File::Path qw(make_path remove_tree);
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -199,13 +200,13 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 		
 		$type[1] = 'jpg' unless $c->req->params->{type} ne 'profile';
 		
-		eval {
+ 		eval {
 			if( ! -d $path ) {
-				exec('mkdir -p '.$path);
+				make_path($path);
 			}
 			
 			if( -e $path.'/'.$file.'.'.$type[1] ) {
-				unlink $path.'/'.$file.'.'.$type[1];
+				 unlink $path.'/'.$file.'.'.$type[1];
 			}
 			
 			if( $c->req->params->{type} eq 'profile' ) {
@@ -218,10 +219,14 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 				
 				$candidate->update( { img_profile => $file.'.'.$type[1] } );
 			} else {
-				$upload->copy_to($path.'/'.$file.'.'.$type[1]);
+				if( $c->req->params->{type} eq 'promise' ) {
+					$upload->copy_to($path.'/'.$file);
+				} else {
+					$upload->copy_to($path.'/'.$file.'.'.$type[1]);
+				}
 			}
-		};
-		
+ 		};
+
 		$self->status_gone(
 			$c,
 			message => "Problem to upload document --- $@",
@@ -234,10 +239,18 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 			$candidate->update( { government_program => $file.'.'.$type[1] } );
 			
 		} elsif ( $c->req->params->{type} eq 'promise' ) {
-		
-			$c->req->params->{link} = $path.'/'.$file.'.'.$type[1];
-			$c->model('DB::PromiseContent')->execute( $c, for => 'create', with => $c->req->params );
 			
+			my $promise_content_params = {
+				name 			=> $file,
+				source			=> $c->req->params->{source},
+				promise_id 		=> $c->req->params->{promise_id},
+				created_by		=> $c->req->params->{created_by},
+				source_type_id	=> $c->req->params->{source_type_id},
+				link			=> 
+					'etc/uploads/'.$c->req->params->{candidate_id}.'/promises/'.$c->req->params->{promise_id}.'/'.$file,
+			};
+			
+			$c->model('DB::PromiseContent')->execute( $c, for => 'create', with => $promise_content_params );
 		}
 		
 	}

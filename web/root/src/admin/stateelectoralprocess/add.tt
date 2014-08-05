@@ -6,7 +6,9 @@
 			[%input_text('name','Nome', req=>1)|none%]
 			<div class="form-group">
 				<label class="col-lg-12" for="elm_description">Descrição</label>
-				<textarea class="form-control" rows="3" name="content"></textarea>
+				<div class="col-lg-12">
+					<textarea class="form-control" rows="3" name="content"></textarea>
+				</div>
 			</div>
 			[%select_field('electoral_regional_court_id','TRE', array => select_spe, req=>1)|none%]
 			[%input_text('source','Fonte', req=>1)|none%]
