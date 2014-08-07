@@ -12,11 +12,11 @@ __PACKAGE__->config(
     object_key 	=> 'promise',
     result_attr => {
         prefetch =>  [
-			{ 'candidate' => 'political_party' },
-			{'election_campaign' => 'political_position'},
-			'category',
+			'city',
 			'state',
-			'city'
+			'category',
+			{ 'candidate' 			=> 'political_party' },
+			{ 'election_campaign' 	=> 'political_position' },
 		]
     },
     searck_ok => {
@@ -41,8 +41,7 @@ sub result : Chained('object') : PathPart('') : Args(0) : ActionClass('REST') { 
 sub result_GET {
     my ( $self, $c ) = @_;
 
-    my $promise 	= $c->stash->{promise};
-#     my %attrs    	= $promise->get_inflated_columns;
+    my $promise = $c->stash->{promise};
     
     $self->status_ok(
         $c,

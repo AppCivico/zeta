@@ -220,7 +220,14 @@ sub upload_file : Chained('base') : PathPart('upload_file') : Args(0) {
 				$candidate->update( { img_profile => $file.'.'.$type[1] } );
 			} else {
 				if( $c->req->params->{type} eq 'promise' ) {
+					remove_tree( $path, {keep_root => 1} );
+					
+					$c->model('DB::PromiseContent')->search({
+						promise_id => $c->req->params->{promise_id}
+					})->delete;
+				
 					$upload->copy_to($path.'/'.$file);
+					
 				} else {
 					$upload->copy_to($path.'/'.$file.'.'.$type[1]);
 				}

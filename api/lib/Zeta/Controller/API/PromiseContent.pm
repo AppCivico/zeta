@@ -11,7 +11,7 @@ __PACKAGE__->config(
     result     	=> 'DB::PromiseContent',
     object_key 	=> 'promise_content',
     result_attr => {
-        prefetch =>  [ 'promise', 'created_by' ]
+        prefetch =>  [ 'promise', 'created_by', 'source_type' ]
     },
     searck_ok => {
 		promise_id => 'Int'
@@ -60,6 +60,15 @@ sub result_GET {
             created_by => {
                 (
                     map { $_ => $promise_content->created_by->$_, }
+                    qw/
+                    id
+                    name
+                    /
+                ),
+            },
+            source_type => {
+                (
+                    map { $_ => $promise_content->source_type->$_, }
                     qw/
                     id
                     name
@@ -131,6 +140,15 @@ sub list_GET {
 						created_by => {
 							(
 								map { $_ => $r->{created_by}{$_}, }
+								qw/
+								id
+								name
+								/
+							),
+						},
+						source_type => {
+							(
+								map { $_ => $r->{source_type}{$_}, }
 								qw/
 								id
 								name

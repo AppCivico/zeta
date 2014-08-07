@@ -70,6 +70,17 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 		stash => 'promise_obj'
 	);
 	
+	$api->stash_result(
+		$c, 'promise_contents',
+		stash => 'promise_content_obj',
+		params => {
+			promise_id => $c->stash->{promise_obj}{id}
+		}
+	);
+	
+	my $s = $c->stash->{promise_content_obj};
+	use DDP; p $s;
+	
 	my $params = { %{ $c->stash->{promise_obj} } };
 	
 	$form->format_date_to_human( $params, 'publication_date');
@@ -130,6 +141,42 @@ sub add : Chained('base') : PathPart('new') : Args(0) {
 }
 
 sub edit: Chained('object') : PathPart('') : Args(0) {
+}
+
+sub download_content: Chained('base') : PathPart('download_content') : Args(1) {
+	my ( $self, $c, $content_id ) = @_;
+
+	my $api = $c->model('API');
+	
+	$api->stash_result(
+		$c, [ 'promise_contents', $content_id],
+		stash => 'promise_content_obj'
+	);
+	
+	if( ! $c->stash->{promise_content_obj} ) {
+		$c->res->body('Nenhum arquivo encontrado.');
+		$c->detach();
+	}
+
+	my $path 		= Cwd::cwd();
+    my $full_path 	= $path.'/../'.$c->stash->{promise_content_obj}{link};
+    
+    my $name = $c->stash->{promise_content_obj}{name};
+    
+	my $content = $api->stash_result(
+		$c, 'download-files',
+		params => {
+			path	=> $full_path,
+		},
+		get_as_content	=> 1
+	);
+	
+	$c->res->header( 'content-type', 'application/octet-stream' );
+	$c->res->header('Content-Disposition', qq[attachment; filename=$name]);
+		
+    $c->res->body($content);
+    
+    $c->detach();
 }
 
 __PACKAGE__->meta->make_immutable;
