@@ -376,3 +376,15 @@ a, a:hover{
 .aware img{
 	margin-left: 5px;
 }
+
+.content-yellow form .selectbox img{
+	float: left;
+}
+.content-yellow form .selectbox .form-group{
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+.content-yellow form .selectbox .form-group label{
+	display: none;
+}
