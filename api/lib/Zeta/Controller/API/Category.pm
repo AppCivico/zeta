@@ -9,6 +9,9 @@ __PACKAGE__->config(
 
     result     	=> 'DB::Category',
     object_key 	=> 'category',
+    search_ok => {
+		order => 'Str'
+    },
 
     update_roles => [qw/superadmin user admin webapi/],
     create_roles => [qw/superadmin user webapi admin/],
@@ -86,6 +89,7 @@ sub list_GET {
 			{
 				page 	=> $c->req->params->{page},
 				rows 	=> 10,
+				order => 'name'
 			},
 		);
 	}

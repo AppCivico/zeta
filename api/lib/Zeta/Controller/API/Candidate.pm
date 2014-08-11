@@ -21,7 +21,8 @@ __PACKAGE__->config(
     delete_roles => [qw/superadmin admin/],
 
     search_ok => {
-        political_party_id => 'Int'
+        political_party_id => 'Int',
+        order => 'Str'
     }
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';

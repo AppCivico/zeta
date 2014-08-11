@@ -50,7 +50,7 @@ around list_GET => sub {
         }
     }
     $c->stash->{collection} = $c->stash->{collection}->search( {%may_search}, {%order} )
-      if %may_search;
+      if %may_search || %order ;
 
     $self->$orig(@_);
 };
