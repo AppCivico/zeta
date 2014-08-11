@@ -113,9 +113,9 @@ sub list_GET {
     
     my %conditions;
     if( $c->req->params->{filter} ) {
-# 		if( $c->req->params->{state_id} ) {
-# 			$conditions{'me.state_id'} = $c->req->params->{state_id};
-#  		}
+ 		if( $c->req->params->{state_id} ) {
+ 			$conditions{'me.state_id'} = $c->req->params->{state_id};
+  		}
  		
  		if( $c->req->params->{city_id} ) {
  			$conditions{'me.city_id'} = $c->req->params->{city_id};
@@ -126,11 +126,16 @@ sub list_GET {
 		}
  		
 		$conditions{is_active} = 1;
-  		$conditions{'-or'} 	= {
-			political_position_id 	=> $c->req->params->{political_position_id} ? $c->req->params->{political_position_id} : 1,
-			'me.state_id'			=> $c->req->params->{state_id}
-  		};
-    }
+		
+		if( $c->req->params->{filter_simple} ) {
+			$conditions{political_position_id} = $c->req->params->{political_position_id};
+		} else {
+			$conditions{'-or'} 	= {
+				political_position_id 	=> $c->req->params->{political_position_id} ? $c->req->params->{political_position_id} : 1,
+				'me.state_id'			=> $c->req->params->{state_id}
+			};
+  		}
+	}
 
     $self->status_ok(
         $c,

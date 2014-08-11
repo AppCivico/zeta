@@ -87,7 +87,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 				$c->stash->{organizations}->[0]{city}{state}{id} : undef
 		}
 	);
-    
+	    
     $c->stash->{count_partial} 	= scalar keys $c->stash->{coalitions};
 	$c->stash->{total}   		= $c->stash->{count};
 	$c->stash->{results} 		= $c->stash->{coalitions};

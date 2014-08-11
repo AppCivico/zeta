@@ -120,16 +120,34 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    
     my $rs = $c->stash->{collection};
     
+    my %conditions;
     if( $c->req->params->{organization_state_id} ) {
-		$rs = $rs->search({
-			'-or' => {
-				'election_campaign.state_id' 				=> $c->req->params->{organization_state_id},
-				'election_campaign.political_position_id' 	=> 1
-			}
-		});
+		$conditions{'-or'} = {
+			'election_campaign.state_id' 				=> $c->req->params->{organization_state_id},
+			'election_campaign.political_position_id' 	=> 1
+		};
     }
+
+    my $count;
+    
+    if( $c->req->params->{pagination} ) {
+		$count = $rs->search( %conditions ? { %conditions } :  undef )->count;
+
+		$rs = $rs->search(
+			%conditions ? { %conditions } : undef,
+			{
+				page 	=> $c->req->params->{page},
+				rows 	=> 10,
+			},
+		);
+	} else {
+		$rs = $rs->search(
+			%conditions ? { %conditions } : undef,
+		);
+	}
 
     $self->status_ok(
         $c,
@@ -183,7 +201,8 @@ sub list_GET {
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
                 } $rs->as_hashref->all
-            ]
+            ],
+            count => $count
         }
     );
 }
