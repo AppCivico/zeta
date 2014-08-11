@@ -30,7 +30,7 @@
 			<div class="container">
 				<p>
 				Confira, aqui, o que o seu candidato diz que vai fazer se for eleito. Acompanhe. E cobre depois.
-				<form action="/promessas" method="post">
+				<form action="/promessas" method="post" class="select-filter">
 					<div class="selectbox">
 						<img src="static/images/icon-01.png" border="0">
 						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione a região')|none%]

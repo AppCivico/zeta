@@ -4,9 +4,35 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-	padding-top: 50px;
+	padding-top: 40px;
 }
 
+a, a:visited{
+	color: #31953a;
+}
+a:hover{
+	color: #39ab44;
+}
+
+.navbar{
+	height: 40px;
+	margin-bottom: 0px;
+}
+
+.navbar-brand{
+	padding: 0;
+}
+
+.navbar-nav>li>a.btn-logout,.navbar-nav>li>a.btn-logout:visited{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin: 2px;
+	background-color: #cecc00;
+	color: #31953a;
+}
+.navbar-nav>li>a.btn-logout:hover{
+	background-color: #d8d610;
+}
 
 /*
  * Global add-ons
@@ -36,7 +62,7 @@ body {
 @media (min-width: 768px) {
 	.sidebar {
 		position: fixed;
-		top: 51px;
+		top: 41px;
 		bottom: 0;
 		left: 0;
 		z-index: 1000;
@@ -67,7 +93,7 @@ float:none;}
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
 	color: #fff;
-	background-color: #428bca;
+	background-color: #31953a;
 }
 
 
