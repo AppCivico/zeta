@@ -44,11 +44,13 @@
 
 </div> <!-- /container -->
 <div class="clear"></div>
-<!--<footer>
-	<div class="container">
-		© Publicidade Inteligente 2014. Todos os direitos reservados.
+<footer class="bs-footer" role="contentinfo">
+	<div class="container text-center">
+		<div class="row text-center">
+			<div class="aware">Desenvolvido por <a href="http://www.aware.com.br" target="_blank">Aware</a><img src="/static/images/logo-aware.gif" alt="Aware - Desenvolvendo conceitos, criando parceiros"></div>
+		</div>
 	</div>
-</footer>-->
+</footer>
 
 <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
 [% assets.export("js")|none %]
