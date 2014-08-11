@@ -15,21 +15,22 @@ a:hover{
 }
 
 .navbar{
-	min-height: 40px;
+	height: 40px;
+	margin-bottom: 0px;
 }
 
 .navbar-brand{
 	padding: 0;
 }
 
-.btn-logout,.btn-logout:visited{
+.navbar-nav>li>a.btn-logout,.navbar-nav>li>a.btn-logout:visited{
 	padding-top: 5px;
 	padding-bottom: 5px;
 	margin: 2px;
 	background-color: #cecc00;
 	color: #31953a;
 }
-.btn-logout:hover{
+.navbar-nav>li>a.btn-logout:hover{
 	background-color: #d8d610;
 }
 
