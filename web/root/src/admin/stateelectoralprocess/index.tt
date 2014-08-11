@@ -8,6 +8,7 @@
 			<tr>
                 <th>Nome</th>
                 <th>Fonte</th>
+                <th>Estado</th>
                 <th>Ações</th>
 			</tr>
 		</thead>
@@ -16,7 +17,7 @@
 				<tr>
 					<td>[%sep.name%]</td>
 					<td>[%sep.source%]</td>
-					
+					<td>[%sep.electoral_regional_court.state.name%]
 					<td>
 						<a href="/admin/state_electoral_process/[%sep.id%]">Editar</a> |
 						<a href="/admin/form/remove_state_electoral_process/[%sep.id%]">Excluir</a>

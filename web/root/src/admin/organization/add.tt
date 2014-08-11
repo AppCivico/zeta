@@ -10,7 +10,11 @@
 		
 			[%input_text('phone','Telefone', req=>0, classes => ['form-control', 'mobile_phone'])|none%]
 		
-			[%input_text('email','Email', req=>0)|none%]
+			[%input_text('email','Email', req=>1)|none%]
+			
+			[%input_text('password','Senha', req=>1, type=>'password')|none%]
+			
+			[%input_text('password_confirm','Confirmar senha', req=>1, type=>'password')|none%]
 		
 			[%input_text('website','Website', req=>0)|none%]
 		

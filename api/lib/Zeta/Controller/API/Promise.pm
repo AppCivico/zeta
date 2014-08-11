@@ -15,6 +15,8 @@ __PACKAGE__->config(
 			'city',
 			'state',
 			'category',
+			'created_by',
+			'source_type',
 			{ 'candidate' 			=> 'political_party' },
 			{ 'election_campaign' 	=> 'political_position' },
 		]
@@ -26,9 +28,9 @@ __PACKAGE__->config(
 		country_id		=> 'Int'
     },
 
-    update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user admin/],
-    delete_roles => [qw/superadmin user admin/],
+    update_roles => [qw/superadmin admin organization/],
+    create_roles => [qw/superadmin admin organization/],
+    delete_roles => [qw/superadmin admin organization/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
@@ -52,7 +54,6 @@ sub result_GET {
 					id
 					name
 					description
-					created_by
 					source
 					city_id
 					state_id
@@ -83,6 +84,24 @@ sub result_GET {
             category => {
                 (
                     map { $_ => $promise->category->$_, }
+                    qw/
+                    id
+                    name
+                    /
+                ),
+			},
+			created_by => {
+                (
+                    map { $_ => $promise->created_by->$_, }
+                    qw/
+                    id
+                    name
+                    /
+                ),
+			},
+			source_type => {
+                (
+                    map { $_ => $promise->source_type->$_, }
                     qw/
                     id
                     name
@@ -156,6 +175,13 @@ sub list_GET {
 		}
     }
     
+    if( $c->req->params->{org_state_id} ) {
+		$conditions{'-or'} 	= {
+			'me.state_id'	=> $c->req->params->{state_id},
+			'me.country_id'	=> 1
+  		};
+    }
+    
     if( $c->req->params->{candidate_id} ) {
 		$conditions{'me.candidate_id'} = $c->req->params->{candidate_id};
     }
@@ -177,7 +203,7 @@ sub list_GET {
 								id
 								name
 								description
-								created_by
+								created_at
 								source
 								city_id
 								state_id
@@ -209,6 +235,24 @@ sub list_GET {
 						category => {
 							(
 								map { $_ => $r->{category}{$_}, }
+								qw/
+								id
+								name
+								/
+							),
+						},
+						created_by => {
+							(
+								map { $_ => $r->{created_by}{$_}, }
+								qw/
+								id
+								name
+								/
+							),
+						},
+						source_type => {
+							(
+								map { $_ => $r->{source_type}{$_}, }
 								qw/
 								id
 								name

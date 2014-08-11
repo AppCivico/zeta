@@ -34,14 +34,15 @@ sub process : Chained('base') : PathPart('promise') : Args(0) {
         $c->detach( '/form/redirect_error', [] );
     } else {
 		
-		if( $c->req->upload('promise_file') ) {
-			
-			my %data = {
-				upload 	=> %{ $c->req->upload },
-				params	=> %{ $c->req->params }
+			my $upload = $c->req->upload('promise_file');
+		
+		if( $upload ) {
+			my $data = {
+				upload 	=> $upload,
+				params	=> $c->req->params
 			};
-			
-			$self->upload_file($c, %data);
+				
+			$self->upload_file($c, \%$data);
 		}
     
 		$c->detach( '/form/redirect_ok', [ '/admin/promise/index', {}, 'Cadastrado com sucesso!' ] );

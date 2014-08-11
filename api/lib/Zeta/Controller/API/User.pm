@@ -11,7 +11,7 @@ __PACKAGE__->config(
     result     => 'DB::User',
     object_key => 'user',
 
-    update_roles => [qw/superadmin webapi admin/],
+    update_roles => [qw/superadmin webapi admin organization/],
     create_roles => [qw/superadmin admin/],
     delete_roles => [qw/superadmin admin/],
     search_ok   => {
@@ -48,6 +48,7 @@ sub result_GET {
                 is_active
                 reset_password_key
                 organization_id
+                password_defined
                 /
         }
     );
@@ -122,6 +123,7 @@ sub list_GET {
 								is_active 
 								reset_password_key 
 								created_at
+								password_defined
 							/ 
 						),
                         roles 	=> [ map { $_->{role}{name} } @{ $r->{user_roles} } ],

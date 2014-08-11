@@ -21,6 +21,7 @@
 			[%select_field('city_id','Cidade', array => select_cities, req=>0)|none%]
 			[%checkbox('presidential', 'Campanha presidencial')|none%]
 			[%input_text('source','Fonte', req=>0)|none%]
+			[%select_field('source_type_id','Tipo de fonte', array => select_source_types, req=>0)|none%]
 			[%input_text('publication_date','Data da publicação', req=>0, classes => ['form-control', 'date'])|none%]
 			
 			<h4 class="sub-header">Enviar arquivo</h4>
@@ -30,10 +31,7 @@
 				<input type="file" name="promise_file"></input>
 				</div>
 			</div>
-			[%input_text('source_file','Fonte', req=>0)|none%]
-			[%select_field('source_type_id','Tipo de fonte', array => select_source_types, req=>0)|none%]
-			
-		<button type="submit" class="btn btn-success pull-right">Salvar</button>
+			<button type="submit" class="btn btn-success pull-right">Salvar</button>
 		</form>
 	</div>
 </div>

@@ -10,6 +10,8 @@ sub base : Chained('/admin/base') : PathPart('coalition') : CaptureArgs(0) {
 
 	my $api = $c->model('API');
 	
+	my $org = $c->stash->{organizations};
+	
 	$api->stash_result(
 		$c, 'political_positions',
 		params =>{
@@ -23,20 +25,26 @@ sub base : Chained('/admin/base') : PathPart('coalition') : CaptureArgs(0) {
 	);
 	$c->stash->{select_election_campaigns} = [ map { [ $_->{id}, $_->{political_position}{position}, $_->{year} ] } @{ $c->stash->{election_campaigns} } ];
 
-	$api->stash_result(
-		$c, 'cities',
-		params => {
-			order   => 'name',
-		}
-	);
-	$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
-	
-	$api->stash_result(
-		$c, 'states',
-		params => {
-			order   => 'name',
-		}
-	);
+ 	
+ 	$c->stash->{select_cities} = [0, 'Selecione'];
+		
+	if($org) {
+		$api->stash_result(
+			$c, 'states',
+			params => {
+				order   => 'name',
+				id		=> $org ? $org->[0]{city}{state}{id} : undef
+			}
+		);
+	} 
+	else {
+		$api->stash_result(
+			$c, 'states',
+			params => {
+				order   => 'name',
+			}
+		);
+	}
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 	
 	$api->stash_result(
@@ -67,32 +75,18 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     
     my $item_per_page 	= 10;
 	my $page 			= $c->req->params->{page} || 1;
-
-    if( $c->req->params->{name} ) {
-        my @fields;
-        my $params = { %{ $c->req->params } };
-        
-        $c->stash->{name}	= $c->req->params->{name};
-
-        $api->stash_result(
-            $c, 'coalitions',
-            params => {
-#                 name		=> $params->{name} ? $params->{name} : undef,
-                page		=> $page,
-                pagination 	=> 1,
-                is_active	=> 1
-            }
-        );
-    } else {
-        $api->stash_result(
-            $c, 'coalitions',
-            params => {
-                page		=> $page,
-                pagination 	=> 1,
-                is_active	=> 1
-            }
-        );
-    }
+	
+	$api->stash_result(
+		$c, 'coalitions',
+		params => {
+			order		=> 'political_position.position',
+			page		=> $page,
+			pagination 	=> 1,
+			is_active	=> 1,
+			organization_state_id => $c->stash->{organizations}->[0]{city}{state}{id} ? 
+				$c->stash->{organizations}->[0]{city}{state}{id} : undef
+		}
+	);
     
     $c->stash->{count_partial} 	= scalar keys $c->stash->{coalitions};
 	$c->stash->{total}   		= $c->stash->{count};
@@ -138,7 +132,7 @@ sub filter_election_campaign : Chained('base') : PathPart('filter_election_campa
 	elsif( $title eq 'Presidente' ) {
 		$c->stash->{select_cities} = undef;
 		$c->stash->{select_states} = undef;
-	} 
+	}
 	
 	$c->stash(
 		template        => 'auto/election_campaign.tt',

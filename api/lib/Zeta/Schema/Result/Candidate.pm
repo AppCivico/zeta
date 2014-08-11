@@ -90,6 +90,12 @@ __PACKAGE__->table("candidate");
   data_type: 'text'
   is_nullable: 1
 
+=head2 gender
+
+  data_type: 'enum'
+  extra: {custom_type_name => "gender",list => ["m","f"]}
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -116,6 +122,12 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 1 },
   "government_program",
   { data_type => "text", is_nullable => 1 },
+  "gender",
+  {
+    data_type => "enum",
+    extra => { custom_type_name => "gender", list => ["m", "f"] },
+    is_nullable => 1,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -208,8 +220,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-28 15:34:22
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4PbVBdvQtH6geHFw8qvo6Q
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-08-11 08:33:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:d+trwVFFTGpgIMhDx2pKpQ
 
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
@@ -256,7 +268,11 @@ sub verifiers_specs {
                 website => {
 					required 	=> 0,
 					type		=> 'Str'
-                }
+                },
+                gender => {
+					required 	=> 0,
+					type		=> 'Str'
+                },
             }
         ),
     };

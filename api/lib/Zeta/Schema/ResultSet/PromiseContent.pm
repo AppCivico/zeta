@@ -33,14 +33,6 @@ sub verifiers_specs {
                     required => 1,
                     type     => 'Int',
                 },
-                source => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                source_type_id => {
-					required => 1,
-                    type     => 'Int',
-                }
             },
         ),
     };

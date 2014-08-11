@@ -33,10 +33,7 @@ sub after_login {
     if ( grep { /^user$/ } $c->user->roles ) {
         $url = '/user/dashboard/index';
     }
-    elsif ( grep { /^admin-tracker$/ } $c->user->roles ) {
-        $url = '/trackermanager/dashboard/index';
-    }
-    elsif ( grep { /^admin$/ } $c->user->roles ) {
+    elsif ( grep { /^admin|organization$/ } $c->user->roles ) {
         $url = '/admin/dashboard/index';
     }
     

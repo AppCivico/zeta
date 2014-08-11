@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		
-		<div class="content-yellow">
+		<!--<div class="content-yellow">
 			<div class="container">
 				<p>
 				<h1>Em breve</h1>
@@ -22,11 +22,11 @@
 				</p>
 			</div>
 		</div>
-	</content>
+	</content>-->
 	
 	
 		
-		<!--<div class="content-yellow">
+		<div class="content-yellow">
 			<div class="container">
 				<p>
 				Confira, aqui, o que o seu candidato diz que vai fazer se for eleito. Acompanhe. E cobre depois.
@@ -48,6 +48,6 @@
 				</form>
 				</p>
 			</div>
-		</div>-->
+		</div>
 		[%INCLUDE parts/green_box.tt  %]
 	</content>

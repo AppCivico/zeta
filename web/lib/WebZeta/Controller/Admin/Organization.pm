@@ -58,6 +58,12 @@ sub add : Chained('base') :PathPart('new') : Args(0) {
 sub edit : Chained('object') :PathPart('') : Args(0) {
 }
 
+sub change_password : Chained('base') : PathPart('change_password') : Args(0) {
+	my ( $self, $c ) = @_;
+	
+	$c->stash->{template} = 'admin/organization/change_password.tt';
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

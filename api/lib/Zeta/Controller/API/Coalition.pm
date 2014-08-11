@@ -12,16 +12,19 @@ __PACKAGE__->config(
     result     	=> 'DB::Coalition',
     object_key 	=> 'coalition',
     search_ok => {
-		order 		=> 'Str',
-		is_active 	=> 'Int',
+		order 					=> 'Str',
+		is_active 				=> 'Int',
+		election_campaign_id 	=> 'Int',
     },
     result_attr => {
-		prefetch => { 'election_campaign' => 'political_position' }
+		prefetch => { 
+			'election_campaign' => [ 'political_position', 'state', 'city' ]
+		}
     },
 
-    update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user admin/],
-    delete_roles => [qw/superadmin user admin/],
+    update_roles => [qw/superadmin user admin organization/],
+    create_roles => [qw/superadmin user admin organization/],
+    delete_roles => [qw/superadmin user admin organization/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
@@ -60,13 +63,27 @@ sub result_GET {
 					state_id
 					/
 				),
-				 political_position => {
+				political_position => {
 					map { $_ => $coalition->election_campaign->political_position->$_, }
 					qw/
 					id
 					position
 					/
-				}
+				},
+				state => $coalition->election_campaign->state ? {
+					map { $_ => $coalition->election_campaign->state->$_, }
+					qw/
+					id
+					uf
+					/
+				} : undef,
+				city => $coalition->election_campaign->city ? {
+					map { $_ => $coalition->election_campaign->city->$_, }
+					qw/
+					id
+					name
+					/
+				} : undef,
             }
         }
     );
@@ -104,6 +121,15 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 sub list_GET {
     my ( $self, $c ) = @_;
     my $rs = $c->stash->{collection};
+    
+    if( $c->req->params->{organization_state_id} ) {
+		$rs = $rs->search({
+			'-or' => {
+				'election_campaign.state_id' 				=> $c->req->params->{organization_state_id},
+				'election_campaign.political_position_id' 	=> 1
+			}
+		});
+    }
 
     $self->status_ok(
         $c,
@@ -138,11 +164,25 @@ sub list_GET {
 								id
 								position
 								/
-							}
+							},
+							state => {
+								map { $_ => $r->{election_campaign}{state}{$_}, }
+								qw/
+								id
+								uf
+								/
+							},
+							city => {
+								map { $_ => $r->{election_campaign}{city}{$_}, }
+								qw/
+								id
+								name
+								/
+							},
 						},	
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->as_hashref->all
             ]
         }
     );

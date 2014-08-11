@@ -26,6 +26,13 @@ sub candidate_profile : Chained('base') : PathPart('perfil-candidato') : Args(1)
 		$c, [ 'election_campaigns/get_candidates_runoff', $c->stash->{election_campaign_obj}{id} ],
 		stash => 'election_campaign_runoff_obj',
 	);
+	
+	$api->stash_result(
+		$c, 'coalitions',
+		params => {
+			election_campaign_id => $c->stash->{election_campaign_obj}{id}
+		}
+	);
 
 	my @ids = ( map { $_->{id} } @{ $c->stash->{election_campaign_runoff_obj}{candidates} } );
 	

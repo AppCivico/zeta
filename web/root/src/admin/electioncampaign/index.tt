@@ -8,6 +8,8 @@
 			<tr>
                 <th>Ano</th>
                 <th>Cargo disputado</th>
+                <th>Estado</th>
+                <th>Cidade</th>
                 <th>Ações</th>
 			</tr>
 		</thead>
@@ -16,6 +18,8 @@
 				<tr>
 					<td>[%ec.year%]</td>
 					<td>[%ec.political_position.position%]</td>
+					<td>[%ec.state.uf%]</td>
+					<td>[%ec.city.name%]</td>
 					<td>
 						<a href="/admin/election_campaign/[%ec.id%]">Editar</a> |
  						<a href="/admin/form/remove_election_campaign/[%ec.id%]">Excluir</a>

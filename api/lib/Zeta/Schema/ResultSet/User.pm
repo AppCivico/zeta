@@ -48,6 +48,18 @@ sub verifiers_specs {
                         return 1;
                       }
                 },
+                organization_id => {
+					required 	=> 0,
+					type		=> 'Int'
+                },
+                is_active	=> {
+					required 	=> 0,
+					type		=> 'Bool'
+                },
+                password_defined => {
+					required 	=> 0,
+					type		=> 'Bool'
+                },
             },
         ),
         login => Data::Verifier->new(

@@ -5,10 +5,12 @@
 				<li class=""><a href="/admin/dashboard">Dashboard</a></li>
 				<!--<li><a href="#">Perfil</a></li>
 				<li><a href="#">Usuários</a></li>-->
-				[%href = c.uri_for_action('/admin/organization/index')%]
-				<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
-					<a href="[%href%]">Organizações</a>
-				</li>
+				[%IF role_controller == 'admin'%]
+					[%href = c.uri_for_action('/admin/organization/index')%]
+					<li [% IF href.match("/${c_req_path}$") %]class="active"[%END%]>
+						<a href="[%href%]">Organizações</a>
+					</li>
+				[%END%]
 			</ul>
 			<ul class="nav nav-sidebar">
 				[%href = c.uri_for_action('/admin/politicalparty/index')%]

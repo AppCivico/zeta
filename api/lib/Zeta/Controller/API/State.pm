@@ -8,9 +8,15 @@ __PACKAGE__->config(
     default => 'application/json',
 
     result => 'DB::State',
+    search_ok => {
+		id 		=> 	'Int',
+		order 	=> 'Str'
+    },
 
 );
+
 with 'Zeta::TraitFor::Controller::AutoBase';
+with 'Zeta::TraitFor::Controller::Search';
 
 sub base : Chained('/api/base') : PathPart('states') : CaptureArgs(0) { }
 

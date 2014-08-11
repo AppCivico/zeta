@@ -11,15 +11,15 @@ __PACKAGE__->config(
     result     	=> 'DB::PromiseContent',
     object_key 	=> 'promise_content',
     result_attr => {
-        prefetch =>  [ 'promise', 'created_by', 'source_type' ]
+        prefetch =>  [ 'promise', 'created_by' ]
     },
     searck_ok => {
 		promise_id => 'Int'
     },
 
-    update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user/],
-    delete_roles => [qw/superadmin user/],
+    update_roles => [qw/superadmin admin organization/],
+    create_roles => [qw/superadmin admin organization/],
+    delete_roles => [qw/superadmin admin organization/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
@@ -44,7 +44,6 @@ sub result_GET {
 					id
 					name
 					link
-					source
                   /
             ),
             ( map { $_ => ( $promise_content->$_ ? $promise_content->$_->datetime : undef ) } qw/created_at/ ),
@@ -60,15 +59,6 @@ sub result_GET {
             created_by => {
                 (
                     map { $_ => $promise_content->created_by->$_, }
-                    qw/
-                    id
-                    name
-                    /
-                ),
-            },
-            source_type => {
-                (
-                    map { $_ => $promise_content->source_type->$_, }
                     qw/
                     id
                     name
@@ -125,7 +115,6 @@ sub list_GET {
 								id
 								name
 								link
-								source
                               /
                         ),
 						promise => {
@@ -140,15 +129,6 @@ sub list_GET {
 						created_by => {
 							(
 								map { $_ => $r->{created_by}{$_}, }
-								qw/
-								id
-								name
-								/
-							),
-						},
-						source_type => {
-							(
-								map { $_ => $r->{source_type}{$_}, }
 								qw/
 								id
 								name

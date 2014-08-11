@@ -81,6 +81,12 @@ __PACKAGE__->table("user");
   data_type: 'text'
   is_nullable: 1
 
+=head2 password_defined
+
+  data_type: 'boolean'
+  default_value: false
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -103,6 +109,8 @@ __PACKAGE__->add_columns(
   { data_type => "smallint", default_value => 0, is_nullable => 1 },
   "reset_password_key",
   { data_type => "text", is_nullable => 1 },
+  "password_defined",
+  { data_type => "boolean", default_value => \"false", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -184,6 +192,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 promises
+
+Type: has_many
+
+Related object: L<Zeta::Schema::Result::Promise>
+
+=cut
+
+__PACKAGE__->has_many(
+  "promises",
+  "Zeta::Schema::Result::Promise",
+  { "foreign.created_by" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 state_electoral_processes
 
 Type: has_many
@@ -260,8 +283,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-06-24 11:29:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tijgzmmMR5z76JWKrmWzpw
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-08-11 08:12:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lpI/b0b7HanT/ab7x4XBwQ
 
 __PACKAGE__->many_to_many( roles => user_roles => 'role' );
 
@@ -352,6 +375,10 @@ sub verifiers_specs {
                 organization_id => {
 					required 	=> 0,
 					type		=> 'Int'
+                },
+                password_defined => {
+					required => 0,
+                    type     => 'Bool'
                 }
             },
         ),

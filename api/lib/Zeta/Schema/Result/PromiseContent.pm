@@ -78,17 +78,6 @@ __PACKAGE__->table("promise_content");
   is_foreign_key: 1
   is_nullable: 0
 
-=head2 source
-
-  data_type: 'text'
-  is_nullable: 1
-
-=head2 source_type_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -113,10 +102,6 @@ __PACKAGE__->add_columns(
     original      => { default_value => \"now()" },
   },
   "created_by",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "source",
-  { data_type => "text", is_nullable => 1 },
-  "source_type_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
@@ -164,24 +149,9 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
-=head2 source_type
 
-Type: belongs_to
-
-Related object: L<Zeta::Schema::Result::SourceType>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "source_type",
-  "Zeta::Schema::Result::SourceType",
-  { id => "source_type_id" },
-  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-28 00:10:27
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Sd/jZ9gLiRibSySGGF42Ag
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-08-10 21:09:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:68A0hOEo8W9rhpUCkXSPkg
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
@@ -212,14 +182,6 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Int',
                 },
-                source => {
-                    required => 0,
-                    type     => 'Str',
-                },
-                source_type_id => {
-					required => 0,
-                    type     => 'Int',
-                }
             }
         ),
     };

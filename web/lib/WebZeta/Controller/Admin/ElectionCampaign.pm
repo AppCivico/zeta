@@ -9,6 +9,8 @@ sub base : Chained('/admin/base') : PathPart('election_campaign') : CaptureArgs(
 	my ( $self, $c ) = @_;
 
 	my $api = $c->model('API');
+
+	my $org = $c->stash->{organizations};
 	
 	$api->stash_result(
 		$c, 'political_positions',
@@ -18,20 +20,30 @@ sub base : Chained('/admin/base') : PathPart('election_campaign') : CaptureArgs(
 	);
 	$c->stash->{select_positions} = [ map { [ $_->{id}, $_->{position} ] } @{ $c->stash->{political_positions} } ];
 
-	$api->stash_result(
-		$c, 'cities',
-		params => {
-			order   => 'name',
-		}
-	);
-	$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
+# 	$api->stash_result(
+# 		$c, 'cities',
+# 		params => {
+# 			order   => 'name',
+# 		}
+# 	);
+# 	$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
 	
-	$api->stash_result(
-		$c, 'states',
-		params => {
-			order   => 'name',
-		}
-	);
+	if($org) {
+		$api->stash_result(
+			$c, 'states',
+			params => {
+				id		=> $org->[0]{city}{state}{id},
+				order   => 'name',
+			}
+		);
+	} else {
+		$api->stash_result(
+			$c, 'states',
+			params => {
+				order   => 'name',
+			}
+		);
+	}
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
 	
 	$api->stash_result(
@@ -81,18 +93,22 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             $c, 'election_campaigns',
             params => {
 #                 name		=> $params->{name} ? $params->{name} : undef,
+				filter		=> $c->stash->{organizations} ? 1 : undef,
                 page		=> $page,
                 pagination 	=> 1,
-                is_active	=> 1
+                is_active	=> 1,
+                state_id	=> $c->stash->{organizations}->[0]{city}{state}{id} ? $c->stash->{organizations}->[0]{city}{state}{id} : undef,
             }
         );
     } else {
         $api->stash_result(
             $c, 'election_campaigns',
             params => {
+				filter		=> $c->stash->{organizations} ? 1 : undef,
                 page		=> $page,
                 pagination 	=> 1,
-                is_active	=> 1
+                is_active	=> 1,
+                state_id	=> $c->stash->{organizations}->[0]{city}{state}{id} ? $c->stash->{organizations}->[0]{city}{state}{id} : undef
             }
         );
     }

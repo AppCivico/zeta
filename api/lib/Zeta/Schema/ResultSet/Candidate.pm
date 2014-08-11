@@ -48,7 +48,11 @@ sub verifiers_specs {
                 website => {
 					required 	=> 0,
 					type		=> 'Str'
-                }
+                },
+                gender => {
+					required 	=> 0,
+					type		=> 'Str'
+                },
             },
         ),
     };

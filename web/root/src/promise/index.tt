@@ -64,7 +64,7 @@
 					<div class="row">
 						[%FOREACH data IN promise.promises%]
 							<div class="col-sm-6 item">
-								<a href="">
+<!-- 								<a href=""> -->
 								<div class="promessa">
 									<div class="content">
 										<div class="texto">
@@ -73,10 +73,13 @@
 										<div class="info">
 											Tema: [%data.category_name%]<br />
 											Fonte: [%data.source%]<br />
+											Tipo de fonte: [%data.source_type%]<br />
+											Criado por: [%data.created_by%]<br />
+											Data de criação: [%format_date_to_human(data.created_at)%]<br />
 										</div>
 									</div>
 								</div>
-								</a>
+<!-- 								</a> -->
 							</div>
 						[%END%]
 					</div>

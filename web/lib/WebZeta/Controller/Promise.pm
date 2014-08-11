@@ -87,13 +87,16 @@ sub index : Chained('base') : PathPart('promessas') {
 			$candidates{$promise->{candidate}{name}}{promises} = [];
 			
 		}
-		
+
 		push($candidates{$promise->{candidate}{name}}{promises}, {
 			id 					=> $promise->{id},
 			name 				=> $promise->{name},
 			source 				=> $promise->{source},
 			description 		=> $promise->{description},
 			category_name		=> $promise->{category}{name},
+			created_at			=> $promise->{created_at},
+			created_by			=> $promise->{created_by}{name},
+			source_type			=> $promise->{source_type}{name}
 		});
 		
 	}

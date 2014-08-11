@@ -11,15 +11,15 @@ __PACKAGE__->config(
     result     	=> 'DB::ElectionCampaign',
     object_key 	=> 'election_campaign',
     result_attr => {
-		prefetch => 'political_position'
+		prefetch => [ 'political_position', 'state', 'city' ]
     },
 	search_ok => {
-		is_active => 'Int',
+		is_active 	=> 'Int',
 	},
 
-    update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user admin/],
-    delete_roles => [qw/superadmin user admin/],
+    update_roles => [qw/superadmin user admin organization/],
+    create_roles => [qw/superadmin user admin organization/],
+    delete_roles => [qw/superadmin user admin organization/],
 );
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
 
@@ -57,7 +57,21 @@ sub result_GET {
 				 id
 				 position
 				/
-            }
+            },
+            state => $election_campaign->state ? {
+				map { $_ => $election_campaign->state->$_, }
+				qw/
+				 id
+				 uf
+				/
+            } : undef,
+            city => $election_campaign->city ? {
+				map { $_ => $election_campaign->city->$_, }
+				qw/
+				 id
+				 name
+				/
+            } : undef
         }
     );
 
@@ -99,16 +113,23 @@ sub list_GET {
     
     my %conditions;
     if( $c->req->params->{filter} ) {
-		if( $c->req->params->{state_id} ) {
-			$conditions{state_id} = $c->req->params->{state_id};
-		}
-		if( $c->req->params->{city_id} ) {
-			$conditions{city_id} = $c->req->params->{city_id};
-		}
+# 		if( $c->req->params->{state_id} ) {
+# 			$conditions{'me.state_id'} = $c->req->params->{state_id};
+#  		}
+ 		
+ 		if( $c->req->params->{city_id} ) {
+ 			$conditions{'me.city_id'} = $c->req->params->{city_id};
+ 		}
 		
-		$conditions{is_active} 				= 1,
-		$conditions{year} 					= $c->req->params->{year},
-		$conditions{political_position_id} 	= $c->req->params->{political_position_id},
+		if( $c->req->params->{year} ) {
+			$conditions{year} = $c->req->params->{year};
+		}
+ 		
+		$conditions{is_active} = 1;
+  		$conditions{'-or'} 	= {
+			political_position_id 	=> $c->req->params->{political_position_id} ? $c->req->params->{political_position_id} : 1,
+			'me.state_id'			=> $c->req->params->{state_id}
+  		};
     }
 
     $self->status_ok(
@@ -138,6 +159,20 @@ sub list_GET {
 							position
 							/
 						},
+						state => $r->{state} ? {
+							map { $_ => $r->{state}{$_}, }
+							qw/
+							id
+							uf
+							/
+						} : undef,
+						city => $r->{city} ? {
+							map { $_ => $r->{city}{$_}, }
+							qw/
+							id
+							name
+							/
+						} : undef,
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
                 } $rs->search( \%conditions ? %{ \%conditions }: undef )->as_hashref->all

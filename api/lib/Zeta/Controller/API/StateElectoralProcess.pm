@@ -11,7 +11,8 @@ __PACKAGE__->config(
     result     	=> 'DB::StateElectoralProcess',
     object_key 	=> 'state_electoral_process',
     search_ok => {
-		electoral_regional_court_id => 'Int'
+		order	=> 'Str',
+		electoral_regional_court_id => 'Int',
 	},
 	result_attr => {
 		prefetch =>  [ 
@@ -20,9 +21,9 @@ __PACKAGE__->config(
        ]
     },
 
-    update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin user admin/],
-    delete_roles => [qw/superadmin user admin/],
+    update_roles => [qw/superadmin user admin organization/],
+    create_roles => [qw/superadmin user admin organization/],
+    delete_roles => [qw/superadmin user admin organization/],
 );
 
 with 'Zeta::TraitFor::Controller::DefaultCRUD';
@@ -113,6 +114,12 @@ sub list_GET {
     my ( $self, $c ) = @_;
     
     my $rs = $c->stash->{collection};
+    
+    if( $c->req->params->{org_state_id} ) {
+		$rs = $rs->search(
+			{'electoral_regional_court.state_id' => $c->req->params->{org_state_id}},
+		);
+    }
 
     $self->status_ok(
         $c,
@@ -158,7 +165,7 @@ sub list_GET {
 						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $c->stash->{collection}->as_hashref->all
+                } $rs->as_hashref->all
             ]
         }
     );

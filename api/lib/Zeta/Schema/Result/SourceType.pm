@@ -82,24 +82,24 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 promise_contents
+=head2 promises
 
 Type: has_many
 
-Related object: L<Zeta::Schema::Result::PromiseContent>
+Related object: L<Zeta::Schema::Result::Promise>
 
 =cut
 
 __PACKAGE__->has_many(
-  "promise_contents",
-  "Zeta::Schema::Result::PromiseContent",
+  "promises",
+  "Zeta::Schema::Result::Promise",
   { "foreign.source_type_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-28 00:10:27
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:RnfFasV2dtZhyacwp4gwDw
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-08-10 21:09:48
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:IJsQhiVpw4QQTlQp0LrV+A
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';

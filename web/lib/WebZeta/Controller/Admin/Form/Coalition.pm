@@ -25,6 +25,9 @@ sub process : Chained('base') : PathPart('coalition') : Args(0) {
 		}
     );
     
+#     my $e = $c->stash->{election_campaigns};
+#     use DDP; p $e; exit;
+    
     my $election_campaign_id;
     
     if( ! scalar @{ $c->stash->{election_campaigns} } ) {

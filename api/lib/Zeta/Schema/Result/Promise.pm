@@ -80,6 +80,7 @@ __PACKAGE__->table("promise");
 =head2 created_by
 
   data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 0
 
 =head2 created_at
@@ -117,6 +118,12 @@ __PACKAGE__->table("promise");
   data_type: 'date'
   is_nullable: 1
 
+=head2 source_type_id
+
+  data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -138,7 +145,7 @@ __PACKAGE__->add_columns(
   "candidate_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_by",
-  { data_type => "integer", is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_at",
   {
     data_type     => "timestamp",
@@ -156,6 +163,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "publication_date",
   { data_type => "date", is_nullable => 1 },
+  "source_type_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -242,6 +251,21 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head2 created_by
+
+Type: belongs_to
+
+Related object: L<Zeta::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "created_by",
+  "Zeta::Schema::Result::User",
+  { id => "created_by" },
+  { is_deferrable => 0, on_delete => "NO ACTION", on_update => "NO ACTION" },
+);
+
 =head2 election_campaign
 
 Type: belongs_to
@@ -277,6 +301,26 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 source_type
+
+Type: belongs_to
+
+Related object: L<Zeta::Schema::Result::SourceType>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "source_type",
+  "Zeta::Schema::Result::SourceType",
+  { id => "source_type_id" },
+  {
+    is_deferrable => 0,
+    join_type     => "LEFT",
+    on_delete     => "NO ACTION",
+    on_update     => "NO ACTION",
+  },
+);
+
 =head2 state
 
 Type: belongs_to
@@ -298,8 +342,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-15 10:56:44
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:tG0v3AVmvStINFYnNAy18A
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-08-11 08:12:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5LOE/XOrjjqA/bYOkF3MHg
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
@@ -341,6 +385,10 @@ sub verifiers_specs {
                 source => {
                     required => 0,
                     type     => 'Str',
+                },
+                source_type_id => {
+					required => 0,
+                    type     => 'Int',
                 },
                 city_id => {
 					required => 0,

@@ -12,8 +12,11 @@ __PACKAGE__->config(
     result_attr => {
 		prefetch => [ { 'city' => 'state' } ]
     },
+    search_ok => {
+		id => 	'Int'
+    },
 
-    update_roles => [qw/superadmin user admin webapi/],
+    update_roles => [qw/superadmin user admin webapi organization/],
     create_roles => [qw/superadmin admin webapi/],
     delete_roles => [qw/superadmin admin webapi/],
 );
@@ -163,6 +166,33 @@ sub list_POST {
             id => $organization->id
         }
     );
+}
+
+sub complete : Chained('base') : PathPart('complete') : Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $organization;
+
+    $c->model('DB')->txn_do(
+        sub {
+            $organization = $c->stash->{collection}->execute( $c, for => 'create', with => $c->req->params );
+
+            $c->req->params->{is_active} 		= 1;
+            $c->req->params->{role} 			= 'organization';
+            $c->req->params->{organization_id} 	= $organization->id;
+
+            my $user = $c->model('DB::User')->execute( $c, for => 'create', with => $c->req->params );
+        }
+    );
+
+    $self->status_created(
+        $c,
+        location => $c->uri_for( $self->action_for('result'), [ $organization->id ] )->as_string,
+        entity => {
+            id => $organization->id
+        }
+    );
+
 }
 
 1;

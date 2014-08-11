@@ -63,6 +63,7 @@ sub result_GET {
                   vice
                   website
                   government_program
+                  gender
                   /
             ),
             political_party => {
@@ -131,6 +132,7 @@ sub list_GET {
 								vice
 								website
 								government_program
+								gender
                               /
                         ),
                         political_party => {

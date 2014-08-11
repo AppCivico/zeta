@@ -45,6 +45,10 @@ sub verifiers_specs {
                     required => 0,
                     type     => 'Str',
                 },
+                source_type_id => {
+					required => 0,
+                    type     => 'Int',
+                },
                 city_id => {
 					required => 0,
                     type     => 'Int',

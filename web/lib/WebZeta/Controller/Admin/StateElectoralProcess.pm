@@ -10,13 +10,27 @@ sub base : Chained('/admin/base') : PathPart('state_electoral_process') : Captur
 
 	my $api = $c->model('API');
 	
-	$api->stash_result(
-		$c, 'electoral_regional_courts',
-		params => {
-			order   => 'state.name',
-		}
-	);
 	
+	my $org = $c->stash->{organizations};
+	
+	if($org) {
+		$api->stash_result(
+			$c, 'electoral_regional_courts',
+			params => {
+				order   	=> 'state.name',
+				state_id 	=> $org->[0]{city}{state}{id}
+			}
+		);
+	}
+	else {
+		$api->stash_result(
+			$c, 'electoral_regional_courts',
+			params => {
+				order   => 'state.name',
+			}
+		);
+	}
+
 	$c->stash->{select_spe} = [ map { [ $_->{id}, $_->{state}{name} ] } @{ $c->stash->{electoral_regional_courts} } ];
 }
 
@@ -40,6 +54,8 @@ sub index : Chained('base') : PathPart('') : Args(0) {
     
     my $item_per_page 	= 10;
 	my $page 			= $c->req->params->{page} || 1;
+	
+	my $org = $c->stash->{organizations};
 
     if( $c->req->params->{name} ) {
         my @fields;
@@ -50,15 +66,19 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         $api->stash_result(
             $c, 'state_electoral_processes',
             params => {
-                name	=> $params->{name} ? $params->{name} : undef,
-                page	=> $page,
+                name			=> $params->{name} ? $params->{name} : undef,
+                page			=> $page,
+                order			=> 'electoral_regional_court.state.name',
+                org_state_id	=>  $org ? $org->[0]{city}{state}{id} : undef
             }
         );
     } else {
         $api->stash_result(
             $c, 'state_electoral_processes',
             params => {
-                page => $page,
+                page 			=> $page,
+                order			=> 'electoral_regional_court.state.name',
+                org_state_id	=>  $org ? $org->[0]{city}{state}{id} : undef
             }
         );
     }
