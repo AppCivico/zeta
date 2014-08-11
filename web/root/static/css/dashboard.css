@@ -7,13 +7,6 @@ body {
 	padding-top: 40px;
 }
 
-a, a:visited{
-	color: #31953a;
-}
-a:hover{
-	color: #39ab44;
-}
-
 .navbar{
 	height: 40px;
 	margin-bottom: 0px;
@@ -93,7 +86,7 @@ float:none;}
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
 	color: #fff;
-	background-color: #31953a;
+	background-color: #428bca;
 }
 
 
