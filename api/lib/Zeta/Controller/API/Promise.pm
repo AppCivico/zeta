@@ -99,7 +99,7 @@ sub result_GET {
                     /
                 ),
 			},
-			source_type => {
+			source_type => $promise->source_type ? {
                 (
                     map { $_ => $promise->source_type->$_, }
                     qw/
@@ -107,7 +107,7 @@ sub result_GET {
                     name
                     /
                 ),
-			},
+			} : undef,
 			election_campaign => {
 				(
 					map { $_ => $promise->election_campaign->$_, }
@@ -250,7 +250,7 @@ sub list_GET {
 								/
 							),
 						},
-						source_type => {
+						source_type => $r->{source_type} ? {
 							(
 								map { $_ => $r->{source_type}{$_}, }
 								qw/
@@ -258,7 +258,7 @@ sub list_GET {
 								name
 								/
 							),
-						},
+						} : undef,
 						election_campaign => {
 							(
 								map { $_ => $r->{election_campaign}{$_}, }
