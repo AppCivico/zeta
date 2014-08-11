@@ -376,3 +376,19 @@ a, a:hover{
 .aware img{
 	margin-left: 5px;
 }
+
+.content-yellow form.select-filter .selectbox img{
+	float: left;
+}
+.content-yellow form.select-filter .selectbox .form-group{
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+.content-yellow form.select-filter .selectbox .form-group label{
+	display: none;
+}
+.content-yellow form.select-filter .btn{
+	display: inline-block;
+	margin-top: -22px;
+}
