@@ -19,12 +19,8 @@ body {
 .navbar-nav>li>a.btn-logout,.navbar-nav>li>a.btn-logout:visited{
 	padding-top: 5px;
 	padding-bottom: 5px;
-	margin: 2px;
-	background-color: #cecc00;
-	color: #31953a;
-}
-.navbar-nav>li>a.btn-logout:hover{
-	background-color: #d8d610;
+	margin: 3px;
+	color: #fff;
 }
 
 /*
@@ -126,4 +122,11 @@ float:none;}
 .placeholder img {
 	display: inline-block;
 	border-radius: 50%;
+}
+
+.bs-foter{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding: 5px 0;
 }
