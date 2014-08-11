@@ -15,7 +15,7 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'categories',
 		params => {
-			order => 'name',
+			order => 'me.name',
 		}
 	);
 	$c->stash->{select_categories} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{categories} } ];
@@ -23,7 +23,7 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'candidates',
 		params => {
-			order => 'name',
+			order => 'me.name',
 		}
 	);
 	$c->stash->{select_candidates} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{candidates} } ];
@@ -31,7 +31,7 @@ sub base : Chained('/root') : PathPart('') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'states',
 		params => {
-			order => 'name',
+			order => 'me.name',
 		}
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
