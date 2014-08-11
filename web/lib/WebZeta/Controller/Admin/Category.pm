@@ -38,7 +38,8 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             params => {
                 name		=> $params->{name} ? $params->{name} : undef,
                 page		=> $page,
-                pagination 	=> 1
+                pagination 	=> 1,
+                order		=> 'me.name'
             }
         );
     } else {
@@ -46,7 +47,8 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             $c, 'categories',
             params => {
                 page 		=> $page,
-                pagination 	=> 1
+                pagination 	=> 1,
+                order		=> 'me.name'
             }
         );
     }

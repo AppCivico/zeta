@@ -13,7 +13,7 @@ sub base : Chained('/admin/base') : PathPart('organization') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'cities',
 		params => {
-			order   => 'name',
+			order   => 'me.name',
 		}
 	);
 	$c->stash->{select_cities} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{cities} } ];
@@ -21,7 +21,7 @@ sub base : Chained('/admin/base') : PathPart('organization') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'states',
 		params => {
-			order   => 'name',
+			order   => 'me.name',
 		}
 	);
 	$c->stash->{select_states} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{states} } ];
@@ -47,7 +47,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 	$api->stash_result(
 		$c, 'organizations',
 		params => {
-			order   => 'name',
+			order   => 'me.name',
 		}
 	);
 }

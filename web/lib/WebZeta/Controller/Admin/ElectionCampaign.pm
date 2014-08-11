@@ -15,7 +15,7 @@ sub base : Chained('/admin/base') : PathPart('election_campaign') : CaptureArgs(
 	$api->stash_result(
 		$c, 'political_positions',
 		params => {
-			order   => 'position',
+			order   => 'me.position',
 		}
 	);
 	$c->stash->{select_positions} = [ map { [ $_->{id}, $_->{position} ] } @{ $c->stash->{political_positions} } ];
@@ -33,14 +33,14 @@ sub base : Chained('/admin/base') : PathPart('election_campaign') : CaptureArgs(
 			$c, 'states',
 			params => {
 				id		=> $org->[0]{city}{state}{id},
-				order   => 'name',
+				order   => 'me.name',
 			}
 		);
 	} else {
 		$api->stash_result(
 			$c, 'states',
 			params => {
-				order   => 'name',
+				order   => 'me.name',
 			}
 		);
 	}
@@ -49,7 +49,7 @@ sub base : Chained('/admin/base') : PathPart('election_campaign') : CaptureArgs(
 	$api->stash_result(
 		$c, 'political_parties',
 		params => {
-			order   => 'name',
+			order   => 'me.name',
 		}
 	);
 	$c->stash->{select_parties} = [ map { [ $_->{id}, $_->{acronym} ] } @{ $c->stash->{political_parties} } ];
@@ -68,7 +68,7 @@ sub object : Chained('base') : PathPart('') : CaptureArgs(1) {
 	$api->stash_result(
 		$c, ['election_campaigns/get_candidates', $c->stash->{election_campaign_obj}{id}],
 		params => {
-			order => 'name',
+			order => 'me.name',
 		}
 	);
 	$c->stash->{select_candidates} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{candidates} } ];
@@ -147,7 +147,7 @@ sub filter_candidate_by_party : Chained('base') : PathPart('filter_candidate') :
 	$api->stash_result(
 		$c, 'candidates',
 		params => {
-			order   			=> 'name',
+			order   			=> 'me.name',
 			political_party_id 	=> $party_id
 		}
 	);
@@ -169,7 +169,7 @@ sub vinculate_candidate : Chained('base') : PathPart('vinculate_candidate') : Ar
 	$api->stash_result(
 		$c, ['election_campaigns/get_candidates', $election_campaign_id],
 		params => {
-			order => 'name',
+			order => 'me.name',
 		}
 	);
 }
@@ -189,7 +189,7 @@ sub runoff : Chained('base') :PathPart('runoff') : Args(1) {
 	$api->stash_result(
 		$c, ['election_campaigns/get_candidates', $c->stash->{election_campaign_obj}{id}],
 		params => {
-			order => 'name',
+			order => 'me.name',
 		}
 	);
 	$c->stash->{select_candidates} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{candidates} } ];
@@ -197,7 +197,7 @@ sub runoff : Chained('base') :PathPart('runoff') : Args(1) {
 	$api->stash_result(
 		$c, ['election_campaigns/get_candidates_runoff', $c->stash->{election_campaign_obj}{id}],
 		params => {
-			order => 'name',
+			order => 'me.name',
 		}
 	);
 }

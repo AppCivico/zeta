@@ -15,7 +15,7 @@ sub base : Chained('/admin/base') : PathPart('candidate') : CaptureArgs(0) {
 		$c, 'political_parties',
 		params => {
 			status	=> 1,
-			order   => 'acronym',
+			order   => 'me.acronym',
 		}
 	);
 

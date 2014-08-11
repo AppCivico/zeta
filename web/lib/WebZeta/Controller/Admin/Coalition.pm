@@ -15,7 +15,7 @@ sub base : Chained('/admin/base') : PathPart('coalition') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'political_positions',
 		params =>{
-			order => 'position'
+			order => 'me.position'
 		}
 	);
 	$c->stash->{select_political_positions} = [ map { [ $_->{id}, $_->{position} ] } @{ $c->stash->{political_positions} } ];
@@ -32,7 +32,7 @@ sub base : Chained('/admin/base') : PathPart('coalition') : CaptureArgs(0) {
 		$api->stash_result(
 			$c, 'states',
 			params => {
-				order   => 'name',
+				order   => 'me.name',
 				id		=> $org ? $org->[0]{city}{state}{id} : undef
 			}
 		);
@@ -41,7 +41,7 @@ sub base : Chained('/admin/base') : PathPart('coalition') : CaptureArgs(0) {
 		$api->stash_result(
 			$c, 'states',
 			params => {
-				order   => 'name',
+				order   => 'me.name',
 			}
 		);
 	}
@@ -50,7 +50,7 @@ sub base : Chained('/admin/base') : PathPart('coalition') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'political_parties',
 		params => {
-			order   => 'name',
+			order   => 'me.name',
 		}
 	);
 	$c->stash->{select_parties} = [ map { [ $_->{id}, $_->{acronym} ] } @{ $c->stash->{political_parties} } ];
@@ -151,7 +151,7 @@ sub vinculate_parties : Chained('base') : PathPart('vinculate_parties') : Args(1
 	$api->stash_result(
 		$c, ['coalitions/get_parties', $coalition_id],
 		params => {
-			order => 'name',
+			order => 'me.name',
 		}
 	);
 	
@@ -159,7 +159,7 @@ sub vinculate_parties : Chained('base') : PathPart('vinculate_parties') : Args(1
 		$c, 'political_parties',
 		stash => 'avlb_parties',
 		params => {
-			order 	=> 'name',
+			order 	=> 'me.name',
 			status 	=> 1
 		}
 	);

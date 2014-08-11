@@ -15,7 +15,7 @@ sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'categories',
 		params => {
-			order   => 'name',
+			order   => 'me.name',
 		}
 	);
 	$c->stash->{select_categories} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{categories} } ];
@@ -23,7 +23,7 @@ sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'candidates',
 		params => {
-			order   => 'name',
+			order   => 'me.name',
 		}
 	);
 	$c->stash->{select_candidates} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{candidates} } ];
@@ -32,7 +32,7 @@ sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 		$api->stash_result(
 			$c, 'states',
 			params => {
-				order   => 'name',
+				order   => 'me.name',
 				id		=> $org->[0]{city}{state}{id}
 			}
 		);
@@ -40,7 +40,7 @@ sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 		$api->stash_result(
 			$c, 'cities',
 			params => {
-				order   	=> 'name',
+				order   	=> 'me.name',
 				state_id	=> $org->[0]{city}{state}{id}
 			}
 		);
@@ -59,14 +59,14 @@ sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 		$api->stash_result(
 			$c, 'states',
 			params => {
-				order   => 'name',
+				order   => 'me.name',
 			}
 		);
 		
 		$api->stash_result(
 			$c, 'cities',
 			params => {
-				order   => 'name',
+				order   => 'me.name',
 			}
 		);
 		
@@ -81,7 +81,7 @@ sub base : Chained('/admin/base') : PathPart('promise') : CaptureArgs(0) {
 	$api->stash_result(
 		$c, 'source_types',
 		params => {
-			order   => 'name',
+			order   => 'me.name',
 		}
 	);
 	$c->stash->{select_source_types} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{source_types} } ];
