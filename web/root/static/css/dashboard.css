@@ -4,7 +4,7 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-	padding-top: 50px;
+	padding-top: 40px;
 }
 
 a, a:visited{
@@ -22,14 +22,14 @@ a:hover{
 	padding: 0;
 }
 
-.navbar-nav>li>a,.navbar-nav>li>a:visited{
+.btn-logout,.btn-logout:visited{
 	padding-top: 5px;
 	padding-bottom: 5px;
 	margin: 2px;
 	background-color: #cecc00;
 	color: #31953a;
 }
-.navbar-nav>li>a:hover{
+.btn-logout:hover{
 	background-color: #d8d610;
 }
 
@@ -61,7 +61,7 @@ a:hover{
 @media (min-width: 768px) {
 	.sidebar {
 		position: fixed;
-		top: 51px;
+		top: 41px;
 		bottom: 0;
 		left: 0;
 		z-index: 1000;
@@ -132,12 +132,4 @@ float:none;}
 .placeholder img {
 	display: inline-block;
 	border-radius: 50%;
-}
-
-.bs-footer{
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	padding-top: 5px;
-	padding-bottom: 5px;
 }

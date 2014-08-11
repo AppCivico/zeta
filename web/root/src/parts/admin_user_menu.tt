@@ -12,7 +12,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 			<li>
-				<a href="/logout" class="pull-right btn btn-primary">Sair</a>
+				<a href="/logout" class="pull-right btn btn-primary btn-logout">Sair</a>
 			</li>
             <!--<li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
