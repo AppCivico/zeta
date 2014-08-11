@@ -112,7 +112,22 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    
     my $rs = $c->stash->{collection};
+    
+    my $count;
+    
+    if( $c->req->params->{pagination} ) {
+		$count = $rs->search( undef )->count;
+
+		$rs = $rs->search(
+			undef,
+			{
+				page 	=> $c->req->params->{page},
+				rows 	=> 10,
+			},
+		);
+	}
 
     $self->status_ok(
         $c,
@@ -148,8 +163,9 @@ sub list_GET {
                         },
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $c->stash->{collection}->as_hashref->all
-            ]
+                } $rs->as_hashref->all
+            ],
+            count => $count
         }
     );
 }

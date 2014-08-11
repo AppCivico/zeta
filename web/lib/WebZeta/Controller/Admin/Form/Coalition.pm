@@ -21,16 +21,18 @@ sub process : Chained('base') : PathPart('coalition') : Args(0) {
 			city_id 				=> $c->req->params->{city_id} ? $c->req->params->{city_id} : undef,
 			year					=> $c->req->params->{year},
 			political_position_id 	=> $c->req->params->{political_position_id},
-			filter					=> 1
+			filter_simple			=> 1,
+			filter					=> 1,
 		}
     );
     
-#     my $e = $c->stash->{election_campaigns};
-#     use DDP; p $e; exit;
+#      my $e = $c->stash->{election_campaigns};
+#      use DDP; p $e; exit;
     
     my $election_campaign_id;
     
     if( ! scalar @{ $c->stash->{election_campaigns} } ) {
+		$c->req->params->{is_active} = 1;
 		$api->stash_result(
 			$c, 'election_campaigns',
 			method => 'POST',
