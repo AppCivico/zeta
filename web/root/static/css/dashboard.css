@@ -14,13 +14,23 @@ a:hover{
 	color: #39ab44;
 }
 
+.navbar{
+	min-height: 40px;
+}
+
 .navbar-brand{
 	padding: 0;
 }
 
-.navbar-nav>li>a{
-	padding-top: 2;
-	padding-bottom: 2;
+.navbar-nav>li>a,.navbar-nav>li>a:visited{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin: 2px;
+	background-color: #cecc00;
+	color: #31953a;
+}
+.navbar-nav>li>a:hover{
+	background-color: #d8d610;
 }
 
 /*
