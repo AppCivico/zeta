@@ -1,18 +1,22 @@
 		<div class="content-yellow saiba-mais">
 			<div class="container">
-				<div class="page-header">
-				  <h1><small>Nas campanhas eleitorais, em geral, os candidatos prometem muitas coisas para ganhar o voto dos eleitores e, passadas as eleições, poucos se lembram do que foi prometido.</small></h1>
-				</div>
+				<p style="text-align: center;">
+				  Nas campanhas eleitorais, em geral, os candidatos prometem muitas coisas para ganhar o voto dos eleitores e, passadas as eleições, poucos se lembram do que foi prometido.
+				</p>
+			</div>
+		</div>
+		<div class="content-white">
+			<div class="container">
 				<p>
-				Este site tem por objetivo registrar as promessas nas campanhas eleitorais deste ano, para governos estaduais e presidência da República.
-				<br /><br />
-				O registro das promessas dos candidatos será feito por organizações que integram a Rede Social Brasileira por Cidades Justas, Democráticas e Sustentáveis em diversos estados.
-				<br /><br />
-				Para garantir a confiabilidade dos dados, as organizações participantes que alimentarão o site terão senha e cada promessa será registrada com a respectiva fonte da informação.
-				<br /><br />
-				Aos registros feitos no “De Olho nas Promessas” somam-se os compromissos assumidos pelos candidatos em seus programas de governo, que estão disponíveis no Tribunal Superior Eleitoral e também poderão ser acessados por meio deste site.
-				<br /><br />
-				Elaborado por iniciativa da Rede Nossa São Paulo e do Programa Cidades Sustentáveis – além da Rede Social Brasileira –, o site disponibilizará os dados para que os cidadãos, a imprensa e as organizações da sociedade civil possam, depois, acompanhar se as promessas de campanha estão sendo colocadas em prática ou não pelos eleitos.
+					Este site tem por objetivo registrar as promessas nas campanhas eleitorais deste ano, para governos estaduais e presidência da República.
+					<br /><br />
+					O registro das promessas dos candidatos será feito por organizações que integram a Rede Social Brasileira por Cidades Justas, Democráticas e Sustentáveis em diversos estados.
+					<br /><br />
+					Para garantir a confiabilidade dos dados, as organizações participantes que alimentarão o site terão senha e cada promessa será registrada com a respectiva fonte da informação.
+					<br /><br />
+					Aos registros feitos no “De Olho nas Promessas” somam-se os compromissos assumidos pelos candidatos em seus programas de governo, que estão disponíveis no Tribunal Superior Eleitoral e também poderão ser acessados por meio deste site.
+					<br /><br />
+					Elaborado por iniciativa da Rede Nossa São Paulo e do Programa Cidades Sustentáveis – além da Rede Social Brasileira –, o site disponibilizará os dados para que os cidadãos, a imprensa e as organizações da sociedade civil possam, depois, acompanhar se as promessas de campanha estão sendo colocadas em prática ou não pelos eleitos.
 				</p>
 			</div>
 		</div>

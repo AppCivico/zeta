@@ -405,10 +405,5 @@ a, a:hover{
 .saiba-mais.content-yellow p{
 	font-size: 1.1em;
 	text-transform: inherit;
-	text-shadow: none;
 	max-width: 90%;
-	text-align: left;
-}
-.saiba-mais .page-header h1 small{
-	color: #fff;
 }
