@@ -103,6 +103,9 @@ a, a:hover{
 	padding: 50px;
 	text-align: center;
 }
+.slide-home p a{
+	color: #fff;
+}
 .content-yellow p,
 .content-green p{
 	margin: 50px auto;
@@ -401,10 +404,11 @@ a, a:hover{
 
 .saiba-mais.content-yellow p{
 	font-size: 1.1em;
-	text-transform: normal;
+	text-transform: inherit;
 	text-shadow: none;
 	max-width: 90%;
+	text-align: left;
 }
-.saiba-mais .page-header h1{
+.saiba-mais .page-header h1 small{
 	color: #fff;
 }
