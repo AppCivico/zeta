@@ -49,15 +49,14 @@
 					<div class="logo-top"><a href="/"><img src="/static/images/logo-top.png" border="0"></a></div>
 				</div>				
 				<div class="col-sm-3 text-right">
+					<ul class="menu-top">
+						<li><a href="/saiba-mais">Saiba mais</a></li>
 					[%IF ! c.user%]
-						<ul class="menu-top">
-							<li><a href="/login">Login</a></li>
-						</ul>
+						<li><a href="/login">Login</a></li>
 					[%ELSE%]
-						<ul class="menu-top">
-							<li><a href="/admin/dashboard">Administração</a></li>
-						</ul>
+						<li><a href="/admin/dashboard">Administração</a></li>
 					[%END%]
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -68,10 +67,10 @@
 		<div class="container text-center">
 			<div class="row">
 				<div class="col-xs-3 text-center">
-					<img src="/static/images/logo-rnsp-footer.png">
+					<img src="/static/images/logo-pcs-footer.png">
 				</div>
 				<div class="col-xs-3 text-center">
-					<img src="/static/images/logo-pcs-footer.png">
+					<img src="/static/images/logo-rnsp-footer.png">
 				</div>
 				<div class="col-xs-3 text-center">
 					<img src="/static/images/logo-redes-footer.png">
