@@ -27,6 +27,7 @@ header .menu-top{
 }
 header .menu-top li{
 	padding: 3px 10px;
+	display: inline-block;
 }
 header .menu-top li a{
 	color: #cccccc;
@@ -83,6 +84,11 @@ a, a:hover{
 	text-align: left;
 	padding: 50px 0;
 }
+
+.page-header{
+	margin-top: 0;
+}
+
 .content-green{
 	background-color: #8cc63f;
 	color: #333;
@@ -391,4 +397,14 @@ a, a:hover{
 .content-yellow form.select-filter .btn{
 	display: inline-block;
 	margin-top: -22px;
+}
+
+.saiba-mais.content-yellow p{
+	font-size: 1.1em;
+	text-transform: normal;
+	text-shadow: none;
+	max-width: 90%;
+}
+.saiba-mais .page-header h1{
+	color: #fff;
 }
