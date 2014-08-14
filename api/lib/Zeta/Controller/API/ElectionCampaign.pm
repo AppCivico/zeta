@@ -114,9 +114,9 @@ sub list_GET {
     
     my %conditions;
     if( $c->req->params->{filter} ) {
- 		if( $c->req->params->{state_id} ) {
- 			$conditions{'me.state_id'} = $c->req->params->{state_id};
-  		}
+#  		if( $c->req->params->{state_id} ) {
+#  			$conditions{'me.state_id'} = $c->req->params->{state_id};
+#   		}
  		
  		if( $c->req->params->{city_id} ) {
  			$conditions{'me.city_id'} = $c->req->params->{city_id};
