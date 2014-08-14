@@ -20,7 +20,8 @@
 					<td>[%candidate.political_party.acronym%]</td>
 					<td>
 						<a href="/admin/candidate/[%candidate.id%]">Editar</a> |
-						<a href="/admin/form/remove_candidate/[%candidate.id%]" data-confirm="Deseja realmente remover?">Excluir</a>
+						<a href="/admin/form/remove_candidate/[%candidate.id%]" 
+							data-confirm="Você removerá todos os dados deste candidato, deseja realmente remover?">Excluir</a>
 					</td>
 				</tr>
             [%END%]
