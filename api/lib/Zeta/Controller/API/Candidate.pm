@@ -94,9 +94,9 @@ sub result_DELETE {
 			$promise->search_related('promise_contents')->delete;
 		}
 		
-		$candidate->search_related('promises')->delete;
-		$candidate->search_related('election_campaign_candidates')->delete;
 		$candidate->search_related('election_campaign_runoffs')->delete;
+		$candidate->search_related('election_campaign_candidates')->delete;
+		$candidate->search_related('promises')->delete;
 		
 		$candidate->delete;
     });

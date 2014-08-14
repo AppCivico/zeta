@@ -9,7 +9,9 @@
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Partido</th>
+                [%IF role_controller == 'admin'%]
                 <th>Ações</th>
+                [%END%]
 			</tr>
 		</thead>
 		<tbody>
@@ -18,11 +20,13 @@
 					<td>[%candidate.name%]</td>
 					<td>[%candidate.email%]</td>
 					<td>[%candidate.political_party.acronym%]</td>
+					[%IF role_controller == 'admin'%]
 					<td>
 						<a href="/admin/candidate/[%candidate.id%]">Editar</a> |
 						<a href="/admin/form/remove_candidate/[%candidate.id%]" 
 							data-confirm="Você removerá todos os dados deste candidato, deseja realmente remover?">Excluir</a>
 					</td>
+					[%END%]
 				</tr>
             [%END%]
 		</tbody>
