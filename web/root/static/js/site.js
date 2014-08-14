@@ -23,7 +23,6 @@ var $site = function(){
 	}
 }();
 
-
 $(document).ready(function () {
 	if( $('#elm_electoral_regional_court_select').length ) {
 		
@@ -40,5 +39,16 @@ $(document).ready(function () {
 			$site.getCandidates($(this).attr('id'));
 		});
 	}
+	
+	$("[data-confirm]").click(function (event) {
+		var confirmPrompt = event.currentTarget.attributes['data-confirm'].value;
+		if (window.confirm(confirmPrompt)) {
+			return 1;
+		} else {
+			event.preventDefault();
+		}
+		
+		return 0;
+	});
 	
 });

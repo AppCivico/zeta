@@ -2,6 +2,7 @@ package WebZeta::Controller::Admin::Form::Candidate;
 use Moose;
 use namespace::autoclean;
 use DateTime;
+use utf8;
 use JSON::XS;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -139,7 +140,22 @@ sub process_delete : Chained('base') : PathPart('remove_candidate') : Args(1) {
 
     my $api = $c->model('API');
 
+    $api->stash_result( 
+		$c, 'election_campaigns',
+		params => {
+			elected_candidate_id => $id
+		}
+    );
+    
+    if( @{ $c->stash->{election_campaigns} } ) {
+		$c->stash->{error} = 'Esse candidato não pode ser removido';
+		
+		$c->detach( '/form/redirect_error', []);
+    }
+    
     $api->stash_result( $c, [ 'candidates', $id ], method => 'DELETE' );
+    
+    
 
     if ( $c->stash->{error} ) {
         $c->detach( '/form/redirect_error', [] );

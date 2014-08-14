@@ -86,8 +86,20 @@ sub result_GET {
 sub result_DELETE {
     my ( $self, $c ) 	= @_;
     my $candidate 		= $c->stash->{candidate};
-
-    $candidate->delete;
+    
+    $c->model('DB')->txn_do( sub {
+		my @promises = $candidate->search_related('promises')->all;
+		
+		foreach my $promise (@promises) {
+			$promise->search_related('promise_contents')->delete;
+		}
+		
+		$candidate->search_related('promises')->delete;
+		$candidate->search_related('election_campaign_candidates')->delete;
+		$candidate->search_related('election_campaign_runoffs')->delete;
+		
+		$candidate->delete;
+    });
 
     $self->status_no_content($c);
 }

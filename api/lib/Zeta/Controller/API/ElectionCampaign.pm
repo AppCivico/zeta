@@ -15,6 +15,7 @@ __PACKAGE__->config(
     },
 	search_ok => {
 		is_active 	=> 'Int',
+		elected_candidate_id => 'Int'
 	},
 
     update_roles => [qw/superadmin user admin organization/],
