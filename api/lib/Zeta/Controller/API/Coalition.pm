@@ -222,12 +222,41 @@ sub list_POST {
     );
 }
 
-sub get_parties : Chained('base') : PathPart('get_parties') : Args(1) {
+sub get_coalition_by_party : Chained('base') : PathPart('get_coalition_by_party') {
+	my ( $self, $c ) = @_;
+	
+	my @ids = decode_json($c->req->params->{ids});
+		
+	my $parties_rs = $c->model('DB::CoalitionsPoliticalParty')->search_rs( {
+		'me.coalition_id' 		=> { 'in' => $ids[0] }, 
+		'me.political_party_id' => $c->req->params->{political_party_id}
+	} );
+	
+	$self->status_ok(
+        $c,
+        entity => {
+            coalition_info => [
+				map {
+                    my $r = $_;
+                    +{
+                        (
+                            map { $_ => $r->{$_} }
+                              qw/
+								id
+								name
+                              /
+                        ),
+                     }
+                } $parties_rs->search_related('coalition')->as_hashref->all
+            ]
+        }
+    );
+}
+
+sub get_parties : Chained('base') : PathPart('get_parties') :Args(1) {
 	my ( $self, $c, $coalition_id ) = @_;
 	
-	my $parties_rs = 
-		$c->model('DB::CoalitionsPoliticalParty')->search_rs( { coalition_id => $coalition_id } );
-	
+	my $parties_rs = $c->model('DB::CoalitionsPoliticalParty')->search_rs( { coalition_id => $coalition_id } );
 	
 	$self->status_ok(
         $c,
@@ -246,7 +275,7 @@ sub get_parties : Chained('base') : PathPart('get_parties') : Args(1) {
                         ),
                      }
                 } $parties_rs->search_related('political_party')->as_hashref->all
-            ]
+            ],
         }
     );
 }

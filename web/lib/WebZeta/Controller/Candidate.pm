@@ -1,6 +1,7 @@
 package WebZeta::Controller::Candidate;
 use Moose;
 use namespace::autoclean;
+use JSON::XS;
 use utf8;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -23,19 +24,34 @@ sub candidate_profile : Chained('base') : PathPart('perfil-candidato') : Args(1)
 	);
 	
 	$api->stash_result(
-		$c, [ 'election_campaigns/get_candidates_runoff', $c->stash->{election_campaign_obj}{id} ],
+		$c, [ 'election_campaigns/get_candidates_runoff', $c->stash->{candidate_obj}{election_campaigns}[0] ],
 		stash => 'election_campaign_runoff_obj',
 	);
 	
 	$api->stash_result(
 		$c, 'coalitions',
 		params => {
-			election_campaign_id => $c->stash->{election_campaign_obj}{id}
+			election_campaign_id 	=> $c->stash->{candidate_obj}{election_campaigns}[0],
+			is_active 				=> 1,
+		}
+	);
+	
+	my @coalition_ids = map { $_->{id} } @{ $c->stash->{coalitions} };
+	
+	$api->stash_result(
+		$c, 'coalitions/get_coalition_by_party',
+		params => {
+			ids 				=> encode_json(\@coalition_ids),
+			political_party_id	=> $c->stash->{candidate_obj}{political_party}{id},
 		}
 	);
 	
 	$api->stash_result(
-		$c, ['coalitions/get_parties', $c->stash->{coalitions}[0]{id}],
+		$c, ['coalitions/get_parties', $c->stash->{coalition_info}[0]{id}],
+		params => {
+			ids 				=> encode_json(\@coalition_ids),
+			political_party_id	=> $c->stash->{candidate_obj}{political_party}{id},
+		}
 	);
 	
 	@{ $c->stash->{coalition_parties} } = join '/', map { $_->{acronym} } @{ $c->stash->{parties} };
