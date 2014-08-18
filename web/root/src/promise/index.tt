@@ -5,11 +5,17 @@
 				<form action="/promessas" method="post" class="select-filter">
 					<div class="selectbox">
 						<img src="/static/images/icon-01.png" border="0">
-						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione a região')|none%]
+						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione Brasil ou Estados')|none%]
 					</div>
 					<div class="selectbox">
 						<img src="/static/images/icon-02.png" border="0">
-						[%select_field('candidate_id',false, array => select_candidates, req=>0, default_first=>'Escolha o candidato')|none%]
+						[%select_field(
+							'candidate_id',false, 
+							array 			=> select_candidates, 
+							req				=>0, 
+							default_first	=>'Escolha o candidato', 
+							classes			=> ['form-control', 'disabled']
+						)|none%]
 					</div>
 					<div class="selectbox">
 						<img src="/static/images/icon-03.png" border="0">
@@ -72,10 +78,16 @@
 										</div>
 										<div class="info">
 											Tema: [%data.category_name%]<br />
-											Fonte: [%data.source%]<br />
+											Fonte: [%data.source%] - [%format_date_to_human(data.publication_date)%]<br />
 											Tipo de fonte: [%data.source_type%]<br />
-											Criado por: [%data.created_by%]<br />
-											Data de criação: [%format_date_to_human(data.created_at)%]<br />
+											Registrado por: [%data.created_by%]<br />
+											Data de registro: [%format_date_to_human(data.created_at)%]<br />
+											[%IF data.external_link%]
+												Link externo: <a href="[%data.external_link%]" target="_blank">[%data.external_link%]</a><br />
+											[%END%]
+											[%IF data.promise_content_id%]
+												Arquivo para download: <a href="/download_content/[%data.promise_content_id%]">[%data.promise_content_name%]</a><br />
+											[%END%]
 										</div>
 									</div>
 								</div>

@@ -58,6 +58,7 @@ sub result_GET {
 					city_id
 					state_id
 					country_id
+					external_link
                   /
             ),
             ( map { $_ => ( $promise->$_ ? $promise->$_->datetime : undef ) } qw/created_at publication_date/ ),
@@ -209,6 +210,7 @@ sub list_GET {
 								state_id
 								country_id
 								publication_date
+								external_link
                               /
                         ),
                         candidate => {

@@ -44,6 +44,7 @@ sub result_GET {
 					name
 					content
 					source
+					external_link
                   /
             ),
             ( map { $_ => ( $federal_electoral_process->$_ ? $federal_electoral_process->$_->datetime : undef ) } qw/created_at/ ),
@@ -118,6 +119,7 @@ sub list_GET {
 								content
 								source
 								created_at
+								external_link
                               /
                         ),
 						electoral_superior_court => {

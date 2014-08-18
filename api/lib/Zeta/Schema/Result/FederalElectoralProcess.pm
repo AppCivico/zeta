@@ -83,6 +83,11 @@ __PACKAGE__->table("federal_electoral_process");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 external_link
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -110,6 +115,8 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 0 },
   "electoral_superior_court_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "external_link",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -157,8 +164,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-07-05 19:06:28
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:7xdqq93hmimT5FM6u4Wv0A
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-08-18 00:01:23
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:XHqrFbjaTAsGms+9TJMIaA
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
@@ -192,6 +199,10 @@ sub verifiers_specs {
                 electoral_superior_court_id => {
 					required 	=> 0,
 					type		=> 'Int'
+                },
+                external_link => {
+					required 	=> 0,
+					type		=> 'Str'
                 }
             }
         ),

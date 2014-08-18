@@ -16,9 +16,9 @@ __PACKAGE__->config(
         prefetch => 'political_party'
     },
 
-    update_roles => [qw/superadmin user admin/],
-    create_roles => [qw/superadmin admin/],
-    delete_roles => [qw/superadmin admin/],
+    update_roles => [qw/superadmin admin organization/],
+    create_roles => [qw/superadmin admin organization/],
+    delete_roles => [qw/superadmin admin organization/],
 
     search_ok => {
         political_party_id => 'Int',

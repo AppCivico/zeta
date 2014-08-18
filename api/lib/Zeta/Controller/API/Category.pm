@@ -1,6 +1,7 @@
 package Zeta::Controller::API::Category;
 
 use Moose;
+use JSON::XS;
 
 BEGIN { extends 'Catalyst::Controller::REST' }
 
@@ -80,6 +81,12 @@ sub list_GET {
     my $rs = $c->stash->{collection};
     
     my $count;
+    
+    if( $c->req->params->{ids} ) {
+		my @ids = decode_json($c->req->params->{ids});
+		
+		$rs = $rs->search( { id => { 'in' => $ids[0] } }, { group_by => [qw/id name/] } );
+    }
     
     if( $c->req->params->{pagination} ) {
 		$count = $rs->search(undef)->count;

@@ -37,6 +37,10 @@ sub verifiers_specs {
 					required => 0,
                     type     => 'Int'
                 },
+                external_link => {
+					required 	=> 0,
+					type		=> 'Str'
+                }
             },
         ),
     };

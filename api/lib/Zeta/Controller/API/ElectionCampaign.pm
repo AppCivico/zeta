@@ -221,12 +221,23 @@ sub add_candidates : Chained('base') : PathPart('add_candidates') : Args(0) {
     
 }
 
-sub get_candidates : Chained('base') : PathPart('get_candidates') : Args(1) {
+sub get_candidates : Chained('base') : PathPart('get_candidates') {
 	my ( $self, $c, $election_campaign_id ) = @_;
 	
-	my $candidates_rs = 
-		$c->model('DB::ElectionCampaignCandidate')->search_rs( { election_campaign_id => $election_campaign_id } );
-	
+	my $candidates_rs; 
+	my $ec;
+ 
+	if( $c->req->params->{filter_position} ) {
+		$ec 			= $c->model('DB::ElectionCampaign')->search_rs( { political_position_id => $c->req->params->{filter_position} } );
+		$candidates_rs 	= $ec->search_related('election_campaign_candidates');
+	}
+	elsif( $c->req->params->{filter_region} ) {
+		$ec 			= $c->model('DB::ElectionCampaign')->search_rs( { state_id => $c->req->params->{filter_region} } );
+		$candidates_rs 	= $ec->search_related('election_campaign_candidates');
+	}
+	else {
+		$candidates_rs = $c->model('DB::ElectionCampaignCandidate')->search_rs( { election_campaign_id => $election_campaign_id } );
+	}
 	
 	$self->status_ok(
         $c,

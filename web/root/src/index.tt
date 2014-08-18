@@ -29,15 +29,15 @@
 		<div class="content-yellow">
 			<div class="container">
 				<p>
-				Confira, aqui, o que o seu candidato diz que vai fazer se for eleito. Acompanhe. E cobre depois.
+				Confira o que os candidatos afirmam que irão fazer se forem eleitos. Acompanhe. E cobre depois.
 				<form action="/promessas" method="post" class="select-filter">
 					<div class="selectbox">
 						<img src="static/images/icon-01.png" border="0">
-						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione a região')|none%]
+						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione Brasil ou Estados')|none%]
 					</div>
 					<div class="selectbox">
 						<img src="static/images/icon-02.png" border="0">
-						[%select_field('candidate_id',false, array => select_candidates, req=>0, default_first=>'Escolha o candidato')|none%]
+						[%select_field('candidate_id',false, array => select_candidates, req=>0, default_first=>'Escolha o candidato', classes => ['form-control', 'disabled'])|none%]
 					</div>
 					<div class="selectbox">
 						<img src="static/images/icon-03.png" border="0">

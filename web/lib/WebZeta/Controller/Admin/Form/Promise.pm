@@ -20,10 +20,25 @@ sub process : Chained('base') : PathPart('promise') : Args(0) {
     
     $form->format_date($params, 'publication_date');
     
-    if($c->req->params->{presidential}) {
+    $api->stash_result(
+		$c, [ 'election_campaigns', $c->req->params->{election_campaign_id} ],
+		stash => 'election_campaign_obj'
+    );
+
+    if(
+		$c->stash->{election_campaign_obj}{political_position}{id} == 1 
+		&& $c->stash->{election_campaign_obj}{political_position}{position} eq 'Presidente'
+	) {
 		$params->{country_id} = 1;
-    }
-    
+	} 
+	elsif( $c->stash->{election_campaign_obj}{political_position}{position} eq 'Governador' ) {
+		$params->{state_id} = $c->stash->{election_campaign_obj}{state}{id};
+	} 
+	elsif( $c->stash->{election_campaign_obj}{political_position}{position} eq 'Prefeito' ) {
+		$params->{state_id}	= $c->stash->{election_campaign_obj}{state}{id};
+		$params->{city_id} 	= $c->stash->{election_campaign_obj}{city}{id};
+	}
+
     $api->stash_result(
 		$c, ['promises'],
 		method => 'POST',
@@ -59,6 +74,25 @@ sub process_edit : Chained('base') : PathPart('promise') : Args(1) {
     my $params 	= { %{ $c->req->params } };
     
     $form->format_date($params, 'publication_date');
+    
+    $api->stash_result(
+		$c, [ 'election_campaigns', $c->req->params->{election_campaign_id} ],
+		stash => 'election_campaign_obj'
+    );
+
+    if(
+		$c->stash->{election_campaign_obj}{political_position}{id} == 1 
+		&& $c->stash->{election_campaign_obj}{political_position}{position} eq 'Presidente'
+	) {
+		$params->{country_id} = 1;
+	} 
+	elsif( $c->stash->{election_campaign_obj}{political_position}{position} eq 'Governador' ) {
+		$params->{state_id} = $c->stash->{election_campaign_obj}{state}{id};
+	} 
+	elsif( $c->stash->{election_campaign_obj}{political_position}{position} eq 'Prefeito' ) {
+		$params->{state_id}	= $c->stash->{election_campaign_obj}{state}{id};
+		$params->{city_id} 	= $c->stash->{election_campaign_obj}{city}{id};
+	}
    
     $api->stash_result(
         $c, [ 'promises', $id ],

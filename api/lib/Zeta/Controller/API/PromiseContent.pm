@@ -13,7 +13,7 @@ __PACKAGE__->config(
     result_attr => {
         prefetch =>  [ 'promise', 'created_by' ]
     },
-    searck_ok => {
+    search_ok => {
 		promise_id => 'Int'
     },
 

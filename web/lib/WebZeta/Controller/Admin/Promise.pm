@@ -220,6 +220,21 @@ sub download_content: Chained('base') : PathPart('download_content') : Args(1) {
     $c->detach();
 }
 
+sub filter_candidates_by_ec : Chained('') : PathPart('filter_candidates_by_ec') : Args(0) {
+	my ( $self, $c ) = @_;
+	
+	my $api = $c->model('API');
+	
+	$api->stash_result(
+		$c, [ 'election_campaigns/get_candidates', $c->req->params->{election_campaign_id} ],
+	);
+	
+	$c->stash->{select_candidates} = [ map { [ $_->{id}, $_->{name} ] } @{ $c->stash->{candidates} } ];
+	
+	$c->stash->{template} 			= 'auto/select_candidates.tt';
+	$c->stash->{without_wrapper} 	= 1;
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

@@ -44,14 +44,34 @@ var $admin = function () {
 			}
 		});
 	}
+	
+	function filterCandidates(param) {
+		$.ajax({
+			url: "/filter_candidates_by_ec",
+			data:{election_campaign_id: param},
+			dataType: 'html',
+			success: function (result) {
+				$("#elm_candidate_id").html(result);
+			},
+			error: function (err) {
+				console.log(err);
+			},
+			complete: function() {
+				$('#elm_candidate_id').removeAttr('disabled');
+			}
+		});
+	}
 
 	return {
 		getCandidates: getCandidates,
-		getElectionCampaigns: getElectionCampaigns
+		getElectionCampaigns: getElectionCampaigns,
+		filterCandidates: filterCandidates
     };
 }();
 
 $(document).ready(function () {
+	
+	$('.disabled').attr('disabled', 'disabled');
 	
 	if( $('#candidates').length ) {
 		$('#elm_political_party').change(function(){
@@ -62,6 +82,26 @@ $(document).ready(function () {
 	if( $('#elm_political_position_id').length ) {
 		$('#elm_political_position_id').change(function() {
 			$admin.getElectionCampaigns($(this).val());
+		});
+	}
+	
+	$("[data-confirm]").click(function (event) {
+		var confirmPrompt = event.currentTarget.attributes['data-confirm'].value;
+		if (window.confirm(confirmPrompt)) {
+			return 1;
+		} else {
+			event.preventDefault();
+		}
+		
+		return 0;
+	});
+	
+	var $election_campaign = $('#elm_election_campaign_id');
+	if( $election_campaign.length ) {
+		$election_campaign.change(function(){
+			if($(this).val()) {
+				$admin.filterCandidates($(this).val());
+			}
 		});
 	}
 

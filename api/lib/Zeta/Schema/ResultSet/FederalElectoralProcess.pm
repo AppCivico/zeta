@@ -36,6 +36,10 @@ sub verifiers_specs {
                 electoral_superior_court_id => {
 					required 	=> 1,
 					type		=> 'Int'
+                },
+                external_link => {
+					required 	=> 0,
+					type		=> 'Str'
                 }
             },
         ),

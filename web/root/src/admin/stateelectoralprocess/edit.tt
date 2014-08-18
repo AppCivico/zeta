@@ -11,6 +11,7 @@
 				</div>
 			</div>
 			[%select_field('electoral_regional_court_id','TRE', array => select_spe, req=>1, value=>sep_obj.electoral_regional_court.id)|none%]
+			[%input_text('external_link','Link externo', value=>sep_obj.external_link, req=>1)|none%]
 			[%input_text('source','Fonte', req=>1, value=>sep_obj.source)|none%]
 			<button type="submit" class="btn btn-success pull-right">Salvar</button>
 		</form>

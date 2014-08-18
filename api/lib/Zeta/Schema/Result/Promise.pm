@@ -124,6 +124,11 @@ __PACKAGE__->table("promise");
   is_foreign_key: 1
   is_nullable: 1
 
+=head2 external_link
+
+  data_type: 'text'
+  is_nullable: 1
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -165,6 +170,8 @@ __PACKAGE__->add_columns(
   { data_type => "date", is_nullable => 1 },
   "source_type_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "external_link",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -342,8 +349,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-08-11 08:12:05
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5LOE/XOrjjqA/bYOkF3MHg
+# Created by DBIx::Class::Schema::Loader v0.07039 @ 2014-08-17 20:47:32
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:5a2DNIap4VCYpQpoKAF4fA
 with 'Zeta::Role::Verification';
 with 'Zeta::Role::Verification::TransactionalActions::DBIC';
 with 'Zeta::Schema::Role::ResultsetFind';
@@ -406,6 +413,10 @@ sub verifiers_specs {
 					required 	=> 0,
 					type		=> DataStr
                 },
+                external_link => {
+					required 	=> 0,
+					type		=> 'Str'
+                }
             }
         ),
     };

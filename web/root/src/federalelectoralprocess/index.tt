@@ -5,11 +5,11 @@
 				<form action="/promessas" method="post" class="select-filter">
 					<div class="selectbox">
 						<img src="/static/images/icon-01.png" border="0">
-						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione a região')|none%]
+						[%select_field('state_id',false, array => select_states, req=>0, default_first=>'Selecione Brasil ou Estados')|none%]
 					</div>
 					<div class="selectbox">
 						<img src="/static/images/icon-02.png" border="0">
-						[%select_field('candidate_id',false, array => select_candidates, req=>0, default_first=>'Escolha o candidato')|none%]
+						[%select_field('candidate_id',false, array => select_candidates, req=>0, default_first=>'Escolha o candidato', classes	=> ['form-control', 'disabled'])|none%]
 					</div>
 					<div class="selectbox">
 						<img src="/static/images/icon-03.png" border="0">
@@ -33,15 +33,22 @@
 			</div>
 						
 			[%IF federal_electoral_processes.size > 0%]
-				<div class="value">[%federal_electoral_processes.size%]</div>
+<!-- 				<div class="value">[%#federal_electoral_processes.size#%]</div> -->
 				[%FOREACH sep IN federal_electoral_processes%]
 				<div class="row">
-					<div class="legend">processo[%IF federal_electoral_processes.size > 1%]s[%END%]</div>					
 					<div class="texto">
 						[%sep.content%]
 					</div>
 					<div class="info">
 						Fonte: [%sep.source%]<br />
+					</div>
+					[%IF sep.external_link%]
+						<div class="info">
+							Link externo: <a href="//[%sep.external_link%]" target="_blank">[%sep.external_link%]</a><br />
+						</div>
+					[%END%]
+					<div class="info">
+						Data de registro: [%format_date_to_human(sep.created_at)%]<br />
 					</div>
 				</div>
 				<hr>
