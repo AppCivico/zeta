@@ -21,10 +21,10 @@
 			<div class="col-sm-4 label">PARTIDO</div>
 			<div class="col-sm-8 value">[%candidate_obj.political_party.name%] ([%candidate_obj.political_party.acronym%])</div>
 		</div>
-		[%IF coalitions.size > 0%]
+		[%IF coalition_parties.size > 0%]
 			<div class="row info">
 				<div class="col-sm-4 label">COLIGAÇÃO</div>
-				<div class="col-sm-8 value">[%coalitions.0.name%]</div>
+				<div class="col-sm-8 value">[%coalitions.0.name%] - [%coalition_parties.0%]</div>
 			</div>
 		[%END%]
 		[%IF  election_campaign_obj.elected_candidate_id and election_campaign_obj.elected_candidate_id == candidate_obj.id%]

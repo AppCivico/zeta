@@ -33,6 +33,12 @@ sub candidate_profile : Chained('base') : PathPart('perfil-candidato') : Args(1)
 			election_campaign_id => $c->stash->{election_campaign_obj}{id}
 		}
 	);
+	
+	$api->stash_result(
+		$c, ['coalitions/get_parties', $c->stash->{coalitions}[0]{id}],
+	);
+	
+	@{ $c->stash->{coalition_parties} } = join '/', map { $_->{acronym} } @{ $c->stash->{parties} };
 
 	my @ids = ( map { $_->{id} } @{ $c->stash->{election_campaign_runoff_obj}{candidates} } );
 	
