@@ -178,7 +178,7 @@ sub list_GET {
     
     if( $c->req->params->{org_state_id} ) {
 		$conditions{'-or'} 	= {
-			'me.state_id'	=> $c->req->params->{state_id},
+			'me.state_id'	=> $c->req->params->{org_state_id},
 			'me.country_id'	=> 1
   		};
     }
