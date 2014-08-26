@@ -281,12 +281,13 @@ a, a:hover{
 	margin-bottom: 50px;
 }
 .promessa{
-	padding-left: 50px;
-	background-image: url('/static/images/quote.png');
+	/*background-image: url('/static/images/quote.png');
 	background-repeat: no-repeat;
-	background-position: left top;
-	min-height: 80px;
-	margin: 0 20px;
+	background-position: left top;*/
+	min-height: 11em;
+	margin-bottom: 20px;
+	border: 2px dashed #ffcc29;
+	border-radius: 10px;
 }
 .promessas .item a{
 	text-decoration: none;
@@ -297,10 +298,10 @@ a, a:hover{
 	color: #666666;
 }
 .promessa .content{
-	padding-right: 50px;
-	background-image: url('/static/images/quote.png');
+	padding: 20px;
+	/*background-image: url('/static/images/quote.png');
 	background-repeat: no-repeat;
-	background-position: right bottom;
+	background-position: right bottom;*/
 }
 .promessa .content .texto{
 	font-size: 0.9em;
@@ -310,6 +311,9 @@ a, a:hover{
 	font-family: "Open Sans", Helvetica, Arial;	
 	color: #009245;
 	margin-top: 20px;
+}
+.promessa .content .info .info-label{
+	color: #999;
 }
 
 .processo-info .title{

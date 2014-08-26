@@ -74,19 +74,19 @@
 								<div class="promessa">
 									<div class="content">
 										<div class="texto">
-											[%data.description%]
+											"[%data.description%]"
 										</div>
 										<div class="info">
-											Tema: [%data.category_name%]<br />
-											Fonte: [%data.source%] - [%format_date_to_human(data.publication_date)%]<br />
-											Tipo de fonte: [%data.source_type%]<br />
-											Registrado por: [%data.created_by%]<br />
-											Data de registro: [%format_date_to_human(data.created_at)%]<br />
+											<span class="info-label">Tema:</span> [%data.category_name%]<br />
+											<span class="info-label">Fonte:</span> [%data.source%] - [%format_date_to_human(data.publication_date)%]<br />
+											<span class="info-label">Tipo de fonte:</span> [%data.source_type%]<br />
+											<span class="info-label">Registrado por:</span> [%data.created_by%]<br />
+											<span class="info-label">Data de registro:</span> [%format_date_to_human(data.created_at)%]<br />
 											[%IF data.external_link%]
-												Link externo: <a href="[%data.external_link%]" target="_blank">[%data.external_link%]</a><br />
+												<span class="info-label">Link externo:</span> <a href="[%data.external_link%]" target="_blank">[%data.external_link%]</a><br />
 											[%END%]
 											[%IF data.promise_content_id%]
-												Arquivo para download: <a href="/download_content/[%data.promise_content_id%]">[%data.promise_content_name%]</a><br />
+												<span class="info-label">Arquivo para download:</span> <a href="/download_content/[%data.promise_content_id%]">[%data.promise_content_name%]</a><br />
 											[%END%]
 										</div>
 									</div>
