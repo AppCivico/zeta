@@ -281,12 +281,13 @@ a, a:hover{
 	margin-bottom: 50px;
 }
 .promessa{
-	padding-left: 50px;
-	background-image: url('/static/images/quote.png');
+	padding-left: 20px;
+	/*background-image: url('/static/images/quote.png');
 	background-repeat: no-repeat;
-	background-position: left top;
-	min-height: 80px;
+	background-position: left top;*/
+	min-height: 190px;
 	margin: 0 20px;
+	margin-bottom: 20px;
 }
 .promessas .item a{
 	text-decoration: none;
@@ -297,10 +298,10 @@ a, a:hover{
 	color: #666666;
 }
 .promessa .content{
-	padding-right: 50px;
-	background-image: url('/static/images/quote.png');
+	padding-right: 20px;
+	/*background-image: url('/static/images/quote.png');
 	background-repeat: no-repeat;
-	background-position: right bottom;
+	background-position: right bottom;*/
 }
 .promessa .content .texto{
 	font-size: 0.9em;
