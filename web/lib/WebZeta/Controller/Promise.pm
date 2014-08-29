@@ -156,7 +156,8 @@ sub filter_category_select : Chained('base') :PathPart('filter_category_select')
 	$api->stash_result(
 		$c, 'promises',
 		params => {
-			candidate_id => $c->req->params->{candidate_id},
+			candidate_id 	=> $c->req->params->{candidate_id},
+			order			=> 'me.name'
 		}
 	);
 	
