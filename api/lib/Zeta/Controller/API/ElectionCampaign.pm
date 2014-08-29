@@ -255,7 +255,7 @@ sub get_candidates : Chained('base') : PathPart('get_candidates') {
                               /
                         ),
                      }
-                } $candidates_rs->search_related('candidate')->as_hashref->all
+                } $candidates_rs->search_related('candidate', undef, { order_by => { -asc => 'me.name' } } )->as_hashref->all
             ]
         }
     );
