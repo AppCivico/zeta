@@ -67,14 +67,12 @@
 			</div>
 			<div class="content-white">
 				<div class="container promessas">
-					<div class="row equalheight">
+					<!--<div class="row equalheight">-->
 						[%FOREACH data IN promise.promises%]
-							[%IF loop.index && ! loop.index % 2  %]
-								</div>
+							[%IF loop.index % 2  %]
 								<div class="row equalheight">
 							[%END%]
 							<div class="col-sm-6 item">
-<!-- 								<a href=""> -->
 								<div class="promessa">
 									<div class="content">
 										<div class="texto">
@@ -95,8 +93,10 @@
 										</div>
 									</div>
 								</div>
-<!-- 								</a> -->
 							</div>
+							[%IF loop.index % 2  %]
+								</div>
+							[%END%]
 						[%END%]
 					</div>
 					[%IF ! no_link%]
