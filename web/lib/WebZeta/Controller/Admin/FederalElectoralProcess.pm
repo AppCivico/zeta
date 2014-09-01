@@ -38,15 +38,17 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         $api->stash_result(
             $c, 'federal_electoral_processes',
             params => {
-                name	=> $params->{name} ? $params->{name} : undef,
-                page	=> $page,
+                name		=> $params->{name} ? $params->{name} : undef,
+                page		=> $page,
+                pagination 	=> 1 
             }
         );
     } else {
         $api->stash_result(
             $c, 'federal_electoral_processes',
             params => {
-                page => $page,
+                page 		=> $page,
+                pagination 	=> 1 
             }
         );
     }

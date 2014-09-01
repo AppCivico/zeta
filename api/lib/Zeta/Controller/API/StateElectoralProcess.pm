@@ -116,11 +116,30 @@ sub list_GET {
     
     my $rs = $c->stash->{collection};
     
+    my %conditions;
+    my $count;
+    
     if( $c->req->params->{org_state_id} ) {
-		$rs = $rs->search(
-			{'electoral_regional_court.state_id' => $c->req->params->{org_state_id}},
-		);
+		$conditions{'electoral_regional_court.state_id'} = $c->req->params->{org_state_id};
     }
+    
+    if( $c->req->params->{pagination} ) {
+		$count = $rs->search( \%conditions ? %{ \%conditions } : undef )->count;
+
+		$rs = $rs->search(
+			{ \%conditions ? %{ \%conditions }  : undef },
+			{
+				page 	=> $c->req->params->{page},
+				order 	=> 'state.name',
+				rows 	=> 10,
+			},
+		);
+	} else {
+		$rs = $rs->search(
+			{ \%conditions ? %{ \%conditions }  : undef },
+			{ order => 'state.name' },
+		);
+	}
 
     $self->status_ok(
         $c,
@@ -168,7 +187,8 @@ sub list_GET {
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
                 } $rs->as_hashref->all
-            ]
+            ],
+            count => $count
         }
     );
 }

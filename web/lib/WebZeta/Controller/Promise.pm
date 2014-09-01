@@ -171,7 +171,8 @@ sub filter_category_select : Chained('base') :PathPart('filter_category_select')
 		$api->stash_result(
 			$c, 'categories',
 			params => {
-				ids => encode_json(\@ids)
+				ids 	=> encode_json(\@ids),
+				order	=> 'me.name'
 			}
 		);
 		$c->stash->{any_promise} = 0;

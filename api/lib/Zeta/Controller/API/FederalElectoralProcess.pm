@@ -103,6 +103,25 @@ sub list_GET {
     my ( $self, $c ) = @_;
     
     my $rs = $c->stash->{collection};
+    
+    my $count;
+    if( $c->req->params->{pagination} ) {
+		$count = $rs->search( undef )->count;
+
+		$rs = $rs->search(
+			undef,
+			{
+				page 	=> $c->req->params->{page},
+				order 	=> 'me.name',
+				rows 	=> 10,
+			},
+		);
+	} else {
+		$rs = $rs->search(
+			undef,
+			{ order => 'me.name' },
+		);
+	}
 
     $self->status_ok(
         $c,
@@ -142,8 +161,9 @@ sub list_GET {
 						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $c->stash->{collection}->as_hashref->all
-            ]
+                } $rs->as_hashref->all
+            ],
+            count => $count
         }
     );
 }

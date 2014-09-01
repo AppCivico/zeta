@@ -23,10 +23,11 @@ var $site = function(){
 			url: "/filter_promise_select",
 			data:{filter: param},
 			dataType: 'html',
-			success: function (result) {
+			success: function( result ) {
 				$("#elm_candidate_id").html(result);
+				console.log(result);
 			},
-			error: function (err) {
+			error: function( err ) {
 				console.log(err);
 			},
 			complete: function() {
@@ -85,6 +86,7 @@ $(document).ready(function () {
 		$state.change(function(){
 			if($(this).val()) {
 				$site.filterCandidates($(this).val());
+				$site.filterCategory();
 			}
 		});
 		

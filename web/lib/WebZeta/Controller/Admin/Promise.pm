@@ -145,9 +145,10 @@ sub index : Chained('base') : PathPart('') : Args(0) {
         $api->stash_result(
             $c, 'promises',
             params => {
-                name	=> $params->{name} ? $params->{name} : undef,
-                page	=> $page,
-                org_state_id => $org ? $org->[0]{city}{state}{id} : undef,
+                name			=> $params->{name} ? $params->{name} : undef,
+                page			=> $page,
+                org_state_id 	=> $org ? $org->[0]{city}{state}{id} : undef,
+                pagination 		=> 1,
             }
         );
     } else {
@@ -155,6 +156,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             $c, 'promises',
             params => {
                 page 			=> $page,
+                pagination 		=> 1,
                 org_state_id 	=> $org ? $org->[0]{city}{state}{id} : undef,
             }
         );

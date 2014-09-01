@@ -68,7 +68,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             params => {
                 name			=> $params->{name} ? $params->{name} : undef,
                 page			=> $page,
-#                 order			=> 'electoral_regional_court.state.name',
+                pagination		=> 1,
                 org_state_id	=>  $org ? $org->[0]{city}{state}{id} : undef
             }
         );
@@ -77,8 +77,8 @@ sub index : Chained('base') : PathPart('') : Args(0) {
             $c, 'state_electoral_processes',
             params => {
                 page 			=> $page,
-#                 order			=> 'electoral_regional_court.state.name',
-                org_state_id	=>  $org ? $org->[0]{city}{state}{id} : undef
+                org_state_id	=>  $org ? $org->[0]{city}{state}{id} : undef,
+                pagination		=> 1,
             }
         );
     }
@@ -91,7 +91,7 @@ sub index : Chained('base') : PathPart('') : Args(0) {
 		current_page  => $page,
 		item_per_page => $item_per_page
 	);
-
+	
 	$c->stash->{pag_req}     = $c->req;
 	$c->stash->{total_pages} = int( ceil( $c->stash->{total} / $c->stash->{item_per_page} ) );
 

@@ -85,7 +85,13 @@ sub list_GET {
     if( $c->req->params->{ids} ) {
 		my @ids = decode_json($c->req->params->{ids});
 		
-		$rs = $rs->search( { id => { 'in' => $ids[0] } }, { group_by => [qw/id name/] } );
+		$rs = $rs->search( 
+			{ id => { 'in' => $ids[0] } }, 
+			{ 
+				group_by 	=> [qw/id name/],
+				order_by	=> {'-Asc' => 'me.name'} 
+			} 
+		);
     }
     
     if( $c->req->params->{pagination} ) {

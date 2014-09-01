@@ -164,9 +164,11 @@ sub list : Chained('base') : PathPart('') : Args(0) : ActionClass('REST') { }
 
 sub list_GET {
     my ( $self, $c ) = @_;
+    
     my $rs = $c->stash->{collection};
     
     my %conditions;
+    my $count;
     
     if( $c->req->params->{state_id} ) {
 		if( $c->req->params->{state_id} eq 'br' ) {
@@ -190,6 +192,24 @@ sub list_GET {
     if( $c->req->params->{category_id} ) {
 		$conditions{'me.category_id'} = $c->req->params->{category_id};
     }
+    
+    if( $c->req->params->{pagination} ) {
+		$count = $rs->search( \%conditions ? %{ \%conditions } : undef )->count;
+
+		$rs = $rs->search(
+			{ \%conditions ? %{ \%conditions }  : undef },
+			{
+				page 	=> $c->req->params->{page},
+				rows 	=> 10,
+				order => 'me.name'
+			},
+		);
+	} else {
+		$rs = $rs->search(
+			{ \%conditions ? %{ \%conditions }  : undef },
+			{ order => 'me.name' },
+		);
+	}
 
     $self->status_ok(
         $c,
@@ -282,8 +302,9 @@ sub list_GET {
 						},
                         url => $c->uri_for_action( $self->action_for('result'), [ $r->{id} ] )->as_string
                      }
-                } $rs->search( %conditions ? %{ \%conditions }: undef )->as_hashref->all
-            ]
+                } $rs->as_hashref->all
+            ],
+            count => $count
         }
     );
 }
