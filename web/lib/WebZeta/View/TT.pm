@@ -62,8 +62,8 @@ sub hour_human {
 sub format_date_to_human {
     my ( $self, $c, $date ) = @_;
 
-
-
+    return undef if ! $date;
+    
     my ( $y, $m, $d ) = $date =~ m/^(\d{4})-(\d{1,2})-(\d{1,2})/;
     my $h_date = "$d/$m/$y";
 

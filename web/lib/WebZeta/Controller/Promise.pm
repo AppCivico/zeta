@@ -55,8 +55,8 @@ sub index : Chained('base') : PathPart('promessas') {
 
 	$c->stash->{no_link} = 0;
 	if( $candidate ) {
-		$c->req->params->{candidate_id} = $candidate;
 		$c->stash->{no_link} 			= 1;
+		$c->req->params->{candidate_id} = $candidate;
 	}
 	
 	$api->stash_result(
@@ -117,6 +117,9 @@ sub index : Chained('base') : PathPart('promessas') {
         $c->detach( '/form/redirect_error', ['/root/index'], 'Ocorreu um erro ao acessar as promessas.' );
     } else {
 		$c->stash->{promises} = \%candidates;
+		
+# 		my $p = $c->stash->{promises};
+# 		use DDP; p $p; exit;
     }
     
 }

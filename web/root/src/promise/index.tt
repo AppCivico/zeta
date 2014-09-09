@@ -27,7 +27,7 @@
 		</div>
 	</div>
 	[%IF promises.size > 0%]
-		[%FOREACH promise IN promises.values%]
+		[%FOREACH promise IN promises.values.sort%]
 			<div class="content-yellow">
 				<div class="container">
 					<div class="candidato-stats row">

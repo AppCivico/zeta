@@ -199,15 +199,17 @@ sub list_GET {
 		$rs = $rs->search(
 			{ \%conditions ? %{ \%conditions }  : undef },
 			{
-				page 	=> $c->req->params->{page},
-				rows 	=> 10,
-				order => 'me.name'
+				page 		=> $c->req->params->{page},
+				rows 		=> 10,
+				order_by	=> { '-ASC' => 'candidate.name' }
 			},
 		);
 	} else {
 		$rs = $rs->search(
 			{ \%conditions ? %{ \%conditions }  : undef },
-			{ order => 'me.name' },
+			{ 
+				order_by	=> { '-ASC' => 'candidate.name' }
+			},
 		);
 	}
 
@@ -307,6 +309,7 @@ sub list_GET {
             count => $count
         }
     );
+
 }
 
 sub list_POST {
