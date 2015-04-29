@@ -74,10 +74,10 @@ requires 'Statistics::Descriptive';
 requires 'XML::Simple';
 requires 'WWW::Correios::CEP';
 requires 'Text2URI';
-requires 'Mhash';
 requires 'Digest::SHA';
 requires 'Net::Amazon::S3';
 requires 'MooseX::Types::CPF';
+requires 'Image::Resize'; # apt-get build-dep libgd-gd2-perl
 
 requires 'Config::General'; # This should reflect the config file format you've chosen
                  # See Catalyst::Plugin::ConfigLoader for supported formats
