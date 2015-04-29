@@ -9,6 +9,7 @@ use Module::Install::Catalyst; # Complain loudly if you don't have
 name 'Zeta';
 all_from 'lib/Zeta.pm';
 
+requires 'Redis';
 requires 'Catalyst::Runtime' => '5.90010';
 requires 'Catalyst::Plugin::ConfigLoader';
 requires 'Catalyst::Plugin::Static::Simple';
