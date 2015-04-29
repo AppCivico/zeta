@@ -20,7 +20,7 @@ requires 'namespace::autoclean';
 requires 'Catalyst::Plugin::Session::PerUser';
 
 requires 'Catalyst::Plugin::Session::Store::File';
-
+requires 'Catalyst::Controller::ActionRole';
 requires 'Catalyst::Plugin::Assets';
 requires 'Catalyst::Plugin::StatusMessage';
 
